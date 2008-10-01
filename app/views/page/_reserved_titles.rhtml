@@ -1,0 +1,60 @@
+<% @reserves ||= reserves %>
+<% @title ||= "#{@page.subject} #{@page.course_num}"%>
+
+<%if @course_title%>
+	<%= hidden_field 'mod', 'course_title', :value => @course_title%>
+<%end%>
+
+<% if @reserves and !@reserves.empty? %>
+  <% if @reserves.first[:course] %>
+
+    <p class="bolded"> There is more than one course for <%=@page.subject%> <%=@page.course_num%> <br />
+	 Please click on the correct instructor/location to view the items on reserve.
+     </p>
+    <div id="ambiguous_reserved_titles">
+      <ul class="undeco bolded">
+        <% @reserves.each do |r| %>
+          <% course = r[:course].scan(/\>(.*?)\</) %>
+          <li><%= link_to_remote course, :url => {:controller => :page, :action => :retrieve_reserves, :title => r[:course]}, :update => "reserved_titles" %></li>
+        <% end %>
+      </ul>
+	 
+    </div>
+	
+ </div>
+    <div id="reserved_titles">
+
+    </div>
+  <% else %>
+
+     <div id="results">
+       <label for="reserves_table">Course Reserves for <% if @mod%><%=@mod.course_title%><%else%><%=@title%><%end%>
+	  <span class = 'more_help' onMouseover="fixedtooltip(RESERVE_LIST_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+	</label>
+    </div>
+	
+      <table class="reserves_table">
+      	<tr>
+		 <th></th>
+    	 <th> Title</th>  
+     	 <th> Author</th> 
+         <th> Call Number</th> 
+		</tr>
+        <% @reserves.each do |r| %>
+        <tr class="<%= cycle('list-line-even', 'list-line-odd') %>">
+          <td><input type="checkbox" <% if @mod.nil? or @mod.new_record? or @mod.library_reserves.include?(r) %>checked="checked"<% end %> name="reserves[]" value="<%= r[:id] %>" />  </td>  
+            
+          <td> <%= r[:title] %></td> 
+          <td><%= r[:author] %></td> 
+          <td><%= r[:availability] %></td> 
+         </tr>
+        <% end %>
+     </table>
+  <% end %>
+<% else %>
+<div id="results">
+ <p class="bolded"> There are currently no titles on reserve for <%=@page.subject%> <%=@page.course_num%>. Check the <a href="http://oasis.oregonstate.edu/search/r?SEARCH=<%=@page.subject%>+<%=@page.course_num%>&submit=Search" target=_blank><b>catalog</b></a> or try again at another time.
+ </p>
+ </div>
+
+<% end %>

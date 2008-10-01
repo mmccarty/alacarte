@@ -1,0 +1,22 @@
+
+		
+	
+		<h1><%=h(@guide.guide_name)%></h1>
+        <% if @tabs.length > 1 %>
+		<!-- to remove tabbed menu, delete img and ul -->
+		<img id='tl' src='/images/template/topLeft.png' alt="" />
+		<ul id='tabs'>
+			<% for tab in @tabs%>
+			<%   @tab_url = url_for :controller => 'srg', :action => 'index', :id => @guide, :tab => tab.id%>
+				<%if tab.id == @tab.id%><li id='current'><%else%><li><%end%><a href ="<%=@tab_url%>"> <span><%= tab.tab_name%></span> </a></li>
+		    <%end%>
+		</ul>
+        <%end%>
+		<div id="content"><div id="content2"><div id="wrapper">
+		<%unless @mods%>
+ 			  <%=render :partial => 'two_columns' %> 
+		<%else%>
+  			  <%=render :partial => 'one_column' %> 
+		<%end%>
+       
+		</div></div></div>

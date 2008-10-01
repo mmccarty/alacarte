@@ -1,0 +1,9 @@
+<fieldset>
+<h3>Copy <%=h@page.header_title%></h3>
+<% form_tag :action => 'copy' do%>
+  <%= render :partial => 'form' %>
+<%= submit_tag 'Copy Page', :class => "submit"  %>
+<%end%>
+<p><%= link_to 'Cancel', :action => 'index' %></p>
+ </fieldset>
+ <%=render :partial => 'side_bar'%>

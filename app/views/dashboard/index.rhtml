@@ -1,0 +1,24 @@
+<div id="page-list">
+<div id="share">
+		 <fieldset>
+		 	<ul class ='undeco'>
+		 		<li>
+		 			<%=image_tag("/images/icons/folder_edit.png", :title => 'My Account', :alt => 'Account', :border => 0)%><%= link_to" My Account" , :controller => 'dashboard', :action => 'my_account' %>
+		 		</li>
+				<% unless @user.rid.blank?%>
+					<li>
+			 			<%=image_tag("/images/icons/user_accept.png", :title => 'My Profile', :alt => 'Profile', :border => 0)%><%= link_to " My Profile" , :controller => 'dashboard', :action => 'my_profile', :rid => @user.rid %>
+			 		</li>
+				<%else%>
+					<li>
+			 			<%=image_tag("/images/icons/user.png", :title => 'Set My Profile', :alt => 'Profile', :border => 0)%><%= link_to " My Profile" , :controller => 'dashboard', :action => 'edit_profile' %>
+			 		</li>
+				<%end%>
+				<li>
+					<%=image_tag("/images/icons/help.png", :title => 'Help FAQ', :alt => 'Help', :border => 0)%><a href="http://alacarte.library.oregonstate.edu/support">Help &amp; FAQ</a> 
+				</li>
+				
+			</ul>
+		 </fieldset>
+
+</div>

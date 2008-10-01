@@ -1,0 +1,42 @@
+ <div id="mo" style="">
+<% form_for :mod, :url => { :action => :save_databases , :id => @mod.id, :type => @mod.class} do |form| %>
+      <label for="mod_module_title" > Module Title<span class="required">*</span>
+            <span class = 'more_help' onMouseover="fixedtooltip(MOD_TITLE_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+              <%= text_field 'mod', 'module_title',"size" => 54  %> 
+		<label for="mod_module_title" > Private Label<span class="required">*</span>
+            <span class = 'more_help' onMouseover="fixedtooltip(MOD_LABEL_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+              <%= text_field 'mod', 'label',"size" => 54  %>
+		<label for="chat_widget"> General Information 
+		 <span class = 'more_help'  onMouseover="fixedtooltip(DB_INFO_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></lable><br/>
+		            <%= text_area 'mod', 'info' %><br />
+	 <label>Database List <span class = 'more_help'  onMouseover="fixedtooltip(DB_MSSG, this, event, '260')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%> 
+	</span></label>
+	 <table id="db_list" cellspacing="0" cellpadding="0">	
+	 
+	 		<tr>
+		 		<th>Order</th>
+				<th>Description</th>
+				<th>Remove</th>
+			</tr>
+
+	
+	 <% for @database_dod in  @mod.database_dods
+		dod = @database_dod.dod  %>
+		<tr>
+		<% fields_for "database_dod[]" do |d| %>
+			<td><%= d.text_field(:location, :size => 1) %></td>
+			<td><strong><%=truncate(dod.title,47)%> </strong><br />
+			   <%= d.text_area(:description, :class => 'mceNoEditor', :size => '40x5') %>
+			 </td>
+			 <td><%= check_box_tag("db_remove_list[]", dod.id ,false, {}) %><%= image_tag("/images/icons/remove.png", :title => 'Remove this database', :alt => 'remove', :border => 0)%>
+			</td>
+	     <%end%>
+		</tr>
+	<%end%>
+ </table>  
+  <div id="submit_button">
+  <%= submit_tag 'Save Module', :class => "submit" %>  
+ <p> <%= link_to 'Cancel', :action => 'index',:id => @mod, :type =>@mod.class, :list => 'mine', :sort => 'name' %></p>
+  </div>
+<%end%>
+</div>

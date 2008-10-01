@@ -1,0 +1,9 @@
+	<h2><%=h @mod.module_title%></h2>
+	<div class="module">
+			<ul class="undeco">
+				<%unless @mod.assignment_url ==""%><li><a href="<%=h @mod.assignment_url%>" target="_blank" title = "Opens in a new window"><strong>Click to view the Assignment</strong></a></li><%end%>
+				<%unless @mod.syllabus_url ==""%><li><a href="<%=h @mod.syllabus_url%>" target="_blank" title = "Opens in a new window" ><strong>Click to view the Syllabus </strong></a></li><%end%>
+			
+			<li><%=@mod.description%></li>
+			</ul>
+		</div>

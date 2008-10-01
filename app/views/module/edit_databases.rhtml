@@ -1,0 +1,25 @@
+ <fieldset>
+    <h3>Edit Content on <%= h@mod.module_title%></h3>
+	<div id="link" style=""><%= link_to_function image_tag("/images/icons/add.png", :title => 'Click to add databases', :alt => 'add databases', :border => 0)+" Add Databases", "$('db').toggle(); + $('mo').toggle(); + $('link').toggle(); " %></div>
+ 
+ <div id="db" style="display:none">
+ 	<h4>Add Databases to <%= h@mod.label%></h4>
+	<p>Select the databases you want to add to this module and then click the button to add them.</p>
+ 	<%form_tag({:action => 'edit_databases', :id => @mod} , {:multipart => true})  do %>
+			  <div id="a_z_list">
+			  <%= render :partial => "shared/a_z_list" %>
+			  </div>
+	<div id="submit_button">		  
+	<%= submit_tag 'Add Databases', :class => "submit" %> 
+	<p><%= link_to_function "Cancel", "$('db').toggle(); + $('mo').toggle(); + $('link').toggle(); " %> </p>
+	</div>
+<% end %>
+
+</div>
+ <%= render :partial => "shared/db_list" %>
+</fieldset> 
+
+
+
+ <%=render :partial => 'side_bar'%>
+ 

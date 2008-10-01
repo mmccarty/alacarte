@@ -1,0 +1,64 @@
+
+.required {
+ color: #c00;	
+}
+#required {
+ color: #c00;	
+ background: none;
+ padding:0;
+ border-bottom: none;
+ display: inline;
+}
+
+#notice_wrapper {
+	padding-top: 10px;
+	background:#F7F7F7;
+	margin: 0px 18px 0pt 12px;
+}
+
+#notice {
+padding:.5em;
+margin: 0px auto;
+background-color: #FF1F7C;
+font-weight:bold;
+color:#fff;
+}
+
+#error_wrapper{
+	padding-top:.2em;
+}
+
+#list_error{
+  padding:.5em;
+  background-color: #c00;
+  color: #fff;
+  font-weight:bold;
+}
+
+#errorExplanation {
+  padding: 7px;
+    background-color: #c00;
+  color: #fff;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+
+#errorExplanation h2 {
+  font-size: 1.1em;
+}
+
+
+#errorExplanation ul li {
+  list-style: square;
+}
+
+.fieldWithErrors {
+  padding: 1px;
+  background-color: #c00;
+  display: table;
+}
+
+
+
+

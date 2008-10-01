@@ -1,0 +1,54 @@
+<h2><%=h @mod.module_title%></h2>
+<div class="module">
+  
+   <%= @mod.topic %>
+
+<% form_for :comment, :url => {:controller => :comment, :action => :create,  :resource_id => @mod.id} do |f| %>  
+ <ul class="undeco">  
+     <li> 	<%= render :partial => "comment/comments", :locals => {
+	    :comments => @mod.ordered_comments, 
+	    :num_characters => 52 } %>
+		
+  <% if @mod.ordered_comments.size >= @mod.num_displayed %>
+    
+     	Showing <b> <%= @mod.ordered_comments.size %> out of <%= @mod.comments.count %></b> Comments 
+	        <%= link_to  " Click to view all", {:controller => :comment, :action => :index, :resource_id => @mod.id},
+              :title => "View all comments in a new window",
+              :popup => ['', 'height=500,width=760,toolbar=yes,resizable=yes,scrollbars=1'] %>
+	    
+  <% end %>
+  		</li>
+	   <li>Only the Comment field is required. Your
+	    e-mail will not be shown; enter it if you wish to be contacted by the librarian.
+	    </li>
+   
+      <li>
+			 <%= f.text_field :author_name, :value => flash[:author_name] %>
+			 <strong>Name</strong>
+			  <%= %(<br /><span class="required">#{flash[:author_name_error]}</span>) if flash[:author_name_error] %>
+	  </li>
+	  <li>
+	     
+	      <%= f.text_field :author_email, :value => flash[:author_email] %>  
+		   <strong>Email</strong>
+	      <%= %(<br /><span class="required">#{flash[:author_email_error]}</span>) if flash[:author_email_error] %>
+	  </li>
+	  <li>
+	    
+		 
+	      <%= f.text_area :body, :value => flash[:body], :size => "29x5" %>
+		  <span style="vertical-align:top"><strong>Comment </strong></span>
+		   <%= %(<br /><span class="required">#{flash[:body_error]}</span>) if flash[:body_error] %>
+	    
+      </li>
+
+      <li>
+	       <%= get_captcha(:options => {:theme => 'white'})%> 
+	       
+	  </li>
+	  <li>
+	  	 <b><%= submit_tag "Post Comment" %></b> 
+	  </li>
+   </ul>
+  <% end %>
+</div>

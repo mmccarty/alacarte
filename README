@@ -1,0 +1,113 @@
+##################################################################
+
+Library ala Carte Requirements
+
+Thank you for your interest in our program.  This document assumes you are
+deploying under Unix or Linux.  This software requires that you have the
+following components installed:
+
+  RMagick and Packages:	http://rmagick.rubyforge.org/install-faq.html
+  Ruby on Rails:  http://rubyonrails.com/
+  Database (MySQL Suggested): http://wiki.rubyonrails.org/rails/pages/DatabaseDrivers
+
+
+On Rails:  We have provided a frozen copy of Rails 1.2.3 with this application.
+This application has been developed for Rails 1.2.3 and has not been tested with
+Rails 2.0.  Some more info on freezing/thawing rails can be found here:
+
+  http://support.tigertech.net/freeze-rails
+  
+On Gems:  We have provided a frozen copy of the required gems with this application.
+This application has been developed for the version of the frozen gems.
+Some more info on freezing/thawing gems can be found here:
+
+  http://errtheblog.com/posts/50-vendor-everything
+  
+####################################################################
+
+3rd Party API Requirements
+
+The ala Carte tool uses 3rd party APIs to provide some of its web 2.0 functionality. 
+For this reason you will need to aquire the required API KEYS for your insitutation
+before you can install the ala Carte tool.
+
+Recaptcha API: http://recaptcha.net/whyrecaptcha.html
+
+The Recaptch API provides a CAPTCHA for the comment module.
+You will need to sign up for an account to get the private and public key for your domain.
+  
+#########################################################################
+
+Library ala Carte Installation Instructions
+  
+Step 1. Create the Databases.
+
+	1.1 Create the following databases in MySQL:
+	
+	    ica-development
+	    ica-test
+	    ica-production 
+	    
+	    (Be sure to use those names -or whichever names you choose in database.yml)
+	
+	1.2 Edit the file config/database.yml.example
+	
+	Copy config/database.yml.example to config/database.yml and edit to reflect your mysql databases and database settings. Verify that the names for database in database.yml match the databases you created in step 1.1
+	
+	1.3 In the root directory of your application, run the following command:
+	
+	    rake db:migrate
+	
+	You *should* see messages scrolling by indicating tables have been created. If you have any errors in your DB information inputted in the first step, you will see them now.
+
+Step 2. Configure Environments Variables
+
+	Open the configuration file: config/environment.rb
+	
+	2.1 Add Action Mailer variables
+	
+	You will need to specify some additional configuration to tell ActionMailer? which SMTP server will handle your outgoing e-mail. Your system administrator will be able to give you the settings for these parameters.
+	
+	2.2 Add Recaptch API Keys
+	
+	Add your recaptcha api keys to the #recaptcha variables section
+	
+	2.3 OPTIONAL: Edit module types
+	
+	Library ala Carte comes with a default list of module types activated. There are three additional module types that need extra configuration: LibraryFind, Database, Course Reserves.
+	See this documentation about activating those modules: https://trac.library.oregonstate.edu/projects/ica/wiki
+
+Step 3. Edit the course subjects and research department values:
+
+    lib/subjects.txt 
+
+	Edit the course subject codes to reflect the codes specific to your institution.  
+	The codes in subjects.txt by default are specific to Oregon State University 
+	courses.  The file format is subject code then tab then subject name, one per line; use subjects.txt as an example.
+	
+	lib/masters.txt 
+	
+	Edit the research subjects to reflect the departments specific to your institution.  
+	The values in masters.txt by default are specific to Oregon State University 
+	departments.  The file format is one subject value per line; use masters.txt as an example.
+
+Step 4. Run the install script.
+
+	In the root directory of the application, type:
+	
+	    script/install
+	
+	This will populate the subjects and masters table with the values found in lib/subjects.txt and lib/maters.txt respectively.
+	As well as create the default admin user:
+	
+	    email: admin@your-domain.com 
+	    password: adm!n
+
+Step 5. Run The ala Carte Tool
+
+	At this time the ala Carte tool should be installed. Enter the URL for your specific installation and login with the default admin account. Once logged in, change the password and email address, by clicking "My Account"
+	The admin can then use the admin interface to finish setting up the templates.
+	
+	Thanks again for using this software, and let us know what you think! http://alacarte.library.oregonstate.edu/ 
+
+

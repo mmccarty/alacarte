@@ -1,0 +1,16 @@
+
+
+<fieldset>
+<h3>My Profile </h3> <br />
+<div class = 'tip'> Your profile and default contact module.  <span class = 'more_help'  onMouseover="fixedtooltip(PROFILE_MOD_MSSG, this, event, '125')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></div>
+	<br />
+	
+<div id="mock_modules">
+<div class="modules_odd">
+    <%= show_mod(@mod)%>
+</div>
+</div>
+	<p>
+ <b><%= link_to 'Select New Profile', :action => 'edit_profile' %></b>
+</p>	   	    
+</fieldset>	
