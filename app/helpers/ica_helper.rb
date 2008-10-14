@@ -1,4 +1,0 @@
-module IcaHelper
-  
- 
-end
