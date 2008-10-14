@@ -1,0 +1,15 @@
+ <%= error_messages_for 'mod' %>
+ <label for="mod_module_title" > Module Title<span class="required">*</span>
+	<span class = 'more_help' onMouseover="fixedtooltip(MOD_TITLE_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+	<%= text_field 'mod', 'module_title',"size" => 54  %> 
+	<label for="mod_module_title" > Private Label<span class="required">*</span>
+	<span class = 'more_help' onMouseover="fixedtooltip(MOD_LABEL_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+	<%= text_field 'mod', 'label',"size" => 54  %>
+	            
+   <%= render :partial => "/module/reserved_titles", :locals => {:reserves => @reserves} %>
+
+
+    <label for="reserves" >Reserves Information 
+    <span class = 'more_help' onMouseover="fixedtooltip(RESERVES_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label> 
+             <%= text_area('mod', 'reserves') %>
+

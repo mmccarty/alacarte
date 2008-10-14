@@ -1,0 +1,119 @@
+/* left column */
+#left {padding: 0 10px 30px; width: 245px; float: left;}
+#left ul {padding: 0; margin: 0; list-style: none;}
+#left .item, #left .item2 {background: no-repeat 0 100% url(/images/template/leftBox.png); margin: 7px 0 20px;}
+#left .item2 {background-position: 0 0; position: relative; padding-top: 10px; top: -10px; margin: 0;}
+#left h2 {border-bottom: 1px solid #d1d1d1; margin: 0 15px; font-size: 1.05em; }
+#left .module  {background: #fff; border: solid #d1d1d1; border-width: 0 1px; padding: 1px 5px 1px 15px; width: 223px;}
+#left .module h2 {margin: 15px 0 0;}
+#left img{ vertical-align: middle; padding:0 2px 5px 0;}
+
+/* tabbed menu */
+#tabs {padding: 0 0 21px; margin: 0;}
+#tabs li, #search li {float: left; margin-right: 2px; font-size: 12px; font-weight: 900; list-style: none; line-height: 14px;}
+#tabs a, #tabs span, #search a, #search span {display: block; background: 100% 0 no-repeat url(/images/template/tabsRightGrey.png); text-decoration: none; color: #1C2C54;}
+#tabs span, #search span {padding: 4px 6px 3px; background: no-repeat url(/images/template/tabsLeftGrey.png);}
+#tabs a:hover, #search a:hover {background-position: 100% -33px;}
+#tabs a:hover span, #search a:hover span {background-position: 0 -33px;}
+#tabs #current a, #search .selected a {background-position: 100% -66px !important;}
+#tabs #current span, #search .selected span {background-position: 0 -66px !important; padding-bottom: 4px !important;}
+#current a:hover , #search .selected  a:hover{cursor: default;}
+
+/* main text area and left inner column */
+#right {padding: 0 10px 8px 0; margin-left: 265px;}
+#wrapper {margin-right: -10px; padding: 0 30px 0 37px; background: #fff; border: solid #d1d1d1; border-width: 0 1px;}
+#content, #content2, #update, #update p {background: #fff 100% 0 no-repeat url(/images/template/mainBox.png);}
+#content2 {padding-top: 22px; margin-right: 10px; background-position: 0 0;}
+#update {margin: 0 -21px 0 -38px; top: 15px; clear: right; text-align: center; background-position: 0 100%; position: relative;}
+#update p {padding: 0 0 10px; left: 10px; height: 20px; text-indent: -5px; background-position: 100% 100%; position: relative;}
+
+#right .module {margin: 0 52% 20px 0;}
+#right h2 {margin: 0 52% 10px -20px; padding: 0 5px 0 120px; background: #e8e8e8 no-repeat url(/images/template/textH1.png); line-height: 33px; font-size: 1.15em; text-indent: -99px;}
+#right .module h2 {margin: 0; line-height: 20px;}
+
+/* right inner column */
+#boxes {float: right; width: 49.5%;}
+#boxes .item, #boxes .item2 {background: #f3f3f3 no-repeat url(/images/template/rightBox.png);}
+#boxes .bot, #boxes .bot div {background: #f3f3f3 100% 100% no-repeat url(/images/template/greyBox.png);}
+#boxes .item {margin: 0 10px 0 0;}
+#boxes .item2 {margin: 0 -20px 0 10px; padding: 10px 0 0; background-position: 100% 0;}
+#boxes h2 {margin: 0 0 0 -10px; padding: 0 15px 5px 15px; background: #fff; border: solid #d1d1d1; border-width: 0 1px; line-height: 25px; text-indent: 0;}
+#boxes .module {margin: 0 0 0 -10px; padding: 10px 15px 1px; background: #f3f3f3;  border: solid #d1d1d1; border-width: 0 1px;}
+#boxes .module h2 {margin: 5px 0; padding: 0;}
+#boxes .bot {margin: 0 0 20px -10px; padding-right: 10px;}
+#boxes .bot div {height: 9px; background-position: 0 100%;}
+
+/* Browse by Subject page */
+#browse {min-width: 850px;}
+#browse h2, #browse .item {background: 100% 0 no-repeat url(/images/template/titleGrey.png);}
+#browse .item, #browse .item2 {background-position: 0 0;}
+#browse h1 {margin: 10px 0 10px 10px; padding: 8px 0;}
+#browse .item {margin: 4px 310px 10px 265px;}
+#browse h2 {color: #555; line-height: 30px; font-size: 1.15em; margin: 0 -10px 0 10px; font-weight: 600; }
+#browse .module {margin: 0 -10px 0 0; background: #fff; border: solid #d1d1d1; border-width: 0 1px; padding: 1px 12px;}
+#browse .bot, #browse .bot div {background: 0 100% no-repeat url(/images/template/mainBox.png);}
+#browse .bot div {height: 9px; background-position: 100% 100%; right: -10px; position: relative;}
+#browse .sides {width: 245px; padding: 4px 10px 0; float: left;}
+#browse .sides .item {margin: 2px 0 13px; padding: 0 0 8px;}
+#browse .sides h2 {font-size: 1.05em; background: none; color: #555; border-bottom: 1px solid #d1d1d1; margin: 0 10px; line-height: 20px; background: none;}
+#browse .sides .module {margin: 0;}
+#browse .sides .item, #browse .sides .item2 {padding: 0; background: no-repeat url(/images/template/leftBox.png); margin-top: 0;}
+#browse .sides .item2 {padding: 10px 0; background-position: 0 100%;}
+#browse .right {float: right; display: block; padding: 0 10px; width: 280px;}
+#browse .right .item, #browse .right .item2 {padding: 0; background: no-repeat url(/images/template/wideBox.png); margin-top: 0;}
+#browse .right .item2 {padding: 10px 0; background-position: 0 100%;}
+#browse .right h2 {font-size: 1.05em; background: none; color: #555; border-bottom: 1px solid #d1d1d1; margin: 0 10px; line-height: 20px;}
+#browse #update {margin: 40px 0 0;}
+#browse img{ vertical-align: middle; padding:0 1px 5px 0;}
+.filter {font-weight: 900; margin: 15px 0;}
+.list {margin: 15px;}
+a.selected {font-weight: 900; text-decoration: none;}
+#browse #content {background: none;}
+
+/* colors, fonts */
+a:link {color: #00f;}
+a:visited {color: #909;}
+a:hover {color: #c50;}
+a img {border: 0;}
+#footer, #update, h2 {color: #555555;}
+h1{font-family: garamond, "palatino linotype", serif;}
+h1 {color: #1C4753; margin: 18px 0; font-size: 2.1em; font-weight: 600; letter-spacing: 1px;}
+body, #left .module h2, #boxes .module h2, #content .module h2 {padding: 0; text-indent: 0; height: auto; background: none; font-family: verdana, arial, sans-serif; color: #555; font-size: 13px; border: 0; text-align: left;}
+
+/* page layout */
+body {margin: 0; line-height: 19px; min-width: 980px;}
+#header {padding: 33px 10px 19px; margin-left:15px; height: 19px; text-align: right;}
+#header, #header a {color: #fff; font-family: tahoma, verdana, arial, sans-serif;}
+#header #img a {position: absolute; top: 11px; left: 10px; display: block; height: 60px; width: 190px;}
+#header #img a.last {left: 220px;}
+#footer  {border-top: 1px solid #d1d1d1; padding: 0 0 0 260px; margin: 20px 15px 15px; clear: both;}
+#footer img {margin: 0 0 -10px;}
+#full h2, #full .module {margin-right: 0;}
+
+/* search box, see also tabbed menu above */
+#browse .search {border-top: 1px solid #d1d1d1;}
+#search {position: absolute; top: 95px; height: 20px; width: 282px; padding-left: 0; margin-left: 0;}
+#search li {padding: 1px 0; width: 92px; text-align: center; margin-right: 2px;}
+
+/* misc styles */
+#tl {position: absolute; margin-top: 40px;}
+#tl, x:-moz-any-link, x:default {margin-top: 20px;} /* targets Firefox 3 */
+p, ul, #left ul {margin: 9px auto;}
+#overview {font-size: 9pt;}
+#overview a:link {color: #1C4753;}
+#overview a:visited {color: #1C4753;}
+#overview a:hover {color: #c50;}
+small {font-size:12px;}
+
+#browse_by a:link {color: #1C4753;}
+#browse_by a:visited {color: #1C4753;}
+#browse_by a:hover {color: #c50;}
+.iconspan img {vertical-align: middle; padding-right: 5px; font-weight: 900; font-size: 14px; cursor: pointer;}
+.title {font-size: 14px; font-weight: 900;}
+.expandable {margin-bottom: 8px;}
+
+/*tag cloud*/
+.css1 {font-size: .9em; color:#4D4DFF !important; text-decoration: none;}
+.css2 {font-size: .95em; color:#0000CC !important; text-decoration: none;}
+.css3 {font-size: 1.1em; color:#0000CC !important; text-decoration: none;}
+.css4 {font-size: 1.1em; text-decoration: none; font-weight: bold; color: #0000B3 !important;}

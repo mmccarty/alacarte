@@ -1,0 +1,7 @@
+<div id="coursecontent">
+<h1><% if @page%><%=h @page.header_title%><%elsif @guide%><%=@guide.guide_name%><%end%></h1>
+<h3><%=h @mod.module_title%></h3>
+        <%= @mod.topic %>
+		<br />
+		<%= render :partial => "comments", :locals => {:comments => @comments, :num_characters => 9999} %>
+</div>

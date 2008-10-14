@@ -1,0 +1,67 @@
+       <%unless @local.link_one.blank? and @local.link_two.blank? and @local.link_three.blank?%>  
+		<div class="item"><div class="item2">
+			<h2>Library Quick Links</h2>
+			<div class='module'>
+				<ul class="undeco">
+                <%unless @local.link_one.blank? and @local.name_one.blank?%>
+				   <li><a href="<%=@local.link_one%>"><%=@local.name_one%></a></li>
+				<%end%>   
+				<%unless @local.link_two.blank? and @local.name_two.blank?%>
+				   <li><a href="<%=@local.link_two%>"><%=@local.name_two%></a></li>
+				<%end%> 
+				<%unless @local.link_three.blank? and @local.name_three.blank?%>
+				   <li><a href="<%=@local.link_three%>"><%=@local.name_three%></a></li>
+				<%end%> 
+				</ul>
+			</div>
+		</div></div>
+     <%end%>
+
+		<%if @mod%>
+			<div class="item"><div class="item2">
+			 <%=render :partial => 'shared/'+@mod.class.to_s.underscore+'_module',:object => @mod %>	
+		   </div></div>
+	    <%end%>	
+
+		<div class="item"><div class="item2">
+			<h2>Related Subject Guides</h2>
+			<div class='module'>
+				<ul class="undeco">
+				<%@related_guides.each do |guide|%>
+				<%guide_url = url_for :controller => 'srg', :action => 'index', :id => guide%>
+		   			<li><%= link_to h(guide.guide_name), guide_url, :title => "#{h(guide.description)}" %></li>  
+				<%end %>
+					<li><%=image_tag("/images/icons/home.png", :title => '', :alt => 'back', :border => 0)%><a href ="/subject-guides/">View All Subject Guides</a></li>
+				</ul>
+			</div>
+		</div></div>
+		<div class="item"><div class="item2">
+			<h2><span>Related Course Guides</span></h2>
+			<div class='module'>
+				<ul class="undeco">
+					<%@related_pages.each do |page|%>
+					  <%page_url = url_for :controller => 'ica', :action => 'index', :id => page%>
+			   			<li><%= link_to h(page.header_title), page_url, :title => "#{h(page.page_description)}" %></li>  
+					<%end %>
+						<li><%=image_tag("/images/icons/home.png", :title => '', :alt => 'back', :border => 0)%><a href ="/course-guides/">View All Course Guides</a></li>
+				</ul>
+			</div>
+		</div></div>
+		<div class="item"><div class="item2">
+		   <div class='module'>
+				
+			<img src="/images/icons/printer.png" alt="Printer Link"  class="printer" /> <%= link_to "Print this Guide" , :controller => 'srg', :action => 'print', :id => @guide %>
+			<br />
+			<%if @owner%>
+				<%=image_tag("/images/icons/comment.png", :title => 'Email Guide Owner', :alt => 'comment', :border => 0)%><%=mail_to @owner.email, "Comment on Guide", :encode => "javascript"%>
+				<br /><br />
+			<%end%>
+		
+			<!-- AddThis Bookmark Button BEGIN -->
+                    <a href="http://www.addthis.com/bookmark.php" onclick="window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;" title="Bookmark using any bookmark manager!" target="_blank"><img src="http://www.addthis.com/images/button2-bm.png" alt="bookmark" width="160" height="24" border="0" /></a>
+            <!-- AddThis Bookmark Button END -->
+			
+		  </div>	
+		</div></div>
+	
+

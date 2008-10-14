@@ -1,0 +1,12 @@
+	<h2><%=h @mod.module_title%></h2>
+		<div class="module">
+			<ul class ="undeco">
+			    <%unless @mod.instructor_name ==""%><li><strong> <%=h @mod.instructor_name%> </strong></li><%end%>
+				<%unless @mod.office_location=="" and  @mod.office_hours=="" %><li>Office Hours: <br /><%=h @mod.office_location%> <%=h @mod.office_hours%></li><%end%>
+				<% unless @mod.website =="" and @mod.email==""%><li>Contact Info: <br />
+				<% unless @mod.email==""%> <%=mail_to @mod.email, nil, :encode => "javascript"%> <br /><%end%>
+				<% unless @mod.website ==""%><a href="<%=h @mod.website%>">Instructor's Website</a> <%end%>
+				 </li><%end%>
+				
+				</ul>
+			</div>

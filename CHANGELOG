@@ -1,0 +1,40 @@
+*****Release 1.1***************
+Database Module changes
+- Changed workflow of adding databases. 
+- Checked dbs persist across letter selection. 
+- Selected dbs display checked if selected or already added
+- added proxy url to locked dbs in display
+
+Fixed Library and Instructor Module Display
+-bug in conditional displays
+
+Removed OSU reference
+-removed OSU from hover messages
+
+Altered config file
+-added proxy URL variable
+
+Altered environment file
+- added code to use recapthca plugin from vendor folder
+
+Altered customization pieces
+- fixed conditional bugs for when instance has not been customized 
+
+Related Course Page bug
+-fixed code for related course page bug 
+
+Fixed comments bug
+-added include to application.rb for new version of recaptcha
+
+Fixed Add modules sort order
+-fixed bugs for sort order of modules when adding to page/guide
+
+Fixed modules/page/guide list order
+-fixed sort order to sort lower case and uppercase the same
+
+CSS Changes
+-text color and font changes to tool 
+-firefox 3 display bug on SRG
+
+Image Changes
+- changed green tabs to grey

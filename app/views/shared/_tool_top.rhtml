@@ -1,0 +1,12 @@
+<div id="wrapper"> <!--  start wrapper -->
+
+<div id="header_small">
+<span class="subtitle">Library &agrave; la Carte</span>
+
+<div id="login_bar">
+<span class="login"><b><%unless @admin%><%=h @user.name%><%else%>Admin <%end%></b> IS LOGGED IN  | <%= link_to "LOGOUT" , :controller => 'login', :action => 'logout' %></span>
+<span class="logout">
+
+<a href="" onClick="window.open('http://alacarte.library.oregonstate.edu/support','mywindow','width=935,height=581,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes')" ><%=image_tag("/images/icons/help.png", :title => 'Help Guide', :alt => 'Help', :border => 0)%></a> </span>
+</div>
+</div>

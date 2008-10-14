@@ -1,0 +1,97 @@
+
+div.sdmenu {
+	width: 200px;
+}
+.green_mod div {
+	background: #70DAB7;
+}
+
+.green_page div {
+	background: #4BA338;
+}
+
+.blue_guide div {
+	background: #5A9EFF;
+}
+
+div.sdmenu div {
+	overflow: hidden;
+	margin-bottom: 5px;
+}
+
+div.sdmenu div.collapsed {
+	height: 25px;
+}
+div.sdmenu div span {
+	display: block;
+	padding: 5px 25px;
+	font-weight: bold;
+	color: white;
+	background: url(/images/expanded.gif) no-repeat 10px center;
+	cursor: default;
+	border-bottom: 1px solid #ddd;
+}
+div.sdmenu div span.no_span {
+	display: block;
+	padding: 5px 25px;
+	font-weight: bold;
+	color: white;
+	cursor: default;
+	background:none;
+	border-bottom: 1px solid #ddd;
+}
+div.sdmenu div.collapsed span {
+	background-image: url(/images/collapsed.gif);
+}
+div.sdmenu div a {
+	padding: 5px 10px;
+	background: #FCFCFC none repeat scroll 0% 50%;
+	display: block;
+	color: #003C8F;
+}
+
+div.sdmenu div ul {
+	margin: 0;
+	padding: 0 10px;
+	background:#F5F9FF none repeat scroll 0% 50%;
+}
+div.sdmenu div ul li {
+	list-style: none outside;
+	 margin:0;
+	 padding: 5px 0;
+}
+div.sdmenu div ul a {
+	background: none;
+	display: inline;
+	border: none;
+	
+}
+div.sdmenu div label {
+	margin:0;
+}
+
+
+
+div.sdmenu div a.new {
+	padding: 5px 10px;
+	background: #ee6;
+	display: block;
+	border-bottom: 1px solid #ddd;
+	color: #003C8F;
+}
+div.sdmenu div a.current {
+	background : #B3B3B3 url(/images/linkarrow.gif) no-repeat right center;
+	color: #fff;
+	text-decoration: none;
+}
+
+div.sdmenu div a:hover.current  {
+	background : #B3B3B3 url(/images/linkarrow.gif) no-repeat right center;
+	color: #fff;
+	text-decoration: none;
+	cursor: default;
+}
+div.sdmenu div a:hover {
+    color: #EE9944;
+	background : #f7f7f7;
+}

@@ -1,0 +1,134 @@
+.right_space{
+	padding-right:8px;
+}
+
+.module ul.indent-left{
+  	padding:0 0 0 30px;
+	font-size:14px;
+	list-style: none none;
+}
+
+.module ul.indent-left li{
+  	margin-top: 3px;
+	margin-bottom: 8px;
+	list-style: none none;
+}
+.module label.contacts{
+	display:block;
+	
+}
+.module ul.contacts{
+  	padding:0 0 0 15px;
+	list-style: none none;
+	margin:0;
+}
+
+.module ul.contacts li{
+	list-style: none none;
+}
+
+/* classes toggled by javascript to hide/show (swap) divs */
+
+.hidden {
+  display: none;
+}
+
+.shown {
+  display: block;
+  padding: 5px;
+}
+
+/* comment module related CSS */
+
+.comment_container {
+}
+
+
+.comment_title {
+  padding: 3px;
+}
+
+.show_more{
+ text-align: right;
+ padding-right: 3px;
+}
+
+.pink{
+	 background: #E7DAE2;
+}
+
+.green{
+	background: #D6DDCB;
+}
+
+.blue{
+  background:#DAE2E7;	
+}
+
+.purple{
+	 background: #DFDAE7;	
+}
+.dk_pink{
+	 background: #DDCBD6;
+}
+
+.dk_green{
+	background: #CAD3BB;
+}
+
+.dk_blue{
+  background:#CBD6DD;	
+}
+
+.dk_purple{
+	 background: #D2CBDD;	
+}
+.required {
+	color: #990000;
+}
+
+/*Course Reserves*/
+
+.reserves{
+	margin-bottom: 7px;
+	
+}
+.title a{
+	font-weight: bolder;
+}
+
+.call_num {
+	display: block;
+}
+
+
+
+/*styles for the modules*/
+
+
+.module ul.undeco {
+padding: 0;
+list-style: none none;
+}
+
+
+
+.module ul.undeco li{
+margin-top: 3px;
+margin-bottom: 8px;
+list-style: none none;
+}
+
+
+.module ul.rss-items{
+list-style: none none;
+margin: 0 0 0 0;
+padding: 0;
+}
+
+.module li.rss-item{ 
+    list-style: none none;
+    margin-top: 1px;
+    margin-bottom: 8px;
+ }
+

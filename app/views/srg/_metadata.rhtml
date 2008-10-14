@@ -1,0 +1,4 @@
+			<div id="update">   
+		<p>	Last Update: <%=@guide.updated_at.to_formatted_s(:short)%> <% if @guide.tag_list.length >0 %>| Tagged with: <% @guide.tag_list.each do |tag|%> <%= link_to tag, { :action => :tagged, :id => tag }%><%end%><%end%></p>
+		</div>
+			
