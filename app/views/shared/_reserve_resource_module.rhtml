@@ -1,7 +1,0 @@
-<h2><%=h @mod.module_title%></h2>
-<div class="module">
-  <%= render :partial => "module/show_reserved_titles", :locals => {:reserves => @mod.library_reserves} %>
-  <% if @mod.reserves  %>
-  	<%=@mod.reserves%>
-  <% end %>
-</div>

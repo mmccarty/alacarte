@@ -1,4 +1,0 @@
-module LoginHelper
-
-
-end
