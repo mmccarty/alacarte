@@ -1,0 +1,50 @@
+ <fieldset>
+	<h3> Add Modules to <%=h@page.header_title%></h3>	
+	<% if flash[:error] -%>
+		  <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
+	<% end -%>
+	<p>Check the box next to the modules you want to add to this page or create a new module to add.</p>	
+		
+			   
+	<div class="new">
+	    <a href="#" onclick="$('new').toggle();; return false;"><span>
+	        <img src="/images/icons/add.png" alt="Create New Module" />
+	        Create New Module
+	    </span></a>
+	</div> 
+	
+	<div id="new" style="display:none">
+	 <% form_tag :action => 'new_module' do%>
+	 <%= error_messages_for 'mod' %>
+	 	<table class="center">
+	 		<tr>
+	 			<td <%= %(class="required") if flash[:mod_title_error] %>>
+	  				<label for="page_course_name">Module Title<span class="required">*</span></label>
+	  				 <%= text_field 'mod', 'module_title',"size" => 45 , :value => flash[:mod_title]   %>
+				</td>
+	 			<td <%= %(class="required") if flash[:mod_type_error] %>>
+	  				<label for="mod_type">Content Type<span class="required">*</span></label>
+	  				<%= select('mod','type', @types, {:selected => flash[:mod_type], :prompt => "Select"}, {:class => 'page'}) %>
+				</td>
+				<td><label>&nbsp;</label><%= submit_tag 'Create Module', :class => "submit"  %></td>
+	 		</tr>
+	 	</table>
+	 <%end%>
+	</div> 
+			
+	  
+	<%unless @mods.size <1%>
+		<div id="product-list" >
+			<% form_tag :action => 'add_modules', :id => @page.id do%> 	
+				<div id="table">
+			      <%=render :partial => "shared/add_modules_list"%>
+			   </div>
+				 <%= submit_tag 'Add to Page', :class=> "submit" %>
+			<%end%>
+	<%else%>
+			<p><b>You currently have no Modules. Create a new module or copy a global module to get started.</b></p>
+		</div>	
+	<%end%>
+	
+	<%=render :partial => 'side_bar'%>
+</fieldset>

@@ -1,0 +1,29 @@
+<fieldset>
+<h3>Edit <%=h(@guide.guide_name)%></h3>	
+<% if flash[:error] -%>
+	  <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
+<% end -%>
+<div id="add_tab">
+	<div class="new">
+    <a href="#" onclick="$('tab_new').toggle();; return false;"><span>
+        <img src="/images/icons/add.png" alt="Add new tab" />
+        Add New Tab
+    </span></a>
+</div>
+
+
+	 <div id="tab_new" style="display:none">
+	 	 <% form_tag :action => 'create_tab' do%>
+	 		<%= error_messages_for 'tab' %>
+			 <%= text_field 'tab', 'tab_name',"size" => 12%>
+			 <%= submit_tag 'Create' %>
+			 <%= link_to_function 'cancel', "$('tab_new').toggle();" %>
+	     <%end%>
+	</div>
+	</div>	
+<div id = "tab_content">
+   <%=render :partial => 'edit_tab' %> 
+</div>
+
+ <%=render :partial => 'side_bar'%>
+</fieldset>

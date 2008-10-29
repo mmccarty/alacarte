@@ -1,0 +1,53 @@
+<div class="sides right">
+	<% unless @local.book_search.blank? and @local.site_search.blank? and @local.g_search.blank?%>
+		<div class="item search"><div class="item2">
+		    <ul id="search">
+		      <% unless @local.g_search.blank?%>  <li class="selected"> <a href="#" rel="guides"><span>Guides</span></a></li><%end%>
+		     <% unless @local.book_search.blank?%>   <li> <a href="#" rel="books"><span>Books</span></a></li><%end%>
+		     <% unless @local.site_search.blank?%>   <li class="last"> <a href="#" rel="library"><span>Library</span></a></li><%end%>
+		    </ul>
+		    <div class="module">
+		       <% unless @local.g_search.blank?%>
+				   <div id="guides" class="tabcontent">
+			        <strong>Search Library Guides</strong> 
+					 <%= @local.g_search%>
+				  </div>
+				<%end%>  
+			  <% unless @local.book_search.blank?%>
+			  <div id="books" class="tabcontent">
+		        <strong>Search Books, Articles, Journals</strong>
+				  <%=@local.book_search%>
+			  </div>
+			  <%end%>
+			  <% unless @local.site_search.blank?%>
+			  <div id="library" class="tabcontent">
+		        <strong>Search Library Website</strong> 
+				  <%=@local.site_search%>
+			  </div>
+			 <%end%> 
+		    </div>    
+		</div></div>
+   <%end%>	
+   <%unless @local.lib_chat.blank? and @local.lib_help.blank?%>	
+		<div class="item"><div class="item2">
+			<h2>Get Help</h2>
+			<p>
+			<div class="module">
+				<%unless @local.lib_chat.blank?%>
+				 <%= @local.lib_chat%>
+				 <br /><br />
+				<%end%>
+				
+				<%unless @local.lib_help.blank?%>
+				<%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%> <a href="<%=@local.lib_help%>">Ask a Librarian</a>
+				<br />Make an appointment with a librarian.
+				<%end%>
+				
+			</div>
+			</p>
+		</div></div>
+  <%end%>				
+
+  
+		
+</div>

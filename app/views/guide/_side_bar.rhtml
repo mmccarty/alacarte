@@ -1,0 +1,51 @@
+<% content_for(:sidebar) do %> 
+
+
+<div id="my_menu" class="sdmenu blue_guide">
+      <div>
+        <span>Guide Actions</span>
+			<%= link_to 'Update Title &amp; Data', {:action => 'update',  :id => @guide.id }, :class =>@ucurrent %>
+		    <%= link_to 'Edit Guide', {:action => 'edit',  :id => @guide.id} , :class =>@ecurrent%>
+			<%= link_to 'Add Modules', {:action => 'add_modules',  :id => @guide.id, :sort => 'name'}%> 
+			<%= link_to 'Preview', { :controller => "srg", :action => 'index', :id => @guide.id}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'], :title =>"Preview " + @guide.guide_name%>
+	  
+      </div>
+      
+      <div>
+        <span>Guide Options</span>
+		<%= link_to 'Share', {:action => 'share',  :id => @guide.id }, :class =>@scurrent%>
+		<% unless @guide.published? %>
+    
+            <%= link_to "Publish?", {:action => 'publish', :id => @guide.id}, :confirm => 'Are you sure you want to publish this guide?', :method => :post %> 
+        <%else%> 
+            
+            <%= link_to "Unpublish?", {:action => 'publish', :id => @guide.id}, :confirm => 'Are you sure you want to unpublish this guide?', :method => :post %> 
+        <%end%>
+		
+		
+		
+      </div>
+	
+	<br />
+	<%if @altered_guides%>
+	      <div>
+	        <span>Recently Edited</span>
+			
+			<% form_tag :action => 'done_editing' do%> 
+				<ul class ='undeco'>
+					<li> When finished editing; mark as done.</li>
+				<%for altered in @altered_guides
+					if altered%>
+					  <li>
+					  	 <%= check_box_tag("altered_list[]", altered.id ,false, {}) %>
+						 <%= link_to truncate(h(altered.guide_name),20), {:action => 'edit',  :id => altered.id}, :title => "edit guide" %>
+					  </li> 
+					<%end
+				end%>
+				<li><%= submit_tag 'Done' %></li>
+			    </ul>
+			<%end%>
+		  </div>
+   <%end%>	
+</div>  
+<%end%>

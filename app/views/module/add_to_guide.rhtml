@@ -1,0 +1,27 @@
+<fieldset>
+	<h3>Add <%=h@mod.module_title%> to Guides</h3>
+<p> Check the box next to the tab in the guides you want to add the module to, and click the button at the bottom of the list.</p>
+
+
+<%unless @guides.size <1%>
+	 	<% form_tag :action => 'add_to_guide', :id => @mod.id, :type => @mod.class do%> 
+	        
+		<div id="product-list" >
+		
+		<div id="table">
+	   <%=render :partial => "add_guide_list"%>
+		</div>
+		
+		</div>
+		
+		<div><%= submit_tag 'Add Module', :class=> "submit" %></div>
+		
+		<%end%>
+
+<%else%>
+	<p><b>You currently have no Guides. Create a new guide to get started.</b></p>
+<%end%>
+
+</fieldset>
+
+ <%=render :partial => 'side_bar'%>

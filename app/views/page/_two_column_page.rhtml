@@ -1,0 +1,59 @@
+<div id="mock_content">
+<div class="tab_actions">
+	 <%= link_to 'Toggle Columns', :action => 'toggle_columns' %> 
+</div>
+<div id="mock_left">
+  <ul id = "left">
+    <%@mods_left.each do |pr| 
+	   mod = pr.resource.mod %>
+       <li id = "item_<%=pr.id%>" class = "list-item">
+           <span class="list-title" ><%=truncate(h(mod.module_title) ,40) %></span>   <span class = 'handle'><%=image_tag("/images/icons/transform_move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>
+           <br />
+             <%= link_to 'Edit', { :action => 'edit_module', :id => mod, :type => mod.class} %> |
+             <%= link_to image_tag("/images/icons/document_preview.png", :title => 'View this Module', :alt => 'View Module', :border => 0), {:action => 'view_mod', :id => mod, :type => mod.class},:title =>"View Module", :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes'] %> |
+             <%= link_to image_tag("/images/icons/remove.png", :title => 'Delete this Module from Page', :alt => 'Delete Module', :border => 0), {:action => 'remove_module', :id => mod, :type => mod.class, :page => @page.id }, :confirm => 'Are you sure you want to remove this module from the page?', :method => :post %>
+          
+        </li>
+    <% end %>
+   </ul>
+  </div>
+
+ 
+<div id="mock_right">
+   <ul id = "right"">
+    <%@mods_right.each do |pr|
+	  mod = pr.resource.mod %>
+      <li  id = "item_<%=pr.id%>" class = "list-item">
+           <span class="list-title" ><%=truncate(h(mod.module_title) ,40) %></span>   <span class = 'handle'> <%=image_tag("/images/icons/transform_move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%> </span>
+           <br />
+             <%= link_to 'Edit',  :action => 'edit_module', :id => mod, :type => mod.class %> |
+             <%= link_to image_tag("/images/icons/document_preview.png", :title => 'View this Module', :alt => 'View Page', :border => 0), {:action => 'view_mod', :id => mod, :type => mod.class},:title =>"View Module", :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes'] %> |
+             <%= link_to image_tag("/images/icons/remove.png", :title => 'Delete this Module from Page', :alt => 'Delete module', :border => 0), { :action => 'remove_module', :id => mod, :type => mod.class, :page => @page.id }, :confirm => 'Are you sure you want to remove this module from the page?', :method => :post %>
+          
+     </li>
+    <% end %>
+   </ul>
+  </div>
+
+
+<span class="clear"></span>
+</div>
+
+
+<%= sortable_element 'left', 
+                :url => {:controller => 'page',:action => "sort" }, 
+                :complete => visual_effect(:highlight, 'left'), 
+                :handle => 'handle',
+                :containment => ['left', 'right'],
+ 				:constraint => false,
+				:dropOnEmpty => true %>
+                
+ <%= sortable_element 'right', 
+                :url => {:controller => 'page', :action => "sort" }, 
+                :complete => visual_effect(:highlight, 'right'), 
+                :handle => 'handle',
+                :containment => ['left', 'right'],
+				:constraint => false,
+				:dropOnEmpty => true %>
+				
+				

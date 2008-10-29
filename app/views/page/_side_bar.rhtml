@@ -1,0 +1,55 @@
+<% content_for(:sidebar) do %> 
+
+
+<div id="my_menu" class="sdmenu green_page">
+      <div>
+        <span>Page Actions</span>
+			<%= link_to 'Update Title/Data', {:action => 'update',  :id => @page.id }, :class =>@ucurrent%>
+			<%= link_to 'Add Modules', {:action => 'add_modules',  :id => @page.id,:sort => 'name'}, :class =>@amcurrent%>
+	        <%= link_to 'Edit Page', {:action => 'edit',  :id => @page.id }, :class =>@ecurrent%>
+	        <%= link_to 'Preview', { :controller => "ica", :action => 'index', :id => @page.id}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'], :title =>"Preview " + @page.search_title%>
+  </div>
+      
+      <div>
+        <span>Page Options</span>
+		<%= link_to 'Share', {:action => 'share',  :id => @page.id }%>
+		 <%= link_to 'Send URL', {:action => 'send_url',  :id => @page.id }%>
+		<% unless @page.published? %>
+    
+            <%= link_to "Publish?", {:action => 'publish', :id => @page.id}, :confirm => 'Are you sure you want to publish this page?', :method => :post %> 
+        <%else%> 
+            
+            <%= link_to "Unpublish?", {:action => 'publish', :id => @page.id}, :confirm => 'Are you sure you want to unpublish this page?', :method => :post %> 
+        <%end%>
+		
+		 <% unless @page.archived? %>
+    
+            <%= link_to "Archive?", {:action => 'archive', :id => @page.id}, :confirm => 'Are you sure you want to archive this page?', :method => :post %> 
+        <%else%> 
+            
+            <%= link_to "Remove from Archive?", {:action => 'archive', :id => @page.id}, :confirm => 'Are you show you want to remove this page from archive?', :method => :post %> 
+        <%end%>
+		
+      </div>
+	
+	<br />
+	<%if @altered_pages%>
+	      <div>
+	        <span>Recently Edited</span>
+			<% form_tag :action => 'recent_pages' do%> 
+				<ul class ='undeco'>
+					<li> When finished editing; mark as done.</li>
+				<%for altered in @altered_pages
+					if altered %>
+					  <li>
+					  	 <%= check_box_tag("altered_list[]", altered.id ,false, {}) %><%= link_to h(altered.route_title), {:action => 'edit',  :id => altered.id }, :title => "edit guide"%>
+					  </li> 
+					<%end 
+				end%>
+				<li><%= submit_tag 'Done' %></li>
+			    </ul>
+			<%end%>
+		  </div>
+   <%end%>	
+</div>  
+<%end%>

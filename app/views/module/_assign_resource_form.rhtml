@@ -1,0 +1,27 @@
+
+
+<!--[form:assign_resource]-->
+
+	<%= error_messages_for 'mod' %> 
+	    <label for="mod_module_title" > Module Title<span class="required">*</span>
+            <span class = 'more_help' onMouseover="fixedtooltip(MOD_TITLE_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+              <%= text_field 'mod', 'module_title',"size" => 54  %> 
+		<label for="mod_module_title" > Private Label<span class="required">*</span>
+            <span class = 'more_help' onMouseover="fixedtooltip(MOD_LABEL_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+              <%= text_field 'mod', 'label',"size" => 54  %>
+	                  
+            <label for="mod_assignment_url" > Assignment URL
+            <span class = 'more_help' onMouseover="fixedtooltip(ASSIGN_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+              <%= text_field 'mod', 'assignment_url',"size" => 54  %>
+           
+            <label for="mod_syllabus_url" >Syllabus URL
+           <span class = 'more_help' onMouseover="fixedtooltip(SYLLABUS_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png",  :alt => 'Tip', :border => 0)%></span></label>
+              <%= text_field 'mod', 'syllabus_url',"size" =>54 %>
+            
+            <label for="mod_description">Assignment Description
+            <span class = 'more_help'  onMouseover="fixedtooltip(ASSIGN_DESC_MSSG, this, event, '260')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+                 <%= text_area('mod', 'description') %>
+
+        
+            
+          

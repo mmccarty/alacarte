@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- quirks mode -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="verify-v1" content="xpu62GPxpZ/m6hrQ3ijuRRPqqpjPjgNje613lEWDw9c=" />
+	<meta name="keywords" content= "Get Help with your class, Course Guides, Library a`la Carte" />
+	<meta name="description" content= "Get Help With Your Course Assignments.Course Guides provide tips and tools for locating and using resources provided by the library to help you complete your class assignments. This page lists all the course guides available." />
+	<title>Get Help with a <%if @guides%>Subject<%else%>Class<%end%> : <%=if !@local.lib_name.blank? then @local.lib_name end%> <%if @guides%> Subject<%else%> Course<%end%> Guides  </title>
+  <%= javascript_include_tag 'template' %>
+	<link rel='stylesheet' type='text/css' href='/stylesheets/template.css' />
+	<link rel='stylesheet' type='text/css' href='/stylesheets/modules.css' />
+	<%unless @local.styles.blank?%> <link rel='stylesheet' type='text/css' href='<%=@local.styles%>' /><%end%>
+	<!--[if IE]><link rel='stylesheet' type='text/css' href='/stylesheets/template_ie.css' /><![endif]-->
+	<style type="text/css">
+		/* change header */
+		body{background: #f3f3f3 repeat-x url(<%=if !@local.banner_url.blank? then @local.banner_url end%>);}
+		#header{background: no-repeat url(<%=if !@local.logo_url.blank? then @local.logo_url end%>);}
+	</style>
+</head>
+
+<body id="browse">
+	
+	<%= render :partial => 'shared/template_top'%>
+ 
+	<%= yield :layout %>
+
+	<%= render :partial => 'shared/template_bottom'%>
+	
+</body>
+</html>
+
+

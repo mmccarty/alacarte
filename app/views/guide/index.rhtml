@@ -1,0 +1,39 @@
+<% if flash[:error] -%>
+	  <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
+	<% end -%>
+<div id="page-list">	
+<div class="new">
+    <a href="#" onclick="$('new').toggle();; return false;"><span>
+        <img src="/images/icons/add.png" alt="Create New Guide" />
+        Create New Guide
+    </span></a>
+</div>
+
+ <div id="new"  style="display:none">
+<% form_tag :action => 'create', :id => @guide do%>
+<%= error_messages_for 'guide' %>
+	 <table class="center">
+	
+		<tr>	
+ 			<td <%= %(class="required") if flash[:guide_title_error] %>>
+ 			
+  				<label for="guide_type">Title <span class="required">*</span></label>
+				   <%= text_field 'guide','guide_name',"size" => 30 %><div class = 'tip'> A guide title must be unique</div>	</td>
+			
+			<td><label>&nbsp;</label><%= submit_tag 'Create Guide', :class => "submit"  %></td>
+ 		</tr>
+	</table>
+<%end%>
+</div> 	
+
+<%unless @guides.size <1%>
+<div id="product-list" >
+<div id="table">
+   <%=render  :partial => "guides_list"%>  
+</div>
+
+</div>
+<%else%>
+<p><b>You currently have no Guides. Create a new guide to get started.</b></p>
+<%end%>
+</div>

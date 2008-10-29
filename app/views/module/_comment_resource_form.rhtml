@@ -1,0 +1,63 @@
+
+<%= error_messages_for 'mod' %>
+    	    <label for="mod_module_title" > Module Title<span class="required">*</span>
+            <span class = 'more_help' onMouseover="fixedtooltip(MOD_TITLE_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+              <%= text_field 'mod', 'module_title',"size" => 54  %> 
+		<label for="mod_module_title" > Private Label<span class="required">*</span>
+            <span class = 'more_help' onMouseover="fixedtooltip(MOD_LABEL_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+              <%= text_field 'mod', 'label',"size" => 54  %>
+   
+
+ 
+    <p><strong>Number of Comments to Display</strong><span class="required">*</span>
+    <select name="mod[num_displayed]" class="page">
+      <%= options_for_select([3,5,8], @mod.num_displayed) %>
+    </select>
+	 <span class = 'more_help' onMouseover="fixedtooltip(COMMENTS_NUM_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+   </p>
+  
+
+  
+    <label for="topic" >Discussion Topic
+		 <span class = 'more_help' onMouseover="fixedtooltip(COMMENTS_MSSG, this, event, '')" onMouseout="delayhidetip()"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+    </label> 
+    <%= text_area(:mod, :topic) %>
+ </fieldset>
+  
+
+<% unless /create_module/.match(request.request_uri) || @mod.comments.empty?%>
+<h4>Comments on ICAP <%= link_to_function " Show /Close", "$('comment_list').toggle();" %></h4>
+  <div id="comment_list" style="display:none">
+  
+  <div class="delete">
+     Use with Caution:
+        <%= link_to " Delete All Comments", {:controller => :comment,
+                                   :action => :purge_comments,
+                                   :resource_id => @mod.id},
+                                   :confirm => "Are you SURE you want to delete all comments?",
+                                   :method => :delete %>
+   </div>
+
+    <% count = @mod.comments.size %>
+    <% last = (count % 2 == 0) ? count/2 - 1 : count/2 %>
+    <% left_comments = @mod.comments[0..last] %>
+    <% right_comments = @mod.comments[(last + 1)..-1] %>
+
+    <div id="c_left">
+	      <%= render :partial => "comment/comments",
+	        :locals => {:comments => left_comments,
+	        :edit => true,
+            :num_characters => 75} %>
+   </div>
+   <div id="c_right">
+          <%= render :partial => "comment/comments",
+              :locals => {:comments => right_comments,
+              :edit => true,
+              :num_characters => 75} %>
+   </div>
+   <span class="clear"></span>
+   
+   </div>
+ 
+</fieldset>
+<% end %>

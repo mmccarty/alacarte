@@ -1,0 +1,14 @@
+
+<%form_tag({:action => 'update', :id => @mod, :type =>@mod.class} , {:multipart => true})  do %>
+ <fieldset> 
+  <h3>Edit Module: <%= h@mod.module_title%></h3>
+    <%= show_form(@mod.class.to_s)%>
+<div id="submit_button">
+	<%= submit_tag 'Save', :class => "submit" %>  
+	<p><%= link_to 'Cancel', :action => 'index',:id => @mod, :type =>@mod.class, :list => 'mine', :sort => 'name' %></p>
+</div>
+</fieldset> 
+<% end %>
+
+
+ <%=render :partial => 'side_bar'%>

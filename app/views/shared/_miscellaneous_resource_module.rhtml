@@ -1,0 +1,10 @@
+        <h2><%=h @mod.module_title%></h2>
+		<div class="module">
+				<%=@mod.content%>
+				<%unless @mod.more_info.empty?%>
+					<p><a href="#" onclick="$('more').toggle();; return false;">Read More... </a></p>
+				    <div id="more" style="display:none"><%= @mod.more_info%></div>
+				<%end%>
+		</div>
+		
+		
