@@ -38,3 +38,37 @@ CSS Changes
 
 Image Changes
 - changed green tabs to grey
+
+******************Release 1.2********************************************
+
+Refactor / DRY Code
+Module controller
+-database CRUD
+- changed create, edit and added update
+-removed preview global
+-removed unglobalize, changed globalized
+-index
+Page and Guide controller
+- CRUD modules
+- CRUD database modules
+- deleted page new method
+-bug fix for deleted page/guide in altered lists
+Application controller
+- added view modules - for mod/page/guide pop-up preview
+
+Fixed modules/page/guide list order bug
+-fixed sort order on last update fields
+
+Module Public views
+-enabled viewing of just modules by public via module/view_module
+
+Moved More Info into module
+-more info on custom content no longer opens in new window
+-more info displays in module when read more is clicked
+
+Layout changes
+- added module layout to preview modules - pop up and in tool.
+
+Database module bugs
+- added code to handle removal of databases 
+- altered coverage date layout
