@@ -1,0 +1,23 @@
+
+<table>
+ 	<%=render :partial => "t_head"%>	
+  <% for page in @pages %>
+     <tr class="<%= cycle('list-line-odd', 'list-line-even') %>" id="row<%= page.id %>">
+		<%=render :partial => "index_row" ,:locals => {:id => page,:page => @pag, :sort => @sort} %>	
+    </tr>
+ <% end %>
+</table>
+<div class="pagination">
+<%if !@all and @pages.total_pages > 1%>
+	<ul>
+		<li><%=will_paginate @pages, :params => params.merge({:sort=> @sort}).except(:authenticity_token)%></li>
+		 <li><%=link_to_remote 'show all', :loading => "Element.show('spinner_links')",
+        :complete => "Element.hide('spinner_links')", :url => {:action => 'index_all', :sort => @sort },:update => 'table'%></li>
+		  <li><%= image_tag "spinner.gif", :id => "spinner_links", :class => 'image', :alt => "Spinner", :style => 'display:none;'%></li>
+	</ul>	  
+<%elsif @all%>
+	<ul>
+		<li><%=link_to 'show less', :action => 'index', :sort => @sort %></li>
+	</ul>	
+<%end%>
+</div>

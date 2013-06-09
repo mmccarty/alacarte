@@ -1,0 +1,8 @@
+<fieldset>
+<h3>Account Login Message</h3>
+<% if flash[:notice] -%>
+      <div id="notice" ><%= flash[:notice] %></div>
+<% end -%>
+<%= error_messages_for 'user' %>
+<label><%=link_to "Return to Login", :action => 'login'%></label>
+</fieldset>

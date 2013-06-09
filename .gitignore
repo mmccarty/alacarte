@@ -1,0 +1,7 @@
+log/*.log
+log/*.pid
+log/*.out
+public/uploads/
+public/photos/
+console/
+config/database.yml
