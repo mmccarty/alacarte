@@ -22,7 +22,7 @@ class AdminControllerTest < Test::Unit::TestCase
     assert_response :redirect
     assert_redirected_to :controller => :page, :action => :my_pages
   end
-  
+
   #Test admins can register new users
   def test_register
     #login_as is in test-helper.rb, logs us in as a specific user.
@@ -50,8 +50,4 @@ class AdminControllerTest < Test::Unit::TestCase
     assert(find_record_in_template("user").errors.invalid?(:password))
     assert_template "register"
   end
-
 end
-
-  
-  

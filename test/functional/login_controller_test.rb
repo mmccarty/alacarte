@@ -1,4 +1,3 @@
-
 require File.dirname(__FILE__) + '/../test_helper'
 require 'login_controller'
 
@@ -25,7 +24,7 @@ class LoginControllerTest < Test::Unit::TestCase
     assert_response :redirect
     assert_redirected_to :controller => "page", :action => "my_pages"
   end
- 
+
   def test_invalid_login
     #can't login with incorrect password
     post :login, { :email => "bob@mcbob.com", :password => "not_correct" }
@@ -46,7 +45,7 @@ class LoginControllerTest < Test::Unit::TestCase
     assert(!@response.has_session_object?(:user_id))
     assert_redirected_to :action=>'login'
   end
-  
+
   def test_forgot_password
     #we can index
     post :login, { :email => "bob@mcbob.com", :password => "test"}
@@ -63,11 +62,9 @@ class LoginControllerTest < Test::Unit::TestCase
     assert_template "login/forgot_password"
     assert flash[:notice]
     #enter bobs email
-    get :forgot_password, :user => {:email=>"exbob@mcbob.com"}   
+    get :forgot_password, :user => {:email=>"exbob@mcbob.com"}
     assert_response :success
   end
-  
-  
 
   def test_index_required
     #can't access pages if not logged in

@@ -1,69 +1,69 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<title> <%=params[:action].humanize || ""%> <%=params[:controller].humanize || ""%> : Library &agrave; la Carte Tool</title>
-<link rel="stylesheet" type="text/css" href="/stylesheets/modules.css" />
-<link rel="stylesheet" type="text/css" href="/stylesheets/tool.css" />
- <%= javascript_include_tag 'prototype', 'scriptaculous', 'messages'%>
-<%= include_tiny_mce_if_needed %>
-<%= javascript_include_tag 'tool' %>
-</head>
-<body >
+  <head>
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <title> <%=params[:action].humanize || ""%> <%=params[:controller].humanize || ""%> : Library &agrave; la Carte Tool</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/modules.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/tool.css" />
+    <%= javascript_include_tag 'prototype', 'scriptaculous', 'messages'%>
+    <%= include_tiny_mce_if_needed %>
+    <%= javascript_include_tag 'tool' %>
+  </head>
+  <body >
 
-<div id="wrapper"> <!--  start wrapper -->
+    <div id="wrapper"> <!--  start wrapper -->
 
-	<div id="header_small">
-		<span class="subtitle"><%=image_tag("/images/LogoSmall.png", :title => 'Information made to order', :alt => 'logo')%></span>
-		<div id="login_bar">
-			<b><%unless @admin%><%=h @user.name%><%else%>Admin <%end%></b> IS LOGGED IN  | 
-			<% if sso_enabled && used_sso %>
-				<%=link_to "LOGOUT" ,{:controller => "sso_login", :action => "logout"}, {:confirm => "This will log you out of OSU single sign on.  Are you sure you want to log out?"}%>
-			<%else%>
-				<%=link_to "LOGOUT" , :controller => 'login', :action => 'logout'%>
-			<%end%>
-		</div>
+      <div id="header_small">
+	<span class="subtitle"><%=image_tag("/images/LogoSmall.png", :title => 'Information made to order', :alt => 'logo')%></span>
+	<div id="login_bar">
+	  <b><%unless @admin%><%=h @user.name%><%else%>Admin <%end%></b> IS LOGGED IN  |
+	  <% if sso_enabled && used_sso %>
+	  <%=link_to "LOGOUT" ,{:controller => "sso_login", :action => "logout"}, {:confirm => "This will log you out of OSU single sign on.  Are you sure you want to log out?"}%>
+	  <%else%>
+	  <%=link_to "LOGOUT" , :controller => 'login', :action => 'logout'%>
+	  <%end%>
 	</div>
-	
-	
-	<div id="tab_container"> 
-		<ul id="tabs">
-			<li  class = "<%=@mcurrent || "mod_tab"%>"><%= link_to_unless_current "Modules" , :controller => 'module', :action => 'index' %></li>
-			<%unless @user.is_admin%>
-				<%if @local.guides_list.include?('pages')%><li  class = "<%=@pcurrent || "page_tab"%>"><%= link_to_unless_current "Pages" , :controller => 'page', :action => 'index', :sort => 'name'%></li><%end%>
-				<%if @local.guides_list.include?('guides')%><li  class = "<%=@gcurrent || "quide_tab"%>"><%= link_to_unless_current "Guides" , :controller => 'guide', :action => 'index', :sort => 'name'%></li><%end%>
-				<%if @local.guides_list.include?('tutorials')%><li  class = "<%=@tcurrent || "tutorial_tab"%>"><%= link_to_unless_current "Tutorials" , :controller => 'tutorial', :action => 'index'%></li><%end%>
-			<li  class = "<%=@dcurrent || "dashboard_tab"%>"><%= link_to_unless_current "Dashboard" , :controller => 'dashboard', :action => 'index'%></li>
-			<%else%>
-			    <li  class = "<%=@pcurrent || "page_tab"%>"><%= link_to_unless_current "Pages" , :controller => 'page', :action => 'index', :sort => 'name'%></li>
-			    <li  class = "<%=@gcurrent || "quide_tab"%>"><%= link_to_unless_current "Guides" , :controller => 'guide', :action => 'index', :sort => 'name'%></li>
-				<li  class = "<%=@tcurrent || "tutorial_tab"%>"><%= link_to_unless_current "Tutorials" , :controller => 'tutorial', :action => 'index'%></li>
-			  <li  class = "<%=@dcurrent || "dashboard_tab"%>"><%= link_to_unless_current "Dashboard" , :controller => 'dashboard', :action => 'index'%></li>
-			   <li  class = "<%=@current || "admin_tab"%>"><%= link_to_unless_current "Admin Tools" , :controller => 'admin', :action => 'tools'%></li>
-			<%end%>
-		</ul>
+      </div>
+
+
+      <div id="tab_container">
+	<ul id="tabs">
+	  <li  class = "<%=@mcurrent || "mod_tab"%>"><%= link_to_unless_current "Modules" , :controller => 'module', :action => 'index' %></li>
+	  <%unless @user.is_admin%>
+	  <%if @local.guides_list.include?('pages')%><li  class = "<%=@pcurrent || "page_tab"%>"><%= link_to_unless_current "Pages" , :controller => 'page', :action => 'index', :sort => 'name'%></li><%end%>
+	  <%if @local.guides_list.include?('guides')%><li  class = "<%=@gcurrent || "quide_tab"%>"><%= link_to_unless_current "Guides" , :controller => 'guide', :action => 'index', :sort => 'name'%></li><%end%>
+	  <%if @local.guides_list.include?('tutorials')%><li  class = "<%=@tcurrent || "tutorial_tab"%>"><%= link_to_unless_current "Tutorials" , :controller => 'tutorial', :action => 'index'%></li><%end%>
+	  <li  class = "<%=@dcurrent || "dashboard_tab"%>"><%= link_to_unless_current "Dashboard" , :controller => 'dashboard', :action => 'index'%></li>
+	  <%else%>
+	  <li  class = "<%=@pcurrent || "page_tab"%>"><%= link_to_unless_current "Pages" , :controller => 'page', :action => 'index', :sort => 'name'%></li>
+	  <li  class = "<%=@gcurrent || "quide_tab"%>"><%= link_to_unless_current "Guides" , :controller => 'guide', :action => 'index', :sort => 'name'%></li>
+	  <li  class = "<%=@tcurrent || "tutorial_tab"%>"><%= link_to_unless_current "Tutorials" , :controller => 'tutorial', :action => 'index'%></li>
+	  <li  class = "<%=@dcurrent || "dashboard_tab"%>"><%= link_to_unless_current "Dashboard" , :controller => 'dashboard', :action => 'index'%></li>
+	  <li  class = "<%=@current || "admin_tab"%>"><%= link_to_unless_current "Admin Tools" , :controller => 'admin', :action => 'tools'%></li>
+	  <%end%>
+	</ul>
+      </div>
+
+      <div id="content_full">
+
+	<%unless params[:controller].humanize.eql?("Dashboard") || params[:action].humanize.eql?("Index") %>
+	<div id ="side_bar">
+	  <%= yield :sidebar %>
 	</div>
-	
-	<div id="content_full">
-		
-			<%unless params[:controller].humanize.eql?("Dashboard") || params[:action].humanize.eql?("Index") %>
-				<div id ="side_bar">
-					<%= yield :sidebar %>
-				</div>	
-			<%end%>
+	<%end%>
 
-	  		<%= yield :layout %>
-	</div>
-	
-	<div id="footer">
-		<a href="http://alacarte.library.oregonstate.edu/support">Help/FAQ</a> | <a href ="http://alacarte.library.oregonstate.edu/contact">Contact Us</a> 
-	</div> 
+	<%= yield :layout %>
+      </div>
 
-</div> <!--  end wrapper -->
+      <div id="footer">
+	<a href="http://alacarte.library.oregonstate.edu/support">Help/FAQ</a> | <a href ="http://alacarte.library.oregonstate.edu/contact">Contact Us</a>
+      </div>
+
+    </div> <!--  end wrapper -->
 
 
-	 <script type="text/javascript" src="/javascripts/messages.js"></script>
-	  <script type="text/javascript" src="/javascripts/application.js"></script>
-</body>
+    <script type="text/javascript" src="/javascripts/messages.js"></script>
+    <script type="text/javascript" src="/javascripts/application.js"></script>
+  </body>
 </html>

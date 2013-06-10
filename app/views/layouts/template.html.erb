@@ -1,60 +1,58 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Style-Type" content="text/css" />
-	<meta http-equiv="Content-Script-Type" content="text/javascript" />
-	<meta name="keywords" content= "<%=  @meta_keywords %>" />
-	<meta name="description" content= "<%= h @meta_description %>" />
-	<meta name="author" content= "<%= @owner ? @owner.name : 'System Generated' %>" />
-	<meta name="revised" content= "<%= @updated ? @updated : Time.now %>" />
-	<%= @local.meta %>
-	<title><%=h @title%></title>
-	<%= stylesheet_link_tag 'template', 'modules'%>
-	<%= javascript_include_tag 'prototype', 'scriptaculous', 'template'%>
-	<%unless @local.styles.blank? %>
-		<%= stylesheet_link_tag(@local.styles) %>
-	<%end%>
-	<%unless @local.js_link.blank? %>
-		<%= javascript_include_tag(@local.js_link) %>
-	<%end%>
-	<!--[if lte IE 7]><%= stylesheet_link_tag 'template_ie'%><![endif]-->
-	<%if !@local.banner_url.blank? %>
-		<style type="text/css">
-		/*<![CDATA[*/
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <meta name="keywords" content= "<%=  @meta_keywords %>" />
+    <meta name="description" content= "<%= h @meta_description %>" />
+    <meta name="author" content= "<%= @owner ? @owner.name : 'System Generated' %>" />
+    <meta name="revised" content= "<%= @updated ? @updated : Time.now %>" />
+    <%= @local.meta %>
+    <title><%=h @title%></title>
+    <%= stylesheet_link_tag 'template', 'modules'%>
+    <%= javascript_include_tag 'prototype', 'scriptaculous', 'template'%>
+    <%unless @local.styles.blank? %>
+    <%= stylesheet_link_tag(@local.styles) %>
+    <%end%>
+    <%unless @local.js_link.blank? %>
+    <%= javascript_include_tag(@local.js_link) %>
+    <%end%>
+    <!--[if lte IE 7]><%= stylesheet_link_tag 'template_ie'%><![endif]-->
+    <%if !@local.banner_url.blank? %>
+    <style type="text/css">
+      /*<![CDATA[*/
 				/* change header */
 				#header{background: repeat-x url('<%= @local.banner_url%>');}
 			 /*]]>*/
-		</style>
-	<%end
-	  if !@local.logo_url.blank? %>
-	 <style type="text/css">
-		/*<![CDATA[*/
+    </style>
+    <%end
+       if !@local.logo_url.blank? %>
+    <style type="text/css">
+      /*<![CDATA[*/
 				   #header #logo{background: no-repeat url('<%= @local.logo_url%>');}
 			 /*]]>*/
-		</style>
-	<%end
-	 if !@local.logo_height.blank? %>
-	 	<style type="text/css">
-		/*<![CDATA[*/
+    </style>
+    <%end
+       if !@local.logo_height.blank? %>
+    <style type="text/css">
+      /*<![CDATA[*/
 				   #logo { height: <%= @local.logo_height%>px;}
 			/*]]>*/
-		</style>
-	<%end%>
-	<%if @guide%>
-		<%= auto_discovery_link_tag(:rss, :action => 'feed', :id =>@guide) %>
-	<%elsif @page%>
-		<%= auto_discovery_link_tag(:rss, :action => 'feed', :id =>@page) %>
-	<%end%>
-</head>
+    </style>
+    <%end%>
+    <%if @guide%>
+    <%= auto_discovery_link_tag(:rss, :action => 'feed', :id =>@guide) %>
+    <%elsif @page%>
+    <%= auto_discovery_link_tag(:rss, :action => 'feed', :id =>@page) %>
+    <%end%>
+  </head>
 
-	<body <%if @guides || @pages%> id="browse"  <%end%>>
-		
-		<%= render :partial => 'shared/template_top'%>
-		<%= yield :layout %>
-		<%= render :partial => 'shared/template_bottom'%>
-		<%= @local.tracking %>	
-	</body>
+  <body <%if @guides || @pages%> id="browse"  <%end%>>
+
+    <%= render :partial => 'shared/template_top'%>
+    <%= yield :layout %>
+    <%= render :partial => 'shared/template_bottom'%>
+    <%= @local.tracking %>
+  </body>
 </html>
-
-

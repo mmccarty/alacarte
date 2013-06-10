@@ -1,6 +1,6 @@
 module ImageManagerHelper
   def  js_to_be_included
-   %{
+    %{
   <script language="JavaScript" type="text/javascript">
   <!--
   function Change_Value(val,id){
@@ -17,7 +17,7 @@ module ImageManagerHelper
     Get_Change_Value('title','norm_title');
   }
   function changeHeight(id,num){
-    var tar=document.getElementById(id); 
+    var tar=document.getElementById(id);
     tar.style.height = parseInt(num);
   }
    function disableUpload(){
@@ -26,6 +26,5 @@ module ImageManagerHelper
   //-->
   </script>
     }
-end
-
+  end
 end

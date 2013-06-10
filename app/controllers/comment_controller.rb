@@ -1,15 +1,11 @@
 class CommentController < ApplicationController
-
-  
   skip_before_filter :authorize, :except => [:destroy, :purge_comments]
   verify :method => :post, :only => [:create, :update],
-         :redirect_to => :back
+  :redirect_to => :back
   verify :method => :delete, :only => [:destroy, :purge_comments],
-         :redirect_to => :back
+  :redirect_to => :back
 
- 
-
-  def create 
+  def create
     @mod = find_mod(params[:resource_id],"CommentResource")
     params[:comment][:author_name] = params[:comment][:author_name].empty? ? "Anonymous" : params[:comment][:author_name]
 

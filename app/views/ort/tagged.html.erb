@@ -1,53 +1,51 @@
 <div id="main">
-<h1><%=@local.tutorial_page_title %> </h1>
-<div id="content">
-<!--<div id="item-corner"></div>-->
+  <h1><%=@local.tutorial_page_title %> </h1>
+  <div id="content">
+    <!--<div id="item-corner"></div>-->
 
-<div class="item">
-	<h2>Tutorials by Tag</h2>
+    <div class="item">
+      <h2>Tutorials by Tag</h2>
 
-	<div class="module">
-		<p> Tutorials tagged with <strong><%=@tag%></strong></p>
-		<ul class = 'indent-left'>
-		<%@tutorials.each do |tutorial|%>
-			<li class = 'undeco'><%=link_to h(tutorial.full_name), :controller => 'ort', :action => 'index', :id => tutorial%>
-				<br />
-					<div class="no-image"><%= tutorial.description %></div>
-				    <small><b>Tags: </b><% tutorial.tag_list.each do |tag|%> <%= link_to tag, { :action => :tagged, :id => tag }%>  <%end%></small>
-			</li>
-       <%end%>
-		</ul>
-		<% if @guides.length <= 0 %><p><%=image_tag("/images/icons/back.png", :title => 'Back to Tutorials', :alt => 'Back')%> <a href ="/tutorials/">Back to all Tutorials</a></p> <% end %>
-   </div>
-   <div class="bot"><div></div></div>
+      <div class="module">
+	<p> Tutorials tagged with <strong><%=@tag%></strong></p>
+	<ul class = 'indent-left'>
+	  <%@tutorials.each do |tutorial|%>
+	  <li class = 'undeco'><%=link_to h(tutorial.full_name), :controller => 'ort', :action => 'index', :id => tutorial%>
+	    <br />
+	    <div class="no-image"><%= tutorial.description %></div>
+	    <small><b>Tags: </b><% tutorial.tag_list.each do |tag|%> <%= link_to tag, { :action => :tagged, :id => tag }%>  <%end%></small>
+	  </li>
+          <%end%>
+	</ul>
+	<% if @guides.length <= 0 %><p><%=image_tag("/images/icons/back.png", :title => 'Back to Tutorials', :alt => 'Back')%> <a href ="/tutorials/">Back to all Tutorials</a></p> <% end %>
+</div>
+<div class="bot"><div></div></div>
 </div>
 <% if @guides.length > 0 %>
 <div class="item">
   <h2>Guides by Tag</h2>
   <div class="module">
     <p>Guides tagged with: <b><%=@tag%></b></p>
-       <% for guide in @guides %>
-              <%guide_url = url_for :controller => 'srg', :action => 'index', :id => guide%>
-              <ul class = 'indent-left'>
-                  <li class = 'undeco'><%= link_to guide.guide_name, guide_url, :title => "Click to view" %><br />
-            <%=guide.description%> <small><b>Tags: </b><% guide.tag_list.each do |tag|%> <%= link_to tag, { :action => :tagged, :id => tag }%>  <%end%></small></li>
-              </ul>
-          <%end%>
+    <% for guide in @guides %>
+    <%guide_url = url_for :controller => 'srg', :action => 'index', :id => guide%>
+    <ul class = 'indent-left'>
+      <li class = 'undeco'><%= link_to guide.guide_name, guide_url, :title => "Click to view" %><br />
+        <%=guide.description%> <small><b>Tags: </b><% guide.tag_list.each do |tag|%> <%= link_to tag, { :action => :tagged, :id => tag }%>  <%end%></small></li>
+    </ul>
+    <%end%>
     <p><%=image_tag("/images/icons/back.png", :title => 'Back to Tutorials', :alt => 'Back')%> <a href ="/tutorials/">Back to all Tutorials</a></p>
   </div>
   <div class="bot"><div></div></div>
 </div>
 <% end %>
 
-	
+
 </div></div>
 
 <div id="sidebar-right">
-<%= render :partial => '/shared/right_side'%>
+  <%= render :partial => '/shared/right_side'%>
 </div> <!-- end sidebar-right -->
 
 <div id="sidebar-left"><div id="sidebar-left-inner">
-	<%= render :partial => '/shared/left_side'%>
+    <%= render :partial => '/shared/left_side'%>
 </div></div> <!-- end sidebar-left-inner, end sidebar-left -->
-
-

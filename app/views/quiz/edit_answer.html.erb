@@ -1,43 +1,40 @@
 <fieldset>
-     <h3 class='title'> 
-		<%=render :partial => '/module/title_actions'%>
-	</h3>
-	<h4>
-		 Edit Answer
-	</h4>
-	<div id="share">
-	 <fieldset>
-		<% if flash[:error] -%>
-		  	<div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
-		<% end -%>
-	     <%= error_messages_for 'answer' %>
-		 <strong><%=@question.question%></strong>
-		 <%form_tag({:controller => 'quiz', :action => 'edit_answer', :id => @mod, :qid => @question.id, :aid => @answer.id})  do %>
-	  		 <%=render :partial => '/quiz/edit_'+@question.q_type %>			
-			`<div id="submit_button">
-				  <%= submit_tag 'Save', :class => "submit" %>  
-				  <%unless @question.q_type == 'TF' || @question.q_type == 'FW' %>
-				 	 or  <%= submit_tag 'Save &amp; Add Another Answer', :class => "submit" %>
-				  <%end%>
-		    </div>				
-		  <% end -%> 
-	   </fieldset>
-	  </div>
-	  <%if @question.answers.many?%>
-	    <div id ='answers'>
-	    	<fieldset>
-		    		<h4> Answers </h4>
-					<%@question.answers.uniq.each do |answer|
-						unless @answer and answer.id == @answer.id%>			
-						   	<p class ="answer_preview">
-						   		<%=render :partial => '/quiz/preview_answer_'+@question.q_type, :locals => {:answer => answer} %>
-						   	</p>
-						<%end
-					 end%>	
-			</fieldset>				
-		</div>
-	  <%end%>
+  <h3 class='title'>
+    <%=render :partial => '/module/title_actions'%>
+  </h3>
+  <h4>
+    Edit Answer
+  </h4>
+  <div id="share">
+    <fieldset>
+      <% if flash[:error] -%>
+      <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
+      <% end -%>
+      <%= error_messages_for 'answer' %>
+      <strong><%=@question.question%></strong>
+      <%form_tag({:controller => 'quiz', :action => 'edit_answer', :id => @mod, :qid => @question.id, :aid => @answer.id})  do %>
+      <%=render :partial => '/quiz/edit_'+@question.q_type %>
+      `<div id="submit_button">
+	<%= submit_tag 'Save', :class => "submit" %>
+	<%unless @question.q_type == 'TF' || @question.q_type == 'FW' %>
+	or  <%= submit_tag 'Save &amp; Add Another Answer', :class => "submit" %>
+	<%end%>
+      </div>
+      <% end -%>
+    </fieldset>
+  </div>
+  <%if @question.answers.many?%>
+  <div id ='answers'>
+    <fieldset>
+      <h4> Answers </h4>
+      <%@question.answers.uniq.each do |answer|
+				    unless @answer and answer.id == @answer.id%>
+      <p class ="answer_preview">
+	<%=render :partial => '/quiz/preview_answer_'+@question.q_type, :locals => {:answer => answer} %>
+      </p>
+      <%end
+	 end%>
+    </fieldset>
+  </div>
+  <%end%>
 </fieldset>
-			  
-			  
-

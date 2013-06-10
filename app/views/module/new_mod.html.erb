@@ -1,21 +1,21 @@
 <fieldset>
-<h3>Create New Module</h3>
-<div id ='share'>
- <%= error_messages_for 'mod' %>
- <% if flash[:error] -%>
-	  <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
-	<% end -%>
-<fieldset>
-<% form_tag :action => 'new_mod' do%>
-	<label for="mod_type">Content Type<span class="required more_help">*</span></label>
-		<%= select('mod','type', @types, {:selected => @selected , :prompt => "Select"}, {}) %>
-	<%=render :partial => "mod_title"%> 
-	 <label for="tags">Tags <span class = 'more_help' onMouseover="fixedtooltip(MOD_TAGS, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
-   <%= text_area_tag 'tags', @tags, {"class" => 'mceNoEditor', :size => '40x2'}  %>
-    <div class = 'tip'>	example: WR101, Databases, Writing</div>
-	<span><label>&nbsp;</label><%= submit_tag 'Create Module' %></span>
-<%end%>
-</fieldset>	
-<p><%= link_to 'Cancel', :action => 'index' %></p>
-</div>
- </fieldset>
+  <h3>Create New Module</h3>
+  <div id ='share'>
+    <%= error_messages_for 'mod' %>
+    <% if flash[:error] -%>
+    <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
+    <% end -%>
+    <fieldset>
+      <% form_tag :action => 'new_mod' do%>
+      <label for="mod_type">Content Type<span class="required more_help">*</span></label>
+      <%= select('mod','type', @types, {:selected => @selected , :prompt => "Select"}, {}) %>
+      <%=render :partial => "mod_title"%>
+      <label for="tags">Tags <span class = 'more_help' onMouseover="fixedtooltip(MOD_TAGS, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+      <%= text_area_tag 'tags', @tags, {"class" => 'mceNoEditor', :size => '40x2'}  %>
+      <div class = 'tip'>	example: WR101, Databases, Writing</div>
+      <span><label>&nbsp;</label><%= submit_tag 'Create Module' %></span>
+      <%end%>
+    </fieldset>
+    <p><%= link_to 'Cancel', :action => 'index' %></p>
+  </div>
+</fieldset>

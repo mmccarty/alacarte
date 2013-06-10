@@ -5,12 +5,13 @@ class Comment < ActiveRecord::Base
   validates_format_of :author_email, :with => /^(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?$/i
   validate :is_clean?
 
-BAD_WORDS      = (IO.readlines RAILS_ROOT + '/lib/words.txt').each { |w| w.chop! }.freeze
+  BAD_WORDS      = (IO.readlines RAILS_ROOT + '/lib/words.txt').each { |w| w.chop! }.freeze
+
   def is_clean?
     BAD_WORDS.each do |line|
       self.body.split.each do |word|
         if word.downcase == line.strip.downcase
-          errors.add(:body, "Comment included an innapropriate word") 
+          errors.add(:body, "Comment included an innapropriate word")
           return
         end
       end

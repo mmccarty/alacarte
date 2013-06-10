@@ -1,5 +1,4 @@
-
-   <script type="text/javascript">//<![CDATA[
+<script type="text/javascript">//<![CDATA[
 
       var defaultQuery<%=@mod.id.to_s%> = "<%= @mod.topic %>";
 	  var num_feeds<%=@mod.id.to_s%> = "<%= @mod.num_feeds %>";
@@ -52,16 +51,15 @@
       }
 
     //]]>
-    </script>
-	
-<%if @mod.style=="search"%>
- <form id ="<%=@mod.id.to_s%>" class="search-box" method="post" onsubmit="return onSubmit<%=@mod.id.to_s%>()">
-    <input class="search-input" id="input<%=@mod.id.to_s%>" 
-	   type="text" 
-	   size="35" 
-	   value= "<%=@mod.topic%>"
-	   onchange="inputChange<%=@mod.id.to_s%>(this)"/>
-    </form>
-<%end%>
-   <div id="feedControl<%=@mod.id.to_s%>">Loading</div>
+</script>
 
+<%if @mod.style=="search"%>
+<form id ="<%=@mod.id.to_s%>" class="search-box" method="post" onsubmit="return onSubmit<%=@mod.id.to_s%>()">
+  <input class="search-input" id="input<%=@mod.id.to_s%>"
+	 type="text"
+	 size="35"
+	 value= "<%=@mod.topic%>"
+	 onchange="inputChange<%=@mod.id.to_s%>(this)"/>
+</form>
+<%end%>
+<div id="feedControl<%=@mod.id.to_s%>">Loading</div>

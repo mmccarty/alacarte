@@ -6,10 +6,10 @@ module TutorialHelper
       tutorial_params['archive'] = {:action => 'archive', :controller => 'tutorial', :id => tutorial, :page => @page, :sort => @sort, :search => search}
       tutorial_params['destroy'] = {:action => 'destroy', :controller => 'tutorial',:id => tutorial, :page => @page, :sort => @sort, :search => search}
     else
-      tutorial_params['publish'] = {:action => 'publish',:controller => 'tutorial', :id => tutorial, :page => @page, :sort => @sort} 
-      tutorial_params['archive'] = {:action => 'archive', :controller => 'tutorial', :id => tutorial, :page => @page, :sort => @sort}  
+      tutorial_params['publish'] = {:action => 'publish',:controller => 'tutorial', :id => tutorial, :page => @page, :sort => @sort}
+      tutorial_params['archive'] = {:action => 'archive', :controller => 'tutorial', :id => tutorial, :page => @page, :sort => @sort}
       tutorial_params['destroy'] = {:action => 'destroy', :controller => 'tutorial',:id => tutorial, :page => @page, :sort => @sort}
     end
-      return tutorial_params
+    return tutorial_params
   end
 end

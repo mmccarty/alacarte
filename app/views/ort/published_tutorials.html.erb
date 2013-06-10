@@ -1,62 +1,62 @@
 <div id="main">
-<h1><%=@title %> </h1>
-<div id="content">
-	<!--<div id="item-corner"></div>-->
-<div class="item">
-	<h2>Browse Tutorials</h2>
+  <h1><%=@title %> </h1>
+  <div id="content">
+    <!--<div id="item-corner"></div>-->
+    <div class="item">
+      <h2>Browse Tutorials</h2>
 
-	<div class="module">
-		<ul id="tutorialList">
-			<%@subjects.each do |subject| %>
-			<li><%=link_to h(subject.subject_code+" : "+subject.subject_name+ " " + "Tutorials"), :controller => 'ort', :action => 'subject_list', :id => subject%>
-				<p>
-				<ul id="tutorialList">
-					<% tutorials = subject.get_tutorials
-					   tutorials.each do |tutorial|%>
-					   <li><%=link_to h(tutorial.full_name), :controller => 'ort', :action => 'index', :id => tutorial%>
-						  <div class="hide"><div class="no-image"><%=tutorial.description%></div></div>
-				        </li>
-					 <%end%>   
-				</ul>
-				</p>
-			</li>
-			<%end%>
-			<%@tutorials.each do |tutorial|%>
-				<li><%=link_to h(tutorial.full_name), :controller => 'ort', :action => 'index', :id => tutorial%>
-					  <div class="hide"><div class="no-image"><%=tutorial.description%></div></div>
-				</li>
-	       <%end%>
-		</ul>	 
-	</div>
-	<div class="bot"><div></div></div>
-</div>
-<%if @guides%>
-					
-<div class="item">
-	<h2>Browse Guides</h2>
+      <div class="module">
+	<ul id="tutorialList">
+	  <%@subjects.each do |subject| %>
+	  <li><%=link_to h(subject.subject_code+" : "+subject.subject_name+ " " + "Tutorials"), :controller => 'ort', :action => 'subject_list', :id => subject%>
+	    <p>
+	      <ul id="tutorialList">
+		<% tutorials = subject.get_tutorials
+		   tutorials.each do |tutorial|%>
+		<li><%=link_to h(tutorial.full_name), :controller => 'ort', :action => 'index', :id => tutorial%>
+		  <div class="hide"><div class="no-image"><%=tutorial.description%></div></div>
+		</li>
+		<%end%>
+	      </ul>
+	    </p>
+	  </li>
+	  <%end%>
+	  <%@tutorials.each do |tutorial|%>
+	  <li><%=link_to h(tutorial.full_name), :controller => 'ort', :action => 'index', :id => tutorial%>
+	    <div class="hide"><div class="no-image"><%=tutorial.description%></div></div>
+	  </li>
+	  <%end%>
+	</ul>
+      </div>
+      <div class="bot"><div></div></div>
+    </div>
+    <%if @guides%>
 
-	<div class="module">
-		<ul id="tutorialList">
-			 <% for guide in @guides %>
-						 <%guide_url = url_for :controller => 'srg', :action => 'index', :id => guide%>
-						 <li>
-						 	<%= link_to guide.guide_name, guide_url, :title => "#{h guide.description}" %>
-							<div class="hide"><div class="no-image"><%=guide.description%></div></div>
-						 </li>
-					 <%end%>
-		</ul>	 
-	</div>
-	<div class="bot"><div></div></div>
-</div>
-<%end%>
+    <div class="item">
+      <h2>Browse Guides</h2>
 
-	
+      <div class="module">
+	<ul id="tutorialList">
+	  <% for guide in @guides %>
+	  <%guide_url = url_for :controller => 'srg', :action => 'index', :id => guide%>
+	  <li>
+	    <%= link_to guide.guide_name, guide_url, :title => "#{h guide.description}" %>
+	    <div class="hide"><div class="no-image"><%=guide.description%></div></div>
+	  </li>
+	  <%end%>
+	</ul>
+      </div>
+      <div class="bot"><div></div></div>
+    </div>
+    <%end%>
+
+
 </div></div>
 
 <div id="sidebar-right">
-<%= render :partial => '/shared/right_side'%>
+  <%= render :partial => '/shared/right_side'%>
 </div> <!-- end sidebar-right -->
 
 <div id="sidebar-left"><div id="sidebar-left-inner">
-	<%= render :partial => '/shared/left_side'%>
+    <%= render :partial => '/shared/left_side'%>
 </div></div> <!-- end sidebar-left-inner, end sidebar-left -->
