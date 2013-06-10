@@ -1,0 +1,6 @@
+Version 1.6 released GPL3 on Dec 14, 2012 by OSU Libraries & Press.
+
+All modifications by Nub Games, Inc., beginning in 2013, are subject
+to the GNU Affero Public License, version 3 or above.
+
+See COPYING for details.
