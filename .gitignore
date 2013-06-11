@@ -1,7 +1,11 @@
-log/*.log
-log/*.pid
-log/*.out
-public/uploads/
-public/photos/
-console/
 config/database.yml
+console/
+log/*.log
+log/*.out
+log/*.pid
+public/photos/
+public/uploads/
+vendor/gems/doc
+vendor/gems/environment.rb
+vendor/gems/gems
+vendor/gems/specifications

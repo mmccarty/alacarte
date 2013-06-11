@@ -38,7 +38,7 @@ class GuideController < ApplicationController
       @guide.attributes = params[:guide]
       if @guide.save
         session[:guide] = @guide.id
-        session[:current_tab] = @guide.tabs.find(:first).id
+        session[:current_tab] = @guide.tabs.first.id
         @user.add_guide(@guide)
         @guide.add_master_type(params[:types])
         @guide.add_related_subjects(params[:subjects])

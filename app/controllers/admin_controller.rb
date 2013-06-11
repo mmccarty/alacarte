@@ -94,7 +94,7 @@ class AdminController < ApplicationController
   end
 
   def email_list
-    user = User.find(:all)
+    user = User.all
     @emails = user.collect(&:email).join(', ')
   end
 

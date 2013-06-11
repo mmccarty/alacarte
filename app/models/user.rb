@@ -428,7 +428,7 @@ class User < ActiveRecord::Base
   end
 
   def self.send_pending_user_mail(user,url)
-    local = Local.find(:first)  #need to get a locals object to get the email addresses to send to and from
+    local = Local.first  #need to get a locals object to get the email addresses to send to and from
     begin
       Notifications.deliver_add_pending_user(user.email, local.admin_email_from)
       Notifications.deliver_notify_admin_about_pending_user(local.admin_email_to, local.admin_email_from,url)

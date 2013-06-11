@@ -176,7 +176,7 @@ class ApplicationController < ActionController::Base
 
   #returns customizations
   def local_customization
-    @local = Local.find(:first)
+    @local = Local.first
   end
 
   #returns the current page in a session

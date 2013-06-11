@@ -6,7 +6,7 @@ class Unitization < ActiveRecord::Base
 
   #ferret was not adding new units to the index so added this after save code in to fix it
   def update_ferret
-    search = Local.find(:first).enable_search?
+    search = Local.first.enable_search?
     if search
       tutorial.ferret_update
     end

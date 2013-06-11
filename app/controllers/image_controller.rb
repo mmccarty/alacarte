@@ -35,7 +35,7 @@ class ImageController < ApplicationController
     @mod = find_mod(params[:id], "ImageResource")
     @query = params[:search_value]
     session[:search_result] = @query
-    flickr = Flickr.new("#{RAILS_ROOT}/config/flickr.yml")
+    flickr = Flickr.new("#{Rails.root}/config/flickr.yml")
     begin
       @list = flickr.photos.search(:text => @query.gsub(/ /,'') , 'per_page' => 8, 'page' => 1, :media => 'photos')
     rescue  Exception

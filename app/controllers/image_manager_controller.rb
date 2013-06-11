@@ -5,7 +5,7 @@ class ImageManagerController < ApplicationController
   # GET /images/1.xml
   def show
     @path = params[:path] ||= ""
-    @image_managers = ImageManager.find(:all)
+    @image_managers = ImageManager.all
     render :layout => false
   end
 
@@ -14,7 +14,7 @@ class ImageManagerController < ApplicationController
   def create
     @image_manager = ImageManager.new params[:image]
     if @image_manager.save
-      @image_managers= ImageManager.find(:all)
+      @image_managers= ImageManager.all
       flash[:notice] = 'Image was successfully added.'
       respond_to do |format|
         format.js do
@@ -47,7 +47,7 @@ class ImageManagerController < ApplicationController
       respond_to do |format|
         format.js do
           flash[:notice] = 'Image was successfully deleted.'
-          @image_managers = ImageManager.find(:all)
+          @image_managers = ImageManager.all
           render :action => "create.js.rjs", :object => {@image_managers,flash}
         end
       end

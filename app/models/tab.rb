@@ -11,7 +11,7 @@ class Tab < ActiveRecord::Base
   #updates the ferret index because it was not happening automatically
 
   def update_ferret
-    search = Local.find(:first).enable_search?
+    search = Local.first.enable_search?
     if search
       tabable.ferret_update
     end

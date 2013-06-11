@@ -81,7 +81,7 @@ class PageController < ApplicationController
   end
 
   def template
-    @pages = Page.find(:all)
+    @pages = Page.all
   end
 
   def update
