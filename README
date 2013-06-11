@@ -1,9 +1,50 @@
-############################# Library a la Carte Requirements #####################################
+A brief history:
 
-The Library a la Carte project is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License V 3.
+The Library a la Carte project was started by Kim Griggs (see
+https://github.com/griggsk ) sometime in the far distant past, like
+2006 or 2007.  It began life as ICAP but I don't have the first
+clue what that stood for.  This work was done under the auspices
+of Oregon State University Libraries and Press.
 
-Thank you for your interest in our program.  
+When griggsk left Oregon State circa 2009 or 2010, she released
+version 1.5 under the GNU Affero Public Licence.  It is available
+here: https://github.com/griggsk/Library-a-la-Carte
+
+Work continued at OSU through 2011.  Version 1.6 was released under
+a GPL3 license.  I can't explain the change, but they paid for the
+initial work and owned the copyright, so they have every right to
+dictate the terms of use.  In December 2012, OSU declared A-la-Carte
+abondonware: http://alacarte.library.oregonstate.edu/node/25416
+
+Version 1.6 is available at RubyForge:
+https://rubyforge.org/frs/?group_id=6732
+
+Nub Games, Inc. adopted the project in 2013.  We have restored the
+AGPL for our contributions, as is allowed under the terms of the
+GPL.  (And is arguably more in-line with the original intent.)
+
+We have also changed the version scheme to loosely follow Rails.
+Version 2 is the last version we will release for the Rails 2.x
+series.  It differs from version 1.6 only in being made current
+with Rails 2.3.x and is end-of-life.  Version 3 has been brought
+up-to-date with the Rails 3.x series, but despite the jump in
+numbering is not substantially different from version 2.  We will
+continue to maintain version 3 for a few years, but new development
+efforts will focus on version 4 using Rails 4.
+
+---------------------------------------
+| Alacarte | Rails  | Ruby  | License |
+---------------------------------------
+| 1.5      | 2.3.5  | 1.8.7 | AGPL    |
+---------------------------------------
+| 1.6      | 2.3.5  | 1.8.7 | GPL3    |
+---------------------------------------
+| 2.0      | 2.3.18 | 1.8.7 | AGPL    |
+---------------------------------------
+| 3.0      | 3.2.13 | 1.9.2 | AGPL    |
+---------------------------------------
+| 4.0      | 4.0    | 2.0   | AGPL    |
+---------------------------------------
 
 This document assumes you are deploying under Unix or Linux and are using a MySql database. 
 This application has been developed for Rails 2.3.2 and Ruby 1.8
@@ -796,9 +837,3 @@ cp -a /path/to/orig/public/uploads /path/to/new/public/uploads
 cp -a /path/to/orig/public/photos /path/to/new/public/photos
 
 Step 4. Test 
-
-
-
-
-	
-	
