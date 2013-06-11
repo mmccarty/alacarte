@@ -1,12 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <meta http-equiv="Content-Script-Type" content="text/javascript" />
     <meta name="keywords" content="Library a`la Carte" />
     <meta name="description" content="Library a`la Carte. Web-based content management system (CMS) for and by Libraries. This tool enables librarians to easily create and maintain course pages, subject guides and other library information Web pages made to order. " />
+    <%= csrf_meta_tag %>
     <title>Library &agrave; la Carte </title>
     <%= stylesheet_link_tag "tool", :media => "all" %>
+    <%= javascript_include_tag :defaults %>
   </head>
   <body>
     <div id="wrapper"> <!--  start wrapper -->

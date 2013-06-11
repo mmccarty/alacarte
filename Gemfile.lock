@@ -13,6 +13,8 @@ GEM
     activeresource (2.3.18)
       activesupport (= 2.3.18)
     activesupport (2.3.18)
+    diff-lcs (1.2.4)
+    erubis (2.7.0)
     fastercsv (1.5.0)
     ferret (0.11.6)
       rake (> 0.0.0)
@@ -32,11 +34,20 @@ GEM
       activeresource (= 2.3.18)
       activesupport (= 2.3.18)
       rake (>= 0.8.3)
+    rails_xss (0.4.0)
     rake (10.0.4)
     rdoc (4.0.1)
       json (~> 1.4)
     rdoc-data (4.0.1)
       rdoc (~> 4.0)
+    rspec (2.13.0)
+      rspec-core (~> 2.13.0)
+      rspec-expectations (~> 2.13.0)
+      rspec-mocks (~> 2.13.0)
+    rspec-core (2.13.1)
+    rspec-expectations (2.13.0)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.13.1)
     xml-magic (0.1.1)
 
 PLATFORMS
@@ -44,6 +55,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_youtube (= 1.0.0)
+  erubis
   fastercsv (= 1.5.0)
   ferret (= 0.11.6)
   flickr_fu (= 0.3.0)
@@ -52,5 +64,7 @@ DEPENDENCIES
   nokogiri (= 1.5.10)
   pg
   rails (= 2.3.18)
+  rails_xss
   rdoc
   rdoc-data
+  rspec

@@ -89,7 +89,7 @@ module ApplicationHelper
       :title => "Sort by this field",
       :href => url_for(:action => 'index', :params => params.merge({:sort => key, :page => nil}))
     }
-    link_to_remote(text, options, html_options)
+    link_to(text, options, html_options, :remote => true)
   end
 
   #database module sort a-z list
@@ -103,7 +103,7 @@ module ApplicationHelper
     html_options = {
       :title => "view databases the begin with this letter"
     }
-    link_to_remote(sort, options, html_options)
+    link_to(sort, options, html_options, :remote => true)
   end
 
   def related_link
@@ -116,7 +116,7 @@ module ApplicationHelper
     html_options = {
       :title => "Click to automatically find related guides"
     }
-    link_to_remote("Automatically Add Related Guides", options, html_options)
+    link_to("Automatically Add Related Guides", options, html_options, :remote => true)
   end
 
   #sets owner for tutorial/guides/pages
@@ -131,7 +131,7 @@ module ApplicationHelper
       :title => "Make this user the guide owner",
       :href => url_for({:controller =>'guide', :action => 'set_owner', :id => id, :uid => uid})
     }
-    link_to_remote("Make Owner", options, html_options)
+    link_to("Make Owner", options, html_options, :remote => true)
   end
 
   #Truncates a given comment to the passed in size, without breaking words.

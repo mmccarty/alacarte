@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 
   #check that the password has been set
   def validate
-    errors.add_to_base("Missing password" ) if hashed_psswrd.blank?
+    errors.add("Missing password" ) if hashed_psswrd.blank?
   end
 
   def self.create_and_add_resource(id, mod_list, item=nil)

@@ -28,7 +28,7 @@ class Page < ActiveRecord::Base
   attr_protected :id
 
   def validate
-    errors.add_to_base "You must specify at least one subject." if subjects.blank?
+    errors.add "You must specify at least one subject." if subjects.blank?
   end
 
   def to_param

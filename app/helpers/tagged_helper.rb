@@ -12,6 +12,6 @@ module TaggedHelper
       :class => css,
       :href => url_for(:action => 'index', :params => params.merge({:tag => tag}))
     }
-    link_to_remote(tag, options, html_options)
+    link_to(tag, options, html_options, :remote => true)
   end
 end

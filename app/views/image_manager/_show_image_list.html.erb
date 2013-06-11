@@ -32,8 +32,8 @@
 		"Change_Value('#{org_file}','pic_path');
 		retrieve_values();"  %>
 		<br />
-		<%= link_to_remote "Delete",  :confirm => 'Are you sure you want to delete this photo?',
-		:url => { :controller => 'image_manager', :action => :destroy, :id => attr.id }, :method => :destroy %>
+		<%= link_to "Delete",  :confirm => 'Are you sure you want to delete this photo?',
+      :url => { :controller => 'image_manager', :action => :destroy, :id => attr.id }, :method => :destroy, :remote => true %>
 	      </div>
 	      <%	if i >= 5
 	      %><br /><%

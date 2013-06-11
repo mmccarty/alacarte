@@ -6,7 +6,7 @@
     Description: <%=  truncate(photo.description, 100) unless [nil, ''].include?(photo.description)%><br/>
     Owner: <%= truncate(h(photo.owner_username), 100)   %><br/>
     <%= image_tag photo.url(:thumbnail) %>
-    <%=image_tag("/images/icons/add.png", :title => 'Add this image', :alt => 'preview', :border => 0) %><%=link_to_remote('Add Image',:update => "images", :loading => "Element.show('add_spinner_search')", :complete => "Element.hide('add_spinner_search')",:url =>{:controller => :image,  :action => 'save_image', :id => @mod, :alt => photo.title, :description => photo.description, :url => photo.url(:medium)} , :update => "images")%>
+    <%=image_tag("/images/icons/add.png", :title => 'Add this image', :alt => 'preview', :border => 0) %><%=link_to('Add Image',:update => "images", :loading => "Element.show('add_spinner_search')", :complete => "Element.hide('add_spinner_search')",:url =>{:controller => :image,  :action => 'save_image', :id => @mod, :alt => photo.title, :description => photo.description, :url => photo.url(:medium)} , :update => "images", :remote => true)%>
   </li>
   <%end%>
 </ul>

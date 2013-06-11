@@ -50,9 +50,9 @@
       <%= link_to image_tag("/images/icons/edit.png", :title => 'Edit this Module', :alt => 'edit', :border => 0),{ :controller => 'module', :action => 'edit_content', :id => mod, :type => mod.class}, :class =>'space' %>
       | <%= link_to image_tag("/images/icons/document_preview.png", :title => 'Preview this Module in New Window', :alt => 'preview', :border => 0),{ :controller => 'module',  :action => 'view', :id => mod, :type => mod.class}, :class =>'space', :popup => ['', 'height=400,width=480,toolbar=yes, scrollbars =yes,resizable=yes']%>
       | <%= link_to image_tag("/images/icons/application_add.png", :title => 'Copy this Module', :alt => 'copy', :border => 0), { :controller => 'module', :action => 'copy',  :id => mod, :type => mod.class },:class =>'space'%>
-      | <%= link_to_remote image_tag("/images/icons/remove.png", :title => 'Delete this Module', :alt => 'delete', :border => 0),
+      | <%= link_to image_tag("/images/icons/remove.png", :title => 'Delete this Module', :alt => 'delete', :border => 0),
       {:url => { :controller => 'module', :action => 'remove_from_user', :id => mod,  :type => mod.class, :page => @page, :sort => @sort,  :all => @all },:update => row_id , :confirm => 'Are you sure you want to delete this module from your list?'},
-      :href => url_for(:action => 'remove_from_user', :controller => 'module',:id => mod, :type => mod.class, :page => @page, :sort => @sort , :all => @all)%>
+      :href => url_for(:action => 'remove_from_user', :controller => 'module',:id => mod, :type => mod.class, :page => @page, :sort => @sort , :all => @all), :remote => true %>
     </td>
     <td width ="8%" class= '<%= sort_th_class_helper "date" %>' > <%= mod.updated_at.to_date %>	</td>
     <td width ="8%" class= '<%= sort_th_class_helper "type" %>'> <%= mod.content_type%>	</td>

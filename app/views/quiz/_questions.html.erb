@@ -7,7 +7,7 @@
 			                                 <h4>
 						           <%=link_to "Edit Question", {:controller => 'quiz', :action => 'edit_question', :id =>@mod, :qid => question.id}, :title =>question.question%>
 			                                   |
-					                   <%= link_to_remote image_tag("/images/icons/remove.png", :title => 'Click to remove this question', :alt => 'Remove', :border => 0), :url => {:controller => 'quiz', :action => 'remove_question', :id => @mod, :qid => question} %>
+                                         <%= link_to image_tag("/images/icons/remove.png", :title => 'Click to remove this question', :alt => 'Remove', :border => 0), :url => {:controller => 'quiz', :action => 'remove_question', :id => @mod, :qid => question}, :remote => true %>
 					                   <span class = 'handle'>
 						             <%=image_tag("/images/icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>
 				                           </span>

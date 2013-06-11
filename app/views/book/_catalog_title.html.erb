@@ -14,7 +14,7 @@
       <ul class="undeco list">
         <% @results.each do |r| %>
         <% course = r[:course].scan(/\>(.*?)\</) %>
-<li><%= link_to_remote course, :loading => "Element.show('spinner_ambig')", :complete => "Element.hide('spinner_ambig')", :url => {:controller => :book, :action => :retrieve_results, :title => r[:course] ,:id =>@mod}, :update => "catalog_title" %></li>
+        <li><%= link_to course, :remote => true, :loading => "Element.show('spinner_ambig')", :complete => "Element.hide('spinner_ambig')", :url => {:controller => :book, :action => :retrieve_results, :title => r[:course] ,:id =>@mod}, :update => "catalog_title" %></li>
 <% end %>
 </ul>
 </div>

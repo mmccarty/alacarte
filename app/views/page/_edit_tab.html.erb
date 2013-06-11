@@ -3,7 +3,7 @@
     <% for tab in @tabs%>
     <%unless tab.id == @tab.id%>
     <li id = "item_<%=tab.id%>">
-      <span class='tabs'><%= link_to_remote h(tab.tab_name), {:update => 'tab_content', :url => {:controller =>'tab', :action => 'page_show', :id => tab.id}}, :href => url_for({:controller =>'page', :action => 'edit', :id => @page.id, :tab => tab.id}), :title => 'Edit This Tab' %>
+    <span class='tabs'><%= link_to h(tab.tab_name), {:update => 'tab_content', :url => {:controller =>'tab', :action => 'page_show', :id => tab.id}}, :href => url_for({:controller =>'page', :action => 'edit', :id => @page.id, :tab => tab.id}), :title => 'Edit This Tab', :remote => true %>
 	<span class="hand"><%=image_tag("/images/icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%></span>  </span>
 </span>
 </li>
