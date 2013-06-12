@@ -15,8 +15,6 @@ GEM
       rack-mount (~> 0.6.14)
       rack-test (~> 0.5.7)
       tzinfo (~> 0.3.23)
-    active_youtube (1.0.0)
-      activeresource (>= 2.0.2)
     activemodel (3.0.20)
       activesupport (= 3.0.20)
       builder (~> 2.1.2)
@@ -41,8 +39,7 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     fastercsv (1.5.0)
-    ferret (0.11.6)
-      rake (> 0.0.0)
+    ferret (0.11.8.5)
     flickr_fu (0.3.0)
       mime-types (> 0.0.0)
       xml-magic (> 0.0.0)
@@ -107,11 +104,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_youtube (= 1.0.0)
   dynamic_form
   erubis
   fastercsv (= 1.5.0)
-  ferret (= 0.11.6)
+  ferret
   flickr_fu (= 0.3.0)
   haml
   hpricot (= 0.8.2)

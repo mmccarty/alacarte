@@ -4,7 +4,7 @@ class VideoResource < ActiveRecord::Base
   has_many :videos, :order => :position,  :dependent => :destroy
   before_create :private_label
   after_update :save_videos
-  require 'active_youtube'
+  #require 'active_youtube'
 
   validates_presence_of :module_title
   validates_presence_of :label, :on => :update
