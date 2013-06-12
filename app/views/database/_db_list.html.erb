@@ -7,7 +7,7 @@
   </div>
   <div id="submit_button">
     <%= submit_tag 'Add Databases', :class => "submit" %>
-    <p><%= link_to_function "Cancel", "$('db').toggle(); + $('mo').toggle(); + $('link').toggle(); " %> </p>
+    <p><%= content_tag :a, "Cancel", :onclick => "$('db').toggle(); + $('mo').toggle(); + $('link').toggle();" %> </p>
   </div>
   <% end %>
 

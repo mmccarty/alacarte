@@ -18,7 +18,7 @@
     <div id="tab_new" style="display:none">
       <%= form_tag :controller => 'tab', :action => 'page_create' do%>
       <%= error_messages_for 'tab' %>
-      <label>Tab Title  <%= link_to_function 'cancel', "$('tab_new').toggle();$('new_button').toggle();; return false;" %></label>
+      <label>Tab Title  <%= content_tag :a, 'cancel', :onclick => "$('tab_new').toggle();$('new_button').toggle();; return false;" %></label>
       <%= text_field 'tab', 'tab_name',"size" => 12%>
       <%= submit_tag 'Create' %>
 

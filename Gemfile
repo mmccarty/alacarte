@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem "active_youtube", "1.0.0"
+gem "dynamic_form"
 gem "erubis"
 gem "fastercsv", "1.5.0"
 gem "ferret", "0.11.6"

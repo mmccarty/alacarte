@@ -16,7 +16,7 @@
       <label for="num">Number of Master Subjects to Add</label>
       <%= select('master','num', [[1,1],[2,2],[3,3],[4,4],[5,5],[10,10]],:selected => 1, :size => 5) %>
       <%= submit_tag 'Add New Master' %><br /><br />
-      <%= link_to_function 'cancel', "$('new').toggle();$('new_button').toggle();; return false;" %>
+      <%= content_tag :a, 'cancel', :onclick => "$('new').toggle();$('new_button').toggle();; return false;" %>
       <br />
     </div>
     <%end%>

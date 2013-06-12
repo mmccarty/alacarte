@@ -24,7 +24,7 @@
   :tag => :div %>
 
   <% content = render :partial => '/url/link', :object => Link.new %>
-  <label><%= link_to_function image_tag("/images/icons/add.png", :title => 'Click to add an link', :alt => '', :border => 0)+" Add Link",
+  <label><%= content_tag :a, image_tag("/images/icons/add.png", :title => 'Click to add an link', :alt => '', :border => 0)+" Add Link", :onclick =>
     "var newid = new Date().getTime();
     var newcontent = \"#{escape_javascript(content)}\"
     newcontent = newcontent.replace(/712981823917[0-9]*/g,newid);

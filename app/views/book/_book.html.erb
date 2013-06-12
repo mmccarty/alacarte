@@ -11,7 +11,7 @@
     <span class = 'handle' style = <%=new_or_existing == 'existing' ? "" : "display:none"%>><%=image_tag("/images/icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>
     <div id="new_book_<%=book.id%>" style = <%=new_or_existing == 'new' ? "" : "display:none"%> >
       <h5>Edit Book
-	<%= link_to_function image_tag("/images/icons/remove.png", :alt => 'Remove', :border => 0), "$(this).up('.book').remove()" %>
+        <%= content_tag :a, image_tag("/images/icons/remove.png", :alt => 'Remove', :border => 0), :onclick => "$(this).up('.book').remove()" %>
       </h5>
       <%if book and book.catalog_results.blank?%>
       <label for="mod_label">Book Title/Label
@@ -40,9 +40,9 @@
 
     <div id="ex_book_<%=book.id%>" style = <%=new_or_existing == 'existing' ? "" : "display:none"%> >
       <h5>Book Preview
-	<%= link_to_function "edit", "$('ex_book_#{book.id}').toggle(); + $('new_book_#{book.id}').toggle();" %>
+        <%= content_tag :a, "edit", :onclick => "$('ex_book_#{book.id}').toggle(); + $('new_book_#{book.id}').toggle();" %>
 	|
-	<%= link_to_function image_tag("/images/icons/remove.png", :title => 'Click to remove this book', :alt => 'Remove', :border => 0), "$(this).up('.book').remove()" %>
+  <%= content_tag :a, image_tag("/images/icons/remove.png", :title => 'Click to remove this book', :alt => 'Remove', :border => 0), :onclick => "$(this).up('.book').remove()" %>
       </h5>
       <div id ='book_view'>
 	<p>

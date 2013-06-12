@@ -16,7 +16,7 @@
     <%= error_messages_for 'guide' %>
     <div id="vertical_inputs" class="index">
       <h4>Create Guide</h4><span class="more_help" onMouseover="fixedtooltip(GUIDE_TITLE_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
-      <%= link_to_function 'cancel', "$('new').toggle();$('new_button').toggle();; return false;" %>
+      <%= content_tag :a, 'cancel', :onclick => "$('new').toggle();$('new_button').toggle();; return false;" %>
       <%=render  :partial => "/guide/guide_title"%>
       <span><label>&nbsp;</label><%= submit_tag 'Create Guide' %></span>
       <br />

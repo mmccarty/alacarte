@@ -13,7 +13,7 @@
       <span class = 'more_help'  onMouseover="fixedtooltip(DB_INFO_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></lable>
 <%= text_area 'mod', 'info', :class => "mceEditor" %><br />
 
-<div id="link" style=""><label><%= link_to_function image_tag("/images/icons/add.png", :title => 'Click to add databases', :alt => 'add databases', :border => 0)+" Add Databases", "$('db').toggle(); + $('mo').toggle(); + $('link').toggle(); " %></label></div>
+<div id="link" style=""><label><%= content_tag :a, image_tag("/images/icons/add.png", :title => 'Click to add databases', :alt => 'add databases', :border => 0) + " Add Databases", :onclick => "$('db').toggle(); + $('mo').toggle(); + $('link').toggle();" %></label></div>
 
 
 <label>Selected Databases <span class = 'more_help'  onMouseover="fixedtooltip(DB_MSSG, this, event, '260');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%>

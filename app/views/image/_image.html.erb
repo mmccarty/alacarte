@@ -11,7 +11,7 @@
     <fieldset>
       <div id="new_image_<%=image.id%>" style = <%=new_or_existing == 'new' ? "" : "display:none"%> >
 	<h5>Edit Images
-	  <%= link_to_function image_tag("/images/icons/remove.png", :alt => 'Remove', :border => 0), "$(this).up('.image').remove()" %>
+    <%= content_tag :a, image_tag("/images/icons/remove.png", :alt => 'Remove', :border => 0), :onclick => "$(this).up('.image').remove()" %>
 	</h5>
 	<label for="mod_label">Image Alternative Label<span class="required more_help">*</span>
 	  <span class = 'more_help' onMouseover="fixedtooltip(IMAGE_ALT_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
@@ -28,9 +28,9 @@
 
       <div id="ex_image_<%=image.id%>" style = <%=new_or_existing == 'existing' ? "" : "display:none"%> >
 	<h5>Image Preview
-	  <%= link_to_function "edit", "$('ex_image_#{image.id}').toggle(); + $('new_image_#{image.id}').toggle();" %>
+    <%= content_tag :a, "edit", :onclick => "$('ex_image_#{image.id}').toggle(); + $('new_image_#{image.id}').toggle();" %>
 	  |
-	  <%= link_to_function image_tag("/images/icons/remove.png", :title => 'Click to remove this image', :alt => 'Remove', :border => 0), "$(this).up('.image').remove()" %>
+    <%= content_tag :a, image_tag("/images/icons/remove.png", :title => 'Click to remove this image', :alt => 'Remove', :border => 0), :onclick => "$(this).up('.image').remove()" %>
 	</h5>
 	<p>
 	  <img src="<%=image.url%>" alt="<%=image.alt%>" class = 'super_thumbnail'/>

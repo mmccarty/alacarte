@@ -14,7 +14,7 @@
     <%= error_messages_for 'mod' %>
     <div id="vertical_inputs" class="index">
       <h4>New Module <span class = 'more_help' onMouseover="fixedtooltip(MOD_TITLE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
-<%= link_to_function 'cancel', "$('new').toggle();$('new_button').toggle();; return false;" %></h4>
+      <%= content_tag :a, 'cancel', :onclick => "$('new').toggle();$('new_button').toggle();; return false;" %></h4>
 <span <%= %(class="required") if flash[:mod_title_error] %>>
   <label for="page_course_name">Module Title<span class="required more_help">*</span></label>
   <%= text_field 'mod', 'module_title',"size" => 45 , :value => flash[:mod_title]   %>

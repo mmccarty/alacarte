@@ -16,7 +16,7 @@
     <%= error_messages_for 'tutorial' %>
     <div id="vertical_inputs" class="index">
       <h4>Create Tutorial<span class="more_help" onMouseover="fixedtooltip(TUTORIAL_TITLE_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
-	<%= link_to_function 'cancel', "$('new').toggle();$('new_button').toggle();; return false;" %></h4>
+        <%= content_tag :a, 'cancel', :onclick => "$('new').toggle();$('new_button').toggle();; return false;" %></h4>
       <span <%= %(class="required") if flash[:tutorial_title_error] %>>
 	<label for="tutoral_name">Title <span class="required more_help">*</span></label>
 	<%= text_field 'tutorial','name',"size" => 50 %>

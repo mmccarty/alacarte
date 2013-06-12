@@ -1,6 +1,6 @@
 <div class="feeds">
   <fieldset>
-    <label> RSS Feed <%= link_to_function  image_tag("/images/icons/remove.png", :alt => 'Remove', :title => 'Click to delete this feed', :border => 0), "$(this).up('.feeds').remove()" %>
+    <label> RSS Feed <%= content_tag :a,  image_tag("/images/icons/remove.png", :alt => 'Remove', :title => 'Click to delete this feed', :border => 0), :onclick => "$(this).up('.feeds').remove()" %>
     </label> <br /> <br />
     <% new_or_existing = feed.new_record? ? 'new' : 'existing' %>
     <% prefix = "mod[#{new_or_existing}_feed_attributes][]" %>

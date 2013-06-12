@@ -21,7 +21,7 @@ module ApplicationHelper
     tooltip += "Last Update: " + mod.updated_at.to_date.to_s + "<br />"
     tooltip += "Shared? " + (mod.shared? == false ? "Yes" : "No") + "<br />"
     tooltip += "In Use? " + (mod.used? == false ? "No" : "Yes") + "<br />"
-    return tooltip
+    tooltip
   end
 
   def render_used_tooltip(mod)
@@ -35,14 +35,14 @@ module ApplicationHelper
     tip += "<strong>Tutorials: </strong>" + tutorials.to_sentence + "<br />" unless tutorials.length < 1 == true
     tip += "<strong>A Default Contact Module</strong>" + "<br />" unless @user.get_profile.blank? or @user.get_profile.id != mod.id
     tip += "<strong>A Contact Module</strong>" + "<br />" if tip == ("<strong>" + h(mod.module_title).gsub(/'/, "\\\\'") + " is used on</strong> <br />")
-    return tip +  "Click to manage this module."
+    tip +  "Click to manage this module."
   end
 
   #adds css class to selected sort value
   def sort_th_class_helper(param)
     result = "sortup" if @sort == param
     result = "sortdown" if @sort == param + "_reverse"
-    return result
+    result
   end
 
   #sorts list of my mods/guides/pages
@@ -129,25 +129,25 @@ module ApplicationHelper
       comment_copy += "..."
     end
 
-    return simple_format(comment_copy)
+    simple_format(comment_copy)
   end
 
   #helper method to get targets for library find modules
   def checked?(val)
     targets = @mod.lf_targets.collect{|a| a.value}
-    return  targets.include?(val)
+    targets.include?(val)
   end
 
   def is_more?
-    return  @mod.more_info.blank?
+    @mod.more_info.blank?
   end
 
   #variables for use with SSO functions
   def sso_enabled
-    return SSO_ENABLED
+    SSO_ENABLED
   end
 
   def used_sso
-    return session[:login_type] ? true:false
+    session[:login_type] ? true:false
   end
 end
