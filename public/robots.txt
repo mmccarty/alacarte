@@ -1,13 +1,5 @@
 # See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file
-User-agent: *
-Disallow: /cgi-bin/
-Disallow: /tmp/
-Disallow: /images
-Disallow: /stylesheets
-Disallow: /javascripts
-Disallow: /tinymce
-Disallow: /ort
-Disallow: /srg
-Disallow: /ica
-Disallow: /sso_login
-
+#
+# To ban all spiders from the entire site uncomment the next two lines:
+# User-Agent: *
+# Disallow: /

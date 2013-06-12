@@ -1,12 +1,14 @@
-*.rails2
+.bundle
 config/database.yml
 console/
+db/*.sqlite3
+log/*.log
 log/*.log
 log/*.out
 log/*.pid
 public/photos/
 public/uploads/
-upgrade-check.txt
+tmp/
 vendor/gems/doc
 vendor/gems/environment.rb
 vendor/gems/gems

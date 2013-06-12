@@ -1,21 +1,9 @@
-# Filters added to this controller will be run for all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
-
-gem 'active_youtube'
-gem 'flickr_fu', '= 0.3.0'
-require 'flickr_fu'
-
 class ApplicationController < ActionController::Base
   include ExceptionNotification::Notifiable
-  helper :all # include all helpers, all the time
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  #add authorize and local variable to everything
+  helper :all
+  protect_from_forgery
   before_filter :authorize
   before_filter :local_customization
-  # after_filter :log_ram # or use after_filter
-  # def log_ram
-  #   logger.warn 'RAM USAGE: ' + `pmap #{Process.pid} | tail -1`[10,40].strip
-  # end
 
   unless ActionController::Base.consider_all_requests_local
     #first will be selected last
