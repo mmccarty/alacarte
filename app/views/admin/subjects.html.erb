@@ -11,7 +11,7 @@
     </span></a>
   </div>
   <div id="new" style="display:none">
-    <% form_tag :action => 'new_subjects' do%>
+    <%= form_tag :action => 'new_subjects' do%>
     <div id="vertical_inputs" class="index">
       <label for="num">Number of Subjects to Add</label>
       <%= select('subject','num', [[1,1],[2,2],[3,3],[4,4],[5,5],[10,10]],:selected => 1, :size => 5) %>

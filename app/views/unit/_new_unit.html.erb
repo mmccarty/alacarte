@@ -6,7 +6,7 @@
   </span></a>
 </div>
 <div id="new" style="display:none">
-  <% form_tag :controller => 'unit', :action => 'create' do%>
+  <%= form_tag :controller => 'unit', :action => 'create' do%>
   <%= error_messages_for 'unit' %>
   <div id="vertical_inputs" class="index">
     <h5>New Unit </h5><span class = 'more_help' onMouseover="fixedtooltip(MOD_TITLE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>

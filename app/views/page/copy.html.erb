@@ -8,7 +8,7 @@
     <% end -%>
     <div id ='share'>
 
-      <% form_tag :action => 'copy' do%>
+      <%= form_tag :action => 'copy' do%>
       <fieldset>
         <!--[form:page]-->
         <h4 <%= %(class="required") if flash[:error] %>>Page Title</h4>

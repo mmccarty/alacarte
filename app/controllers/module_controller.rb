@@ -360,7 +360,7 @@ class ModuleController < ApplicationController
       redirect_to :action => 'index', :list=> 'mine' and return
     end
     @mod = resource.mod
-    @user_list = User.find(:all, :order => "name")
+    @user_list = User.order("name")
     @mod_owners = resource.users.uniq
   end
 

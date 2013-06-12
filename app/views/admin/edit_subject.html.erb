@@ -4,7 +4,7 @@
   <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
   <% end -%>
   <%= error_messages_for 'subject' %>
-  <% form_tag :action => 'edit_subject' ,:id => @subject do %>
+  <%= form_tag :action => 'edit_subject' ,:id => @subject do %>
   <div id="vertical_inputs">
     <span><label for="subject_code"><span class="required">*</span>Subject Code</label>
       <%= text_field 'subject', 'subject_code', :size => 10%></span>

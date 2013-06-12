@@ -31,7 +31,7 @@ class SrgController < ApplicationController
     @meta_description = @local.guide_page_title + ". Library Help Guides for Subject Research. "
     @title = @local.guide_page_title
     @guides = Guide.published_guides
-    @masters = Master.find(:all, :conditions => ['value != ? and value != ?', "Tutorial", "Internal"], :order => 'value', :include => :guides)
+    @masters = Master.where("value <> ? AND value <> ?", "Tutorial", "Internal").order("value").include(:guides)
     @tags = Guide.tag_counts(:conditions =>["published = ?", true], :order => 'taggings.created_at desc', :limit => 100)
   end
 

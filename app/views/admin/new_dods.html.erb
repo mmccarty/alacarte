@@ -8,10 +8,10 @@
   </div>
   <% end -%>
 
-  <% form_tag :action => 'create_dods' do %>
+  <%= form_tag :action => 'create_dods' do %>
   <div id ='subjects'>
     <% @dods.each_with_index do |dod, index| %>
-    <% fields_for "dods[#{index}]", dod do |f| %>
+    <%= fields_for "dods[#{index}]", dod do |f| %>
     <%= error_messages_for :dod %>
     <label for="title"><span class="required">*</span>Database Title</label>
     <%= f.text_field 'title'%><%= f.error_message_on "title" %>

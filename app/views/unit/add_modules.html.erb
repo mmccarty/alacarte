@@ -16,7 +16,7 @@
 
   <%unless @mods.size <1%>
 	   <div id="product-list" >
-	     <% form_tag :controller => 'unit', :action => 'add_modules', :id => @unit do%>
+	     <%= form_tag :controller => 'unit', :action => 'add_modules', :id => @unit do%>
   <div id="table">
     <%=render :partial => "shared/add_modules_list"%>
   </div>

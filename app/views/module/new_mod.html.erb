@@ -6,7 +6,7 @@
     <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
     <% end -%>
     <fieldset>
-      <% form_tag :action => 'new_mod' do%>
+      <%= form_tag :action => 'new_mod' do%>
       <label for="mod_type">Content Type<span class="required more_help">*</span></label>
       <%= select('mod','type', @types, {:selected => @selected , :prompt => "Select"}, {}) %>
       <%=render :partial => "mod_title"%>

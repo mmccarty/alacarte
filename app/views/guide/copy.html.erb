@@ -6,7 +6,7 @@
     <div id="list_error" > <%= flash[:error] %></div>
     <% end -%>
     <div id ='share'>
-      <% form_tag :action => 'copy' do%>
+      <%= form_tag :action => 'copy' do%>
       <fieldset>
 	<h4 <%= %(class="required") if flash[:error] %>>Title &amp; Subject <span class = 'more_help'  onMouseover="fixedtooltip(GUIDE_NAME_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></h4>
 	<%=render  :partial => "guide_title"%>

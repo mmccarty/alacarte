@@ -43,7 +43,7 @@ module ActsAsFerret
 
     # rebuilds the index from all records of the model classes associated with this index
     def rebuild_index
-       File.open("#{RAILS_ROOT}/index/#{RAILS_ENV}/lockfile","a") do |file|
+       File.open("#{Rails.root}/index/#{Rails.env}/lockfile","a") do |file|
          has_lock,file = get_lock(file) 
          if has_lock  
             models = index_definition[:registered_models]
@@ -109,7 +109,7 @@ module ActsAsFerret
     # add record to index
     # record may be the full AR object, a Ferret document instance or a Hash
     def add(record, analyzer = nil)
-       File.open("#{RAILS_ROOT}/index/#{RAILS_ENV}/lockfile","a") do |file|
+       File.open("#{Rails.root}/index/#{Rails.env}/lockfile","a") do |file|
          has_lock,file = get_lock(file) 
          if has_lock  
             unless Hash === record || Ferret::Document === record
@@ -127,7 +127,7 @@ module ActsAsFerret
 
     # delete record from index
     def remove(key)
-       File.open("#{RAILS_ROOT}/index/#{RAILS_ENV}/lockfile","a") do |file|
+       File.open("#{Rails.root}/index/#{Rails.env}/lockfile","a") do |file|
         has_lock,file = get_lock(file) 
         if has_lock     
           ferret_index.delete key

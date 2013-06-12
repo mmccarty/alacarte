@@ -4,7 +4,7 @@
   <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
   <% end -%>
   <%= error_messages_for 'mod', 'link' %>
-  <%form_tag({:controller => 'url', :action => 'update_url', :id => @mod} , {:multipart => true , :onKeyPress=> 'return disableEnterKey(event)'})  do %>
+  <%= form_tag({:controller => 'url', :action => 'update_url', :id => @mod} , {:multipart => true , :onKeyPress=> 'return disableEnterKey(event)'})  do %>
 
   <%=render :partial => '/module/mod_title'%>
 

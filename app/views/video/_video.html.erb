@@ -5,7 +5,7 @@
   <%= error_messages_for "video" %>
   <% new_or_existing = video.new_record? ? 'new' : 'existing' %>
   <% prefix = "mod[#{new_or_existing}_video_attributes][]" %>
-  <% fields_for prefix, video do |video_form| -%>
+  <%= fields_for prefix, video do |video_form| -%>
 
   <fieldset>
     <span class = 'handle' style = <%=new_or_existing == 'existing' ? "" : "display:none"%>><%=image_tag("/images/icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>

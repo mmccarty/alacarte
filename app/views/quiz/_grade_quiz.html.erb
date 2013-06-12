@@ -1,5 +1,5 @@
 <%if @taken == false%>
-<%form_remote_tag :url => {:controller => "quiz", :action => "grade_quiz", :id => @mod.id}  do%>
+  <%= form_tag :url => {:controller => "quiz", :action => "grade_quiz", :id => @mod.id}, :remote => true  do%>
 <%@mod.questions.each do |question|%>
 <fieldset>
   <strong><%= question.question%></strong>

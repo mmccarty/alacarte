@@ -49,7 +49,7 @@ class Resource < ActiveRecord::Base
   end
 
   def self.global_modules(s, rev)
-    global_mods = find(:all).collect{|a| a.mod if a.mod and a.mod.global? }.compact
+    global_mods = all.collect{|a| a.mod if a.mod and a.mod.global? }.compact
     unless global_mods.empty?
       if s == "label"  || s == "content_type" || s == "created_by" #not a date or special case so we need to downcase to normalize data
         global_mods =   global_mods.sort!{|a,b| a.send(s).downcase <=> b.send(s).downcase }

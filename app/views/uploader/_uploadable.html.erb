@@ -1,7 +1,7 @@
 <div class="uploadable">
   <% new_or_existing = uploadable.new_record? ? 'new' : 'existing' %>
   <% prefix = "mod[#{new_or_existing}_uploadable_attributes][]" %>
-  <% fields_for prefix, uploadable do |uploadable_form| -%>
+  <%= fields_for prefix, uploadable do |uploadable_form| -%>
 
   <div id="upload">
     <fieldset>

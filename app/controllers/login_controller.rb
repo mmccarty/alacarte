@@ -2,7 +2,6 @@ class LoginController < ApplicationController
   #must be logged in to view all pages except...
   skip_before_filter :authorize
   before_filter :clear_sessions, :clean, :only =>['login']
-  filter_parameter_logging :password, :password_confirmation
 
   def login
     redirect_to :controller => 'sso_login', :action => 'login' if sso_enabled

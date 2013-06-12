@@ -65,19 +65,19 @@ class SearchController < ApplicationController
   private
 
   def get_Guide
-    @guide = Guide.find(:first,:conditions=> "id = #{session[:guide_id]}")
+    @guide = Guide.where(:id => "#{session[:guide_id]}")
     @tabs = @guide.tabs
     @tab  = @tabs.select{ |t| t.id == params[:tab].to_i}.first
   end
 
   def get_Page
-    @page= Page.find(:first,:conditions=> "id = #{session[:page_id]}")
+    @page= Page.where(:id => "#{session[:page_id]}")
     @tabs = @page.tabs
     @tab  = @tabs.select{ |t| t.id == params[:tab].to_i}.first
   end
 
   def get_Tutorial
-    @tutorial= Tutorial.find(:first,:conditions=> "id = #{session[:tutorial_id]}")
+    @tutorial= Tutorial.where(:id => "#{session[:tutorial_id]}")
     @units = @tutorial.units
     @unit ||= Unit.find(session[:unit])
   end

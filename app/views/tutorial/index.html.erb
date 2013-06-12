@@ -12,7 +12,7 @@
   </div>
 
   <div id="new"  style="display:none">
-    <% form_tag :action => 'create', :id => @tutorial do%>
+    <%= form_tag :action => 'create', :id => @tutorial do%>
     <%= error_messages_for 'tutorial' %>
     <div id="vertical_inputs" class="index">
       <h4>Create Tutorial<span class="more_help" onMouseover="fixedtooltip(TUTORIAL_TITLE_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
@@ -32,7 +32,7 @@
 	     <ul id="second_tabs">
 	       <% if @local.enable_search? %>
 	       <li  class = 'current'>
-		 <% form_tag :controller => 'search', :action => 'search_tutorials' do%>
+		 <%= form_tag :controller => 'search', :action => 'search_tutorials' do%>
   <%= text_field 'mod', 'search',"size" => 35,
   :style => "color:#aaa;",
   :value => @search_value,

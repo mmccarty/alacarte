@@ -14,7 +14,7 @@
       <fieldset>
         <h5>Add Editor</h5>
 	<div class = 'tip'>By sharing this module you are giving editing rights to the people you select.</div>
-        <%form_tag({:action=> 'share_update', :id =>@mod.id, :type=> @mod.class}) do%>
+        <%= form_tag({:action=> 'share_update', :id =>@mod.id, :type=> @mod.class}) do%>
         <select id="users" name="users[]" multiple="multiple" class="share" >
           <%= options_from_collection_for_select(@user_list, 'id', 'name') %>
         </select>

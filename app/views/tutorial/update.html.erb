@@ -5,7 +5,7 @@
   <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
   <% end -%>
   <div id ='share'>
-    <% form_tag({:action => 'update', :id => @tutorial.id}, {:multipart => true}) do%>
+    <%= form_tag({:action => 'update', :id => @tutorial.id}, {:multipart => true}) do%>
     <%= render :partial => 'form' %>
     <%end%>
   </div>

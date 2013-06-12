@@ -283,7 +283,7 @@ class PageController < ApplicationController
     else
       session[:page] = @page.id
       session[:current_tab] = @page.tabs.first.id
-      @user_list = User.find(:all, :order => "name")
+      @user_list = User.order("name")
       @page_owners = @page.users
       url = url_for :controller => 'ica', :action => 'index', :id => @page
       @message =

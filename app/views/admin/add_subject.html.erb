@@ -1,6 +1,6 @@
 <fieldset>
   <h3>Add Subject</h3>
-  <% form_tag :action => 'save_subject' do %>
+  <%= form_tag :action => 'save_subject' do %>
   <%= render :partial => 'subject_form' %>
   <br /><br />
   <%= submit_tag 'Add Subject' ,:class =>"submit" %>

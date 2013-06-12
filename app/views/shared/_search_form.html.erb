@@ -6,7 +6,7 @@
   </span></a>
 </div>
 <div id="new" style="display:none">
-  <% form_tag :controller => 'tab', :action => 'new_module' do%>
+  <%= form_tag :controller => 'tab', :action => 'new_module' do%>
   <%= error_messages_for 'mod' %>
   <div id="vertical_inputs" class="page_index">
     <h5>Create New Module </h5><span class = 'more_help' onMouseover="fixedtooltip(MOD_TITLE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
@@ -30,7 +30,7 @@
     <li><%= set_return_to_tab_button %></li>
     <li class = "current">
       <span id="message"><%=search_results_message%></span>
-      <% form_tag :controller => 'search', :action => 'add_modules' ,:tab => @tab do%>
+      <%= form_tag :controller => 'search', :action => 'add_modules' ,:tab => @tab do%>
       <%= text_field 'mod', 'search',"size" => 35,
       :value => @search_term %>
       <%= submit_tag 'Search Modules' %>

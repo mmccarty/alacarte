@@ -55,7 +55,7 @@ class Student < ActiveRecord::Base
     quiz = QuizResource.find(quiz)
     questions = quiz.questions.collect{|q| q.id}
     questions.each do |question|
-      result = results.find(:first, :conditions =>["question_id =?",question])
+      result = results.where("question_id = ?", question).first
       quiz_results << result if result
     end
     return quiz_results.inject(0){|sum,item| sum + item.score}

@@ -16,7 +16,7 @@
 	You will only be able to login with this account at ..../login/login
       </div>
       <% end %>
-      <%form_tag :action => 'my_account' do%>
+      <%= form_tag :action => 'my_account' do%>
       <label for="user_password">Full Name</label>
       <%= text_field "user", "name", :size => 54 %>
 

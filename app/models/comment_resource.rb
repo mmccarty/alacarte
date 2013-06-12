@@ -37,11 +37,11 @@ class CommentResource < ActiveRecord::Base
   end
 
   def ordered_comments
-    self.comments.find(:all, :limit => self.num_displayed, :order => "created_at DESC")
+    self.comments.limit(self.num_displayed).order("created_at DESC")
   end
 
   def more_comments
-    self.comments.find(:all, :order => "created_at DESC")
+    self.comments.order("created_at DESC")
   end
 
   def shared?

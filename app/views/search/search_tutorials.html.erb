@@ -13,7 +13,7 @@
   </div>
 
   <div id="new"  style="display:none">
-    <% form_tag :controller => 'tutorial', :action => 'create', :id => @tutorial do%>
+    <%= form_tag :controller => 'tutorial', :action => 'create', :id => @tutorial do%>
     <%= error_messages_for 'tutorial' %>
     <div id="vertical_inputs" class="index">
       <h4>Create Tutorial</h4><span class="more_help" onMouseover="fixedtooltip(TUTORIAL_TITLE_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
@@ -33,7 +33,7 @@
       <li><%= link_to "My Tutorials" , :controller => 'tutorial', :action => 'index', :sort => 'name' %></li>
       <li  class = 'current'>
 	<span id="message"><%=search_results_message%></span>
-	<% form_tag :controller => 'search', :action => 'search_tutorials' do%>
+	<%= form_tag :controller => 'search', :action => 'search_tutorials' do%>
 	<%= text_field 'mod', 'search',"size" => 35,
 	:value => @search_term %>
 	<%= submit_tag 'Search' %>

@@ -20,7 +20,7 @@
 
   <%unless @search_results.size <1%>
 	   <div id="product-list">
-	     <% form_tag :controller => set_controller, :action => set_action, :id => set_id  do %>
+	     <%= form_tag :controller => set_controller, :action => set_action, :id => set_id  do %>
   <div id="table">
     <%=render :partial => "shared/add_modules_list"%>
   </div>

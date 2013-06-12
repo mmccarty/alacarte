@@ -6,7 +6,7 @@
 
   <%= error_messages_for 'mod' %>
   <div id ="share">
-    <%form_tag({:controller => 'quiz', :action => 'update_quiz', :id => @mod} , {:multipart => true})  do %>
+    <%= form_tag({:controller => 'quiz', :action => 'update_quiz', :id => @mod} , {:multipart => true})  do %>
 
     <fieldset> <%=render :partial => '/module/mod_title'%>  </fieldset>
 

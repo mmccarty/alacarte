@@ -117,11 +117,11 @@ class Guide < ActiveRecord::Base
   def modules
     tbs = []
     tbs << tabs.collect{|t| t.modules}
-    return tbs.flatten
+    tbs.flatten
   end
 
   def recent_modules
-    return tabs.collect{|t| t.recent_modules}.flatten
+    tabs.collect{|t| t.recent_modules}.flatten
   end
 
   def related_pages
@@ -129,12 +129,12 @@ class Guide < ActiveRecord::Base
   end
 
   def self.published_guides
-    return self.find(:all,:conditions => {:published => true}, :order => 'guide_name', :select =>'id, guide_name, description')
+    self.where(:published => true).order("guide_name").select("id, guide_name, description")
   end
 
   #returns true if shared
   def shared?
-    return users.length > 1
+    users.length > 1
   end
 
   #share a guide with user

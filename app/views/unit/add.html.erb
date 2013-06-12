@@ -11,7 +11,7 @@
 
   <%unless @units.size <1%>
 	   <div id="product-list" >
-	     <% form_tag :controller => 'unit', :action => 'add' do%>
+	     <%= form_tag :controller => 'unit', :action => 'add' do%>
   <div id="table">
     <%=render :partial => "unit/unit_list"%>
   </div>

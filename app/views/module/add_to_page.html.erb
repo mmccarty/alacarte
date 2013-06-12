@@ -11,7 +11,7 @@
 
   <p> Check the box next to the tabs on the pages you want to add the module to then click the button at the bottom of the list.</p>
   <%unless @pages.size <1%>
-	   <% form_tag :action => 'add_to_page', :id => @mod.id, :type => @mod.class do%>
+	   <%= form_tag :action => 'add_to_page', :id => @mod.id, :type => @mod.class do%>
 
   <div id="product-list" >
 

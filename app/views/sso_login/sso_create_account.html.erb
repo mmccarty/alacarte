@@ -20,7 +20,7 @@
     <div id="notice" ><%= flash[:notice] %></div>
     <% end -%>
     <%= error_messages_for 'student' %>
-    <% form_tag :controller =>"sso_login", :action=>'sso_create_account', :id =>@tutorial do %>
+    <%= form_tag :controller =>"sso_login", :action=>'sso_create_account', :id =>@tutorial do %>
     <fieldset>
       <legend>About You</legend>
       <label for="student_sect_num" <%= %(class="required") if flash[:selection_error]%>>

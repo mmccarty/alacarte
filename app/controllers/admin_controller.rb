@@ -7,16 +7,16 @@ class AdminController < ApplicationController
     @page_count = Page.count
     @guide_count = Guide.count
     @tutorial_count = Tutorial.count
-    @ppage_count = Page.count :all, :conditions => ["published=?", true]
-    @apage_count = Page.count :all, :conditions => ["archived=?", true]
-    @pguide_count = Guide.count :all, :conditions => ["published=?", true]
-    @ptutorial_count = Tutorial.count :all, :conditions => ["published=?", true]
+    @ppage_count = Page.where(:published => true).count()
+    @apage_count = Page.where(:archived => true).count()
+    @pguide_count = Guide.where(:published => true).count()
+    @ptutorial_count = Tutorial.where(:published => true).count()
   end
 
   def auto_archive
-    pages = Page.find(:all,:conditions => {:published => true})
-    guides = Guide.find(:all,:conditions => {:published => true})
-    tutorials = Tutorial.find(:all,:conditions => {:published => true})
+    pages = Page.where(:published => true)
+    guides = Guide.where(:published => true)
+    tutorials = Tutorial.where(:published => true)
     pages.each do |page|
       if page.updated_at < Time.now.months_ago(6)
         page.toggle!(:archived)
@@ -60,7 +60,7 @@ class AdminController < ApplicationController
   def users
     @ucurrent = 'current'
     @all = params[:all]
-    users =  User.find(:all,:conditions => "role <> 'pending'", :order => 'name')
+    users = User.where("role <> 'pending'").order(:name)
     @users =  ( @all == "all" ? users : users.paginate( :per_page => 30, :page => params[:page]))
   end
 
@@ -100,7 +100,7 @@ class AdminController < ApplicationController
 
   def pending_users
     @ucurrent = 'current'
-    @users = User.find(:all,:conditions => "role = 'pending'").paginate :per_page => 30, :page => params[:page]
+    @users = User.where(:role => 'pending').paginate :per_page => 30, :page => params[:page]
   end
 
   def approve
@@ -325,7 +325,7 @@ class AdminController < ApplicationController
       redirect_to :action => 'tools'
     else
       session[:guide] = @guide.id
-      @user_list = User.find(:all, :order => "name")
+      @user_list = User.order("name")
       @guide_owners = @guide.users
     end
   end
@@ -412,7 +412,7 @@ class AdminController < ApplicationController
       redirect_to :action => 'tools' and return
     else
       session[:page] = @page.id
-      @user_list = User.find(:all, :order => "name")
+      @user_list = User.order("name")
       @page_owners = @page.users
     end
   end
@@ -500,7 +500,7 @@ class AdminController < ApplicationController
       redirect_to  :action => 'tools' and return
     else
       session[:tutorial] = @tutorial.id
-      @user_list = User.find(:all, :order => "name")
+      @user_list = User.order("name")
       @owners = @tutorial.users
     end
   end

@@ -1,5 +1,5 @@
 <div id="image_list">
-  <% form_remote_tag :html => {:id => "pic", :multipart => true },:url => {:action => 'add_path_to_general'},:update => "general_panel" do %>
+  <%= form_tag :html => {:id => "pic", :multipart => true },:url => {:action => 'add_path_to_general'},:update => "general_panel", :remote => true do %>
   <%= hidden_field_tag "pic_path", "", :id => "pic_path" %>
   <%= hidden_field_tag "norm_desc", "", :id => "norm_desc" %>
   <%= hidden_field_tag "norm_title", "", :id => "norm_title" %>

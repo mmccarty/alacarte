@@ -41,38 +41,37 @@ class Tutorial < ActiveRecord::Base
   end
 
   def full_name
-    return course + " " + name
+    course + " " + name
   end
 
   def course
-    return subject ? subject.subject_code + " "+ course_num : ""
+    subject ? subject.subject_code + " "+ course_num : ""
   end
 
   def sections
     nums=[]
     nums << section_num.split(',') if !section_num.blank?
-    return nums.flatten
+    nums.flatten
   end
 
   def self.get_published_tutorials
-    #return self.where("published = ? AND internal IS NULL ORDER BY name",true)
-    return self.find(:all, :conditions => ["published = ? AND (internal = 1 OR internal IS NULL)",true], :order => 'name')
+    self.where("published = ? AND (internal = 1 OR internal IS NULL)", true).order('name')
   end
 
   def self.published_tutorials
-    return self.find(:all,:conditions => ["published = ? AND (internal = 1 OR internal IS NULL)",true], :order => 'name', :select =>'id, name, description' )
+    self.where("published = ? AND (internal = 1 OR internal IS NULL)", true).order('name').select('id, name, description' )
   end
 
   def self.get_archived_tutorials
-    return self.find(:all,:conditions => ["archived = ? AND (internal = 1 OR internal IS NULL)",true], :order => 'name', :select =>'id, name, description')
+    self.where("archived = ? AND (internal = 1 OR internal IS NULL)", true).order('name').select('id, name, description')
   end
 
   def self.get_internal_tutorials
-    return self.find(:all,:conditions => {:published => true, :internal => true}, :order => 'name')
+    self.where(:published => true, :internal => true).order('name')
   end
 
   def self.get_subjects(tuts)
-    return tuts.collect {|t| t.subject}.flatten.uniq
+    tuts.collect {|t| t.subject}.flatten.uniq
   end
 
   def share(role, user, copy)

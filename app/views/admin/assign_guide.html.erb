@@ -6,7 +6,7 @@
   <div id="share">
     <div id="share_left">
       <fieldset>
-        <%form_tag({:action=> 'guide_update',:id =>@guide}) do %>
+        <%= form_tag({:action=> 'guide_update',:id =>@guide}) do %>
         <h5>Add Editor</h5>
 	<div class = 'tip'>By sharing this guide you are giving editing rights to the people you select.</div>
         <select id="users" name="users[]" multiple="multiple" class="share" >

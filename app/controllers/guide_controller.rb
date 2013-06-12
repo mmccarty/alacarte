@@ -236,7 +236,7 @@ class GuideController < ApplicationController
     else
       session[:guide] = @guide.id
       session[:current_tab] = @guide.tabs.first.id
-      @user_list = User.find(:all, :order => "name")
+      @user_list = User.order("name")
       @guide_owners = @guide.users
       url = url_for :controller => 'srg', :action => 'index', :id => @guide
       @message =

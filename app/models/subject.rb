@@ -13,30 +13,30 @@ class Subject < ActiveRecord::Base
   end
 
   def get_pages
-    return pages.select{ |a| a.published? }.sort! {|a,b|  a.browse_title(subject_code) <=> b.browse_title(subject_code)}
+    pages.select{ |a| a.published? }.sort! {|a,b|  a.browse_title(subject_code) <=> b.browse_title(subject_code)}
   end
 
   def get_tutorials
-    return tutorials.select{ |a| a.published? }.sort! {|a,b|  a.full_name <=> b.full_name}
+    tutorials.select{ |a| a.published? }.sort! {|a,b|  a.full_name <=> b.full_name}
   end
 
   def get_guides
-    return guides.select{ |a| a.published? }.sort! {|a,b|  a.guide_name <=> b.guide_name}
+    guides.select{ |a| a.published? }.sort! {|a,b|  a.guide_name <=> b.guide_name}
   end
 
   #subject and master subject lists
 
   #list the subject codes
   def self.get_subjects
-    find(:all, :order => 'subject_code')
+    order('subject_code')
   end
 
   #list the subject names
   def self.get_subject_values
-    find(:all, :order => 'subject_name')
+    order('subject_name')
   end
 
   def self.get_page_subjects(pages)
-    return pages.collect {|a| a.subjects}.flatten.uniq.sort! {|a,b|  a.subject_code <=> b.subject_code}
+    pages.collect {|a| a.subjects}.flatten.uniq.sort! {|a,b|  a.subject_code <=> b.subject_code}
   end
 end

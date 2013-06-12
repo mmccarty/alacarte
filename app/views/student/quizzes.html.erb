@@ -5,7 +5,7 @@
     <div class="item"><div class="item2"><div class="item3">
 	  <h2>Edit Course Section</h2>
 	  <p> You registered as being in course section <b><%=@student.sect_num%></b>
-	    <% form_tag :controller =>"student", :action=>'edit_section', :id =>@tutorial.id do%>
+	    <%= form_tag :controller =>"student", :action=>'edit_section', :id =>@tutorial.id do%>
 	    <label for="email">Change Section #
 	      <%= select "student","sect_num",@sections %>
 	      <%= submit_tag 'Change', :class => 'submit' %> </label>

@@ -5,7 +5,7 @@
   <% end -%>
   <% new_or_existing = book.new_record? ? 'new' : 'existing' %>
   <% prefix = "mod[#{new_or_existing}_book_attributes][]" %>
-  <% fields_for prefix, book do |book_form| -%>
+  <%= fields_for prefix, book do |book_form| -%>
 
   <fieldset>
     <span class = 'handle' style = <%=new_or_existing == 'existing' ? "" : "display:none"%>><%=image_tag("/images/icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>

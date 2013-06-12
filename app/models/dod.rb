@@ -9,9 +9,9 @@ class Dod < ActiveRecord::Base
 
   def self.sort(sort=nil)
     unless sort==nil
-      find(:all, :conditions => ['title LIKE ?', "#{sort}%"])
+      where("title LIKE ?", "#{sort}")
     else
-      find(:all, :order => 'title')
+      order("title")
     end
   end
 

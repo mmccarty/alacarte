@@ -9,7 +9,7 @@
       <strong>Quiz Results:</strong> <%=link_to 'View Responses', {:controller => 'ort', :action => 'grades', :id => @tutorial}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes']%><br />
       <strong>Grades Login/Password:</strong> <%=@tutorial.id%> / <%=@tutorial.pass%>
     </p>
-    <% form_tag :action => 'quizes' do%>
+    <%= form_tag :action => 'quizes' do%>
     <p>
       <strong>Sort by Section Number:</strong>
       <select id="section" name="section">

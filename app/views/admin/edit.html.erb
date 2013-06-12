@@ -1,7 +1,7 @@
 <fieldset>
   <h3>Edit Account for <%=h @user.name%></h3>
 
-  <% form_tag :action => 'update', :id => @user do %>
+  <%= form_tag :action => 'update', :id => @user do %>
 
   <%= render :partial => 'form' %>
 

@@ -52,7 +52,7 @@ task :deprecated => :environment do
     ':post => true'   => 'Use :method => :post instead'
   }
 
-  results = recursive_search("#{File.expand_path('app', RAILS_ROOT)}",deprecated.keys)
+  results = recursive_search("#{File.expand_path('app', Rails.root)}",deprecated.keys)
 
   deprecated.each do |key, warning|
     puts '--> ' + key
@@ -96,8 +96,8 @@ desc 'Creates sql insert commands for previously uploaded images to add them to 
       puts "The insert commands are added to the file \/db\/image_manager_update.sql\n"
       puts "After the rake task is complete, run the image_manager_update.sql file in your database tool\n"
       base_path = ENV["DIR"] || "db"     
-      db_config = ActiveRecord::Base.configurations[RAILS_ENV]   
-      tempSQL = RAILS_ROOT + '/db/image_manager_update.sql'
+      db_config = ActiveRecord::Base.configurations[Rails.env]   
+      tempSQL = Rails.root + '/db/image_manager_update.sql'
 
       #First an array is setup and all of the previously uploaded image paths
       #are stored in it.

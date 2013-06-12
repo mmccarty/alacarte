@@ -111,7 +111,7 @@ class TutorialController < ApplicationController
       redirect_to  :action => 'index' and return
     else
       session[:tutorial] = @tutorial.id
-      @user_list = User.find(:all, :order => "name")
+      @user_list = User.order("name")
       @owners = @tutorial.users
       url = url_for :controller => 'ort', :action => 'index', :id => @tutorial
       @message =

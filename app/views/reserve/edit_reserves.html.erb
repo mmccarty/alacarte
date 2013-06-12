@@ -4,7 +4,7 @@
   <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
   <% end -%>
   <%= error_messages_for 'mod' %>
-  <% form_for :mod, :url => { :action => :update_reserves , :id => @mod} do |form| %>
+  <%= form_for :mod, :url => { :action => :update_reserves , :id => @mod} do |form| %>
   <%=render :partial => '/module/mod_title'%>
 
   <label for="reserves" >Reserves Information

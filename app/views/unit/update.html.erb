@@ -4,7 +4,7 @@
   <% if flash[:error] -%>
   <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
   <% end -%>
-  <% form_tag :controller => 'unit', :action => 'update', :id => @unit.id do%>
+  <%= form_tag :controller => 'unit', :action => 'update', :id => @unit.id do%>
   <%= error_messages_for 'unit' %>
   <div id ='share'>
     <fieldset>

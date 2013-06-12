@@ -6,7 +6,7 @@
   <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
   <% end -%>
   <div id ='share'>
-    <% form_tag({:action => 'copy'}, {:multipart => true}) do%>
+    <%= form_tag({:action => 'copy'}, {:multipart => true}) do%>
     <%= error_messages_for 'tutorial' %>
     <label for="tutoral_name">Title <span class="required more_help">*</span> <span class = 'more_help'  onMouseover="fixedtooltip(TUTORIAL_TITLE_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
     <%= text_field 'tutorial','name',"size" => 62 %>

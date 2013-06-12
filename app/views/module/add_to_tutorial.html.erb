@@ -11,7 +11,7 @@
 
   <p> Check the box next to the unit you want to add the module to.</p>
   <%unless @tutorials.size <1%>
-	   <% form_tag :action => 'add_to_tutorial', :id => @mod.id, :type => @mod.class do%>
+	   <%= form_tag :action => 'add_to_tutorial', :id => @mod.id, :type => @mod.class do%>
 
   <div id="product-list" >
 

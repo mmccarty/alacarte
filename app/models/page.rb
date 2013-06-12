@@ -152,17 +152,17 @@ class Page < ActiveRecord::Base
   #return the Pages that are published for a particular branch
   #@branch = branch - not used in demo or OSS
   def self.get_branch_published_pages(branch)
-    return  self.find(:all,:conditions => {:published => true, :campus => branch}, :order => 'subject, course_num', :select =>'id, subject, course_num, course_name, term, year, sect_num, page_description')
+    self.find(:published => true, :campus => branch).order("subject, course_num").select('id, subject, course_num, course_name, term, year, sect_num, page_description')
   end
 
   #get the published Pages
   def self.get_published_pages
-    return self.find(:all,:conditions => {:published => true},:include => ['subjects'], :order => 'subjects.subject_code, course_num', :select =>'id, course_num, course_name, term, year, sect_num, page_description')
+    self.find(:published => true).include("subjects").order("subjects.subject_code, course_num").select('id, course_num, course_name, term, year, sect_num, page_description')
   end
 
   #get the archived Pages by filter
   def self.get_archived_pages(subj=nil)
-    pages = self.find(:all,:conditions => {:archived => true}, :include => ['subjects'], :order => 'subjects.subject_code, course_num', :select =>'id, course_num, course_name, term, year, sect_num, page_description')
+    pages = self.find(:archived => true).include("subjects").order("subjects.subject_code, course_num").select('id, course_num, course_name, term, year, sect_num, page_description')
     if !subj.blank?
       pages = pages.select{|p| p.subjects.include?(subj)}
     end

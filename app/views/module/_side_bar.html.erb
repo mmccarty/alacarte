@@ -6,7 +6,7 @@
     <%= link_to 'Share Module', {:controller => 'module', :action => 'share',  :id => @mod , :type => @mod.class}, :class =>@shcurrent%>
     <br />
     <span>Create New Module</span>
-    <% form_tag :controller => 'module', :action => 'menu_new' do%>
+    <%= form_tag :controller => 'module', :action => 'menu_new' do%>
     <ul>
       <li <%= %(class="required") if flash[:mod_title_error] %>>
 	<label for="page_course_name">1. Name<span id="required">*</span></label>

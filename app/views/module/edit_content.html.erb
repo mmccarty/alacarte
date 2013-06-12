@@ -4,7 +4,7 @@
   <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
   <% end -%>
   <%= error_messages_for 'mod' %>
-  <%form_tag({:action => 'update', :id => @mod, :type =>@mod.class} , {:multipart => true})  do %>
+  <%= form_tag({:action => 'update', :id => @mod, :type =>@mod.class} , {:multipart => true})  do %>
   <%=render :partial => '/module/mod_title'%>
 
   <%= show_form(@mod.class.to_s)%>

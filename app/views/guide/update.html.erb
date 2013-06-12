@@ -4,7 +4,7 @@
   <% if flash[:error] -%>
   <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
   <% end -%>
-  <% form_tag :action => 'update', :id => @guide.id do%>
+  <%= form_tag :action => 'update', :id => @guide.id do%>
   <%= render :partial => 'form' %>
 
   <%= submit_tag 'Save Guide', :class => "submit"  %>

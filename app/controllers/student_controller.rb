@@ -3,7 +3,6 @@ class StudentController < ApplicationController
   before_filter :student_authorize, :only =>[:quizzes]
   before_filter :current_student, :only =>[:print_quiz, :edit_section]
   layout :select_layout
-  filter_parameter_logging :onid, :email
 
   def login
     redirect_to :controller => 'sso_login', :action => 'student_login', :id=> params[:id] and return if sso_enabled

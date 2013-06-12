@@ -3,7 +3,7 @@
   <% if flash[:notice] -%>
   <div id="error_wrapper">   <div id="notice" ><%= flash[:notice] %></div></div>
   <% end -%>
-  <% form_tag :action => 'register' do %>
+  <%= form_tag :action => 'register' do %>
   <%= render :partial => 'form' %>
   <br /><br /><%= submit_tag 'Add User' ,:class =>"submit" %> <br /><br />
   <% end %>

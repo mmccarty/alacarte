@@ -1,5 +1,5 @@
 <div id = 'search_list'>
-  <% form_tag :controller => 'mobile', :action => 'index' do%>
+  <%= form_tag :controller => 'mobile', :action => 'index' do%>
   <%= text_field 'mod', 'search',"size" => 45    %>
   <%= submit_tag 'Search' %>
   <%end%>

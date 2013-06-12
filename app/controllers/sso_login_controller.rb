@@ -2,7 +2,6 @@ class SsoLoginController < ApplicationController
   skip_before_filter :authorize
   before_filter :clear_sessions
   before_filter :is_sso_enabled, :except => [:student_login]
-  filter_parameter_logging :password, :password_confirmation ,:onid, :email
   layout :select_layout
 
   def login

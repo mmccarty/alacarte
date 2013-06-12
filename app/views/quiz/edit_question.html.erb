@@ -11,7 +11,7 @@
       <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
       <% end -%>
       <%= error_messages_for 'question' %>
-      <%form_tag({:controller => 'quiz', :action => 'edit_question', :id => @mod, :qid => @question.id} , {:multipart => true})  do %>
+      <%= form_tag({:controller => 'quiz', :action => 'edit_question', :id => @mod, :qid => @question.id} , {:multipart => true})  do %>
 
       <label for="mod_label">Question Type </label>
       <%= select :question, :q_type, @choices %>

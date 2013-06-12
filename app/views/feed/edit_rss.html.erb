@@ -58,7 +58,7 @@
   <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
   <% end -%>
   <%= error_messages_for 'mod' %>
-  <%form_tag({:controller => 'feed', :action => 'update_rss', :id => @mod} , {:multipart => true, :name=>'rss'})  do %>
+  <%= form_tag({:controller => 'feed', :action => 'update_rss', :id => @mod} , {:multipart => true, :name=>'rss'})  do %>
   <%=render :partial => '/module/mod_title'%>
   <label>General Information
     <span class = 'more_help' onMouseover="fixedtooltip(MOD_INFORMATION_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>

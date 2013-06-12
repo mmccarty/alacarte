@@ -4,7 +4,7 @@ class Notifications < ActionMailer::Base
     @body['pass']= pass
     @recipients = to
     @from       = ""
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -15,7 +15,7 @@ class Notifications < ActionMailer::Base
     @body['url']= url
     @recipients = to
     @from       = ""
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -24,7 +24,7 @@ class Notifications < ActionMailer::Base
     @body['body']= body
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -33,7 +33,7 @@ class Notifications < ActionMailer::Base
     @body['body']= body
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -42,7 +42,7 @@ class Notifications < ActionMailer::Base
     @body['body']= body
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -51,7 +51,7 @@ class Notifications < ActionMailer::Base
     @body['body']= body
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -60,7 +60,7 @@ class Notifications < ActionMailer::Base
     @body['body']= body
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -70,7 +70,7 @@ class Notifications < ActionMailer::Base
     @body['name']=name
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -81,7 +81,7 @@ class Notifications < ActionMailer::Base
     @body['url']=url
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -89,7 +89,7 @@ class Notifications < ActionMailer::Base
     @subject    = "Library ala Carte Message"
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -100,7 +100,7 @@ class Notifications < ActionMailer::Base
     @body['url']= url
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -111,7 +111,7 @@ class Notifications < ActionMailer::Base
     @body['url']= url
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -119,7 +119,7 @@ class Notifications < ActionMailer::Base
     @subject    = "Your Library ala Carte Account has been denied"
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 
@@ -128,7 +128,7 @@ class Notifications < ActionMailer::Base
     @body['url']= url
     @recipients = to
     @from       = from
-    @sent_on    = sent_at
+    @date       = sent_at
     @headers    = {}
   end
 end

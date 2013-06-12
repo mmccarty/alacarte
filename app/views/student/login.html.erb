@@ -21,7 +21,7 @@
     <div id="notice" ><%= flash[:notice] %></div>
     <% end -%>
     <p></p>
-    <% form_tag :controller =>"student", :action=>'login', :id =>@tutorial.id do%>
+    <%= form_tag :controller =>"student", :action=>'login', :id =>@tutorial.id do%>
     <label for="onid">Username</label>
     <%= text_field "student","onid", :size =>25 %>
     <div class='tip'>e.g. smithj</div>

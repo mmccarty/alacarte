@@ -1,7 +1,7 @@
 <div id="image-upload">
   <fieldset>
     <legend>Upload New Image</legend>
-    <% form_for(:image,:url => {:action => 'create'},
+    <%= form_for(:image,:url => {:action => 'create'},
     :html => {	:target=>"upframe",
     :multipart => true,
     :onsubmit => "disableUpload();" }) do |form| %>

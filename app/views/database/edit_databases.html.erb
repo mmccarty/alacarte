@@ -6,7 +6,7 @@
   <%= error_messages_for 'mod' %>
   <div id="mo" style="">
 
-    <% form_for :mod, :url => { :action => :update_databases , :id => @mod.id} do |form| %>
+    <%= form_for :mod, :url => { :action => :update_databases , :id => @mod.id} do |form| %>
     <%=render :partial => '/module/mod_title'%>
 
     <label>General Information
@@ -31,7 +31,7 @@
      dod = @database_dod.dod
      if !dod.blank? %>
   <tr>
-    <% fields_for "database_dod[]" do |d| %>
+    <%= fields_for "database_dod[]" do |d| %>
     <td><%= d.text_field(:location, :size => 1) %></td>
     <td><strong><%=truncate(dod.title,:length => 47)%> </strong><br />
       <%= d.text_area(:description, :class => 'mceNoEditor', :size => '40x5') %>

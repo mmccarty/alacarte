@@ -11,7 +11,7 @@
     </span></a>
   </div>
   <div id="new" style="display:none">
-    <% form_tag :action => 'new_dods' do%>
+    <%= form_tag :action => 'new_dods' do%>
     <div id="vertical_inputs" class="index">
       <label for="num">Number of Databases to Add</label>
       <%= select('dod','num', [[1,1]],:selected => 1, :size => 5) %>

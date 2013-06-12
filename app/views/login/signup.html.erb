@@ -3,7 +3,7 @@
   <% if flash[:notice] -%>
   <div id="notice" ><%= flash[:notice] %></div>
   <% end -%>
-  <% form_tag :action => 'request_account' do %>
+  <%= form_tag :action => 'request_account' do %>
   <%= render :partial => 'form' %>
   <%= recaptcha_tags %>
   <br /><br />

@@ -4,7 +4,7 @@
     </label> <br /> <br />
     <% new_or_existing = feed.new_record? ? 'new' : 'existing' %>
     <% prefix = "mod[#{new_or_existing}_feed_attributes][]" %>
-    <% fields_for prefix, feed do |feed_form| -%>
+    <%= fields_for prefix, feed do |feed_form| -%>
 
     <div id="feed">
       <div id="new_feed_<%=feed.id%>">

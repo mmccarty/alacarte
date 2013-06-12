@@ -11,6 +11,6 @@ class Authorship < ActiveRecord::Base
            ]
 
   def tutorials_with_rights(access)
-    find(:all, :conditions => ['rights == ?', access]).collect{|a|a.tutorial}
+    where(:rights => access).collect({|a|a.tutorial})
   end
 end

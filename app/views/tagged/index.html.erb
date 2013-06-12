@@ -10,7 +10,7 @@
     </span></a>
   </div>
   <div id="new" style="display:none">
-    <% form_tag :controller => 'module', :action => 'create' do%>
+    <%= form_tag :controller => 'module', :action => 'create' do%>
     <%= error_messages_for 'mod' %>
     <div id="vertical_inputs" class="index">
       <h4>Create New Module <span class = 'more_help' onMouseover="fixedtooltip(MOD_TITLE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
@@ -36,7 +36,7 @@
     <li class = "<%= @tgcurrent %>"> <%= link_to "Browse By Tags" , :controller => 'tagged', :action => 'index', :sort => 'name'%></li>
     <li  class = "<%= @mycurrent %>"><%= link_to "My Modules" , :controller => 'module', :action => 'index', :sort => 'name', :list => 'mine'%></li>
     <% if @list == 'mine' %><li class = "<%= @mycurrent %>">
-      <% form_tag :controller => 'search', :action => 'index' do%>
+      <%= form_tag :controller => 'search', :action => 'index' do%>
       <%= text_field 'mod', 'search',"size" => 35 ,
       :style => "color:#aaa;",
       :value => @search_value,

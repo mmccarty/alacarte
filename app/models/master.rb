@@ -9,6 +9,6 @@ class Master < ActiveRecord::Base
 
   #list the master subjects
   def self.get_guide_types
-    find(:all, :order => 'value')
+    order("value")
   end
 end

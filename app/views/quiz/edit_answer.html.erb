@@ -12,7 +12,7 @@
       <% end -%>
       <%= error_messages_for 'answer' %>
       <strong><%=@question.question%></strong>
-      <%form_tag({:controller => 'quiz', :action => 'edit_answer', :id => @mod, :qid => @question.id, :aid => @answer.id})  do %>
+      <%= form_tag({:controller => 'quiz', :action => 'edit_answer', :id => @mod, :qid => @question.id, :aid => @answer.id})  do %>
       <%=render :partial => '/quiz/edit_'+@question.q_type %>
       `<div id="submit_button">
 	<%= submit_tag 'Save', :class => "submit" %>
