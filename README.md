@@ -1,27 +1,42 @@
-A brief history:
+A Brief History
+---------------
 
-The Library a la Carte project was started by Kim Griggs (see
-https://github.com/griggsk ) sometime in the far distant past, like
-2006 or 2007.  It began life as ICAP but I don't have the first
-clue what that stood for.  This work was done under the auspices
-of Oregon State University Libraries and Press.
+History is important to give credit where it is due, and also because
+the licensing is a bit convoluted.
 
-When griggsk left Oregon State circa 2009 or 2010, she released
-version 1.5 under the GNU Affero Public Licence.  It is available
-here: https://github.com/griggsk/Library-a-la-Carte
+The Interactive Course Assignment Pages (ICAP) project was started
+in 2007 by Kimberly Griggs, working for Oregon State University
+Libraries and Press.  In 2008, ICAP was rebranded to Library a la
+Carte.  Early versions were released under the GPL and are available
+from RubyForge and the rubyforge branch of our git repository.  See:
 
-Work continued at OSU through 2011.  Version 1.6 was released under
-a GPL3 license.  I can't explain the change, but they paid for the
-initial work and owned the copyright, so they have every right to
-dictate the terms of use.  In December 2012, OSU declared A-la-Carte
-abondonware: http://alacarte.library.oregonstate.edu/node/25416
+- https://rubyforge.org/projects/alacarte/
+- https://github.com/nubgames/alacarte/tree/rubyforge
 
-Version 1.6 is available at RubyForge:
-https://rubyforge.org/frs/?group_id=6732
+Ms. Griggs left OSU in 2010, but took care to oversee a 1.5 release
+under the GNU Affero Public License.  That release is available
+both from her GitHub page and the griggsk branch of our source tree.
+See:
+
+- https://github.com/griggsk/Library-a-la-Carte
+- https://github.com/nubgames/alacarte/tree/griggsk
+
+The project began to wither with her departure, though OSU made
+efforts to maintain it through 2011.  In Decemeber 2012, OSU released
+version 1.6 and declared a la Carte abandonware.  With the 1.6
+release, the license reverted to GPL3.  See:
+
+- http://alacarte.library.oregonstate.edu/node/25416
+
+The 1.6 release is available both at RubyForge and the v1.6 tag on
+GitHub.  See:
+
+- https://github.com/griggsk/Library-a-la-Carte
+- https://github.com/nubgames/alacarte/tree/v1.6
 
 Nub Games, Inc. adopted the project in 2013.  We have restored the
 AGPL for our contributions, as is allowed under the terms of the
-GPL.  (And is arguably more in-line with the original intent.)
+GPL.
 
 We have also changed the version scheme to loosely follow Rails.
 Version 2 is the last version we will release for the Rails 2.x
@@ -32,59 +47,15 @@ numbering is not substantially different from version 2.  We will
 continue to maintain version 3 for a few years, but new development
 efforts will focus on version 4 using Rails 4.
 
----------------------------------------
 | Alacarte | Rails  | Ruby  | License |
----------------------------------------
+| -------- | ------ | ----- | ------- |
 | 1.5      | 2.3.5  | 1.8.7 | AGPL    |
----------------------------------------
 | 1.6      | 2.3.5  | 1.8.7 | GPL3    |
----------------------------------------
 | 2.0      | 2.3.18 | 1.8.7 | AGPL    |
----------------------------------------
 | 3.0      | 3.2.13 | 1.9.2 | AGPL    |
----------------------------------------
 | 4.0      | 4.0    | 2.0   | AGPL    |
----------------------------------------
 
-This document assumes you are deploying under Unix or Linux and are using a MySql database. 
-This application has been developed for Rails 2.3.2 and Ruby 1.8
-and has not been tested with Ruby 1.9.
 
-This software requires that you have the following components installed:
-
-  Ruby (Version 1.8.7): 
-  	http://rubyonrails.org/download
-  Database (MySQL 5.x Assumed, Postgres supported): 
-  	http://wiki.rubyonrails.org/start?redirect=1#database_support
-  Rails:
-  	 We have provided a frozen copy of Rails 2.3.5 with this application*
-  Ruby Gems (Version 1.3.6*): 
-  	http://rubyonrails.org/download
-  Web Server (Nginx, Apache, Mongrel, Webbrick, FastCGI, Passenger): 
-  	http://rubyonrails.org/deploy
-  
-*New installs use Rails 2.3.5 and Ruby 1.3.6.
-*Updates can continue to use Rails 2.3.2 and Ruby 1.3.1, see instructions.
-*Freezing/thawing rails can be found here: http://support.tigertech.net/freeze-rails
-
-############## Required Gems #######################
-You must install these gems before attempting to start Library a la Carte
-
-  hpricot:
- 		gem install hpricot --version 0.8.2
-  fastercsv:
-  		gem install fastercsv --version 1.5.0 
-  active_youtube:
-  		gem install active_youtube --version 1.0.0
-  mime-type:
-  		gem install mime-types --version 1.16		
-  *flickr_fu:
-  		gem install flickr_fu --version 0.3.0
-  *ferret:
-  		gem install ferret --version 0.11.6
-  		
-  *New gems required for 1.5
-  
 ####################### 3rd Party API Requirements #############################################
 
 The ala Carte tool uses 3rd party APIs to provide some of its Web 2.0 functionality. 
