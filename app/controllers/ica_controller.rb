@@ -38,7 +38,7 @@ class IcaController < ApplicationController
     @campushash = Hash[*@campus.map{|a| a[0], a[1] = a[1], a[0]}.flatten]
     #Return campus back to its unmodified version.
     @campus.map{|a| a[0], a[1] = a[1], a[0]}
-    @tags = Page.tag_counts(:start_at => Time.now.last_year, :conditions =>["published = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Page.tag_counts(:start_at => Time.now.last_year, :conditions =>["published = ?", true], :order => 'tags.name desc', :limit => 100)
   end
 
   def archived
@@ -48,7 +48,7 @@ class IcaController < ApplicationController
 
     @subjects = Subject.get_subjects
     @pages = Page.get_archived_pages(nil)
-    @tags = Page.tag_counts(:start_at => Time.now.last_year, :conditions =>["archived = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Page.tag_counts(:start_at => Time.now.last_year, :conditions =>["archived = ?", true], :order => 'tags.name desc', :limit => 100)
     if request.post?
       if params[:subject]
         @subj = params[:subject]
@@ -77,7 +77,7 @@ class IcaController < ApplicationController
     @meta_keywords = @local.ica_page_title + ", " + @tag
     @meta_description =   @local.ica_page_title + ". Library Course Guides Tagged with: " + @tag
     @title = @local.ica_page_title + " | Tagged with: " + @tag
-    @tags = Page.tag_counts(:start_at => Time.now.last_year, :conditions =>["published = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Page.tag_counts(:start_at => Time.now.last_year, :conditions =>["published = ?", true], :order => 'tags.name desc', :limit => 100)
     @pages = Page.find_tagged_with(@tag)
   end
 
