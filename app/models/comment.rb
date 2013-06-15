@@ -5,7 +5,7 @@ class Comment < ActiveRecord::Base
   validates_format_of :author_email, :with => /^(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?$/i
   validate :is_clean?
 
-  BAD_WORDS      = (IO.readlines Rails.root + '/lib/words.txt').each { |w| w.chop! }.freeze
+  BAD_WORDS = IO.readlines("#{Rails.root}/lib/words.txt").each { |w| w.chop! }.freeze
 
   def is_clean?
     BAD_WORDS.each do |line|

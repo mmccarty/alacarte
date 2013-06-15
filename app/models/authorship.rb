@@ -5,12 +5,12 @@ class Authorship < ActiveRecord::Base
   attr_protected :rights
 
   RIGHTS = [
-            ["Editor",        "1"],
-            ["Contributor",   "2"],
-            ["Reviewer",      "3"],
-           ]
+      ["Editor",      "1"],
+      ["Contributor", "2"],
+      ["Reviewer",    "3"]
+  ]
 
   def tutorials_with_rights(access)
-    where(:rights => access).collect({|a|a.tutorial})
+    where(:rights => access).collect { |a| a.tutorial }
   end
 end

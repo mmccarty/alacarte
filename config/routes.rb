@@ -1,5 +1,5 @@
 Alacarte::Application.routes.draw do
-  #match '' => 'login#login'
+  root :to => 'login#login'
   match ':controller/service.wsdl' => '#wsdl'
   match 'course-guides/' => 'ica#published_pages'
   match 'course-guides/archived/' => 'ica#archived'

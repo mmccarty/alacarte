@@ -37,7 +37,7 @@ class Resource < ActiveRecord::Base
     new_mod.label =  old_mod.label+'-'+name
     new_mod.global= false
     new_mod.save
-    return new_mod
+    new_mod
   end
 
   def create_slug(trunc = 25, truncate_string = "...")
@@ -57,9 +57,9 @@ class Resource < ActiveRecord::Base
         global_mods =  global_mods.sort!{|a,b| b.send(s) <=> a.send(s)}
       end
       global_mods =  global_mods.reverse if rev == 'true'
-      return  global_mods.uniq
+      global_mods.uniq
     else
-      return []
+      []
     end
   end
 
@@ -69,6 +69,6 @@ class Resource < ActiveRecord::Base
 
   #returns true if shared
   def shared?
-    return users.length > 1
+    users.length > 1
   end
 end

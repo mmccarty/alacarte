@@ -6,14 +6,10 @@ class Answer < ActiveRecord::Base
   validates_presence_of :feedback, :on => :update, :message => "Feedback can not be blank", :if => :feedback_type
 
   def skip_it
-    if question.q_type =='TF'
-      return true
-    elsif question.q_type =='FW'
-      return true
-    end
+    question.q_type =='TF' || question.q_type =='FW'
   end
 
   def feedback_type
-    return true if question.q_type =='FMC'
+    question.q_type =='FMC'
   end
 end
