@@ -11,7 +11,7 @@
     <%= csrf_meta_tag %>
     <%= @local.meta %>
     <title><%=h @title%></title>
-    <%= stylesheet_link_tag 'template', 'modules'%>
+    <%= stylesheet_link_tag 'bootstrap', 'sticky-footer', 'template' %>
     <%= javascript_include_tag :defaults %>
     <%= javascript_include_tag 'template'%>
     <%unless @local.styles.blank? %>
@@ -52,9 +52,14 @@
 
   <body <%if @guides || @pages%> id="browse"  <%end%>>
 
-    <%= render :partial => 'shared/template_top'%>
-    <%= yield :layout %>
-    <%= render :partial => 'shared/template_bottom'%>
+    <div id="bootstrap-wrap">
+      <%= render :partial => 'shared/template_top'%>
+      <%= yield(:layout) or yield %>
+      <div id="push"></div>
+    </div>
+    <div id="bootstrap-footer">
+      <%= render :partial => 'shared/template_bottom'%>
+    </div>
     <%= @local.tracking %>
   </body>
 </html>

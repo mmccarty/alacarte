@@ -1,4 +1,5 @@
-<div id="footer-wrapper"><div id="footer">
+  <footer class="footer">
+    <div class="container">
     <%= if !@local.footer.blank? then @local.footer end %>
     <%if @guide%>
     <%= link_to "Screenreader, Printer &amp; Mobile Version" , {:action => 'print', :id => @guide} , :id => 'alt-version' %>
@@ -9,4 +10,5 @@
     <%else%>
     <%= link_to "Screenreader, Printer &amp; Mobile Version" , {:action => 'print_portal', :from => @from} , :id => 'alt-version' %>
     <%end%>
-</div></div>
+    </div>
+  </footer>

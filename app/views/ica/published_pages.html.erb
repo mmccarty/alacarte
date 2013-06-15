@@ -1,71 +1,84 @@
-<div id="main">
-  <h1><%=@local.ica_page_title %> </h1>
-  <div id="main-inner"><div id="content">
-      <a id="skip" name="skip"></a>
-      <div class="item">
-	<h2>Browse Course Guides</h2>
+<div class="container">
+  <h1 class="text-center"><%=@local.ica_page_title %> </h1>
+  <hr/>
 
-	<div class="module">
-	  <p id="browse_by">
-	    <a href="#subjects" rel="subjects" class ="selected">Browse by Subjects</a> | <a href="#az" rel="az">Browse by A-Z</a> | <%= link_to "Archived Course Guides", :action =>'archived' %>
-	  </p>
-	  <div class="list">
-	    <noscript>
-	      <p><strong><a name="subjects">Course Guides by Subjects</a></strong></p>
-	    </noscript>
-	    <div id="subjects" class="tabcontent">
-	      <%@subjects.each_with_index do |m, i| %>
-	      <div class="expandable"><span id="subject<%=i%>-title" class="iconspan"><img src="/images/open.png" alt="click to close" /></span><span class="title"><%=m.subject_code%> : <%=m.subject_name%></span>
-		<div id="subject<%=i%>" class="subject_list">
-		  <ul class = 'indent-left '>
-		    <li>
-		      <% @pubpages = m.get_pages
-			 @pubpages.each do |page|
-			 page_url = url_for :controller => 'ica', :action => 'index', :id => page%>
-		      <ul class = 'undeco'>
-			<li class = 'undeco'>
-			  <%= link_to page.browse_title(m.subject_code, @campushash), page_url, :title => "#{h page.page_description}" %>
-			</li>
-		      </ul>
-		      <%end%>
-		    </li>
-		  </ul>
-	      </div></div>
-	      <%end%>
-	    </div>
-	  </div>
-	  <div id="az" class="tabcontent">
-	    <div class="list">
-	      <noscript>
-		<p><strong><a name="az">Guides by A-Z</a></strong></p>
-	      </noscript>
-	      <%@pages.each do |page|%>
-	      <%page_url = url_for :controller => 'ica', :action => 'index', :id => page%>
-	      <ul class = 'indent-left'>
-		<li class = 'undeco'><%= link_to page.search_title, page_url, :title => "#{h page.page_description}" %> </li>
-	      </ul>
-	      <%end%>
-	    </div>
-	  </div>
-          <p>Didn't find what you were looking for? Try the  <%= link_to "Archived Course Guides", :action =>'archived' %>.</p>
-	  <p> Need help with your discipline, topic or format? Try the <%= link_to "Subject Research Guides", :controller => 'srg', :action =>'published_guides' %> </p>
-	</div>
-	<div class="bot"><div></div></div>
-      </div>
+  <div class="row">
+    <div class="span8">
+      <h2>Browse Course Guides</h2>
 
-  </div></div> <!-- end content, end main-inner -->
-</div> <!-- end main -->
+      <p id="browse_by">
+        <a href="#subjects" rel="subjects" class ="selected">Browse by Subjects</a> |
+        <a href="#az" rel="az">Browse by A-Z</a> |
+        <%= link_to "Archived Course Guides", :action =>'archived' %>
+      </p>
 
-<div id="sidebar-right">
-  <%= render :partial => '/shared/right_side'%>
-</div> <!-- end sidebar-right -->
+      <noscript>
+        <p>
+          <strong> <a name="subjects">Course Guides by Subjects</a> </strong>
+        </p>
+      </noscript>
 
-<div id="sidebar-left"><div id="sidebar-left-inner">
-    <%= render :partial => '/shared/left_side'%>
-</div></div> <!-- end sidebar-left-inner, end sidebar-left -->
+      <div id="subjects" class="tabcontent">
+        <%@subjects.each_with_index do |m, i| %>
+        <ul class="unstyled expandable">
+          <li>
+            <span id="subject<%=i%>-title">
+              <img src="/images/open.png" alt="click to close" />
+            </span>
+            <strong>
+              <%=m.subject_code%> : <%=m.subject_name%>
+            </strong>
+            <div id="subject<%=i%>" class="subject_list">
+              <ul class="unstyled">
+                <li>
+                  <% @pubpages = m.get_pages
+                     @pubpages.each do |page|
+                     page_url = url_for :controller => 'ica', :action => 'index', :id => page%>
+                    <ul class="unstyled">
+                      <li>
+                        <%= link_to page.browse_title(m.subject_code, @campushash), page_url, :title => "#{h page.page_description}" %>
+                      </li>
+                    </ul>
+                  <%end%>
+                </li>
+              </ul>
+            </div> <!-- end subject_list -->
+          </li>
+        </ul> <!-- end expandable -->
+        <%end%>
+      </div> <!-- end subjects tabcontent -->
 
+      <div id="az" class="tabcontent">
+        <noscript>
+          <p><strong><a name="az">Guides by A-Z</a></strong></p>
+        </noscript>
+        <%@pages.each do |page|%>
+          <%page_url = url_for :controller => 'ica', :action => 'index', :id => page%>
+          <ul class="unstyled">>
+            <li>
+              <%= link_to page.search_title, page_url, :title => "#{h page.page_description}" %>
+            </li>
+          </ul>
+        <%end%>
+      </div> <!-- end az tabcontent -->
 
+      <p>
+        Didn't find what you were looking for? Try the
+        <%= link_to "Archived Course Guides", :action =>'archived' %>.
+      </p>
 
+      <p>
+        Need help with your discipline, topic or format? Try the
+        <%= link_to "Subject Research Guides", :controller => 'srg', :action =>'published_guides' %>
+      </p>
+    </div> <!-- end middle column -->
+
+    <div class="span4">
+      <%= render :partial => '/shared/right_side'%>
+    </div>
+
+  </div> <!-- end row -->
+</div> <!-- end container -->
 
 <script type="text/javascript">
   //<![CDATA[
@@ -82,9 +95,9 @@ subject.init()
 <script type="text/javascript">
   //<![CDATA[
 
-	var mybrowse=new ddtabcontent("browse_by") //enter ID of Tab Container
-	mybrowse.setpersist(true) //toogle persistence of the tabs' state
-	mybrowse.setselectedClassTarget("link") //"link" or "linkparent"
-	mybrowse.init()
+        var mybrowse=new ddtabcontent("browse_by") //enter ID of Tab Container
+        mybrowse.setpersist(true) //toogle persistence of the tabs' state
+        mybrowse.setselectedClassTarget("link") //"link" or "linkparent"
+        mybrowse.init()
 //]]>
 </script>
