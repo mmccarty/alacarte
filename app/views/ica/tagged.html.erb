@@ -1,46 +1,38 @@
-<div class="container">
-  <h1 class="text-center"><%=@local.ica_page_title %> </h1>
-  <hr/>
+<% content_for :search_results do %>
+  <h2>Browse by Tag Results</h2>
 
-  <div class="row">
-    <div class="span8">
-      <h2>Browse by Tag Results</h2>
+  <p>
+    Course Guides tagged with: <span class="label"><%= @tag %></span>
+  </p>
 
-      <p>
-        Course Guides tagged with: <span class="label"><%=@tag%></span>
-      </p>
+  <% for page in @pages %>
+   <% page_url = url_for :controller => "ica", :action => "index", :id => page %>
+   <p>
+     <dl>
+       <dt>
+         <%= link_to page.search_title, page_url, :title => "Click to view" %>
+         <br />
+       </dt>
+       <dd>
+         <%= page.page_description %>
+         <br/>
+         <small>
+           <b>Tags:</b>
+           <% page.tag_list.each do |tag| %>
+             <span class="label tag">
+               <%= link_to tag, { :action => :tagged, :id => tag } %>
+             </span>
+           <% end %>
+         </small>
+       </dd>
+     </dl>
+   </p>
+   <% end %>
 
-      <% for page in @pages %>
-       <%page_url = url_for :controller => 'ica', :action => 'index', :id => page%>
-       <p>
-         <dl>
-           <dt>
-             <%= link_to page.search_title, page_url, :title => "Click to view" %><br />
-           </dt>
-           <dd>
-             <%=page.page_description%>
-             <br/>
-             <small>
-               <b>Tags: </b>
-               <% page.tag_list.each do |tag|%>
-                 <span class="label tag">
-                   <%= link_to tag, { :action => :tagged, :id => tag }%>
-                 </span>
-               <%end%>
-             </small>
-           </dd>
-         </dl>
-       </p>
-       <%end%>
+  <p>
+    <%= image_tag("/images/icons/back.png", :title => "Back to Guides", :alt => "Back") %>
+    <a href ="/course-guides/">Back to all Course Guides</a>
+  </p>
+<% end %>
 
-      <p>
-        <%=image_tag("/images/icons/back.png", :title => 'Back to Guides', :alt => 'Back')%>
-        <a href ="/course-guides/">Back to all Course Guides</a>
-      </p>
-    </div>
-
-    <div class="span4">
-      <%= render :partial => '/shared/right_side'%>
-    </div>
-  </div>
-</div>
+<%= render :partial => "ica_results" %>

@@ -1,103 +1,91 @@
-<div class="container">
-  <h1 class="text-center"><%=@local.ica_page_title %> </h1>
-  <hr/>
+<% content_for :search_results do %>
+  <h2>Browse Course Guides</h2>
 
-  <div class="row">
-    <div class="span8">
-      <h2>Browse Course Guides</h2>
+  <div id="browse_by">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a href="#subjects" rel="subjects" class="selected">Browse by Subjects</a>
+      </li>
+      <li>
+        <a href="#az" rel="az">Browse by A-Z</a>
+      </li>
+      <li>
+        <%= link_to "Archived Course Guides", :action => "archived" %>
+      </li>
+    </ul>
+  </div>
 
-      <p id="browse_by">
-        <a href="#subjects" rel="subjects" class ="selected">Browse by Subjects</a> |
-        <a href="#az" rel="az">Browse by A-Z</a> |
-        <%= link_to "Archived Course Guides", :action =>'archived' %>
-      </p>
+  <noscript>
+    <p>
+      <strong><a name="subjects">Course Guides by Subjects</a></strong>
+    </p>
+  </noscript>
 
-      <noscript>
-        <p>
-          <strong> <a name="subjects">Course Guides by Subjects</a> </strong>
-        </p>
-      </noscript>
-
-      <div id="subjects" class="tabcontent">
-        <%@subjects.each_with_index do |m, i| %>
-        <ul class="unstyled expandable">
-          <li>
-            <span id="subject<%=i%>-title">
-              <img src="/images/open.png" alt="click to close" />
-            </span>
-            <strong>
-              <%=m.subject_code%> : <%=m.subject_name%>
-            </strong>
-            <div id="subject<%=i%>" class="subject_list">
-              <ul class="unstyled">
-                <li>
-                  <% @pubpages = m.get_pages
-                     @pubpages.each do |page|
-                     page_url = url_for :controller => 'ica', :action => 'index', :id => page%>
-                    <ul class="unstyled">
-                      <li>
-                        <%= link_to page.browse_title(m.subject_code, @campushash), page_url, :title => "#{h page.page_description}" %>
-                      </li>
-                    </ul>
-                  <%end%>
-                </li>
-              </ul>
-            </div> <!-- end subject_list -->
-          </li>
-        </ul> <!-- end expandable -->
-        <%end%>
-      </div> <!-- end subjects tabcontent -->
-
-      <div id="az" class="tabcontent">
-        <noscript>
-          <p><strong><a name="az">Guides by A-Z</a></strong></p>
-        </noscript>
-        <%@pages.each do |page|%>
-          <%page_url = url_for :controller => 'ica', :action => 'index', :id => page%>
-          <ul class="unstyled">>
+  <div id="subjects" class="tabcontent">
+    <% @subjects.each_with_index do |m, i| %>
+    <ul class="unstyled expandable">
+      <li>
+        <span id="subject<%=i%>-title">
+          <img src="/images/open.png" alt="click to close" />
+        </span>
+        <strong>
+          <%= m.subject_code%> : <%=m.subject_name %>
+        </strong>
+        <div id="subject<%=i%>" class="subject_list">
+          <ul class="unstyled">
             <li>
-              <%= link_to page.search_title, page_url, :title => "#{h page.page_description}" %>
+              <% @pubpages = m.get_pages
+                 @pubpages.each do |page|
+                 page_url = url_for :controller => "ica", :action => "index", :id => page %>
+                <ul class="unstyled">
+                  <li>
+                    <%= link_to page.browse_title(m.subject_code, @campushash), page_url, :title => "#{h page.page_description}" %>
+                  </li>
+                </ul>
+              <% end %>
             </li>
           </ul>
-        <%end%>
-      </div> <!-- end az tabcontent -->
+        </div> <!-- end subject_list -->
+      </li>
+    </ul> <!-- end expandable -->
+    <% end %>
+  </div> <!-- end subjects tabcontent -->
 
-      <p>
-        Didn't find what you were looking for? Try the
-        <%= link_to "Archived Course Guides", :action =>'archived' %>.
-      </p>
+  <div id="az" class="tabcontent">
+    <noscript>
+      <p><strong><a name="az">Guides by A-Z</a></strong></p>
+    </noscript>
 
-      <p>
-        Need help with your discipline, topic or format? Try the
-        <%= link_to "Subject Research Guides", :controller => 'srg', :action =>'published_guides' %>
-      </p>
-    </div> <!-- end middle column -->
+    <% @pages.each do |page| %>
+      <% page_url = url_for :controller => "ica", :action => "index", :id => page %>
+      <ul class="unstyled expandable">
+        <li>
+          <%= link_to page.search_title, page_url, :title => "#{h page.page_description}" %>
+        </li>
+      </ul>
+    <% end %>
+  </div> <!-- end az tabcontent -->
 
-    <div class="span4">
-      <%= render :partial => '/shared/right_side'%>
-    </div>
+  <p>
+    Didn't find what you were looking for? Try the
+    <%= link_to "Archived Course Guides", :action => "archived" %>.
+  </p>
 
-  </div> <!-- end row -->
-</div> <!-- end container -->
+  <p>
+    Need help with your discipline, topic or format? Try the
+    <%= link_to "Subject Research Guides", :controller => "srg", :action => "published_guides" %>
+  </p>
+<% end %>
 
-<script type="text/javascript">
-  //<![CDATA[
+<% content_for :search_javascript do %>
+  <%= render :partial => "expand_collapse",
+             :locals => { :list_name => "subject_list",
+                          :expand_first_content => true } %>
 
-var subject=new switchicon("subject_list", "div") //Limit scanning of switch contents to just "div" elements
-subject.setHeader('<img src="/images/open.png" alt="click to close" />', '<img src="/images/closed.png" alt="click to open" />') //set icon HTML
-subject.collapsePrevious(false) //Allow only 1 content open at any time
-subject.setPersist(true) //No persistence enabled
-subject.defaultExpanded(0) //Set 1st content to be expanded by default
-subject.init()
+  <%= render :partial => "tab_container",
+             :locals => { :tcontainer => "mybrowse",
+                          :tcontainer_id => "browse_by",
+                          :tcontainer_target => "link" } %>
+<% end %>
 
-//]]>
-</script>
-<script type="text/javascript">
-  //<![CDATA[
-
-        var mybrowse=new ddtabcontent("browse_by") //enter ID of Tab Container
-        mybrowse.setpersist(true) //toogle persistence of the tabs' state
-        mybrowse.setselectedClassTarget("link") //"link" or "linkparent"
-        mybrowse.init()
-//]]>
-</script>
+<%= render :partial => "ica_results" %>

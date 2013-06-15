@@ -62,14 +62,13 @@
 </div>
 <%end%>
 
-<div id="about-guides" class="well">
-  <p id="overview" class="text-center">
-    <a href="#" rel="all" class="selected">About These Guides</a>
-    <br/>
-    <a href="#" rel="students">Students</a> |
-    <a href="#" rel="teachers">Instructors</a> |
-    <a href="#" rel="librarians">Librarians</a>
-  </p>
+<div id="about-guides" class="well tabs-left">
+  <ul id="overview" class="nav nav-tabs">
+    <li><a href="#" rel="all" class="active">About</a></li>
+    <li><a href="#" rel="students">Students</a></li>
+    <li><a href="#" rel="teachers">Instructors</a></li>
+    <li><a href="#" rel="librarians">Librarians</a></li>
+  </ul>
 
   <div id="all" class="tabcontent">
     <p>
@@ -79,7 +78,11 @@
 
   <div id="students" class="tabcontent">
     <p>
-      These Guides give you a place to start doing university level research in an academic discipline or course assignment. Return to them to find new resources, related guides or learn about disciplines new to you.
+      Guides give you a place to start doing university level research
+      in an academic discipline or course assignment.
+    </p>
+    <p>
+      Return to them to find new resources, related guides or learn about disciplines new to you.
     </p>
   </div>
 
@@ -87,15 +90,17 @@
     <p>
       Librarians can quickly create guides to help your students find the resources you want them to use, including discipline specific article databases, core journals, scholarly reference works and key web sites important to your field or course.
       <% unless @local.lib_url.blank?%>
-        <a href="<%=@local.lib_url%>">Contact a Librarian</a>
-        if you would like something tailored for your specific subject or assignment.
+        <p>
+          <a href="<%=@local.lib_url%>">Contact a Librarian</a>
+          if you would like something tailored for your specific subject or assignment.
+        </p>
       <%end%>
     </p>
   </div>
 
   <div id="librarians" class="tabcontent">
     <p>
-      These Library Guides are created with Oregon State University Libraries' open source tool, Library &agrave; la Carte. The tool was developed to quickly and easily create subject and course guides. Learn more about  <a href="http://alacarte.library.oregonstate.edu">Library &agrave; la Carte</a>.
+      These Guides are created with Oregon State University Libraries' open source tool, <a href="http://alacarte.library.oregonstate.edu">Library &agrave; la Carte</a>, which helps you quickly and easily create subject and course guides.
     </p>
   </div>
 </div>
@@ -106,14 +111,12 @@
 </div>
 <% end %>
 
-<script type="text/javascript">
-  //<![CDATA[
+<%= render :partial => "tab_container",
+           :locals => { :tcontainer => "myov",
+                        :tcontainer_id => "overview",
+                        :tcontainer_target => "link" } %>
 
-
-	var myov=new ddtabcontent("overview") //enter ID of Tab Container
-	myov.setpersist(true) //toogle persistence of the tabs' state
-	myov.setselectedClassTarget("link") //"link" or "linkparent"
-	myov.init()
-
-//]]>
-</script>
+<%= render :partial => "tab_container",
+           :locals => { :tcontainer => "mysearch",
+                        :tcontainer_id => "search",
+                        :tcontainer_target => "linkparent" } %>

@@ -1,42 +1,43 @@
 <div class="container">
   <div class="row">
 
+    <!-- left sidebar -->
     <div class="span4">
-      <%= render :partial => 'left_side_bar'%>
-    </div> <!-- end sidebar-left -->
+      <%= render :partial => "left_side_bar" %>
+    </div>
 
+    <!-- main content -->
     <div class="span8">
-      <h1><%=h(@page.header_title)%></h1>
+      <h1><%= h(@page.header_title) %></h1>
 
       <% if @tabs.length > 1 %>
       <div>
         <ul class="nav nav-tabs">
-          <% for tab in @tabs%>
-          <% @tab_url = url_for :controller => 'ica', :action => 'index', :id => @page, :tab => tab.id %>
-            <%if tab.id == @tab.id%>
+          <% for tab in @tabs %>
+          <% @tab_url = url_for :controller => "ica", :action => "index", :id => @page, :tab => tab.id %>
+            <% if tab.id == @tab.id %>
             <li class="active">
-              <a href="#tab-content"><span><%= tab.tab_name%></span></a>
+              <a href="#tab-content"><span><%= tab.tab_name %></span></a>
             </li>
-            <%else%>
+            <% else %>
             <li>
-              <a href ="<%=@tab_url%>"><span><%= tab.tab_name%></span></a>
+              <a href ="<%= @tab_url %>"><span><%= tab.tab_name %></span></a>
             </li>
-            <%end%>
-          <%end%>
+            <% end %>
+          <% end %>
         </ul>
       </div>
-      <%end%>
+      <% end %>
 
       <div id="tab-content">
-      <%unless @mods%>
-      <%=render :partial => 'two_column' %>
-      <%else%>
-        <%=render :partial => 'one_column' %>
-      <%end%>
+        <% unless @mods %>
+          <%= render :partial => "two_column" %>
+        <% else %>
+          <%= render :partial => "one_column" %>
+        <% end %>
 
-      <%= render :partial => 'metadata'%>
-
+        <%= render :partial => "metadata" %>
       </div>
-    </div> <!-- end span8 -->
+    </div> <!-- end main content -->
   </div> <!-- end row -->
-</div> <!-- end main -->
+</div> <!-- end container -->

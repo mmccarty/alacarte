@@ -1,81 +1,79 @@
 <!-- local customization -->
-<%unless @local.guide_box.blank?%>
-<div class="well">
-  <%=@local.guide_box%>
-</div>
+<% unless @local.guide_box.blank? %>
+  <div class="well">
+    <%= @local.guide_box %>
+  </div>
 <%end%>
 
 <!-- Contact Modules -->
-<%if @mod%>
-<div class="well">
-  <%=show_mod(@mod)%>
-</div>
+<% if @mod %>
+  <div class="well">
+    <%= show_mod(@mod) %>
+  </div>
 <%end%>
 
 <!-- Page Description -->
-<%unless @page.page_description.blank?%>
-<div class="well">
-  <h4>About this Guide</h4>
-  <%= h @page.page_description%>
-</div>
+<% unless @page.page_description.blank? %>
+  <div class="well">
+    <h4>About this Guide</h4>
+    <%= h @page.page_description %>
+  </div>
 <%end%>
 
 <!-- Related Guides -->
-<%if @local.guides_list.include?('guides')%>
-<div class="well">
-  <h4>
-    <div class="expandable">
-      <span id="guide1-title">
-        <img src="/images/open.png" alt="click to close" />
-      </span>
-      Related Guides
-    </div>
-  </h4>
+<% if @local.guides_list.include?("guides") %>
+  <div class="well">
+    <h4>
+      <div class="expandable">
+        <span id="guide1-title">
+          <img src="/images/open.png" alt="click to close" />
+        </span>
+        Related Guides
+      </div>
+    </h4>
 
-  <div id="guide1" class="guide_list">
+    <div id="guide1" class="guide_list">
+      <ul class="unstyled">
+        <% @related_guides.each do |guide| %>
+          <% guide_url = url_for :controller => "srg", :action => "index", :id => guide %>
+          <li>
+            <%= link_to h(guide.guide_name), guide_url, :title => "#{h(guide.description)}" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
     <ul class="unstyled">
-      <%@related_guides.each do |guide|%>
-        <%guide_url = url_for :controller => 'srg', :action => 'index', :id => guide%>
-        <li>
-          <%= link_to h(guide.guide_name), guide_url, :title => "#{h(guide.description)}" %>
-        </li>
-      <%end %>
+      <li>
+        <a href ="/subject-guides/"><%=@local.guide_page_title %></a>
+      </li>
+      <li>
+        <a href ="/course-guides/"><%=@local.ica_page_title %></a>
+      </li>
     </ul>
   </div>
-
-  <ul class="unstyled">
-    <li><a href ="/subject-guides/"><%=@local.guide_page_title %> </a></li>
-    <li><a href ="/course-guides/"><%=@local.ica_page_title %> </a></li>
-  </ul>
-</div>
 <%end%>
 
 <!-- Social -->
 <ul class="inline">
   <li>
-    <%if @owner%>
-      <%=image_tag("/images/icons/comment.png", :alt => 'Email Guide Owner')%>
-      <%=mail_to @owner.email, "Comments?", :encode => "javascript"%>
-    <%end%>
+    <% if @owner %>
+      <%= image_tag("/images/icons/comment.png", :alt => "Email Guide Owner") %>
+      <%= mail_to @owner.email, "Comments?", :encode => "javascript" %>
+    <% end %>
   </li>
   <li>
     <img src="/images/icons/rss.png" alt="Subcribe to RSS" />
-    <%= link_to "RSS" , :action => 'feed', :id => @page %>
+    <%= link_to "RSS" , :action => "feed", :id => @page %>
   </li>
   <li>
     <!-- AddThis Bookmark Button BEGIN -->
-    <img src="/images/icons/add_big.png" alt="add to bookmark"  />  <a href="http://www.addthis.com/bookmark.php" onclick="window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;" title="Bookmark using any bookmark manager!">Bookmark</a>
+    <img src="/images/icons/add_big.png" alt="add to bookmark" />
+    <a href="http://www.addthis.com/bookmark.php" onclick="window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;" title="Bookmark using any bookmark manager!">Bookmark</a>
     <!-- AddThis Bookmark Button END -->
   </li>
 </ul>
 
-<script type="text/javascript">
-  //<![CDATA[
-
-var subject=new switchicon("guide_list", "div") //Limit scanning of switch contents to just "div" elements
-subject.setHeader('<img src="/images/open.png" alt="click to close" />', '<img src="/images/closed.png" alt="click to open" />') //set icon HTML
-subject.collapsePrevious(false) //Allow only 1 content open at any time
-subject.setPersist(true) //No persistence enabled
-subject.init()
-//]]>
-</script>
+<%= render :partial => "expand_collapse",
+           :locals => { :list_name => "guide_list",
+                        :expand_first_content => false } %>

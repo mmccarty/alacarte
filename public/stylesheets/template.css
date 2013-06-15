@@ -5,6 +5,8 @@
   text-decoration: none;
 }
 
+/* Tabbed content */
+
 .nav-tabs > .selected > a,
 .nav-tabs > .selected > a:hover,
 .nav-tabs > .selected > a:focus {
@@ -14,9 +16,21 @@
   border: 1px solid #ddd;
   border-bottom-color: transparent;
 }
+.tab-content > .selected {
+  display: block;
+}
+.tabs-left > .nav-tabs > li > a.selected,
+.tabs-left > .nav-tabs > li > a.selected:hover,
+.tabs-left > .nav-tabs > li > a.selected:focus {
+  border-color: #ddd transparent #ddd #ddd;
+  *border-right-color: #ffffff;
+}
+
 .guide_list > ul, .subject_list > ul {
     margin-left: 25px;
 }
+
+/* Boxes */
 
 .white-well {
     background-color: #fff;

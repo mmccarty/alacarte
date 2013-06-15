@@ -1,0 +1,24 @@
+<script type="text/javascript">
+  //<![CDATA[
+    // Limit scanning of switch contents to just "div" elements.
+    var subject = new switchicon("<%= list_name %>", "div");
+
+    // Set icon HTML.
+    subject.setHeader(
+      '<img src="/images/open.png" alt="click to close" />',
+      '<img src="/images/closed.png" alt="click to open" />'
+    );
+
+    // Allow only one content open at any time.
+    subject.collapsePrevious(false);
+
+    // No persistence enabled.
+    subject.setPersist(true);
+
+    <% if expand_first_content %>
+      subject.defaultExpanded(0);
+    <% end %>
+
+    subject.init();
+  //]]>
+</script>
