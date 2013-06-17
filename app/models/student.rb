@@ -5,11 +5,30 @@ class Student < ActiveRecord::Base
   has_many :questions, :through => :results
   belongs_to :tutorial
 
-  validates_presence_of  :email, :onid, :firstname, :lastname, :sect_num, :tutorial_id
-  validates_uniqueness_of  :email, :onid, :scope => [:tutorial_id], :message => "Our records indicate that you already have an account for this tutorial. Please login."
-  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,  :allow_blank => true, :message => "Invalid email"
+  validates :email,
+    :presence => true,
+    :uniqueness => {
+      :scope => :tutorial_id,
+      :message => 'Our records indicate that you already have an account for this tutorial.  Please login.'
+    },
+    :format => {
+      :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,
+      :allow_blank => true,
+      :message => 'Invalid email'
+    }
 
-  #generates export grades
+  validates :onid,
+    :presence => true,
+    :uniqueness => {
+      :scope => :tutorial_id,
+      :message => 'Our records indicate that you already have an account for this tutorial.  Please login.'
+    }
+
+  validates :firstname, :presence => true
+  validates :lastname, :presence => true
+  validates :sect_num, :presence => true
+  validates :tutorial_id, :presence => true
+
   def to_csv
     possible = possible_score
     score = final_score
@@ -23,12 +42,9 @@ class Student < ActiveRecord::Base
   end
 
   def name
-    return firstname + " " + lastname
+    firstname + " " + lastname
   end
 
-  #return a student for a tutorial if their email and onid matches the one stored for that user in the database
-  #return false if the student is not found else
-  #return nil if the login information is not correct else return the student
   def self.authenticate(email, onid, id)
     student = self.find_by_tutorial_id_and_email(id, email)
     if !student.blank?
@@ -36,13 +52,13 @@ class Student < ActiveRecord::Base
         return nil
       end
     else
-      return false
+      false
     end
-    return student
+    student
   end
 
   def self.unique_id
-    return rand(99999).to_i
+    rand(99999).to_i
   end
 
   def send_forgot(url)
@@ -58,7 +74,7 @@ class Student < ActiveRecord::Base
       result = results.where("question_id = ?", question).first
       quiz_results << result if result
     end
-    return quiz_results.inject(0){|sum,item| sum + item.score}
+    quiz_results.inject(0){|sum,item| sum + item.score}
   end
 
   #returns a students total score on a tutorial
@@ -68,12 +84,12 @@ class Student < ActiveRecord::Base
     qz.each do |q|
       scores << get_total_score(q.id)
     end
-    return scores.inject(0){|sum,item| sum + item}
+    scores.inject(0){|sum,item| sum + item}
   end
 
   #returns the possible total score on a tutorial
   def possible_score
-    return tutorial.possible_score.to_i != 0 ? tutorial.possible_score : 1
+    tutorial.possible_score.to_i != 0 ? tutorial.possible_score : 1
   end
 
   #returns a 2X2 array of the quizes the student has taken and a list of the quizes left
@@ -83,7 +99,7 @@ class Student < ActiveRecord::Base
     student_questions = questions.select{|q| q if all_questions.include?(q)}.flatten.compact
     s_quizes = student_questions.collect{|q| q.quiz_resource if q}.flatten.compact
     quizes_left =  tutorial_quizes - s_quizes
-    return  s_quizes.uniq, quizes_left.uniq
+    s_quizes.uniq, quizes_left.uniq
   end
 
   #returns a 3X3 array of question id ,the guess and the score of the quiz
@@ -94,10 +110,10 @@ class Student < ActiveRecord::Base
     quiz_results.each do |result|
       values << [result.question_id, result.guess, result.score]
     end
-    return values.uniq
+    values.uniq
   end
 
   def taken_on
-    return results.last.updated_at
+    results.last.updated_at
   end
 end

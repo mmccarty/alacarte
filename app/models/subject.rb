@@ -3,10 +3,12 @@ class Subject < ActiveRecord::Base
   has_and_belongs_to_many :pages, :order => 'course_num, course_name'
   has_many :tutorials, :order => 'name'
 
-  validates_presence_of :subject_code, :message => "may not be blank!"
-  validates_presence_of :subject_name, :message => "may not be blank!"
-  validates_uniqueness_of :subject_code, :message => "{{value}} is already being used!"
-  validates_uniqueness_of :subject_name, :message => "{{value}} is already being used!"
+  validates :subject_code,
+    :presence => { :message => 'may not be blank!' },
+    :uniqueness => { :message => "{{value}} is already being used!" }
+  validates :subject_name,
+    :presence => { :message => 'may not be blank!' },
+    :uniqueness => { :message => "{{value}} is already being used!" }
 
   def to_param
     "#{id}-#{subject_name.gsub(/[^a-z0-9]+/i, '-')}"
@@ -24,14 +26,10 @@ class Subject < ActiveRecord::Base
     guides.select{ |a| a.published? }.sort! {|a,b|  a.guide_name <=> b.guide_name}
   end
 
-  #subject and master subject lists
-
-  #list the subject codes
   def self.get_subjects
     order('subject_code')
   end
 
-  #list the subject names
   def self.get_subject_values
     order('subject_name')
   end

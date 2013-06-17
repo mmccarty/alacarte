@@ -7,8 +7,8 @@ class RssResource < ActiveRecord::Base
   before_create :private_label
   after_update :save_feeds
 
-  validates_presence_of :module_title
-  validates_presence_of :label, :on => :update
+  validates :module_title, :presence => true
+  validates :label, :presence { :on => :update }
 
   NUMFEEDS =  [
                ["3",       3],
@@ -48,11 +48,11 @@ class RssResource < ActiveRecord::Base
   end
 
   def feedurls
-    feeds.collect{|f| f.url}
+    feeds.collect {|f| f.url}
   end
 
   def feedlabels
-    feeds.collect{|f| f.label}
+    feeds.collect {|f| f.label}
   end
 
   def reader

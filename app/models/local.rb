@@ -8,15 +8,15 @@ class Local < ActiveRecord::Base
     MODULES.each do |m|
       list << m if types_list.include?(m[1])
     end
-    return list
+    list
   end
 
   def guides_list
-    return guides.flatten
+    guides.flatten
   end
 
   def types_list
-    return types.flatten
+    types.flatten
   end
 
   def initialize_types

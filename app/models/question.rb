@@ -7,7 +7,7 @@ class Question < ActiveRecord::Base
   after_update :save_answers
   acts_as_list :scope => :quiz_resource
 
-  validates_presence_of :question, :on => :update
+  validates :question, :presence => { :on => :update }
 
   def quiz_type
     case q_type
@@ -57,7 +57,7 @@ class Question < ActiveRecord::Base
       result = Result.new(:guess => answer, :score => score, :question_id => id, :position => position)
       student.results << result
     end
-    return id, answer, score
+    id, answer, score
   end
 
   def grade_FMC(answer, student)
@@ -68,7 +68,7 @@ class Question < ActiveRecord::Base
       result = Result.new(:guess => answer, :score => score, :question_id => id, :position => position)
       student.results << result
     end
-    return id, answer, score
+    id, answer, score
   end
 
   def grade_TF(answer, student)
@@ -80,7 +80,7 @@ class Question < ActiveRecord::Base
       result = Result.new(:guess => answer_string, :score => score, :question_id => id, :position => position)
       student.results << result
     end
-    return id, answer_string,score
+    id, answer_string,score
   end
 
   def grade_FW(answer, student)
@@ -89,7 +89,7 @@ class Question < ActiveRecord::Base
       result = Result.new(:guess => answer, :score => 0 , :question_id => id, :position => position)
       student.results << result
     end
-    return id, answer, points
+    id, answer, points
   end
 
   def save_answers
@@ -99,6 +99,6 @@ class Question < ActiveRecord::Base
   end
 
   def taken(student)
-    return students.include?(student)
+    students.include?(student)
   end
 end

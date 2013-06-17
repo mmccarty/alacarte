@@ -6,8 +6,8 @@ class QuizResource < ActiveRecord::Base
   has_many :questions, :order => :position, :dependent => :destroy
 
   before_create :private_label
-  validates_presence_of :module_title
-  validates_presence_of :label, :on => :update
+  validates :module_title, :presence => true
+  validates :label, :presence => { :on => :update }
 
   after_update :save_questions
 

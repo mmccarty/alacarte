@@ -6,9 +6,7 @@ class Tab < ActiveRecord::Base
   after_save :update_ferret
   after_destroy :update_ferret
 
-  validates_presence_of  :tab_name
-
-  #updates the ferret index because it was not happening automatically
+  validates :tab_name, :presence => true
 
   def update_ferret
     search = Local.first.enable_search?
@@ -51,15 +49,15 @@ class Tab < ActiveRecord::Base
   end
 
   def guide
-    return (tabable_type == "Guide" and Guide.exists?(tabable_id))  ? Guide.find(tabable_id) : ""
+    (tabable_type == "Guide" and Guide.exists?(tabable_id))  ? Guide.find(tabable_id) : ""
   end
 
   def page
-    return (tabable_type == "Page" and Page.exists?(tabable_id))  ? Page.find(tabable_id) : ""
+    (tabable_type == "Page" and Page.exists?(tabable_id))  ? Page.find(tabable_id) : ""
   end
 
   def find_resource(id, type)
-    return resources.find_by_mod_id_and_mod_type(id, type)
+    resources.find_by_mod_id_and_mod_type(id, type)
   end
 
   #get the collection of associated resources
@@ -70,36 +68,36 @@ class Tab < ActiveRecord::Base
   def recent_modules
     sortable = "updated_at"
     m = resources.collect{ |a| a.mod}.compact
-    return m.sort!{|a,b|  a.send(sortable) <=> b.send(sortable)}
+    m.sort!{|a,b|  a.send(sortable) <=> b.send(sortable)}
   end
 
   def sorted_modules
-    return tab_resources.collect{|t| t.resource.mod if t and t.resource}.compact
+    tab_resources.collect{|t| t.resource.mod if t and t.resource}.compact
   end
 
   def left_resources
     odd = []
     odd << tab_resources.select{|t|t.position.odd? and t.resource and t.resource.mod}
-    return odd.flatten.compact
+    odd.flatten.compact
   end
 
   def right_resources
     even = []
     even << tab_resources.select{|t|t.position.even? and t.resource and t.resource.mod}
-    return even.flatten.compact
+    even.flatten.compact
   end
 
   def left_modules
     odd = []
     tr = tab_resources.select{|t|t.position.odd?}
     odd << tr.collect{|t| t.resource.mod if t.resource}
-    return odd.flatten.compact
+    odd.flatten.compact
   end
 
   def right_modules
     even = []
     tr = tab_resources.select{|t|t.position.even?}
     even << tr.collect{|t| t.resource.mod if t.resource}
-    return even.flatten.compact
+    even.flatten.compact
   end
 end

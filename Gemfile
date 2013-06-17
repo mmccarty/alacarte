@@ -1,19 +1,26 @@
 source "https://rubygems.org"
 
-gem "dynamic_form"
-gem "erubis"
-gem "fastercsv", "1.5.0"
-gem "ferret"
-gem "flickr_fu", "0.3.0"
+gem 'acts_as_list'
+gem 'acts_as_taggable_on_steroids'
+gem 'dynamic_form'
+gem 'exception_notification'
+gem 'ferret'
+gem 'flickr_fu'
 gem 'haml'
-gem "hpricot", "0.8.2"
-gem "mime-types", "1.16"
-gem "nokogiri", "1.5.10"
-gem "paperclip", "~> 2.7"
+gem 'in_place_editing'
+gem 'mime-types'
+gem 'mobile-fu'
+gem 'nokogiri'
+gem 'paperclip'
 gem 'pg'
-gem 'rails', '3.0.20'
+gem 'rails', '= 3.2.13'
 gem 'rdoc'
+gem 'recaptcha'
+gem 'responds_to_parent'
+gem 'simplecov'
+gem 'tiny_mce'
+gem 'will_paginate'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.0'
+  gem 'rspec-rails'
 end

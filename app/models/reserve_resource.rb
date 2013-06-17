@@ -6,8 +6,8 @@ class ReserveResource < ActiveRecord::Base
   before_create :private_label
   serialize :library_reserves
 
-  validates_presence_of :module_title
-  validates_presence_of :label, :on => :update
+  validates :module_title, :presence => true
+  validates :label, :presence => { :on => :update }
 
   def private_label
     self.label = self.module_title

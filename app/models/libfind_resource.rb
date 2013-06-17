@@ -5,9 +5,9 @@ class LibfindResource < ActiveRecord::Base
   has_many :resources, :as => :mod, :dependent => :destroy
   has_many :lf_targets, :dependent => :delete_all
   before_create :private_label
-  validates_presence_of :label, :on => :update
 
-  validates_presence_of :module_title
+  validates :label, :presence => { :on => :update }
+  validates :module_title, :presence => true
 
   def private_label
     self.label = self.module_title

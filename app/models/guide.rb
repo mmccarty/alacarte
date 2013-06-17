@@ -7,8 +7,7 @@ class Guide < ActiveRecord::Base
   has_and_belongs_to_many :subjects, :order => 'subject_name'
   belongs_to :resource
 
-  validates_presence_of  :guide_name
-  validates_uniqueness_of :guide_name
+  validates :guide_name, :presence => true, :uniqueness => true
 
   serialize :relateds
   after_create :create_relateds
@@ -17,28 +16,21 @@ class Guide < ActiveRecord::Base
     "#{id}-#{guide_name.gsub(/[^a-z0-9]+/i, '-')}"
   end
 
-  #add related guides
-
-  #create default list of related guides
   def create_relateds
     update_attribute(:relateds, get_related_guides)
   end
 
-  #remove related guides from list
   def delete_relateds(id)
     relateds.delete(id.to_i)
     self.save
   end
 
-  #add related guide to relateds
   def add_related_guides(ids)
     ids.each do |id|
       relateds << id.to_i unless relateds.include?(id.to_i)
     end
   end
 
-  #find all related guides else create ones
-  #used in display
   def related_guides
     guides=[]
     if relateds == nil
@@ -56,23 +48,20 @@ class Guide < ActiveRecord::Base
         relateds.delete(id.to_i)
       end
     end
-    return guides.sort { |x,y| x.guide_name.downcase <=> y.guide_name.downcase }
+    guides.sort { |x,y| x.guide_name.downcase <=> y.guide_name.downcase }
   end
 
-  #suggest related guides to add
   def suggested_relateds
     ids = get_related_guides
     add_related_guides(ids)
     self.save
-    return related_guides
+    related_guides
   end
 
-  #get the list of related guides
-  #uses a page's subjects
   def get_related_guides
     gds = masters.collect{|m| m.pub_guides(id)}.flatten.uniq
     gds = gds.collect{|a| a.id}.compact if gds
-    return (gds.blank? ? [] : gds)
+    (gds.blank? ? [] : gds)
   end
 
   def add_master_type(master_types)
@@ -100,7 +89,6 @@ class Guide < ActiveRecord::Base
     self.save
   end
 
-  #add a tab to the BTM relationship
   def add_tab(tab)
     tabs << tab
   end
@@ -132,13 +120,10 @@ class Guide < ActiveRecord::Base
     self.where(:published => true).order("guide_name").select("id, guide_name, description")
   end
 
-  #returns true if shared
   def shared?
     users.length > 1
   end
 
-  #share a guide with user
-  #@copy =  make a copy of the guide's module or share the original
   def share(uid, copy)
     user = User.find(uid)
     if copy  == "1"
@@ -211,7 +196,6 @@ class Guide < ActiveRecord::Base
     end
   end
 
-  #update resources with shared users
   def update_users
     resources =  tabs.collect{|t| t.resources}.compact
     resources.each do |resource|
@@ -219,7 +203,6 @@ class Guide < ActiveRecord::Base
     end
   end
 
-  #toggle the published setting if resource is set or guide is marked as published
   def toggle_published
     if self.resource || self.published?
       self.toggle!(:published)
@@ -229,7 +212,6 @@ class Guide < ActiveRecord::Base
     end
   end
 
-  #Used to create the search index
   def index_masters
     masters.map{|master| master.value}.join(", ")
   end

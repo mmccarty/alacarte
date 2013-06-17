@@ -8,8 +8,8 @@ class DatabaseResource < ActiveRecord::Base
 
   before_create :private_label
 
-  validates_presence_of :module_title
-  validates_presence_of :label, :on => :update
+  validates :module_title, :presence => true
+  validates :label, :presence => { :on => :update }
 
   def private_label
     self.label = self.module_title
