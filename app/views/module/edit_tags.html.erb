@@ -13,7 +13,7 @@
     <div id ='share'>
       <fieldset>
         <label for="tags">Tags <span class = 'more_help' onMouseover="fixedtooltip(MOD_TAGS, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
-        <%= text_area_tag 'tags', @tags, {"class" => 'mceNoEditor', :size => '40x2'}  %>
+        <%= text_area_tag 'tags', @tags, {"class" => 'tinymce', :size => '40x2'}  %>
         <div class = 'tip'>	example: WR101, Databases, Writing</div>
       </fieldset>
       <!--[eoform:page]-->

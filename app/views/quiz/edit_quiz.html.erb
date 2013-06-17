@@ -30,7 +30,7 @@
       <label for="mod_info" > General Information
 	<span class = 'more_help' onMouseover="fixedtooltip(QUIZ_INFO_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>
-      <%= text_area 'mod', 'description',:class => "mceEditor" %>
+      <%= text_area_tag 'mod', 'description',:class => "tinymce" %>
 
       `          <div id="submit_button">
 	<%= submit_tag 'Save Module', :class => "submit" %>  or  <%= submit_tag 'Save &amp; Add Question', :class => "submit" %>

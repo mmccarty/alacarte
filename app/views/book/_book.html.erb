@@ -31,7 +31,7 @@
       <label for="mod_book_description" >Book Description
 	<span class = 'more_help' onMouseover="fixedtooltip(BOOK_DESC_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>
-      <%= book_form.text_area :description, {:class => 'mceNoEditor', :size => '40x2'} %>
+      <%= book_form.text_area :description, {:class => 'tinymce', :size => '40x2'} %>
       <label for="mod_label">Book ISBN/OCLC # (for book covers)
 	<span class = 'more_help' onMouseover="fixedtooltip(BOOK_ISBN_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>

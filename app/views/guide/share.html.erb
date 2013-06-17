@@ -26,7 +26,7 @@
 	  </fieldset>
 	  <fieldset>
 	    <h5>Email Message</h5>
-	    <%= text_area_tag "body", @message, :rows => 10, :cols => 3, :class => "mceNoEditor"%>
+	    <%= text_area_tag "body", @message, :rows => 10, :cols => 3, :class => "tinymce"%>
 	  </fieldset>
 	  <p> <%= submit_tag "Share Guide",:class => "submit"%> <%= link_to 'Cancel', :action => 'index' %></p>
 	</div>

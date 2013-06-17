@@ -19,7 +19,7 @@
       </div>
       <br class="clearer" />
       <label for="unit_description">Description <span class = 'more_help' onMouseover="fixedtooltip(UNIT_DESC_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
-      <%= text_area 'unit', 'description', "class" => 'mceEditor'%>
+      <%= text_area_tag 'unit', 'description', "class" => 'tinymce'%>
 
       <label for="tags">Tags <span class = 'more_help' onMouseover="fixedtooltip(UNIT_TAG_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
       <%= text_field_tag 'tags', @tag_list,"size" => 62%>

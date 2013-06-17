@@ -62,7 +62,7 @@
   <%=render :partial => '/module/mod_title'%>
   <label>General Information
     <span class = 'more_help' onMouseover="fixedtooltip(MOD_INFORMATION_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
-  <%= text_area 'mod', 'information',:class => "mceEditor" %>
+  <%= text_area_tag 'mod', 'information',:class => "tinymce" %>
   <div id="rss_feeds">
     <fieldset>
       <h5>Get Started </h5>

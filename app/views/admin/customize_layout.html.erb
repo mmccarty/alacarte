@@ -27,23 +27,23 @@
 	<h4>Footer</h4>
 	<label for="local">Footer Text</label>
 	<div class = 'tip'>Enter text for a custom footer. (HTML OK) </div>
-	<%= text_area 'local','footer',:class => "mceEditor"%>
+	<%= text_area_tag 'local','footer',:class => "tinymce"%>
       </div>
       <div id="v-space">
 	<h4>Sidebars</h4>
 	<label for="local">Portal Right-Hand Box</label>
 	<div class = 'tip'>Add information into the right-hand side box of the portal templates (HTML|embed|object|param tags OK).
 	  <br />This is displayed in the right side of the portals.</div>
-	<%= text_area 'local','right_box', :class => "mceEditor"%>
+	<%= text_area_tag 'local','right_box', :class => "tinymce"%>
 
 	<label for="local">Portal Left-Hand Box</label>
 	<div class = 'tip'>Add information into the left-hand side box of the portal templates (HTML|embed|object|param tags OK).
 	  <br />This is displayed on the left side of the portals.</div>
-	<%= text_area 'local', 'left_box',:class => "mceEditor"%>
+	<%= text_area_tag 'local', 'left_box',:class => "tinymce"%>
 	<label for="local">Guide Left-Hand Box</label>
 	<div class = 'tip'>Add information into the left-hand side box of the guide and page templates (HTML|embed|object|param tags OK).
 	  <br />This is displayed at the top of the left side of the guides. </div>
-	<%= text_area 'local', 'guide_box',:class => "mceEditor"%>
+	<%= text_area_tag 'local', 'guide_box',:class => "tinymce"%>
       </div>
     </fieldset>
     <h3>Names &amp; Links</h3>

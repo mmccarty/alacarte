@@ -1,0 +1,32 @@
+%html
+  %head
+    =csrf_meta_tag
+    %title
+      =params[:controller].humanize || ""
+      \: Library &agrave; la Carte Tool
+    =stylesheet_link_tag 'modules', 'tool'
+    =javascript_include_tag 'application', 'messages'
+  %body
+    #wrapper
+      #header_small
+        %span.subtitle= image_tag '/images/LogoSmall.png', :title => 'Information made to order', :alt => 'logo'
+        #login_bar
+          %b
+            -unless @admin
+              =h @user.name
+            -else
+              Admin
+          IS LOGGED IN |
+          =link_to 'LOGOUT', :controller => 'login', :action => 'logout'
+
+      #tab_container
+        %ul#tabs
+          %li{:class => @dcurrent || 'dashboard_tab' }
+            =link_to_unless_current 'Dashboard', :controller => 'dashboard', :action => 'index'
+          %li{:class => @tcurrent || 'quide_tab' }
+            =link_to_unless_current 'Admin Tools', :controller => 'admin', :action => 'tools'
+
+      #content_full
+        =yield :layout
+
+      #footer

@@ -11,7 +11,7 @@
 
     <label>General Information
       <span class = 'more_help'  onMouseover="fixedtooltip(DB_INFO_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></lable>
-<%= text_area 'mod', 'info', :class => "mceEditor" %><br />
+<%= text_area_tag 'mod', 'info', :class => "tinymce" %><br />
 
 <div id="link" style=""><label><%= content_tag :a, image_tag("/images/icons/add.png", :title => 'Click to add databases', :alt => 'add databases', :border => 0) + " Add Databases", :onclick => "$('db').toggle(); + $('mo').toggle(); + $('link').toggle();" %></label></div>
 
@@ -34,7 +34,7 @@
     <%= fields_for "database_dod[]" do |d| %>
     <td><%= d.text_field(:location, :size => 1) %></td>
     <td><strong><%=truncate(dod.title,:length => 47)%> </strong><br />
-      <%= d.text_area(:description, :class => 'mceNoEditor', :size => '40x5') %>
+      <%= d.text_area(:description, :class => 'tinymce', :size => '40x5') %>
     </td>
     <td><%= check_box_tag("db_remove_list[]", dod.id ,false, {}) %><%= image_tag("/images/icons/remove.png", :title => 'Remove this database', :alt => 'remove', :border => 0)%>
     </td>

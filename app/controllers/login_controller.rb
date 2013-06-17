@@ -3,7 +3,6 @@ class LoginController < ApplicationController
   before_filter :clear_sessions, :clean, :only =>['login']
 
   def login
-    redirect_to :controller => 'sso_login', :action => 'login' if sso_enabled
     session[:user_id] = nil
     if request.post?
       user = User.authenticate(params[:email], params[:password])
