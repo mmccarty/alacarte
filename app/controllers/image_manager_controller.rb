@@ -1,5 +1,3 @@
-require "vendor/plugins/responds_to_parent/init"
-
 class ImageManagerController < ApplicationController
   # GET /images/1
   # GET /images/1.xml
@@ -19,7 +17,7 @@ class ImageManagerController < ApplicationController
       respond_to do |format|
         format.js do
           responds_to_parent do
-            render :action => "create.js.rjs", :object => {@image_managers,flash}
+            render :action => "create.js.rjs", :locals => { :create => @image_managers, :flash => flash }
           end
         end
       end
@@ -48,7 +46,7 @@ class ImageManagerController < ApplicationController
         format.js do
           flash[:notice] = 'Image was successfully deleted.'
           @image_managers = ImageManager.all
-          render :action => "create.js.rjs", :object => {@image_managers,flash}
+          render :action => "create.js.rjs", :locals => { :create => @image_managers, :flash => flash }
         end
       end
     else

@@ -11,31 +11,46 @@ class Question < ActiveRecord::Base
 
   def quiz_type
     case q_type
-    when 'MC' then return "Multiple Choice"
-    when 'TF' then return "True/False"
-    when 'FW' then return "Free Write"
-    when 'FMC' then return "Feedback Multiple Choice"
-    else return ""
+    when 'MC'
+      "Multiple Choice"
+    when 'TF'
+      "True/False"
+    when 'FW'
+      "Free Write"
+    when 'FMC'
+      "Feedback Multiple Choice"
+    else
+      ""
     end
   end
 
   def correct_answer
     case q_type
-    when 'MC' then  (correct = answers.select{|a| a.correct == true}.first) and (return (correct.blank? ? "" : correct.value))
-    when 'TF' then return answers.first.correct == true ? 'true' : 'false'
-    when 'FW' then return answers.blank? ? "" : answers.first.value
-    when 'FMC' then  (correct = answers.select{|a| a.correct == true}.first) and (return (correct.blank? ? "" : correct.value))
-    else return ""
+    when 'MC'
+      (correct = answers.select{|a| a.correct == true}.first) and (return (correct.blank? ? "" : correct.value))
+    when 'TF'
+      answers.first.correct == true ? 'true' : 'false'
+    when 'FW'
+      answers.blank? ? "" : answers.first.value
+    when 'FMC'
+      (correct = answers.select{|a| a.correct == true}.first) and (return (correct.blank? ? "" : correct.value))
+    else
+      ""
     end
   end
 
   def grade_answer(answer, student = nil)
     case q_type
-    when 'MC' then return grade_MC(answer,student)
-    when 'TF' then return grade_TF(answer,student)
-    when 'FW' then return grade_FW(answer,student)
-    when 'FMC' then return grade_FMC(answer,student)
-    else return ""
+    when 'MC'
+      grade_MC answer, student
+    when 'TF'
+      grade_TF answer, student
+    when 'FW'
+      grade_FW answer, student
+    when 'FMC'
+      grade_FMC answer, student
+    else
+      ""
     end
   end
 
@@ -57,7 +72,7 @@ class Question < ActiveRecord::Base
       result = Result.new(:guess => answer, :score => score, :question_id => id, :position => position)
       student.results << result
     end
-    id, answer, score
+    return id, answer, score
   end
 
   def grade_FMC(answer, student)
@@ -68,7 +83,7 @@ class Question < ActiveRecord::Base
       result = Result.new(:guess => answer, :score => score, :question_id => id, :position => position)
       student.results << result
     end
-    id, answer, score
+    return id, answer, score
   end
 
   def grade_TF(answer, student)
@@ -80,7 +95,7 @@ class Question < ActiveRecord::Base
       result = Result.new(:guess => answer_string, :score => score, :question_id => id, :position => position)
       student.results << result
     end
-    id, answer_string,score
+    return id, answer_string, score
   end
 
   def grade_FW(answer, student)
@@ -89,7 +104,7 @@ class Question < ActiveRecord::Base
       result = Result.new(:guess => answer, :score => 0 , :question_id => id, :position => position)
       student.results << result
     end
-    id, answer, points
+    return id, answer, points
   end
 
   def save_answers

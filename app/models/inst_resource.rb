@@ -1,5 +1,5 @@
 class InstResource < ActiveRecord::Base
-  include HasResource
+  include HasResources
 
   acts_as_taggable
   has_many :resources, :as => :mod, :dependent => :destroy

@@ -1,6 +1,4 @@
-#Submitting a search query to Oasis, and then scraping the results. 
 require 'rubygems'
-require 'hpricot'
 require 'open-uri'
 
 module CatalogScraper

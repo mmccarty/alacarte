@@ -1,5 +1,3 @@
-require "fastercsv"
-
 class Student < ActiveRecord::Base
   has_many :results, :order => 'position', :dependent => :destroy
   has_many :questions, :through => :results
@@ -99,7 +97,7 @@ class Student < ActiveRecord::Base
     student_questions = questions.select{|q| q if all_questions.include?(q)}.flatten.compact
     s_quizes = student_questions.collect{|q| q.quiz_resource if q}.flatten.compact
     quizes_left =  tutorial_quizes - s_quizes
-    s_quizes.uniq, quizes_left.uniq
+    return s_quizes.uniq, quizes_left.uniq
   end
 
   #returns a 3X3 array of question id ,the guess and the score of the quiz

@@ -1,5 +1,5 @@
 class RssResource < ActiveRecord::Base
-  include HasResource
+  include HasResources
 
   acts_as_taggable
   has_many :resources, :as => :mod,  :dependent => :destroy
@@ -8,7 +8,7 @@ class RssResource < ActiveRecord::Base
   after_update :save_feeds
 
   validates :module_title, :presence => true
-  validates :label, :presence { :on => :update }
+  validates :label, :presence => { :on => :update }
 
   NUMFEEDS =  [
                ["3",       3],

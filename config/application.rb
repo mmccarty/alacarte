@@ -42,8 +42,6 @@ module Alacarte
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation, :onid, :email]
     
-    config.action_controller.session_store = :active_record_store
-    config.action_mailer.default_charset = "utf-8"
     config.log_level = :debug
   end
 end

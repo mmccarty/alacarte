@@ -1,5 +1,3 @@
-#Submitting a search query to Oasis, and then scraping the results. 
-require 'hpricot'
 require 'open-uri'
 
 module ReservesScraper
@@ -9,11 +7,11 @@ module ReservesScraper
 
   def search_reserves(course=nil, uri=nil)
     if course
-      return scrape(get_page(course.gsub(/\s/, '+')))
+      scrape(get_page(course.gsub(/\s/, '+')))
     elsif uri
-      return scrape(get_page(nil, uri))
+      scrape(get_page(nil, uri))
     else
-      return nil
+      nil
     end
   end
 
@@ -24,7 +22,7 @@ module ReservesScraper
       uri = BASE_URI + uri
     end
     res = Hpricot(open(uri))
-    return res
+    res
   end
 
   def scrape(page)
@@ -37,20 +35,24 @@ module ReservesScraper
                 matches << {:course => be.inner_html}
       end
     else
-  #We have results for a specific course, time to strip reserve infos.  
-  (page.search('body').to_s).scan(/\<\/tr\>\n[\<\/form\>\n]*\<tr\>\n(.*)\<\/tr\>/mi){ |s|
-    count = 0
-    match = {}
-    s.first.scan(%r{<td\b[^>]*>[&nbsp;\n]*(.*?)</td>}mi ) { |r| 
-      case count % 4
-        when 0: match[:title] = r.first.insert(r.first.index(/href="/) + 6, "http://#{OASIS_DOMAIN}")
-        when 1: match[:author] = r
-        when 2: r.first =~ /\D -- ([\w . \/]*) / ; match[:availability] = $1 if $1
-        else match[:id] = count / 4 ; matches << match ; match = {}
+      #We have results for a specific course, time to strip reserve infos.  
+      (page.search('body').to_s).scan(/\<\/tr\>\n[\<\/form\>\n]*\<tr\>\n(.*)\<\/tr\>/mi) do |s|
+        count = 0
+        match = {}
+        s.first.scan(%r{<td\b[^>]*>[&nbsp;\n]*(.*?)</td>}mi ) do |r| 
+          case count % 4
+          when 0
+            match[:title] = r.first.insert(r.first.index(/href="/) + 6, "http://#{OASIS_DOMAIN}")
+          when 1
+            match[:author] = r
+          when 2
+            r.first =~ /\D -- ([\w . \/]*) / ; match[:availability] = $1 if $1
+          else 
+            match[:id] = count / 4 ; matches << match ; match = {}
+          end
+          count += 1
+        end
       end
-      count += 1
-    }
-  }
     end
     return matches
   end

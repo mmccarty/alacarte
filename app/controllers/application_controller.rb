@@ -1,11 +1,10 @@
 class ApplicationController < ActionController::Base
-  include ExceptionNotification::Notifiable
   helper :all
   protect_from_forgery
   before_filter :authorize
   before_filter :local_customization
 
-  unless ActionController::Base.consider_all_requests_local
+  unless Rails.application.config.consider_all_requests_local
     #first will be selected last
     rescue_from Exception, :with => :render_500
     #rescue_from ActionView::TemplateError, :with => :render_500 good for development only
@@ -13,29 +12,6 @@ class ApplicationController < ActionController::Base
     rescue_from RuntimeError, :with => :render_500
   end
 
-  #####Image Manager#######
-  #You can use either advimage or advimage_uploader for image editing, but only one of these options may be used at a time.
-  #Replace advimage with advimage_uploader below to use the image manager
-  uses_tiny_mce :options => {
-    :theme =>'advanced',
-    :plugins => %w{advimage_uploader advlink preview paste fullscreen spellchecker media},
-    :theme_advanced_buttons1 => %w{ forecolor bold italic underline link unlink anchor image bullist numlist blockquote hr separator outdent indent pasteword removeformat code undo redo fullscreen preview charmap spellchecker },
-    :theme_advanced_buttons2 => %w{},
-    :theme_advanced_buttons3 => %w{},
-    :spellchecker_languages => "+English=en",
-    :content_css => "/stylesheets/tool.css",
-    :fix_list_elements => true,
-    :fix_table_elements => true,
-    :height => "50",
-    :theme_advanced_resizing => true,
-    :theme_advanced_statusbar_location => 'bottom',
-    :theme_advanced_resize_horizontal => false,
-    :media_strict => false
-  }
-
-  #Authorizations
-
-  #check to see if a user is logged in, if not they are redirected to login or sso_login
   def authorize
     user = User.find_by_id(session[:user_id])
     unless user
@@ -241,21 +217,6 @@ class ApplicationController < ActionController::Base
     clear_module_sessions
     clear_tutorial_sessions
     clear_student
-  end
-
-  # This method sets the theme for the tinymce editor.  The image theme contains only two buttons
-  #  (image and code) where the advanced theme uses all of the available buttons.  To change a theme
-  #  for a module, add a when statement for the appropriate module (if changing to the image theme) or
-  #  delete the existing when statement to revert back to the advanced theme
-  def set_theme(mod)
-    if !@uses_tiny_mce.blank?
-      case mod.class.to_s
-      when "LibResource":
-          @tiny_mce_options[:theme] = "image"
-      else
-        @tiny_mce_options[:theme] = "advanced"
-      end
-    end
   end
 
   private

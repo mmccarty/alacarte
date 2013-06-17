@@ -1,5 +1,4 @@
 module ApplicationHelper
-  include TagsHelper
   def show_mod(mod)
     if !mod.blank?
       @mod = mod
