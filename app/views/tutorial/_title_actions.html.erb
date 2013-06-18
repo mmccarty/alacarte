@@ -2,7 +2,7 @@
   <%=h @tutorial.full_name%>
 </span>
 <div class='actions'>
-  <%= link_to image_tag("/images/icons/document_preview.png", :title => 'Preview this tutorial', :alt => 'preview', :border => 0),{ :controller => "ort", :action => 'index', :id => @tutorial}%> <%= link_to 'Preview', {:controller => "ort", :action => 'index', :id => @tutorial.id}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'], :title =>"Preview " + @tutorial.name%>
+  <%= link_to image_tag("icons/document_preview.png", :title => 'Preview this tutorial', :alt => 'preview', :border => 0),{ :controller => "ort", :action => 'index', :id => @tutorial}%> <%= link_to 'Preview', {:controller => "ort", :action => 'index', :id => @tutorial.id}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'], :title =>"Preview " + @tutorial.name%>
   |
   <% unless @tutorial.published? %>
 

@@ -177,7 +177,7 @@ DEPENDENCIES
   rdoc
   recaptcha
   responds_to_parent
-  rspec-rails
+  rspec-rails (~> 2.0)
   sass-rails (~> 3.2.0)
   simplecov
   tinymce-rails

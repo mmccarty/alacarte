@@ -13,7 +13,7 @@
 	      <%=guide.description%> <small><b>Tags: </b><% guide.tag_list.each do |tag|%> <%= link_to tag, { :action => :tagged, :id => tag }%>  <%end%></small></li>
 	  </ul>
 	  <%end%>
-	  <p><%=image_tag("/images/icons/back.png", :title => 'Subject Guides', :alt => 'back')%> <a href ="/subject-guides/">Back to all Subject Guides</a></p>
+	  <p><%=image_tag("icons/back.png", :title => 'Subject Guides', :alt => 'back')%> <a href ="/subject-guides/">Back to all Subject Guides</a></p>
 	</div>
 	<div class="bot"><div></div></div>
       </div>

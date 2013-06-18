@@ -27,7 +27,7 @@
       </ul>
       <%end%>
       <%if !@quizes.blank?%>
-      <h2>My Quizzes <span class ='printer'><img src="/images/icons/printer.png" alt="Printer"  class="printer" /> <%= link_to "Print" , :controller => 'student', :action => 'print_quiz', :id =>@tutorial %></span></h2>
+      <h2>My Quizzes <span class ='printer'><img src="icons/printer.png" alt="Printer"  class="printer" /> <%= link_to "Print" , :controller => 'student', :action => 'print_quiz', :id =>@tutorial %></span></h2>
       <div id="quizes">
 	<%unless @tutorial.possible_score == 0 %><h4 class="required">Tutorial Score: <%=@student.final_score%> out of <%=@tutorial.possible_score%></h4><%end%>
 	<%@quizes.each do |quiz|

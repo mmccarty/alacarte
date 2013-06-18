@@ -10,7 +10,7 @@
     <div id="product-list" >
       <% if @course_pages%>
       <div id="page_header">Used on <%=@course_pages.length%> Pages
-	<%= link_to image_tag("/images/icons/add.png", :title => 'Add to Pages', :alt => 'add', :border => 0)+'Add to Pages', {:controller => 'module', :action => 'add_to_page',  :id => @mod.id,:type => @mod.type}%>
+	<%= link_to image_tag("icons/add.png", :title => 'Add to Pages', :alt => 'add', :border => 0)+'Add to Pages', {:controller => 'module', :action => 'add_to_page',  :id => @mod.id,:type => @mod.type}%>
 
 	<% if !@course_pages.blank?%>
 	<span class="hide">
@@ -31,9 +31,9 @@
 	    <b><%=h page.header_title%></b>
 	  </td>
 	  <td width="5%">
-	    <%= link_to image_tag("/images/icons/edit.png", :title => 'Edit this Page', :alt => 'Edit', :border => 0), {:controller =>'page', :action => 'edit',  :id => page }, :class=>'space'%>
+	    <%= link_to image_tag("icons/edit.png", :title => 'Edit this Page', :alt => 'Edit', :border => 0), {:controller =>'page', :action => 'edit',  :id => page }, :class=>'space'%>
 	    |
-	    <%= link_to image_tag("/images/icons/document_preview.png", :title => 'Preview this Page', :alt => 'View Page', :border => 0), { :controller => "ica", :action => 'index', :id => page}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'],:class=>'space'%>
+	    <%= link_to image_tag("icons/document_preview.png", :title => 'Preview this Page', :alt => 'View Page', :border => 0), { :controller => "ica", :action => 'index', :id => page}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'],:class=>'space'%>
 
 </td>
 </tr>
@@ -42,7 +42,7 @@
 <%end%>
 <%if @guides%>
 <div id="guide_header">Used on <%=@guides.length%> Guides
-  <%= link_to image_tag("/images/icons/add.png", :title => 'Add to Guides', :alt => 'add', :border => 0)+'Add to Guides', {:controller => 'module', :action => 'add_to_guide',  :id => @mod.id,:type => @mod.type}%>
+  <%= link_to image_tag("icons/add.png", :title => 'Add to Guides', :alt => 'add', :border => 0)+'Add to Guides', {:controller => 'module', :action => 'add_to_guide',  :id => @mod.id,:type => @mod.type}%>
 
   <%if !@guides.blank?%>
   <span class="hide">
@@ -63,8 +63,8 @@
       <b><%= h guide.guide_name%></b>
     </td>
     <td width="5%">
-      <%= link_to image_tag("/images/icons/edit.png", :title => 'Edit this Guide', :alt => 'Edit', :border => 0), {:controller =>'guide', :action => 'edit',  :id => guide}, :class=>'space'%>
-      |	<%= link_to image_tag("/images/icons/document_preview.png", :title => 'Preview this Guide', :alt => 'View', :border => 0), { :controller => "srg", :action => 'index', :id => guide}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] , :class=>'space'%>
+      <%= link_to image_tag("icons/edit.png", :title => 'Edit this Guide', :alt => 'Edit', :border => 0), {:controller =>'guide', :action => 'edit',  :id => guide}, :class=>'space'%>
+      |	<%= link_to image_tag("icons/document_preview.png", :title => 'Preview this Guide', :alt => 'View', :border => 0), { :controller => "srg", :action => 'index', :id => guide}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] , :class=>'space'%>
 
 </td>
 </tr>
@@ -73,7 +73,7 @@
 <%end%>
 <%if @tutorials%>
 <div id="tut_header">Used on <%=@tutorials.length%> Tutorials
-  <%= link_to image_tag("/images/icons/add.png", :title => 'Add to Tutorials', :alt => 'add', :border => 0)+'Add to Tutorials', {:controller => 'module', :action => 'add_to_tutorial',  :id => @mod.id,:type => @mod.type}%>
+  <%= link_to image_tag("icons/add.png", :title => 'Add to Tutorials', :alt => 'add', :border => 0)+'Add to Tutorials', {:controller => 'module', :action => 'add_to_tutorial',  :id => @mod.id,:type => @mod.type}%>
   <%if !@tutorials.blank?%>
   <span class="hide">
     <%=link_to_function("Show List", nil, :id => 'tutorial_details') do |page|
@@ -93,8 +93,8 @@
       <b><%= h tutorial.full_name%></b>
     </td>
     <td width="5%">
-      <%= link_to image_tag("/images/icons/edit.png", :title => 'Edit this Tutorial', :alt => 'Edit', :border => 0), {:controller =>'tutorial', :action => 'update',  :id => tutorial}, :class=>'space'%>
-      |	<%= link_to image_tag("/images/icons/document_preview.png", :title => 'Preview this Tutorial', :alt => 'View', :border => 0), { :controller => "ort", :action => 'index', :id => tutorial}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] , :class=>'space'%>
+      <%= link_to image_tag("icons/edit.png", :title => 'Edit this Tutorial', :alt => 'Edit', :border => 0), {:controller =>'tutorial', :action => 'update',  :id => tutorial}, :class=>'space'%>
+      |	<%= link_to image_tag("icons/document_preview.png", :title => 'Preview this Tutorial', :alt => 'View', :border => 0), { :controller => "ort", :action => 'index', :id => tutorial}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] , :class=>'space'%>
 
 </td>
 </tr>

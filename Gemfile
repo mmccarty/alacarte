@@ -28,10 +28,6 @@ group :assets do
   gem 'yui-compressor'
 end
 
-group :development do
-  gem 'rspec-rails'
-end
-
-group :test do
-  gem 'rspec-rails'
+group :development, :test do
+  gem 'rspec-rails', '~> 2.0'
 end

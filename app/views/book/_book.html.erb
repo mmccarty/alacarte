@@ -8,18 +8,18 @@
   <%= fields_for prefix, book do |book_form| -%>
 
   <fieldset>
-    <span class = 'handle' style = <%=new_or_existing == 'existing' ? "" : "display:none"%>><%=image_tag("/images/icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>
+    <span class = 'handle' style = <%=new_or_existing == 'existing' ? "" : "display:none"%>><%=image_tag("icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>
     <div id="new_book_<%=book.id%>" style = <%=new_or_existing == 'new' ? "" : "display:none"%> >
       <h5>Edit Book
-        <%= content_tag :a, image_tag("/images/icons/remove.png", :alt => 'Remove', :border => 0), :onclick => "$(this).up('.book').remove()" %>
+        <%= content_tag :a, image_tag("icons/remove.png", :alt => 'Remove', :border => 0), :onclick => "$(this).up('.book').remove()" %>
       </h5>
       <%if book and book.catalog_results.blank?%>
       <label for="mod_label">Book Title/Label
-	<span class = 'more_help' onMouseover="fixedtooltip(BOOK_TITLE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	<span class = 'more_help' onMouseover="fixedtooltip(BOOK_TITLE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>
       <%= book_form.text_field :label  %>
       <label for="mod_label">Book URL
-	<span class = 'more_help' onMouseover="fixedtooltip(BOOK_URL_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	<span class = 'more_help' onMouseover="fixedtooltip(BOOK_URL_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>
       <%= book_form.text_field :url, :value => book.url || "http://" %>
 
@@ -29,11 +29,11 @@
       <%end%>
 
       <label for="mod_book_description" >Book Description
-	<span class = 'more_help' onMouseover="fixedtooltip(BOOK_DESC_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	<span class = 'more_help' onMouseover="fixedtooltip(BOOK_DESC_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>
       <%= book_form.text_area :description, {:class => 'tinymce', :size => '40x2'} %>
       <label for="mod_label">Book ISBN/OCLC # (for book covers)
-	<span class = 'more_help' onMouseover="fixedtooltip(BOOK_ISBN_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	<span class = 'more_help' onMouseover="fixedtooltip(BOOK_ISBN_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>
       <%= book_form.text_field :image_id  %>
     </div>
@@ -42,7 +42,7 @@
       <h5>Book Preview
         <%= content_tag :a, "edit", :onclick => "$('ex_book_#{book.id}').toggle(); + $('new_book_#{book.id}').toggle();" %>
 	|
-  <%= content_tag :a, image_tag("/images/icons/remove.png", :title => 'Click to remove this book', :alt => 'Remove', :border => 0), :onclick => "$(this).up('.book').remove()" %>
+  <%= content_tag :a, image_tag("icons/remove.png", :title => 'Click to remove this book', :alt => 'Remove', :border => 0), :onclick => "$(this).up('.book').remove()" %>
       </h5>
       <div id ='book_view'>
 	<p>

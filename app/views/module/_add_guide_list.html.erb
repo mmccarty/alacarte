@@ -27,16 +27,16 @@
       </div>
     </td>
     <td  width ="10%">
-      <%= link_to image_tag("/images/icons/document_preview.png", :title => 'View this guide', :alt => 'View guide', :border => 0),{ :controller => "srg", :action => 'index', :id => guide}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'],:class =>'right_space'  %>
+      <%= link_to image_tag("icons/document_preview.png", :title => 'View this guide', :alt => 'View guide', :border => 0),{ :controller => "srg", :action => 'index', :id => guide}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'],:class =>'right_space'  %>
     </td>
     <td class= '<%= sort_th_class_helper "date" %>'  width ="15%">
       <%= guide.updated_at.to_date%>
     </td>
     <td class="center"  width ="5%">
       <% unless guide.published? %>
-      <%= image_tag("/images/icons/Minus.png", :title => 'This guide is not published', :alt => 'publish this guide', :border => 0)%>
+      <%= image_tag("icons/Minus.png", :title => 'This guide is not published', :alt => 'publish this guide', :border => 0)%>
       <%else%>
-      <%= image_tag("/images/icons/Plus.png", :title => 'This guide is published', :alt => 'unpublish this guide', :border => 0) %>
+      <%= image_tag("icons/Plus.png", :title => 'This guide is published', :alt => 'unpublish this guide', :border => 0) %>
       <%end%>
     </td>
   </tr>

@@ -15,7 +15,7 @@
 	    </noscript>
 	    <div id="subjects" class="tabcontent" >
 	      <%@masters.each_with_index do |m, i| %>
-	      <div class="expandable"><span id="subject<%=i%>-title" class="iconspan"><img src="/images/open.png" alt="click to close" /></span><span class="title"><%=m.value%></span>
+	      <div class="expandable"><span id="subject<%=i%>-title" class="iconspan"><img src="open.png" alt="click to close" /></span><span class="title"><%=m.value%></span>
 		<div id="subject<%=i%>" class="subject_list">
 		  <%unless m.pub_guides.blank?%>
 		  <ul class = 'indent-left '>
@@ -64,7 +64,7 @@
   //<![CDATA[
 
 var subject=new switchicon("subject_list", "div") //Limit scanning of switch contents to just "div" elements
-subject.setHeader('<img src="/images/open.png" alt="click to close" />', '<img src="/images/closed.png" alt="click to open" />') //set icon HTML
+subject.setHeader('<img src="open.png" alt="click to close" />', '<img src="closed.png" alt="click to open" />') //set icon HTML
 subject.collapsePrevious(false) //Allow only 1 content open at any time
 subject.setPersist(true) //No persistence enabled
 subject.defaultExpanded(0) //Set 1st content to be expanded by default

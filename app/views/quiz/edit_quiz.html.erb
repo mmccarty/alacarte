@@ -14,11 +14,11 @@
     <fieldset>
       <%if @tutorial.graded?%>
       <label> Graded Quiz?
-	<span class = 'more_help' onMouseover="fixedtooltip(QUIZ_GRADE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	<span class = 'more_help' onMouseover="fixedtooltip(QUIZ_GRADE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 	<%= radio_button 'mod', 'graded', true%> Yes or  <%= radio_button 'mod', 'graded', false%> No
       </label>
       <%else%>
-      <label>This Tutorial is not Graded. <span class = 'more_help' onMouseover="fixedtooltip(NOT_GRADE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+      <label>This Tutorial is not Graded. <span class = 'more_help' onMouseover="fixedtooltip(NOT_GRADE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 	<%= hidden_field 'mod','graded', :value => 'false'%>
       </label>
       <%end%>
@@ -28,7 +28,7 @@
     <%end%>
     <fieldset>
       <label for="mod_info" > General Information
-	<span class = 'more_help' onMouseover="fixedtooltip(QUIZ_INFO_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	<span class = 'more_help' onMouseover="fixedtooltip(QUIZ_INFO_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>
       <%= text_area_tag 'mod', 'description',:class => "tinymce" %>
 

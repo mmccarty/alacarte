@@ -61,7 +61,7 @@
   <%= form_tag({:controller => 'feed', :action => 'update_rss', :id => @mod} , {:multipart => true, :name=>'rss'})  do %>
   <%=render :partial => '/module/mod_title'%>
   <label>General Information
-    <span class = 'more_help' onMouseover="fixedtooltip(MOD_INFORMATION_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+    <span class = 'more_help' onMouseover="fixedtooltip(MOD_INFORMATION_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
   <%= text_area_tag 'mod', 'information',:class => "tinymce" %>
   <div id="rss_feeds">
     <fieldset>

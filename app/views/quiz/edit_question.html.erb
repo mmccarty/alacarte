@@ -19,7 +19,7 @@
       <label for="mod_label">Points</label>
       <%= text_field :question, :points, {:class => 'tinymce', :size => '5'} %>
       <%else%>
-      <label>Zero Points. This Quiz is not graded. <span class = 'more_help' onMouseover="fixedtooltip(NOT_QUIZ_GRADE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+      <label>Zero Points. This Quiz is not graded. <span class = 'more_help' onMouseover="fixedtooltip(NOT_QUIZ_GRADE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 	<%= hidden_field 'question','points', :value => 0%>
       </label>
       <%end%>

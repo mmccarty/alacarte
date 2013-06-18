@@ -31,8 +31,8 @@
 	</td>
 	<td class ='center' width ="15%">
 
-	  <%= link_to image_tag("/images/icons/application_add.png", :title => 'Copy this Module', :alt => 'Copy', :border => 0),{:action => 'copy', :id => mod, :type => mod.class},:class =>'space' %>
-	  | <%= link_to image_tag("/images/icons/document_preview.png", :title => 'View this Module in a new window', :alt => 'View', :border => 0),{ :action => 'view', :id => mod, :type => mod.class} , :class =>'space', :popup => ['', 'height=500,width=400,toolbar=no, scrollbars =yes,resizable=yes'] %>
+	  <%= link_to image_tag("icons/application_add.png", :title => 'Copy this Module', :alt => 'Copy', :border => 0),{:action => 'copy', :id => mod, :type => mod.class},:class =>'space' %>
+	  | <%= link_to image_tag("icons/document_preview.png", :title => 'View this Module in a new window', :alt => 'View', :border => 0),{ :action => 'view', :id => mod, :type => mod.class} , :class =>'space', :popup => ['', 'height=500,width=400,toolbar=no, scrollbars =yes,resizable=yes'] %>
 
 	</td>
 	<td class= '<%= sort_th_class_helper "date" %>' width ="10%"> <%= mod.updated_at.to_date %>	</td>

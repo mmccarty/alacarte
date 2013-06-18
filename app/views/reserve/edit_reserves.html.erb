@@ -8,7 +8,7 @@
   <%=render :partial => '/module/mod_title'%>
 
   <label for="reserves" >Reserves Information
-    <span class = 'more_help' onMouseover="fixedtooltip(RESERVES_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+    <span class = 'more_help' onMouseover="fixedtooltip(RESERVES_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
   <%= text_area_tag 'mod', 'reserves', :class => "tinymce" %>
   <br />
   <div id="returns">

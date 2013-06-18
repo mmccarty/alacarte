@@ -11,17 +11,17 @@
     <fieldset>
       <div id="new_image_<%=image.id%>" style = <%=new_or_existing == 'new' ? "" : "display:none"%> >
 	<h5>Edit Images
-    <%= content_tag :a, image_tag("/images/icons/remove.png", :alt => 'Remove', :border => 0), :onclick => "$(this).up('.image').remove()" %>
+    <%= content_tag :a, image_tag("icons/remove.png", :alt => 'Remove', :border => 0), :onclick => "$(this).up('.image').remove()" %>
 	</h5>
 	<label for="mod_label">Image Alternative Label<span class="required more_help">*</span>
-	  <span class = 'more_help' onMouseover="fixedtooltip(IMAGE_ALT_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	  <span class = 'more_help' onMouseover="fixedtooltip(IMAGE_ALT_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 	</label>
 	<%= image_form.text_field :alt  %>
 	<label for="mod_label">Image URL<span class="required more_help">*</span>
-	  <span class = 'more_help' onMouseover="fixedtooltip(IMAGE_URL_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	  <span class = 'more_help' onMouseover="fixedtooltip(IMAGE_URL_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 	</label>
 	<%= image_form.text_field :url, :value => image.url || "http://" %>
-	<label for="mod_image_info" >Image Description  <span class = 'more_help' onMouseover="fixedtooltip(IMAGE_DESC_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	<label for="mod_image_info" >Image Description  <span class = 'more_help' onMouseover="fixedtooltip(IMAGE_DESC_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 	</label>
 	<%= image_form.text_area :description, {:class => 'tinymce', :size => '40x2'} %>
       </div>
@@ -30,7 +30,7 @@
 	<h5>Image Preview
     <%= content_tag :a, "edit", :onclick => "$('ex_image_#{image.id}').toggle(); + $('new_image_#{image.id}').toggle();" %>
 	  |
-    <%= content_tag :a, image_tag("/images/icons/remove.png", :title => 'Click to remove this image', :alt => 'Remove', :border => 0), :onclick => "$(this).up('.image').remove()" %>
+    <%= content_tag :a, image_tag("icons/remove.png", :title => 'Click to remove this image', :alt => 'Remove', :border => 0), :onclick => "$(this).up('.image').remove()" %>
 	</h5>
 	<p>
 	  <img src="<%=image.url%>" alt="<%=image.alt%>" class = 'super_thumbnail'/>

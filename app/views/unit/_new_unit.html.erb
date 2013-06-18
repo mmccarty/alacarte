@@ -1,7 +1,7 @@
 <div id="new_button" class="new">
   <a href="#" onclick="$('new').toggle();$('new_button').toggle();; return false;">
     <span>
-      <img src="/images/icons/add.png" alt="Create New Module" />
+      <img src="icons/add.png" alt="Create New Module" />
       Create New Unit
   </span></a>
 </div>
@@ -9,7 +9,7 @@
   <%= form_tag :controller => 'unit', :action => 'create' do%>
   <%= error_messages_for 'unit' %>
   <div id="vertical_inputs" class="index">
-    <h5>New Unit </h5><span class = 'more_help' onMouseover="fixedtooltip(MOD_TITLE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
+    <h5>New Unit </h5><span class = 'more_help' onMouseover="fixedtooltip(MOD_TITLE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
   <%= content_tag :a, 'cancel', :onclick => "$('new').toggle();$('new_button').toggle();; return false;" %>
 <span <%= %(class="required") if flash[:unit_title_error] %>>
   <label for="page_course_name">Unit Name<span class="required more_help">*</span></label>

@@ -23,26 +23,26 @@
       <%=tab.tab_name%><br />
       <%end%>
     </td>
-    <td  width ="15%"><%= link_to image_tag("/images/icons/document_preview.png", :title => 'Preview this Page', :alt => 'View Page', :border => 0),{ :controller => "ica", :action => 'index', :id => page}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] %>
+    <td  width ="15%"><%= link_to image_tag("icons/document_preview.png", :title => 'Preview this Page', :alt => 'View Page', :border => 0),{ :controller => "ica", :action => 'index', :id => page}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] %>
     </td>
 
     <td class= '<%= sort_th_class_helper "date" %>'  width ="10%"> <%= page.updated_at.to_date%></td>
     <td class= 'center'  width ="5%">
       <% unless page.published? %>
 
-      <%=  image_tag("/images/icons/Minus.png", :title => 'This page is not published', :alt => 'publish this page', :border => 0) %>
+      <%=  image_tag("icons/Minus.png", :title => 'This page is not published', :alt => 'publish this page', :border => 0) %>
       <%else%>
 
-      <%=  image_tag("/images/icons/Plus.png", :title => 'This page is published', :alt => 'unpublish this page', :border => 0) %>
+      <%=  image_tag("icons/Plus.png", :title => 'This page is published', :alt => 'unpublish this page', :border => 0) %>
       <%end%>
     </td>
     <td class= 'center'  width ="5%">
       <% unless page.archived? %>
 
-      <%= image_tag("/images/icons/Minus.png", :title => 'This page is not archived', :alt => 'archive this page', :border => 0) %>
+      <%= image_tag("icons/Minus.png", :title => 'This page is not archived', :alt => 'archive this page', :border => 0) %>
       <%else%>
 
-      <%= image_tag("/images/icons/archive.png", :title => 'This page is archived', :alt => 'remove from archive', :border => 0) %>
+      <%= image_tag("icons/archive.png", :title => 'This page is archived', :alt => 'remove from archive', :border => 0) %>
       <%end%>
     </td>
 

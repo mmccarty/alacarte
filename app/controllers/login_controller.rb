@@ -61,7 +61,6 @@ class LoginController < ApplicationController
 
   private
 
-  #randomly clear sessions table
   def clean
     if rand(1000) % 10 == 0
       ActiveRecord::SessionStore::Session.delete_all ['updated_at < ?', 24.hours.ago]

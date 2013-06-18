@@ -8,18 +8,18 @@
   <%= fields_for prefix, video do |video_form| -%>
 
   <fieldset>
-    <span class = 'handle' style = <%=new_or_existing == 'existing' ? "" : "display:none"%>><%=image_tag("/images/icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>
+    <span class = 'handle' style = <%=new_or_existing == 'existing' ? "" : "display:none"%>><%=image_tag("icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>
     <div id="new_video_<%=video.id%>" style = <%=new_or_existing == 'new' ? "" : "display:none"%> >
       <h5>Embed YouTube Video
-        <%= content_tag :a, image_tag("/images/icons/remove.png", :alt => 'Remove', :border => 0), :onclick => "$(this).up('.video').remove()" %>
+        <%= content_tag :a, image_tag("icons/remove.png", :alt => 'Remove', :border => 0), :onclick => "$(this).up('.video').remove()" %>
       </h5>
 
       <label for="mod_label">Video URL
-	<span class = 'more_help' onMouseover="fixedtooltip(VIDEO_URL_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	<span class = 'more_help' onMouseover="fixedtooltip(VIDEO_URL_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>
       <%= video_form.text_field :url, :value => video.url || "http://" %>
 
-      <label for="mod_video_info" >Video Description  <span class = 'more_help' onMouseover="fixedtooltip(VIDEO_DESC_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+      <label for="mod_video_info" >Video Description  <span class = 'more_help' onMouseover="fixedtooltip(VIDEO_DESC_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>
       <%= video_form.text_area :description, {:class => 'tinymce', :size => '40x2'} %>
       <label>Video Transcript</label>
@@ -29,9 +29,9 @@
       <h5>Video Preview
         <%= content_tag :a, "edit", :onclick => "$('ex_video_#{video.id}').toggle(); + $('new_video_#{video.id}').toggle();" %>
 	|
-	<span class = 'more_help' onMouseover="fixedtooltip(VIDEO_PREVIEW_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	<span class = 'more_help' onMouseover="fixedtooltip(VIDEO_PREVIEW_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 	|
-  <%= content_tag :a, image_tag("/images/icons/remove.png", :title => 'Click to remove this video', :alt => 'Remove', :border => 0), :onclick => "$(this).up('.video').remove()" %>
+  <%= content_tag :a, image_tag("icons/remove.png", :title => 'Click to remove this video', :alt => 'Remove', :border => 0), :onclick => "$(this).up('.video').remove()" %>
       </h5>
       <p>
 

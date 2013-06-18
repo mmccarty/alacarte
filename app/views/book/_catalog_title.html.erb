@@ -25,7 +25,7 @@
 <div class="results_results">
 
   <p class="bolded">Result for <%= @title%>
-    <span class = 'more_help' onMouseover="fixedtooltip(BOOK_RESULTS_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+    <span class = 'more_help' onMouseover="fixedtooltip(BOOK_RESULTS_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
   </p>
   <div ="result">
     <%= render :partial => "/book/show_catalog_titles", :locals => {:results => @results} %>

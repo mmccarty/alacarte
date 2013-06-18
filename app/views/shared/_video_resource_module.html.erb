@@ -9,7 +9,7 @@
      unless @vid.blank?%>
   <p>
     <%= render :partial => "video/player.html.erb" %><br />
-    <a href="<%=video.url%>" rel="prettyPhoto" title="Click to view larger"><img style="vertical-align:middle;"src="/images/icons/play.png" alt="Play"  /></a>
+    <a href="<%=video.url%>" rel="prettyPhoto" title="Click to view larger"><img style="vertical-align:middle;"src="icons/play.png" alt="Play"  /></a>
     <a href="<%=video.url%>" rel="prettyPhoto" title="Click to view larger">View Larger</a>
   </p>
   <%unless video.transcript.url.blank?%><p>Video Transcript: <a href = "<%=video.transcript.url()%>"  title ="Click to download"><%=  h(video.transcript_file_name) %></a></p><%end%>

@@ -8,7 +8,7 @@
   <div id="new_button" class="new">
     <a href= "/module/add_to_tutorial/<%=@mod.id%>?type=<%=@mod.class%>&sort=name">
       <span>
-	<img src="/images/icons/add.png" alt="Add Tab" />
+	<img src="icons/add.png" alt="Add Tab" />
 	Add to Tutorials
     </span></a>
   </div>
@@ -25,8 +25,8 @@
 	  <b><%= h tutorial.full_name%></b>
 	</td>
 	<td>
-	  <%= link_to image_tag("/images/icons/edit.png", :title => 'Edit this Tutorial', :alt => 'Edit', :border => 0), {:controller =>'tutorial', :action => 'update',  :id => tutorial}, :class=>'space'%>
-	  |	<%= link_to image_tag("/images/icons/document_preview.png", :title => 'Preview this Tutorial', :alt => 'View', :border => 0), { :controller => "ort", :action => 'index', :id => tutorial}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] , :class=>'space'%>
+	  <%= link_to image_tag("icons/edit.png", :title => 'Edit this Tutorial', :alt => 'Edit', :border => 0), {:controller =>'tutorial', :action => 'update',  :id => tutorial}, :class=>'space'%>
+	  |	<%= link_to image_tag("icons/document_preview.png", :title => 'Preview this Tutorial', :alt => 'View', :border => 0), { :controller => "ort", :action => 'index', :id => tutorial}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] , :class=>'space'%>
 
 	</td>
       </tr>

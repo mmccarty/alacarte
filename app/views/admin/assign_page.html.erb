@@ -35,7 +35,7 @@
               <td width = "70%"><span class="list-title" ><%= h user.name %></span></td>
 	      <td>
 		<%unless @page_owners.size == 1%>
-		<%= link_to image_tag("/images/icons/user_remove.png", :title => 'Remove this user from editor list', :alt => 'remove user', :border => 0), { :action => 'remove_user_from_page',:id => @page, :uid => user.id}, :confirm => 'Are you sure you want to remove this user from the editor list?', :method => :post %>
+		<%= link_to image_tag("icons/user_remove.png", :title => 'Remove this user from editor list', :alt => 'remove user', :border => 0), { :action => 'remove_user_from_page',:id => @page, :uid => user.id}, :confirm => 'Are you sure you want to remove this user from the editor list?', :method => :post %>
 	        <%end%>
 	      </td>
             </tr>

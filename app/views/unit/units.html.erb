@@ -4,7 +4,7 @@
   <div id ='share'>
     <fieldset>
       <h4>
-	<%= link_to image_tag("/images/icons/add.png", :title => 'Add Units', :alt => 'Add', :border => 0)+'Add Units', {:controller => 'unit', :action => 'add'}%>
+	<%= link_to image_tag("icons/add.png", :title => 'Add Units', :alt => 'Add', :border => 0)+'Add Units', {:controller => 'unit', :action => 'add'}%>
       </h4>
 
       <% unless @units.blank? %>
@@ -15,15 +15,15 @@
 	<li id = "item_<%=uz.id%>" class = "list-item">
 	  <span class="list-title" ><%=truncate(h(unit.title) ,:length => 40) %></span>
 	  <span>
-	    <span class = 'more_help' onMouseover="fixedtooltip('Slug Title: <%= unit.slug%> <br \/>Last Update: <%= unit.updated_at.to_date%> <br\/>Tagged with: <% unit.tag_list.each do |tag|%> <%= tag %><%end%>', this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+	    <span class = 'more_help' onMouseover="fixedtooltip('Slug Title: <%= unit.slug%> <br \/>Last Update: <%= unit.updated_at.to_date%> <br\/>Tagged with: <% unit.tag_list.each do |tag|%> <%= tag %><%end%>', this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 	    |
-	    <%= link_to image_tag("/images/icons/edit.png", :title => 'Edit this Unit', :alt => 'Edit', :border => 0), { :controller =>'unit', :action => 'update', :id => unit} %> |
-	    <%= link_to image_tag("/images/icons/remove.png", :title => 'Remove this Unit from Tutorial', :alt => 'Delete', :border => 0), {:controller =>'unit', :action => 'remove_unit', :id => unit }, :confirm => 'Are you sure you want to remove this Unit from the Tutorial?', :method => :post %>
-	    | <%= link_to image_tag("/images/icons/add.png", :title => 'Add Modules', :alt => 'Add', :border => 0)+'Add Modules', { :controller =>'unit', :action => 'add_modules', :id => unit} %>
+	    <%= link_to image_tag("icons/edit.png", :title => 'Edit this Unit', :alt => 'Edit', :border => 0), { :controller =>'unit', :action => 'update', :id => unit} %> |
+	    <%= link_to image_tag("icons/remove.png", :title => 'Remove this Unit from Tutorial', :alt => 'Delete', :border => 0), {:controller =>'unit', :action => 'remove_unit', :id => unit }, :confirm => 'Are you sure you want to remove this Unit from the Tutorial?', :method => :post %>
+	    | <%= link_to image_tag("icons/add.png", :title => 'Add Modules', :alt => 'Add', :border => 0)+'Add Modules', { :controller =>'unit', :action => 'add_modules', :id => unit} %>
 	  </span>
 
 	  <span class = 'handle'>
-	    <%=image_tag("/images/icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>
+	    <%=image_tag("icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>
 
 	  <div id="detail_<%=unit.id%>" style="display:block">
 	    <%=unit.description%>
@@ -34,13 +34,13 @@
 			       mod = res.mod
 			       %>
 	      <li id = "item_<%=resable.id%>" class = "list-item">
-		<span class="list-title" ><%=truncate(h(mod.label) ,:length => 40) %></span>   <span class = 'handle'><%=image_tag("/images/icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>
+		<span class="list-title" ><%=truncate(h(mod.label) ,:length => 40) %></span>   <span class = 'handle'><%=image_tag("icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)%>  </span>
 		<br />
-		<span class = 'more_help' onMouseover="fixedtooltip('<%=render_tooltip(mod)%>', this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+		<span class = 'more_help' onMouseover="fixedtooltip('<%=render_tooltip(mod)%>', this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 		|
-		<%= link_to image_tag("/images/icons/edit.png", :title => 'Edit this module', :alt => 'Edit', :border => 0), { :controller =>'module', :action => 'edit_content', :id => mod, :type => mod.class} %> |
-		<%= link_to image_tag("/images/icons/document_preview.png", :title => 'View this Module', :alt => 'View Module', :border => 0),{ :controller => 'module', :action => 'view', :id => mod, :type => mod.class}, :popup => ['', 'height=500,width=400,toolbar=yes, scrollbars =yes,resizable=yes'] %> |
-		<%= link_to image_tag("/images/icons/remove.png", :title => 'Delete this module from unit', :alt => 'Delete', :border => 0), {:controller => 'unit',:action => 'remove_module', :rid => res, :id => unit.id }, :confirm => 'Are you sure you want to remove this module from the lesson?', :method => :post %>
+		<%= link_to image_tag("icons/edit.png", :title => 'Edit this module', :alt => 'Edit', :border => 0), { :controller =>'module', :action => 'edit_content', :id => mod, :type => mod.class} %> |
+		<%= link_to image_tag("icons/document_preview.png", :title => 'View this Module', :alt => 'View Module', :border => 0),{ :controller => 'module', :action => 'view', :id => mod, :type => mod.class}, :popup => ['', 'height=500,width=400,toolbar=yes, scrollbars =yes,resizable=yes'] %> |
+		<%= link_to image_tag("icons/remove.png", :title => 'Delete this module from unit', :alt => 'Delete', :border => 0), {:controller => 'unit',:action => 'remove_module', :rid => res, :id => unit.id }, :confirm => 'Are you sure you want to remove this module from the lesson?', :method => :post %>
 	      </li>
 	      <% end %>
 	    </ul>

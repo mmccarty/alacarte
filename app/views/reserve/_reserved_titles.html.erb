@@ -4,7 +4,7 @@
 <% if @reserves.first[:course] %>
 <div id="reserved_titles">
   <label for="mod_course_reserves" >Course Reserves
-    <span class = 'more_help' onMouseover="fixedtooltip('Course Reserves Search results', this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+    <span class = 'more_help' onMouseover="fixedtooltip('Course Reserves Search results', this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
     <%=link_to('Select a different course',:update => "returns", :loading => "Element.show('spinner_select')", :complete => "Element.hide('spinner_select')",
                :url =>{ :controller => 'reserve', :action => 'edit_reserves', :id => @mod} , :update => "returns", :remote => true)%>
     <%= image_tag "spinner.gif", :id => "spinner_select", :class => 'image', :alt => "Spinner", :style => 'display:none;'%>
@@ -29,7 +29,7 @@
 </div>
 <% else %>
 <label for="mod_course_reserves" >Course Reserves
-  <span class = 'more_help' onMouseover="fixedtooltip('Course Reserves Search results', this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+  <span class = 'more_help' onMouseover="fixedtooltip('Course Reserves Search results', this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
   <%=link_to('Select a different course', :update => "returns", :loading => "Element.show('spinner_select')", :complete => "Element.hide('spinner_select')",:url =>{:controller => 'reserve', :action => 'edit_reserves', :id => @mod} , :update => "returns", :remote => true)%>
   <%= image_tag "spinner.gif", :id => "spinner_select", :class => 'image', :alt => "Spinner", :style => 'display:none;'%>
 
@@ -37,7 +37,7 @@
 <div class="reserves_results">
 
   <p class="bolded">Reserves for <%= @course_title%>
-    <span class = 'more_help' onMouseover="fixedtooltip(RESERVE_LIST_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+    <span class = 'more_help' onMouseover="fixedtooltip(RESERVE_LIST_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
   </p>
   <table class="reserves_table">
     <tr>
@@ -61,7 +61,7 @@
 <% else %>
 <div id="results">
   <label for="mod_course_reserves" >Course Reserves
-    <span class = 'more_help' onMouseover="fixedtooltip('Course Reserves Search results', this, event, '');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+    <span class = 'more_help' onMouseover="fixedtooltip('Course Reserves Search results', this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
     <%=link_to('Select a different course', :update => "returns", :loading => "Element.show('spinner_select')", :complete => "Element.hide('spinner_select')",:url =>{ :controller => 'reserve',:action => 'edit_reserves', :id => @mod} , :update => "returns", :remote => true)%>
   </label>
   <p class="reserves_results">There are currently no titles on reserve for <%= @course_title%> . <br /></p>

@@ -7,12 +7,12 @@
     <% if flash[:notice] -%>
     <div id="error_wrapper">    <div id="notice" ><%= flash[:notice] %></div></div>
     <% end -%>
-    <p><%= related_link %> <span class = 'more_help'  onMouseover="fixedtooltip(AUTO_RELATED_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+    <p><%= related_link %> <span class = 'more_help'  onMouseover="fixedtooltip(AUTO_RELATED_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
     </p>
 
     <div id="share_left">
       <%= form_tag :action => 'edit_relateds'  do%>
-      <label>Add Related Guides  <span class = 'more_help'  onMouseover="fixedtooltip(ADD_RELATED_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("/images/icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
+      <label>Add Related Guides  <span class = 'more_help'  onMouseover="fixedtooltip(ADD_RELATED_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>
       <select id="guide_id" name="relateds[]" multiple="multiple"  size = 8>
 	<%= options_from_collection_for_select(@guides, 'id', 'guide_name', @relateds) %>
@@ -42,7 +42,7 @@
 		     <%guide_url = url_for :controller => 'srg', :action => 'index', :id => guide%>
 	      <li>
 		<%= link_to h(guide.guide_name), guide_url, :title => "#{h(guide.description)}", :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] %>
-		<%= link_to image_tag("/images/icons/remove.png", :title => 'Remove from related guides list', :alt => 'remove', :border => 0), { :action => 'remove_related', :gid => guide.id}, :confirm => 'Are you sure you want to remove this guide from the related guides list?', :method => :post %>
+		<%= link_to image_tag("icons/remove.png", :title => 'Remove from related guides list', :alt => 'remove', :border => 0), { :action => 'remove_related', :gid => guide.id}, :confirm => 'Are you sure you want to remove this guide from the related guides list?', :method => :post %>
 	      </li>
 	      <%end %>
 </ul>
