@@ -6,14 +6,7 @@
   <div id="share">
     <fieldset>
       <%= form_tag({:action=> 'tutorial_update',:id =>@tutorial}) do %>
-      <div id="share_left">
-	<h5>Add People </h5>
-	<div class="tip">Select people you want to share with.</div>
-	<select id="users" name="users[]" multiple="multiple" class="share" >
-	  <%= options_from_collection_for_select(@user_list, 'id', 'name') %>
-	</select>
-	<br /><div class = "tip">(press Ctrl+Alt to select mutiple users)</div>
-      </div>
+      <%= render 'shared/share_left' %>
 
       <div id="share_right">
 	<label for = "copy">Share Tutorial or Share Copy? <br />

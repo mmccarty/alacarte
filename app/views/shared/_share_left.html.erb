@@ -1,0 +1,8 @@
+  <div id="share_left">
+    <h5>Add People</h5>
+    <div class="tip">Select people you want to share with.</div>
+    <select id="users" name="users[]" multiple="multiple" class="share" >
+      <%= options_from_collection_for_select(@user_list, 'id', 'name') %>
+    </select>
+    <div class = "tip">(press Ctrl+Alt to select multiple users)</div>
+  </div>

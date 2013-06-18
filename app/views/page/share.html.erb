@@ -10,14 +10,7 @@
     <div id="share">
       <fieldset>
  	<%= form_tag({:action=> 'share_update',:id =>@page}) do %>
-	<div id="share_left">
-	  <h5>Add People</h5>
-	  <div class="tip">Select people you want to share with.</div>
-	  <select id="users" name="users[]" multiple="multiple" class="share" >
-	    <%= options_from_collection_for_select(@user_list, 'id', 'name') %>
-	  </select>
-	  <div class = "tip">(press Ctrl+Alt to select mutiple users)</div>
-	</div>
+  <%= render 'shared/share_left' %>
 	<div id="share_right">
 	  <fieldset>
 	    <h5>Sharing Options <span class = 'more_help'  onMouseover="fixedtooltip(GUIDE_SHARE_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></h5>
