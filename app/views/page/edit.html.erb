@@ -5,15 +5,7 @@
   <div id ="error_wrapper">    <div id="list_error" ><%= flash[:error] %></div></div>
   <% end -%>
   <%= error_messages_for 'page' %>
-  <div id="add_tab">
-    <div id="new_button" class="new">
-      <a href="#" onclick="$('tab_new').toggle();$('new_button').toggle();; return false;">
-        <span>
-	  <img src="icons/add.png" alt="Add Tab" />
-	  Add New Tab
-      </span></a>
-    </div>
-
+  <%= new_button 'Add New Tab' %>
 
     <div id="tab_new" style="display:none">
       <%= form_tag :controller => 'tab', :action => 'page_create' do%>

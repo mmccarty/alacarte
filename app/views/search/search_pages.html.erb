@@ -5,13 +5,7 @@
 <% end %>
 
 <div id="page-list">
-  <div id="new_button" class="new">
-    <a href="#" onclick="$('new').toggle();$('new_button').toggle();; return false;">
-      <span>
-	<img src="icons/add.png" alt="Create New ICA Page" />
-	Create New Course Page
-    </span></a>
-  </div>
+  <%= new_button 'Create New Course Page' %>
 
   <div id="new"  style="display:none">
     <%= form_tag :controller => 'page', :action => 'create' do%>

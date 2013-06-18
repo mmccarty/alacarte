@@ -2,13 +2,7 @@
 <div id="list_error" ><%= flash[:notice] %></div>
 <% end -%>
 <div id="mod-list">
-  <div id="new_button" class="new">
-    <a href="#" onclick="$('new').toggle();$('new_button').toggle();; return false;">
-      <span>
-	<img src="icons/add.png" alt="Create New Module" />
-	Create New Module
-    </span></a>
-  </div>
+  <%= new_button 'Create New Module' %>
   <div id="new" style="display:none">
     <%= form_tag :controller => 'module', :action => 'create' do%>
     <%= error_messages_for 'mod' %>

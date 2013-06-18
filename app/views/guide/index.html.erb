@@ -3,13 +3,7 @@
 <% end -%>
 
 <div id="page-list">
-  <div id="new_button" class="new">
-    <a href="#" onclick="$('new').toggle();$('new_button').toggle();; return false;">
-      <span>
-	<img src="icons/add.png" alt="Create New Guide" />
-	Create New Guide
-    </span></a>
-  </div>
+  <%= new_button 'Create New Guide' %>
 
   <div id="new"  style="display:none">
     <%= form_tag :action => 'create', :id => @guide do%>
