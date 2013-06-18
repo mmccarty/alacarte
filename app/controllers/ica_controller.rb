@@ -4,7 +4,7 @@ class IcaController < ApplicationController
   layout :select_layout
 
   def index
-    @page = Page.find(params[:id], :include => [:users, :resource, :tags, {:tabs => :tab_resources}])
+    @page = Page.includes(:users, :resource, :tags, {:tabs => :tab_resources}).find(params[:id])
     @tabs = @page.tabs
     @tab = params[:tab] ? @tabs.select{|t| t.id == params[:tab].to_i}.first : @tabs.first
     if @tab and @tab.template == 2

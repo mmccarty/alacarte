@@ -62,13 +62,16 @@
 <div class="item"><div class="item2">
     <div class='module'>
       <%if @owner%>
-      <%=image_tag("icons/comment.png", :title => 'Email Guide Owner', :alt => 'comment')%><%=mail_to @owner.email, "Comments", :encode => "javascript"%>
+      <%= image_tag "icons/comment.png", :title => 'Email Guide Owner', :alt => 'comment' %>
+      <%=mail_to @owner.email, "Comments", :encode => "javascript"%>
       <br />
       <%end%>
-      <img src="icons/rss.png" alt="Subscribe to RSS" /> <%= link_to "RSS Feed" , :action => 'feed', :id => @guide %>
+      <%= image_tag "icons/rss.png", :alt => "Subscribe to RSS" %>
+      <%= link_to "RSS Feed" , :action => 'feed', :id => @guide %>
       <br />
       <!-- AddThis Bookmark Button BEGIN -->
-      <img src="icons/add_big.png" alt="add to bookmark"  />  <a href="http://www.addthis.com/bookmark.php" onclick="window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;" title="Bookmark using any bookmark manager!">Bookmark This</a>
+      <%= image_tag "icons/add_big.png", :alt => "add to bookmark" %>
+      <a href="http://www.addthis.com/bookmark.php" onclick="window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;" title="Bookmark using any bookmark manager!">Bookmark This</a>
       <!-- AddThis Bookmark Button END -->
 
     </div>

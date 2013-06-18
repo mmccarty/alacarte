@@ -10,7 +10,7 @@
         <%= csrf_meta_tag %>
         <%=stylesheet_link_tag 'mobile.css'%>
         <link rel='stylesheet' type='text/css' href='/stylesheets/modules.css' />
-        <%= javascript_include_tag :defaults %>
+        <%= javascript_include_tag 'application' %>
         <%if js_enabled_mobile_device?%>
         <script type="text/javascript" src="/javascripts/template.js"></script>
         <%end%>

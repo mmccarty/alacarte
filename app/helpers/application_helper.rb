@@ -3,7 +3,7 @@ module ApplicationHelper
     if !mod.blank?
       @mod = mod
       mod_class = @mod.class.to_s
-      render :partial => 'shared/'+mod_class.underscore+'_module.html.erb',:object => @mod
+      render :partial => 'shared/'+mod_class.underscore+'_module.html', :object => @mod
     end
   end
 

@@ -1,7 +1,7 @@
 <!-- local customization -->
 <% unless @local.guide_box.blank? %>
   <div class="well">
-    <%= @local.guide_box %>
+    <%= raw @local.guide_box %>
   </div>
 <%end%>
 
@@ -16,7 +16,7 @@
 <% unless @page.page_description.blank? %>
   <div class="well">
     <h4>About this Guide</h4>
-    <%= h @page.page_description %>
+    <%= @page.page_description %>
   </div>
 <%end%>
 
@@ -26,7 +26,7 @@
     <h4>
       <div class="expandable">
         <span id="guide1-title">
-          <img src="open.png" alt="click to close" />
+          <%= image_tag "open.png", :alt => "click to close" %>
         </span>
         Related Guides
       </div>
@@ -58,17 +58,17 @@
 <ul class="inline">
   <li>
     <% if @owner %>
-      <%= image_tag("icons/comment.png", :alt => "Email Guide Owner") %>
+      <%= image_tag "icons/comment.png", :alt => "Email Guide Owner" %>
       <%= mail_to @owner.email, "Comments?", :encode => "javascript" %>
     <% end %>
   </li>
   <li>
-    <img src="icons/rss.png" alt="Subcribe to RSS" />
+    <%= image_tag "icons/rss.png", :alt => "Subcribe to RSS" %>
     <%= link_to "RSS" , :action => "feed", :id => @page %>
   </li>
   <li>
     <!-- AddThis Bookmark Button BEGIN -->
-    <img src="icons/add_big.png" alt="add to bookmark" />
+    <%= image_tag "icons/add_big.png", :alt => "add to bookmark" %>
     <a href="http://www.addthis.com/bookmark.php" onclick="window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;" title="Bookmark using any bookmark manager!">Bookmark</a>
     <!-- AddThis Bookmark Button END -->
   </li>
