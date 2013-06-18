@@ -24,6 +24,7 @@
   <h5> Page Metadata</h5>
   <label for="page_page_description">Description <span class = 'more_help' onMouseover="fixedtooltip(PAGE_DESC, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
   <%= text_area_tag 'page', 'page_description',"class" => 'tinymce', :size => '40x2'  %>
+  <%= tinymce %>
   <div class = 'tip'>Enter a short description about the page.</div>
   <label for="tags">Tags <span class = 'more_help' onMouseover="fixedtooltip(PAGE_TAGS, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
   <%= text_area_tag 'tags', @page.tag_list, {"class" => 'tinymce', :size => '40x2'}  %>

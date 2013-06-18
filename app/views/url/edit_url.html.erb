@@ -11,6 +11,7 @@
   <label for="mod_info" > General Information
     <span class = 'more_help' onMouseover="fixedtooltip(URL_INFO_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
   <%= text_area_tag 'mod', 'information',:class => "tinymce" %>
+  <%= tinymce %>
 
   <div id ='links'>
     <%=render :partial => '/url/link', :collection => @mod.links %>

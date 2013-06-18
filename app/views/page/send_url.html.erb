@@ -14,6 +14,7 @@
       <%= form_tag :action=>'send_url', :id => @page do%>
       <label for="email"> Email Address<span class="required">*</span></label> <%= text_field_tag "email", nil, :size =>54 %>
       <label for="body"> Email Message</label> <%= text_area_tag "body", @message, :rows => 10, :cols => 3, :class => "tinymce"%>
+      <%= tinymce %>
       <br />
       <div id ="submit_button">
         <%= submit_tag 'Email URL', :class=> "submit"  %>

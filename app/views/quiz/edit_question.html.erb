@@ -25,6 +25,7 @@
       <%end%>
       <label for="mod_label">Question</label>
       <%= text_area_tag :question, :question, {:class => 'tinymce'} %>
+      <%= tinymce %>
 
       `<div id="submit_button">
 	<%= submit_tag 'Save', :class => "submit" %>

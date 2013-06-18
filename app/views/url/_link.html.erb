@@ -23,6 +23,7 @@
       <label for="mod_link_info" >Link Description  <span class = 'more_help' onMouseover="fixedtooltip(LINK_DESC_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
       </label>
       <%= link_form.text_area :description, {:class => 'tinymce', :size => '40x2'} %>
+      <%= tinymce %>
     </div>
     <div id="ex_link_<%=link.id%>" style = <%=new_or_existing == 'existing' ? "" : "display:none"%> >
       <h5>Link Preview

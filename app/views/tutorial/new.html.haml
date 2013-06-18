@@ -1,0 +1,9 @@
+%fieldset
+  #main
+    %h3 Create New Tutorial
+    =error_messages_for 'page'
+    =form_tag({ :action => 'new' }, { :multipart => true }) do
+      #share
+        =render 'form'
+    %p
+      =link_to 'Cancel', :action => 'index'

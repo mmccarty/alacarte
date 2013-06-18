@@ -18,6 +18,7 @@
 	<label for="mod_upload_info" >Attachment Information  <span class = 'more_help' onMouseover="fixedtooltip(UPLOAD_INFO_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 	</label>
 	<%= uploadable_form.text_area :upload_info, {:class => 'tinymce', :size => '40x2'} %>
+  <%= tinymce %>
       </div>
       <div id="ex_upload_<%=uploadable.id%>" style = <%=new_or_existing == 'existing' ? "" : "display:none"%> >
 	<label for="mod_upload">Attachment Preview

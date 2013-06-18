@@ -2,7 +2,8 @@
 <label for="tutoral_name">Title <span class="required more_help">*</span> <span class = 'more_help'  onMouseover="fixedtooltip(TUTORIAL_TITLE_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
 <%= text_field 'tutorial','name',"size" => 62 %>
 <label for="tutorial_tutorial_description">Description <span class = 'more_help' onMouseover="fixedtooltip(TUTORIAL_DESC_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
-<%= text_area_tag 'tutorial', 'description', "class" => 'tinymce'%>
+<%= text_area_tag 'tutorial', 'description', :class => 'tinymce' %>
+<%= tinymce %>
 
 <label for="tags">Tags <span class = 'more_help' onMouseover="fixedtooltip(TUTORIAL_TAG_MSSG, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
 <%= text_field_tag 'tags', @tag_list,"size" => 62%>

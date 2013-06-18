@@ -25,4 +25,5 @@
 <%end%>
 <label for="tags">Tags <span class = 'more_help' onMouseover="fixedtooltip(MOD_TAGS, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
 <%= text_area_tag 'tags', @tags, {"class" => 'tinymce', :size => '40x2'}  %>
+<%= tinymce %>
 <div class = 'tip'>	example: WR101, Databases, Writing</div>
