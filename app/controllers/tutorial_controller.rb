@@ -239,7 +239,6 @@ class TutorialController < ApplicationController
     end
   end
 
-  #delete the tutorial from a user. deal with the assocations.
   def destroy
     begin
       @tutorial =  @user.tutorials.find(params[:id])

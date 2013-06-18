@@ -393,25 +393,6 @@ class User < ActiveRecord::Base
     user
   end
 
-  def self.authenticate_sso(cookie,sso_service_name,sso_service_password,sso_redirect_url)
-    if cookie
-      sso_session_data = self.validate_cookie(cookie,sso_service_name,sso_service_password)#use sid from sso cookie to find out if cookie is still valid
-      if sso_session_data['valid'] == 1        #a value of 1 means the cookie is valid and 0 means it is not
-        user_data = self.getUserInfo(cookie,sso_service_name,sso_service_password)         #retrieve user data from validated sso cookie
-      else
-        user_data = nil
-      end
-    else
-      user_data = nil
-    end
-    return user_data
-  end
-  #End the session on the sso server and delete the cookie
-  def self.sso_session_destroy(sso_session_id,sso_service_name,sso_service_password)
-    server = XMLRPC::Client.new("secure.onid.oregonstate.edu","/sso/rpc",443,nil,nil,nil,nil,1,0) #Had to send all of the parameters to this function because the 443 for the port was not the default and we had to set the ssl flag as well
-    server.call('sso.session_destroy',sso_service_name + ":" + sso_service_password,sso_session_id)#sso_service_password and sso_session_id can be set in config/initializers/sso_settings.rb
-  end
-
   #creates accounts for alaCarte users
   def self.create_new_account(params)
     user = User.new
@@ -494,19 +475,5 @@ class User < ActiveRecord::Base
     newpass = ""
     1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
     return newpass
-  end
-
-  #verifies that the sso cookie is still valid
-  def self.validate_cookie(sso_session_id,sso_service_name,sso_service_password)
-    server = XMLRPC::Client.new("secure.onid.oregonstate.edu","/sso/rpc",443,nil,nil,nil,nil,1,0) #Had to send all of the parameters to this function because the 443 for the port was not the default and we had to set the ssl flag as well
-    user_data = server.call('sso.session_check',sso_service_name + ":" + sso_service_password,sso_session_id,1)#sso_service_password and sso_session_id can be set in config/initializers/sso_settings.rb
-    return user_data
-  end
-
-  #retrieve the user information from the SSO session data.
-  def self.getUserInfo(sso_session_id,sso_service_name,sso_service_password)
-    server = XMLRPC::Client.new("secure.onid.oregonstate.edu","/sso/rpc",443,nil,nil,nil,nil,1,0) #Had to send all of the parameters to this function because the 443 for the port was not the default and we had to set the ssl flag as well
-    user_data = server.call('sso.session_userinfo',sso_service_name + ":" + sso_service_password,sso_session_id)#sso_service_password and sso_session_id can be set in config/initializers/sso_settings.rb
-    return user_data
   end
 end

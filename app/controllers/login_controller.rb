@@ -40,7 +40,7 @@ class LoginController < ApplicationController
   end
 
   def signup
-    if request.post? and !sso_enabled #only use this feature if sso is not enabled
+    if request.post?
       if verify_recaptcha
         url = url_for :controller => 'admin', :action => 'pending_users'  #Set the url for the admin notifcation email.
         #If there are any errors @user will contain the error messages that
@@ -56,8 +56,6 @@ class LoginController < ApplicationController
         @user = User.new
         @user.errors.add(:recaptcha, "Recaptcha Values were incorrect")
       end
-    else
-      flash.now[:notice] = "Disable SSO to turn on this feature." unless !sso_enabled
     end
   end
 

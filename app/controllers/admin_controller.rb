@@ -107,13 +107,8 @@ class AdminController < ApplicationController
     @user = User.find(params[:id])
     if @user.update_attribute('role', 'author') #skipping validations by using update_attribute instead of update_attributes
       begin
-        if sso_enabled
-          url = url_for :controller => 'sso_login', :action => 'login'   #Set the url to the login page for the approval email
-          Notifications.deliver_accept_pending_user(@user.email, @local.admin_email_from, @user.password, url)
-        else
-          url = url_for :controller => 'login', :action => 'login'   #Set the url to the login page for the approval email
-          Notifications.deliver_accept_nonsso_pending_user(@user.email, @local.admin_email_from, @user.password, url)
-        end
+        url = url_for :controller => 'login', :action => 'login'   #Set the url to the login page for the approval email
+        Notifications.deliver_accept_nonsso_pending_user(@user.email, @local.admin_email_from, @user.password, url)
 
       rescue Exception => e
         logger.error("Exception in register user: #{e}}" )

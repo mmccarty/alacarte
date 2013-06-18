@@ -140,13 +140,4 @@ module ApplicationHelper
   def is_more?
     @mod.more_info.blank?
   end
-
-  #variables for use with SSO functions
-  def sso_enabled
-    SSO_ENABLED
-  end
-
-  def used_sso
-    session[:login_type] ? true:false
-  end
 end

@@ -16,12 +16,8 @@ class ApplicationController < ActionController::Base
     user = User.find_by_id(session[:user_id])
     unless user
       session[:original_uri] = request.request_uri #remember where the user was trying to go
-      if SSO_ENABLED
-        redirect_to(:controller=> "sso_login", :action => "login") and return
-      else
-        flash[:notice]= "Please log in"
-        redirect_to(:controller=> "login", :action => "login") and return
-      end
+      flash[:notice]= "Please log in"
+      redirect_to(:controller=> "login", :action => "login") and return
       return false
     else
       @user = user
@@ -32,11 +28,7 @@ class ApplicationController < ActionController::Base
     student = Student.find_by_id_and_tutorial_id(session[:student],session[:tutorial])
     unless student
       session[:tut_uri] = request.request_uri #remember where the user was trying to go
-      if SSO_ENABLED
-        redirect_to(:controller=> "sso_login", :action => "student_login", :id => session[:tutorial]) and return
-      else
-        redirect_to(:controller=> "student", :action => "login", :id => session[:tutorial]) and return
-      end
+      redirect_to(:controller=> "student", :action => "login", :id => session[:tutorial]) and return
       return false
     else
       @student = student
@@ -99,46 +91,6 @@ class ApplicationController < ActionController::Base
     @campus = CAMPUS
   end
 
-  def sso_enabled
-    return SSO_ENABLED #sso_enabled can be set in config/initializers/sso_settings.rb
-  end
-
-  def sso_service_name
-    return SSO_SERVICE_NAME #sso_service_name can be set in config/initializers/sso_settings.rb
-  end
-
-  def sso_service_password
-    return SSO_SERVICE_PASSWORD #sso_service_password can be set in config/initializers/sso_settings.rb
-  end
-
-  def sso_redirect_url
-    return SSO_REDIRECT_URL #sso_redirect_url can be set in config/initializers/sso_settings.rb
-  end
-
-  def student_sso_enabled
-    return STUDENT_SSO_ENABLED #student_sso_enabled can be set in config/initializers/sso_settings.rb
-  end
-
-  def student_sso_service_name
-    return STUDENT_SSO_SERVICE_NAME #student_sso_service_name can be set in config/initializers/sso_settings.rb
-  end
-
-  def student_sso_service_password
-    return STUDENT_SSO_SERVICE_PASSWORD #student_sso_service_password can be set in config/initializers/sso_settings.rb
-  end
-
-  def student_sso_redirect_url
-    return STUDENT_SSO_REDIRECT_URL #student_sso_redirect_url can be set in config/initializers/sso_settings.rb
-  end
-
-  #verifies that the sso cookie exists in the client browser
-  def check_cookie
-    cookie = request.cookies['sso']
-    return cookie
-  end
-  #session variables
-
-  #returns customizations
   def local_customization
     @local = Local.first
   end

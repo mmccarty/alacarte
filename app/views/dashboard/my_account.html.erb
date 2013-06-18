@@ -10,12 +10,6 @@
   <div id ='share'>
     <fieldset>
       <h4>Edit Your Account Information</h4>
-      <% if sso_enabled && used_sso %>
-      <div class = 'tip'>
-	This will only edit your Library a la Carte information and not your Onid information.
-	You will only be able to login with this account at ..../login/login
-      </div>
-      <% end %>
       <%= form_tag :action => 'my_account' do%>
       <label for="user_password">Full Name</label>
       <%= text_field "user", "name", :size => 54 %>

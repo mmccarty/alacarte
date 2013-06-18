@@ -60,12 +60,6 @@
 	      <p>You have <%=@cnum%> published course pages, <%=@acnum%> archived course pages, <%=@gnum%> published subject guides, <%=@tnum%> published tutorials, <%=@atnum%> archived tutorials, and <%=@mnum%> modules.</p>
 	      <p><%=image_tag("/images/icons/user.png", :title => 'My Account', :alt => 'Account', :border => 0)%><%= link_to"Edit Your Account" , :controller => 'dashboard', :action => 'my_account' %><br />
 		Edit your user name, email or password.</p>
-	      <% if sso_enabled && used_sso %>
-	      <p>
-		<%=image_tag("/images/icons/user.png", :title => 'My ONID Account', :alt => 'ONID Account', :border => 0)%><%= link_to"Edit Your ONID Account" , 'http://onid.oregonstate.edu/' %><br />
-		Edit your ONID account.
-	      </p>
-	      <% end %>
 	      <p>	<%=image_tag("/images/icons/help.png", :title => 'Help FAQ', :alt => 'Help', :border => 0)%><a href="http://alacarte.library.oregonstate.edu/support" target="_blank">Get Help</a> <br />
 		Get help and read about new features.</p>
 	    </div>

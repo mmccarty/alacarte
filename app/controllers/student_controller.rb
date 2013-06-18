@@ -5,7 +5,6 @@ class StudentController < ApplicationController
   layout :select_layout
 
   def login
-    redirect_to :controller => 'sso_login', :action => 'student_login', :id=> params[:id] and return if sso_enabled
     @tutorial = Tutorial.find(params[:id])
     session[:student]= nil
     session[:quiz]= nil
@@ -68,7 +67,6 @@ class StudentController < ApplicationController
   end
 
   def log_out
-    redirect_to :controller => 'sso_login', :action => 'student_log_out', :id=> params[:id] and return if sso_enabled
     Result.clear_all_saved_answers(session[:saved_student])
     session[:saved_student] = nil
     session[:student]= nil
