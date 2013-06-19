@@ -4,27 +4,24 @@ A Brief History
 History is important to give credit where it is due, and also because
 the licensing is a bit convoluted.
 
-The Interactive Course Assignment Pages (ICAP) project was started
-in 2007 by Kimberly Griggs, working for Oregon State University
-Libraries and Press.  In 2008, ICAP was rebranded to Library a la
-Carte.  Early versions were released under the GPL and are available
-from RubyForge and the rubyforge branch of our git repository.  See:
+The Interactive Course Assignment Pages (ICAP) project was started 
+in 2007 at the Oregon State University Libraries and Press by 
+Kimberly Griggs. In 2008, ICAP was rebranded to Library a la Carte. 
+Early versions were released under the GPL and are available from 
+RubyForge and the rubyforge branch of our git repository. See:
 
 - https://rubyforge.org/projects/alacarte/
 - https://github.com/nubgames/alacarte/tree/rubyforge
 
-Ms. Griggs left OSU in 2010, but took care to oversee a 1.5 release
-under the GNU Affero Public License.  That release is available
-both from her GitHub page and the griggsk branch of our source tree.
-See:
+Version 1.5 was released under the GNU Affero Public License. That 
+release is available both from the original developer's GitHub page 
+and the griggsk branch of our source tree. See:
 
 - https://github.com/griggsk/Library-a-la-Carte
 - https://github.com/nubgames/alacarte/tree/griggsk
 
-The project began to wither with her departure, though OSU made
-efforts to maintain it through 2011.  In Decemeber 2012, OSU released
-version 1.6 and declared a la Carte abandonware.  With the 1.6
-release, the license reverted to GPL3.  See:
+In December 2012, OSU released version 1.6 and declared a la Carte 
+abandonware. With the 1.6 release, the license reverted to GPL3. See:
 
 - http://alacarte.library.oregonstate.edu/node/25416
 
