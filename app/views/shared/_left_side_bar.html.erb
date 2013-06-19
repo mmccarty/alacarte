@@ -12,16 +12,16 @@
   </div>
 <%end%>
 
-<!-- Page Description -->
-<% unless @page.page_description.blank? %>
+<!-- Guide/Page Description -->
+<% unless index_description.blank? %>
   <div class="well">
     <h4>About this Guide</h4>
-    <%= @page.page_description %>
+    <%= index_description %>
   </div>
 <%end%>
 
 <!-- Related Guides -->
-<% if @local.guides_list.include?("guides") %>
+<% if @local.guides_list.include?("guides") and @related_guides %>
   <div class="well">
     <h4>
       <div class="expandable">
@@ -35,7 +35,9 @@
     <div id="guide1" class="guide_list">
       <ul class="unstyled">
         <% @related_guides.each do |guide| %>
-          <% guide_url = url_for :controller => "srg", :action => "index", :id => guide %>
+          <% guide_url = url_for :controller => "srg",
+                                 :action => "index",
+                                 :id => guide %>
           <li>
             <%= link_to h(guide.guide_name), guide_url, :title => "#{h(guide.description)}" %>
           </li>
@@ -45,14 +47,47 @@
 
     <ul class="unstyled">
       <li>
-        <a href ="/subject-guides/"><%=@local.guide_page_title %></a>
+        <a href="/subject-guides/"><%= @local.guide_page_title %></a>
       </li>
       <li>
-        <a href ="/course-guides/"><%=@local.ica_page_title %></a>
+        <a href="/course-guides/"><%= @local.ica_page_title %></a>
       </li>
     </ul>
   </div>
-<%end%>
+<% end %>
+
+<!-- Related Course Pages -->
+<% if @local.guides_list.include?('pages') and @related_pages  %>
+  <div class="well">
+    <h4>
+      <div class="expandable">
+        <span id="guide2-title">
+          <%= image_tag "open.png", :alt => "click to close" %>
+        </span>
+        Related Course Guides
+      </div>
+    </h4>
+
+    <div id="guide2" class="guide_list">
+      <ul class="unstyled">
+          <% @related_pages.each do |page| %>
+            <% page_url = url_for :controller => "ica",
+                                  :action => "index",
+                                  :id => page %>
+            <li>
+              <%= link_to h(page.header_title), page_url, :title => "#{h(page.page_description)}" %>
+            </li>
+          <% end %>
+      </ul>
+    </div>
+
+    <ul class="unstyled">
+      <li>
+        <a href="/course-guides/"><%= @local.ica_page_title %> </a>
+      </li>
+    </ul>
+  </div>
+<% end %>
 
 <!-- Social -->
 <ul class="inline">
@@ -74,6 +109,6 @@
   </li>
 </ul>
 
-<%= render :partial => "expand_collapse",
+<%= render :partial => "shared/expand_collapse",
            :locals => { :list_name => "guide_list",
                         :expand_first_content => false } %>
