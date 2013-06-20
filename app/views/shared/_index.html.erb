@@ -40,7 +40,8 @@
           <%= render :partial => "shared/one_column" %>
         <% end %>
 
-        <%= render :partial => "metadata" %>
+        <%= render :partial => "shared/metadata",
+                   :locals => { :tag_list => index.tag_list } %>
       </div>
     </div> <!-- end main content -->
   </div> <!-- end row -->
