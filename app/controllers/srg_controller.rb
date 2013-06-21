@@ -1,6 +1,6 @@
 class SrgController < ApplicationController
   skip_before_filter :authorize
-  layout :select_layout
+  layout 'template'
 
   def index
     @guide = Guide.includes(:users, {:masters => :guides}, :subjects, :resource, :tags).find(params[:id])
@@ -49,12 +49,6 @@ class SrgController < ApplicationController
     render "ort/published_tutorials"
   end
 
-  def print_portal
-    @title= @local.guide_page_title + " | Print"
-    @guides = Guide.published_guides
-    @tags = Guide.where(:published => true).tag_counts_on( :order => 'taggings.created_at desc', :limit => 100)
-  end
-
   def search
     @meta_keywords = "Search Subject Guides, Course Guides, and Research Tutorials"
     @meta_description= "Search Subject Guides, Course Guides, and Research Tutorials."
@@ -71,18 +65,6 @@ class SrgController < ApplicationController
     @guides = Guide.find_tagged_with(@tag, :conditions =>["published = ?", true])
   end
 
-  def print
-    @guide = Guide.includes({:tabs => :resources}).find(params[:id])
-    @mods = @guide.modules
-    @title= @guide.guide_name + " | Print "
-    @owner = @guide.users.select{|u| u.name == @guide.created_by}.first
-    @mod = @guide.resource.mod if @guide.resource
-    @owner = @guide.users.select{|u| u.name == @guide.created_by}.first
-    @updated = @guide.updated_at.to_formatted_s(:short)
-    @related_guides = @guide.related_guides
-    @related_pages = @guide.related_pages
-  end
-
   def feed
     @guide = Guide.find(params[:id])
     @mods = @guide.recent_modules
@@ -92,19 +74,8 @@ class SrgController < ApplicationController
     author = @guide.users.select{|u| u.name == @guide.created_by}.first
     @author_email = author.email + " ("+author.name+")" if author
     response.headers['Content-Type'] = 'application/rss+xml'
-    # Render the feed using an xml.builder template
     respond_to do |format|
       format.xml {render  :layout => false}
-    end
-  end
-
-  def select_layout
-    if ['print', 'print_portal'].include?(action_name)
-      "print"
-    elsif ['internal_guides'].include?(action_name)
-      "tutorial"
-    else
-      "template"
     end
   end
 end

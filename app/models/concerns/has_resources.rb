@@ -2,7 +2,7 @@ module HasResources
   extend ActiveSupport::Concern
 
   def shared?
-    self.resources.any? { |r| r.users.length > 1 }
+    resources.any? { |r| r.users.length > 1 }
   end
 
   def used?
@@ -12,15 +12,15 @@ module HasResources
   end
 
   def get_pages
-    self.get_nested_resources { |r| r.tabs.collect { |t| t.page } }
+    get_nested_resources { |r| r.tabs.collect { |t| t.page } }
   end
 
   def get_guides
-    self.get_nested_resources { |r| r.tabs.collect { |t| t.guide } }
+    get_nested_resources { |r| r.tabs.collect { |t| t.guide } }
   end
 
   def get_tutorials
-    self.get_nested_resources { |r| r.units.collect { |t| t.tutorials } }
+    get_nested_resources { |r| r.units.collect { |t| t.tutorials } }
   end
 
   private

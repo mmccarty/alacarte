@@ -1,7 +1,7 @@
 class IcaController < ApplicationController
   skip_before_filter :authorize
   before_filter :custom_page_data, :only => [:published_pages]
-  layout :select_layout
+  layout 'template'
 
   def index
     @page = Page.includes(:users, :resource, :tags, {:tabs => :tab_resources}).find(params[:id])
@@ -25,8 +25,6 @@ class IcaController < ApplicationController
     @owner = @page.users.select{|u| u.name == @page.created_by}.first
     @updated = @page.updated_at.to_formatted_s(:long)
   end
-
-  #Gets the list of all published ICAPs and filters the list by subject
   def published_pages
     @from = 'published'
     @meta_keywords = @local.ica_page_title + ", Course Guides, Research Topics, Library Help Guides"
@@ -36,7 +34,6 @@ class IcaController < ApplicationController
     @subjects = Subject.get_page_subjects(@pages)
 
     @campushash = Hash[*@campus.map{|a| a[0], a[1] = a[1], a[0]}.flatten]
-    #Return campus back to its unmodified version.
     @campus.map{|a| a[0], a[1] = a[1], a[0]}
     @tags = Page.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
   end
@@ -58,20 +55,6 @@ class IcaController < ApplicationController
     end
   end
 
-  def print_portal
-    from = params[:from]
-    @meta_keywords = @local.ica_page_title + ", Print, Course Guides, Research Topics, Library Help Guides"
-    @meta_description = @local.ica_page_title + ". Printable Library Help Guides for Course Assignments."
-    @title= @local.ica_page_title + "| Print"
-    if from == 'published'
-      @pages = Page.get_published_pages
-      @tags = Page.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
-    else
-      @pages = Page.get_archived_pages(nil)
-      @tags = Page.where(:archived => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
-    end
-  end
-
   def tagged
     @tag = params[:id]
     @meta_keywords = @local.ica_page_title + ", " + @tag
@@ -79,18 +62,6 @@ class IcaController < ApplicationController
     @title = @local.ica_page_title + " | Tagged with: " + @tag
     @tags = Page.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
     @pages = Page.find_tagged_with(@tag)
-  end
-
-  def print
-    @page = Page.includes({:tabs => :resources}).find(params[:id])
-    @resources = @page.modules
-    @meta_keywords = @page.tag_list
-    @meta_description = @page.page_description
-    @title= @page.header_title + " | Print "
-    @related_guides = @page.related_guides
-    @mod = @page.resource.mod if @page.resource
-    @owner = @page.users.select{|u| u.name == @page.created_by}.first
-    @updated = @page.updated_at.to_formatted_s(:long)
   end
 
   def feed
@@ -102,17 +73,8 @@ class IcaController < ApplicationController
     author = @page.users.select{|u| u.name == @page.created_by}.first
     @author_email = author.email + " ("+author.name+")" if author
     response.headers['Content-Type'] = 'application/rss+xml'
-    # Render the feed using an xml.builder template
     respond_to do |format|
       format.xml {render  :layout => false}
-    end
-  end
-
-  def select_layout
-    if ['print', 'print_portal'].include?(action_name)
-      "print"
-    else
-      "template"
     end
   end
 end

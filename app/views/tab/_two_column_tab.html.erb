@@ -32,25 +32,4 @@
     <% end %>
   </ul>
 </div>
-
-
-
 </div>
-
-
-<%= sortable_element 'left',
-    :complete => visual_effect(:highlight, 'left'),
-:handle => 'handle',
-:containment => ['left', 'right'],
-:constraint => false,
-:dropOnEmpty => true,
-:url => {:controller => 'tab', :action => "sort" }
-%>
-
-<%= sortable_element 'right',
-    :complete => visual_effect(:highlight, 'right'),
-:handle => 'handle',
-:containment => ['left', 'right'],
-:constraint => false,
-:dropOnEmpty => true,
-:url => {:controller => 'tab', :action => "sort" } %>

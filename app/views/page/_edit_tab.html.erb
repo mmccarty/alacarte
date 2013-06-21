@@ -21,14 +21,6 @@
 </ul>
 
 </div>
-<%= sortable_element 'drag',
-    :url => {:controller => 'tab', :action => "sort_tabs" },
-:complete => visual_effect(:highlight, 'hightlight'),
-:handle => 'hand',
-:containment => ['drag'],
-:constraint => false %>
-
-
 <div id="mock_content" class="clear_left">
   <div class="tab_actions">
     <%= link_to image_tag("icons/add.png", :title => 'Add Modules', :alt => 'add modules', :border => 0)+'Add Modules', {:controller => 'tab', :action => 'page_add_modules',  :id => @page.id,:sort => 'name'}%>

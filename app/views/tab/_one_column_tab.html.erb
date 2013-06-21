@@ -15,10 +15,3 @@
   </ul>
 </div>
 </div>
-
-<%= sortable_element 'full',
-    :url => {:controller => 'tab' ,:action => "sort" },
-:complete => visual_effect(:highlight, 'full'),
-:handle => 'handle',
-:containment => ['full'],
-:constraint => false %>

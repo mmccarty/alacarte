@@ -26,7 +26,6 @@ class ModuleController < ApplicationController
     end
   end
 
-  #creates a new module from the my modules list
   def create
     unless params[:mod][:type].empty?
       @mod = create_module_object(params[:mod][:type])
@@ -56,7 +55,6 @@ class ModuleController < ApplicationController
     end
   end
 
-  #creates a new module from the Module edit mode. Need this method because when in edit mod we already have a mod so must use form_tag
   def menu_new
     @tags = ""
     if request.post?
@@ -87,7 +85,6 @@ class ModuleController < ApplicationController
     end
   end
 
-  #create a new module from dashboard
   def new_mod
     @selected =""
     @tags=""
@@ -125,43 +122,39 @@ class ModuleController < ApplicationController
     end
   end
 
-  #edit mode. both create and new redirect here. Update is the save action.
-  #Edit also redirects to other edit methods depending on mod type.
   def edit_content
     @ecurrent = 'current'
     begin
       @mod = find_mod(params[:id], params[:type])
     rescue ActiveRecord::RecordNotFound
-      redirect_to  :action => 'index' and return
+      redirect_to :action => 'index' and return
     else
       session[:mod_id] = @mod.id
       session[:mod_type] = @mod.class.to_s
-      set_theme(@mod)
       @tags = @mod.tag_list
       case session[:mod_type]
       when "ReserveResource"
         redirect_to :controller => 'reserve',:action => 'edit_reserves', :id => @mod.id and return
       when "DatabaseResource"
-        redirect_to  :controller => 'database',:action => 'edit_databases', :id => @mod.id and return
+        redirect_to :controller => 'database',:action => 'edit_databases', :id => @mod.id and return
       when  "UploaderResource"
-        redirect_to  :controller => 'uploader', :action => 'edit_uploader', :id => @mod.id and return
+        redirect_to :controller => 'uploader', :action => 'edit_uploader', :id => @mod.id and return
       when "RssResource"
-        redirect_to  :controller => 'feed', :action => 'edit_rss', :id => @mod.id and return
+        redirect_to :controller => 'feed', :action => 'edit_rss', :id => @mod.id and return
       when "UrlResource"
-        redirect_to  :controller => 'url', :action => 'edit_url', :id => @mod.id  and return
+        redirect_to :controller => 'url', :action => 'edit_url', :id => @mod.id  and return
       when "BookResource"
-        redirect_to  :controller => 'book', :action => 'edit_book', :id => @mod.id  and return
+        redirect_to :controller => 'book', :action => 'edit_book', :id => @mod.id  and return
       when "VideoResource"
-        redirect_to  :controller => 'video', :action => 'edit_video', :id => @mod.id  and return
+        redirect_to :controller => 'video', :action => 'edit_video', :id => @mod.id  and return
       when "QuizResource"
-        redirect_to  :controller => 'quiz', :action => 'edit_quiz', :id => @mod.id  and return
+        redirect_to :controller => 'quiz', :action => 'edit_quiz', :id => @mod.id  and return
       when "ImageResource"
-        redirect_to  :controller => 'image', :action => 'edit_image', :id => @mod.id  and return
+        redirect_to :controller => 'image', :action => 'edit_image', :id => @mod.id  and return
       end
     end
   end
 
-  #Save mod method for common modules that do not have their own methods
   def update
     @ecurrent = 'current'
     @mod ||= find_mod(params[:id], params[:type])
@@ -177,7 +170,6 @@ class ModuleController < ApplicationController
     end
   end
 
-  # Makes a new copy of a module and add it to the user
   def copy
     begin
       @old_mod = find_mod(params[:id],params[:type])
@@ -186,21 +178,21 @@ class ModuleController < ApplicationController
     else
       case @old_mod.class.to_s
       when "DatabaseResource"
-        redirect_to  :controller => 'database', :action => 'copy_databases', :id => @old_mod.id and return
+        redirect_to :controller => 'database', :action => 'copy_databases', :id => @old_mod.id and return
       when "UploaderResource"
-        redirect_to  :controller => 'uploader', :action => 'copy_uploader', :id => @old_mod.id and return
+        redirect_to :controller => 'uploader', :action => 'copy_uploader', :id => @old_mod.id and return
       when "RssResource"
-        redirect_to  :controller => 'feed', :action => 'copy_feeds', :id => @old_mod.id and return
+        redirect_to :controller => 'feed', :action => 'copy_feeds', :id => @old_mod.id and return
       when "UrlResource"
-        redirect_to  :controller => 'url', :action => 'copy_url', :id => @old_mod.id  and return
+        redirect_to :controller => 'url', :action => 'copy_url', :id => @old_mod.id  and return
       when "BookResource"
-        redirect_to  :controller => 'book', :action => 'copy_book', :id => @old_mod.id  and return
+        redirect_to :controller => 'book', :action => 'copy_book', :id => @old_mod.id  and return
       when "VideoResource"
-        redirect_to  :controller => 'video', :action => 'copy_video', :id => @old_mod.id  and return
+        redirect_to :controller => 'video', :action => 'copy_video', :id => @old_mod.id  and return
       when "QuizResource"
-        redirect_to  :controller => 'quiz', :action => 'copy_quiz', :id => @old_mod.id  and return
+        redirect_to :controller => 'quiz', :action => 'copy_quiz', :id => @old_mod.id  and return
       when "ImageResource"
-        redirect_to  :controller => 'image', :action => 'copy_image', :id => @old_mod.id  and return
+        redirect_to :controller => 'image', :action => 'copy_image', :id => @old_mod.id  and return
       else
         @mod = @old_mod.clone
         @mod.global = false
@@ -327,7 +319,7 @@ class ModuleController < ApplicationController
     begin
       @mod = find_mod(params[:id],params[:type])
       @mod.toggle!(:global)
-      if request.xhr? #if ajax request, only render the global partial, otherwise refresh the index
+      if request.xhr?
         render :partial => "global" ,:locals => {:mod => @mod, :page => @page, :sort => @sort , :all => @all}
       else
         redirect_to_index
@@ -342,7 +334,7 @@ class ModuleController < ApplicationController
     begin
       @mod = find_mod(params[:id],params[:type])
       @mod.toggle!(:published)
-      if request.xhr? #if ajax request, only render the publish partial, otherwise refresh the index
+      if request.xhr?
         render :partial => "publish" ,:locals => {:mod => @mod, :page => @page, :sort => @sort , :all => @all}
       else
         redirect_to_index
@@ -418,25 +410,24 @@ class ModuleController < ApplicationController
     end
     @preview = true if @mod.class == QuizResource
     respond_to do |format|
-      format.html {render :layout => 'popup'}   #/layouts/popup.html.erb
+      format.html {render :layout => 'popup'}
     end
   end
 
-  #removes a  module from a user through resources from my modules list
   def remove_from_user
     begin
       resource = @user.find_resource(params[:id],params[:type] )
       @user.update_attribute(:resource_id, nil) if @user.resource_id == resource.id
-      if resource.users.length == 1 #only 1 owner so delete all associations
+      if resource.users.length == 1
         @user.resources.delete(resource)
         resource.delete_mods
         resource.destroy
-      else #just delete the association
+      else
         resource.mod.update_attribute(:created_by, resource.users.collect{|u| u.name}.at(1)) if resource.mod.created_by.to_s == @user.name.to_s
         @user.resources.delete(resource)
       end
       if request.xhr?
-        render :text => "" #delete the table row by sending back a blank string.  The <tr> tags still exist though
+        render :text => ""
       else
         redirect_to_index
       end
@@ -445,7 +436,6 @@ class ModuleController < ApplicationController
     end
   end
 
-  #removes a  module from a user through resources from share page
   def remove_user_from_mod
     begin
       resource = @user.find_resource(params[:id],params[:type] )
@@ -459,8 +449,8 @@ class ModuleController < ApplicationController
     end
   end
 
-  def  redirect_to_index
-    if params[:search]#if the delete request came from the search screen, redirect back to search otherwise go to the regular mod list
+  def redirect_to_index
+    if params[:search]
       redirect_to :controller => 'search',:action => 'index' , :sort => params[:sort], :page => params[:page],  :all => params[:all],:mod => {:search => params[:search]}
     elsif params[:tag]
       redirect_to :controller => 'tagg',:action => 'index' , :sort => params[:sort], :page => params[:page], :all => params[:all], :tag =>params[:tag] and return
