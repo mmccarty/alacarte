@@ -1,0 +1,43 @@
+<% content_for :search_results do %>
+  <h2>Browse by Tag Results</h2>
+
+  <p>
+    <%= type %> Guides tagged with: <span class="label"><%= @tag %></span>
+  </p>
+
+  <% for page in @pages %>
+    <% page_url = url_for :controller => controller, :action => "index", :id => page %>
+    <p>
+      <dl>
+        <dt>
+          <% if controller == "ica" %>
+            <%= link_to page.search_title, page_url, :title => "Click to view" %>
+          <% else %>
+            <%= link_to page.guide_name, page_url, :title => "Click to view" %>
+          <% end %>
+          <br />
+        </dt>
+        <dd>
+          <%= page.page_description or page.description %>
+          <br/>
+          <small>
+            <b>Tags:</b>
+            <% page.tag_list.each do |tag| %>
+              <span class="label tag">
+                <%= link_to tag, { :action => :tagged, :id => tag } %>
+              </span>
+            <% end %>
+          </small>
+        </dd>
+      </dl>
+    </p>
+  <% end %>
+
+  <p>
+    <%= image_tag("icons/back.png", :title => "Back to Guides", :alt => "Back") %>
+    <a href ="/<%= type_url %>/">Back to all <%= type %> Guides</a>
+  </p>
+<% end %>
+
+<%= render :partial => "published_page_results",
+           :locals => { :header_title => header_title } %>
