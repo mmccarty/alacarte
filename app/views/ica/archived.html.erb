@@ -29,14 +29,9 @@
           Course Guides for: <strong><%= @subject.subject_name %></strong>
         </p>
       <% end %>
-      <% for page in @pages %>
-        <% page_url = url_for :controller => "ica", :action => "index", :id => page %>
-        <ul class="unstyled">
-          <li>
-            <%= link_to page.search_title, page_url, :title => "#{h page.page_description}" %>
-          </li>
-        </ul>
-      <% end %>
+      <%= render :partial => "shared/az_published_pages",
+                 :locals => { :controller => "ica",
+                              :pages => @pages } %>
     <% end %>
   </p>
 
