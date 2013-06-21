@@ -61,7 +61,7 @@ class IcaController < ApplicationController
     @meta_description =   @local.ica_page_title + ". Library Course Guides Tagged with: " + @tag
     @title = @local.ica_page_title + " | Tagged with: " + @tag
     @tags = Page.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
-    @pages = Page.find_tagged_with(@tag)
+    @pages = Page.tagged_with @tag
   end
 
   def feed

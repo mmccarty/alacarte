@@ -62,7 +62,7 @@ class SrgController < ApplicationController
     @meta_description=  @local.guide_page_title + "Tagged: " + @tag  +". Library Help Guides for Subject Research. "
     @title =  @local.guide_page_title + " | Tagged: " + @tag
     @tags = Guide.where(:published => true).tag_counts_on(:order => 'taggings.created_at desc', :limit => 100)
-    @guides = Guide.find_tagged_with(@tag, :conditions =>["published = ?", true])
+    @guides = Guide.tagged_with(@tag, :conditions =>["published = ?", true])
   end
 
   def feed

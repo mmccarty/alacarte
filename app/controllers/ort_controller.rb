@@ -180,7 +180,7 @@ class OrtController < ApplicationController
     @meta_description = @local.tutorial_page_title + " Tagged with: " +  @tag
     @title = @local.tutorial_page_title + " | Tagged with: " + @tag
     @tags = Tutorial.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
-    @tutorials = Tutorial.find_tagged_with(@tag)
+    @tutorials = Tutorial.tagged_with(@tag)
     master = Master.find_by_value("tutorial")
     @guides = master.pub_guides if master
     if @guides
