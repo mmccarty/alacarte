@@ -1,52 +1,52 @@
 <% unless @local.book_search.blank? and @local.site_search.blank? and @local.g_search.blank?%>
-<div class="well well-small white">
-  <div id="search">
-    <ul class="nav nav-tabs">
+  <div class="well well-small white">
+    <div id="search">
+      <ul class="nav nav-tabs">
+        <% unless @local.g_search.blank? %>
+        <li class="active">
+          <a href="#guides" data-toggle="tab">Guides</a>
+        </li>
+        <% end %>
+        <% unless @local.book_search.blank? %>
+        <li>
+          <a href="#books" data-toggle="tab">Books</a>
+        </li>
+        <% end %>
+        <% unless @local.site_search.blank? %>
+        <li>
+          <a href="#library" data-toggle="tab">Library</a>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="tab-content">
       <% unless @local.g_search.blank? %>
-      <li class="active">
-        <a href="#guides" data-toggle="tab">Guides</a>
-      </li>
-      <%end%>
+        <div id="guides" class="tab-pane active">
+          <label class="text-center">Search Library Guides</label>
+          <%= raw @local.g_search%>
+        </div>
+      <% end %>
+
       <% unless @local.book_search.blank? %>
-      <li>
-        <a href="#books" data-toggle="tab">Books</a>
-      </li>
-      <%end%>
-      <% unless @local.site_search.blank? %>
-      <li>
-        <a href="#library" data-toggle="tab">Library</a>
-      </li>
-      <%end%>
-    </ul>
+        <div id="books" class="tab-pane">
+          <label class="text-center"><%= @local.book_search_label %></label>
+          <%= raw @local.book_search %>
+        </div>
+      <% end %>
+
+      <% unless @local.site_search.blank?%>
+        <div id="library" class="tab-pane">
+          <label class="text-center"><%= @local.site_search_label %></label>
+          <%= raw @local.site_search %>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <div class="tab-content">
-    <% unless @local.g_search.blank? %>
-      <div id="guides" class="tab-pane active">
-        <label class="text-center">Search Library Guides</label>
-        <%= raw @local.g_search%>
-      </div>
-    <%end%>
-
-    <% unless @local.book_search.blank? %>
-      <div id="books" class="tab-pane">
-        <label class="text-center"><%= @local.book_search_label %></label>
-        <%= raw @local.book_search %>
-      </div>
-    <%end%>
-
-    <% unless @local.site_search.blank?%>
-      <div id="library" class="tab-pane">
-        <label class="text-center"><%= @local.site_search_label %></label>
-        <%= raw @local.site_search %>
-      </div>
-    <%end%>
-  </div>
-</div>
 <% end %>
 
 <% unless @local.right_box.blank? %>
-<div class="well well-small">
+  <div class="well well-small">
     <%= raw @local.right_box %>
   </div>
 <% end %>
@@ -92,7 +92,8 @@
     <div id="librarians" class="tab-pane">
       <p>
         These Guides are created with
-        <a href="http://alacarte.library.oregonstate.edu">Library &agrave; la Carte</a>,
+        <a href="http://alacarte.library.oregonstate.edu">Library
+        &agrave; la Carte</a> (Phoenix Edition),
         an open source tool which helps you quickly and easily create subject and course guides.
       </p>
     </div>
@@ -100,7 +101,7 @@
 </div>
 
 <% if @tags %>
-<div class="well well-small">
-  <%= render :partial => '/shared/tag_cloud'%>
-</div>
+  <div class="well well-small">
+    <%= render :partial => '/shared/tag_cloud'%>
+  </div>
 <% end %>

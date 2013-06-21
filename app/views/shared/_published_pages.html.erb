@@ -36,37 +36,16 @@
             <div id="subject<%= i %>" class="accordion-body collapse">
               <div class="accordion-inner">
                 <% if controller == "ica" and m.get_pages %>
-                  <ul class="unstyled">
-                    <li>
-                      <% @pubpages = m.get_pages
-                         @pubpages.each do |page|
-                         page_url = url_for :controller => controller, :action => "index", :id => page %>
-                        <ul class="unstyled">
-                          <li>
-                          <%= link_to page.browse_title(m.subject_code, @campushash), page_url, :title => "#{raw page.page_description}" %>
-                          </li>
-                        </ul>
-                      <% end %>
-                    </li>
-                  </ul>
+                  <%= render :partial => "shared/az_published_pages",
+                             :locals => { :controller => controller,
+                                          :pages => m.get_pages,
+                                          :subject_code => m.subject_code,
+                                          :campus_hash => @campushash} %>
                 <% end %>
-
                 <% if controller == "srg" and m.pub_guides %>
-                  <ul class="unstyled">
-                    <li>
-                      <% @pubpages = m.pub_guides
-                         @pubpages.each do |page|
-                         page_url = url_for :controller => controller, :action => "index", :id => page %>
-                        <ul class="unstyled">
-                          <li>
-                            <%= link_to page.guide_name,
-                                        page_url,
-                                        :title => "#{raw page.description}" %>
-                          </li>
-                        </ul>
-                      <% end %>
-                    </li>
-                  </ul>
+                  <%= render :partial => "shared/az_published_pages",
+                             :locals => { :controller => controller,
+                                          :pages => m.pub_guides } %>
                 <% end %>
               </div> <!-- end accordion inner -->
             </div> <!-- end accordion body -->
@@ -76,28 +55,9 @@
     </div> <!-- end subjects tabcontent -->
 
     <div id="az" class="tab-pane">
-      <noscript>
-        <p><strong><a name="az">Guides by A-Z</a></strong></p>
-      </noscript>
-
-      <% pages.each do |page| %>
-        <% page_url = url_for :controller => controller,
-                              :action => "index",
-                              :id => page %>
-        <ul class="unstyled">
-          <li>
-            <% if controller == "ica" %>
-              <%= link_to page.search_title,
-                          page_url,
-                          :title => "#{raw page.page_description}" %>
-            <% else %>
-              <%= link_to page.guide_name,
-                          page_url,
-                          :title => "#{raw page.description}" %>
-            <% end %>
-          </li>
-        </ul>
-      <% end %>
+      <%= render :partial => "shared/az_published_pages",
+                 :locals => { :pages => pages,
+                              :controller => controller } %>
     </div> <!-- end az tabcontent -->
   </div>
 
