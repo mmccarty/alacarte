@@ -128,15 +128,15 @@ class Page < ActiveRecord::Base
   end
 
   def self.get_branch_published_pages(branch)
-    self.find(:published => true, :campus => branch).order("subject, course_num").select('id, subject, course_num, course_name, term, year, sect_num, page_description')
+    self.where(:published => true, :campus => branch).order("subject, course_num").select('id, subject, course_num, course_name, term, year, sect_num, page_description')
   end
 
   def self.get_published_pages
-    self.find(:published => true).include("subjects").order("subjects.subject_code, course_num").select('id, course_num, course_name, term, year, sect_num, page_description')
+    self.where(:published => true).includes("subjects").order("subjects.subject_code, course_num").select('id, course_num, course_name, term, year, sect_num, page_description')
   end
 
   def self.get_archived_pages(subj=nil)
-    pages = self.find(:archived => true).include("subjects").order("subjects.subject_code, course_num").select('id, course_num, course_name, term, year, sect_num, page_description')
+    pages = self.where(:archived => true).include("subjects").order("subjects.subject_code, course_num").select('id, course_num, course_name, term, year, sect_num, page_description')
     if !subj.blank?
       pages = pages.select{|p| p.subjects.include?(subj)}
     end

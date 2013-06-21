@@ -3,7 +3,7 @@ class SrgController < ApplicationController
   layout :select_layout
 
   def index
-    @guide = Guide.find(params[:id], :include => [:users, {:masters => :guides}, :subjects, :resource, :tags])
+    @guide = Guide.includes(:users, {:masters => :guides}, :subjects, :resource, :tags).find(params[:id])
     @tabs = @guide.tabs
     @tab = params[:tab] ? @tabs.select{|t| t.id == params[:tab].to_i}.first : @tabs.first
     if @tab and @tab.template == 2
@@ -31,8 +31,8 @@ class SrgController < ApplicationController
     @meta_description = @local.guide_page_title + ". Library Help Guides for Subject Research. "
     @title = @local.guide_page_title
     @guides = Guide.published_guides
-    @masters = Master.where("value <> ? AND value <> ?", "Tutorial", "Internal").order("value").include(:guides)
-    @tags = Guide.tag_counts(:conditions =>["published = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+    @masters = Master.where("value <> ? AND value <> ?", "Tutorial", "Internal").order("value").includes(:guides)
+    @tags = Guide.where(:published => true).tag_counts_on(:order => 'taggings.created_at desc', :limit => 100)
   end
 
   def internal_guides
@@ -43,7 +43,7 @@ class SrgController < ApplicationController
     @tutorials = Tutorial.get_internal_tutorials
     @subjects = @tutorials.collect{|t| t.subject}.flatten.uniq.compact
     @tutorials = @tutorials.select{|t| t.subject.blank?}
-    @tags = Tutorial.tag_counts(:start_at => Time.now.last_year, :conditions =>["published = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Tutorial.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
     master = Master.find_by_value("Internal")
     @guides = master.pub_guides if master
     render "ort/published_tutorials"
@@ -52,7 +52,7 @@ class SrgController < ApplicationController
   def print_portal
     @title= @local.guide_page_title + " | Print"
     @guides = Guide.published_guides
-    @tags = Guide.tag_counts( :conditions =>["published = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Guide.where(:published => true).tag_counts_on( :order => 'taggings.created_at desc', :limit => 100)
   end
 
   def search
@@ -67,12 +67,12 @@ class SrgController < ApplicationController
     @meta_keywords = @local.guide_page_title + " Tagged: "+ @tag
     @meta_description=  @local.guide_page_title + "Tagged: " + @tag  +". Library Help Guides for Subject Research. "
     @title =  @local.guide_page_title + " | Tagged: " + @tag
-    @tags = Guide.tag_counts( :conditions =>["published = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Guide.where(:published => true).tag_counts_on(:order => 'taggings.created_at desc', :limit => 100)
     @guides = Guide.find_tagged_with(@tag, :conditions =>["published = ?", true])
   end
 
   def print
-    @guide = Guide.find(params[:id],:include => [{:tabs => :resources}])
+    @guide = Guide.includes({:tabs => :resources}).find(params[:id])
     @mods = @guide.modules
     @title= @guide.guide_name + " | Print "
     @owner = @guide.users.select{|u| u.name == @guide.created_by}.first

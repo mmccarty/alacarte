@@ -55,15 +55,15 @@ class Tutorial < ActiveRecord::Base
   end
 
   def self.get_published_tutorials
-    self.where("published = ? AND (internal = 1 OR internal IS NULL)", true).order('name')
+    self.where("published = ? AND (internal = 't' OR internal IS NULL)", true).order('name')
   end
 
   def self.published_tutorials
-    self.where("published = ? AND (internal = 1 OR internal IS NULL)", true).order('name').select('id, name, description' )
+    self.where("published = ? AND (internal = 't' OR internal IS NULL)", true).order('name').select('id, name, description' )
   end
 
   def self.get_archived_tutorials
-    self.where("archived = ? AND (internal = 1 OR internal IS NULL)", true).order('name').select('id, name, description')
+    self.where("archived = ? AND (internal = 't' OR internal IS NULL)", true).order('name').select('id, name, description')
   end
 
   def self.get_internal_tutorials

@@ -157,11 +157,13 @@ class OrtController < ApplicationController
     @tutorials = Tutorial.get_published_tutorials
     @subjects = @tutorials.collect{|t| t.subject}.flatten.uniq.compact.sort {|a,b|  a.subject_name <=> b.subject_name}
     @tutorials = @tutorials.select{|t| t.subject.blank?}
-    @tags = Tutorial.tag_counts(:start_at => Time.now.last_year, :conditions =>["published = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Tutorial.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 99)
     master = Master.find_by_value("Tutorial")
     @guides = master.pub_guides if master
     @guidetags = []
-    @guides.each {|g| @guidetags |= g.tag_counts}
+    if @guides
+      @guides.each {|g| @guidetags |= g.tag_counts}
+    end
     @tags |= @guidetags
   end
 
@@ -177,7 +179,7 @@ class OrtController < ApplicationController
     @meta_keywords =  @tag
     @meta_description = @local.tutorial_page_title + " Tagged with: " +  @tag
     @title = @local.tutorial_page_title + " | Tagged with: " + @tag
-    @tags = Tutorial.tag_counts(:start_at => Time.now.last_year, :conditions =>["published = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Tutorial.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
     @tutorials = Tutorial.find_tagged_with(@tag)
     master = Master.find_by_value("tutorial")
     @guides = master.pub_guides if master
@@ -194,7 +196,7 @@ class OrtController < ApplicationController
     @meta_keywords =   @local.tutorial_page_title + @subject.subject_name
     @meta_description =  @local.tutorial_page_title +  @subject.subject_name
     @title =  @local.tutorial_page_title + " | " + @subject.subject_name
-    @tags = Tutorial.tag_counts(:start_at => Time.now.last_year, :conditions =>["published = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Tutorial.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
     @tutorials = @subject.get_tutorials
   end
 
@@ -205,10 +207,10 @@ class OrtController < ApplicationController
   def print_portal
     if params[:from] == 'published'
       @tutorials = Tutorial.get_published_tutorials
-      @tags = Tutorial.tag_counts(:start_at => Time.now.last_year, :conditions =>["published = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+      @tags = Tutorial.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
     else
       @tutorials = Tutorial.get_archived_tutorials
-      @tags = Tutorial.tag_counts(:start_at => Time.now.last_year, :conditions =>["archived = ?", true], :order => 'taggings.created_at desc', :limit => 100)
+      @tags = Tutorial.where(:archived => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
     end
   end
 

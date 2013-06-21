@@ -2,11 +2,11 @@ module HasResources
   extend ActiveSupport::Concern
 
   def shared?
-    self.resources.any { |r| r.users.length > 1 }
+    self.resources.any? { |r| r.users.length > 1 }
   end
 
   def used?
-    not resources.any do |r|
+    not resources.any? do |r|
       r.tab_resources.length > 0 || r.pages.length > 0 || r.guides.length > 0 || r.resourceables.length > 0
     end
   end
