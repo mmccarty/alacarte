@@ -80,13 +80,13 @@
     <div id="teachers" class="tab-pane">
       <p>
         Librarians can create guides to help students find resources, including discipline specific article databases, core journals, scholarly reference works and key web sites important to your field or course.
-        <% unless @local.lib_url.blank?%>
-          <p>
-            <a href="<%=@local.lib_url%>">Contact a Librarian</a>
-            if you would like something tailored for your specific subject or assignment.
-          </p>
-        <%end%>
       </p>
+      <% unless @local.lib_url.blank?%>
+        <p>
+          <a href="<%=@local.lib_url%>">Contact a Librarian</a>
+          if you would like something tailored for your specific subject or assignment.
+        </p>
+      <%end%>
     </div>
 
     <div id="librarians" class="tab-pane">
