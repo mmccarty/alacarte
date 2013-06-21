@@ -11,9 +11,8 @@
     <%= csrf_meta_tag %>
     <%= @local.meta %>
     <title><%=h @title%></title>
-    <%= stylesheet_link_tag 'bootstrap', 'sticky-footer', 'template' %>
-    <%= javascript_include_tag 'application' %>
-    <%= javascript_include_tag 'template'%>
+    <%= stylesheet_link_tag 'bootstrap.min', 'sticky-footer', 'template' %>
+    <%= javascript_include_tag 'application', 'template', 'bootstrap.min' %>
     <%unless @local.styles.blank? %>
     <%= stylesheet_link_tag(@local.styles) %>
     <%end%>

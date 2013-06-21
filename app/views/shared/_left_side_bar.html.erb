@@ -1,20 +1,20 @@
 <!-- local customization -->
 <% unless @local.guide_box.blank? %>
-  <div class="well">
+  <div class="well well-small">
     <%= raw @local.guide_box %>
   </div>
 <%end%>
 
 <!-- Contact Modules -->
 <% if @mod %>
-  <div class="well">
+  <div class="well well-small">
     <%= show_mod(@mod) %>
   </div>
 <%end%>
 
 <!-- Guide/Page Description -->
 <% unless index_description.blank? %>
-  <div class="well">
+  <div class="well well-small">
     <h4>About this Guide</h4>
     <%= index_description %>
   </div>
@@ -22,43 +22,51 @@
 
 <!-- Related Guides -->
 <% if @local.guides_list.include?("guides") and @related_guides %>
-  <div class="well">
-    <h4>
-      <div class="expandable">
-        <span id="guide1-title">
-          <%= image_tag "open.png", :alt => "click to close" %>
-        </span>
-        Related Guides
-      </div>
-    </h4>
+  <div id="related-guides" class="accordion grey">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle"
+           data-toggle="collapse"
+           data-parent="related-guides"
+           href="#guide-list">
+          <h4>Related Guides</h4></a>
+      </div> <!-- end accordion-heading -->
 
-    <div id="guide1" class="guide_list">
-      <ul class="unstyled">
-        <% @related_guides.each do |guide| %>
-          <% guide_url = url_for :controller => "srg",
-                                 :action => "index",
-                                 :id => guide %>
-          <li>
-            <%= link_to h(guide.guide_name), guide_url, :title => "#{h(guide.description)}" %>
-          </li>
-        <% end %>
-      </ul>
+      <div id="guide-list" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <ul class="unstyled">
+            <% @related_guides.each do |guide| %>
+              <% guide_url = url_for :controller => "srg",
+                                     :action => "index",
+                                     :id => guide %>
+              <li>
+                <%= link_to h(guide.guide_name), guide_url, :title => "#{h(guide.description)}" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div> <!-- end accordion-body -->
+    </div> <!-- end accordion-group -->
+
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" href="/subject-guides/">
+          <h4><%= @local.guide_page_title %></h4></a>
+      </div>
     </div>
 
-    <ul class="unstyled">
-      <li>
-        <a href="/subject-guides/"><%= @local.guide_page_title %></a>
-      </li>
-      <li>
-        <a href="/course-guides/"><%= @local.ica_page_title %></a>
-      </li>
-    </ul>
-  </div>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" href="/course-guides/">
+          <h4><%= @local.ica_page_title %></h4></a>
+      </div>
+    </div> <!-- end accordion-group -->
+  </div> <!-- end accordion -->
 <% end %>
 
 <!-- Related Course Pages -->
 <% if @local.guides_list.include?('pages') and @related_pages  %>
-  <div class="well">
+  <div class="well well-small">
     <h4>
       <div class="expandable">
         <span id="guide2-title">
@@ -108,7 +116,3 @@
     <!-- AddThis Bookmark Button END -->
   </li>
 </ul>
-
-<%= render :partial => "shared/expand_collapse",
-           :locals => { :list_name => "guide_list",
-                        :expand_first_content => false } %>

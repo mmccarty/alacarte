@@ -1,71 +1,10 @@
-<% content_for :search_results do %>
-  <h2>Browse Course Guides</h2>
+<% content_for :extra_browse_tabs do %>
+  <li>
+    <%= link_to "Archived Course Guides", :action => "archived" %>
+  </li>
+<% end %>
 
-  <div id="browse_by">
-    <ul class="nav nav-tabs">
-      <li class="active">
-        <a href="#subjects" rel="subjects" class="selected">Browse by Subjects</a>
-      </li>
-      <li>
-        <a href="#az" rel="az">Browse by A-Z</a>
-      </li>
-      <li>
-        <%= link_to "Archived Course Guides", :action => "archived" %>
-      </li>
-    </ul>
-  </div>
-
-  <noscript>
-    <p>
-      <strong><a name="subjects">Course Guides by Subjects</a></strong>
-    </p>
-  </noscript>
-
-  <div id="subjects" class="tabcontent">
-    <% @subjects.each_with_index do |m, i| %>
-    <ul class="unstyled expandable">
-      <li>
-        <span id="subject<%=i%>-title">
-          <%= image_tag "open.png", :alt => "click to close" %>
-        </span>
-        <strong>
-          <%= m.subject_code%> : <%=m.subject_name %>
-        </strong>
-        <div id="subject<%=i%>" class="subject_list">
-          <ul class="unstyled">
-            <li>
-              <% @pubpages = m.get_pages
-                 @pubpages.each do |page|
-                 page_url = url_for :controller => "ica", :action => "index", :id => page %>
-                <ul class="unstyled">
-                  <li>
-                    <%= link_to page.browse_title(m.subject_code, @campushash), page_url, :title => "#{h page.page_description}" %>
-                  </li>
-                </ul>
-              <% end %>
-            </li>
-          </ul>
-        </div> <!-- end subject_list -->
-      </li>
-    </ul> <!-- end expandable -->
-    <% end %>
-  </div> <!-- end subjects tabcontent -->
-
-  <div id="az" class="tabcontent">
-    <noscript>
-      <p><strong><a name="az">Guides by A-Z</a></strong></p>
-    </noscript>
-
-    <% @pages.each do |page| %>
-      <% page_url = url_for :controller => "ica", :action => "index", :id => page %>
-      <ul class="unstyled expandable">
-        <li>
-          <%= link_to page.search_title, page_url, :title => "#{h page.page_description}" %>
-        </li>
-      </ul>
-    <% end %>
-  </div> <!-- end az tabcontent -->
-
+<% content_for :additional_resources do %>
   <p>
     Didn't find what you were looking for? Try the
     <%= link_to "Archived Course Guides", :action => "archived" %>.
@@ -73,19 +12,15 @@
 
   <p>
     Need help with your discipline, topic or format? Try the
-    <%= link_to "Subject Research Guides", :controller => "srg", :action => "published_guides" %>
+    <%= link_to "Subject Research Guides",
+                :controller => "ica",
+                :action => "published_guides" %>
   </p>
 <% end %>
 
-<% content_for :search_javascript do %>
-  <%= render :partial => "expand_collapse",
-             :locals => { :list_name => "subject_list",
-                          :expand_first_content => true } %>
-
-  <%= render :partial => "shared/tab_container",
-             :locals => { :tcontainer => "mybrowse",
-                          :tcontainer_id => "browse_by",
-                          :tcontainer_target => "link" } %>
-<% end %>
-
-<%= render :partial => "ica_results" %>
+<%= render :partial => "shared/published_pages",
+           :locals => { :controller => "ica",
+                        :header_title => @local.ica_page_title,
+                        :pages => @pages,
+                        :subjects => @subjects,
+                        :type => "Course" } %>
