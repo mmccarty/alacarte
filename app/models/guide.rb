@@ -1,4 +1,3 @@
-#model for subject guides
 class Guide < ActiveRecord::Base
   acts_as_taggable
   has_and_belongs_to_many :users
@@ -137,7 +136,6 @@ class Guide < ActiveRecord::Base
     end
   end
 
-  #share a copy of guide with user
   def share_copy(user)
     guide_copy = clone
     guide_copy.guide_name = guide_name + '-copy'

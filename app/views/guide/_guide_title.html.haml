@@ -1,0 +1,6 @@
+%span{:class => flash[:guide_title_error] && 'required'}
+  %label{:for => 'guide[guide_name]'}
+    Title
+    %span{:class => 'required more_help'}
+      *
+  =text_field_tag 'guide[guide_name]', nil, :size => 50

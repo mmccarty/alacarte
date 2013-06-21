@@ -7,7 +7,7 @@ class LoginController < ApplicationController
     if request.post?
       user = User.authenticate(params[:email], params[:password])
       if user
-        if user.is_pending == false #do not allow logins for pending users
+        if user.is_pending == false
           session[:user_id] = user.id
           uri = session[:original_uri]
           session[:login_type] = nil
@@ -42,13 +42,11 @@ class LoginController < ApplicationController
   def signup
     if request.post?
       if verify_recaptcha
-        url = url_for :controller => 'admin', :action => 'pending_users'  #Set the url for the admin notifcation email.
-        #If there are any errors @user will contain the error messages that
-        #are displayed in the form.  Otherwise flash[:notice] will display a confirmation message and @user will be ignored
+        url = url_for :controller => 'admin', :action => 'pending_users'
         @user = User.create_new_account({:name => params[:user][:name],
                                           :email => params[:user][:email],:password => params[:user][:password],
                                           :password_confirmation => params[:user][:password_confirmation],:from_login => true})
-        if @user.errors.empty? #only send emails and redirect if there were no errors saving the new user
+        if @user.errors.empty?
           flash[:notice] = User.send_pending_user_mail(@user,url)
           redirect_to(:action => "login")
         end

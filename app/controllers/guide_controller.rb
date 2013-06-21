@@ -7,7 +7,6 @@ class GuideController < ApplicationController
   in_place_edit_for :tab, :tab_name
   layout 'tool'
 
-  #list of guides, expects a sort value.has an ajax component to handle the sorting
   def index
     @gcurrent = 'current'
     @sort = params[:sort] || 'name'
@@ -26,16 +25,15 @@ class GuideController < ApplicationController
     render :partial => "guides_list", :layout => false
   end
 
-  #New full guide.
   def new
     @subjects = Subject.get_subject_values
     @guide_types = Master.get_guide_types
     @resources = @user.contact_resources
     @tag_list = ""
     if request.post?
-      @guide =  Guide.new
+      @guide = Guide.new
       @guide.create_home_tab
-      @guide.attributes = params[:guide]
+      @guide.update_attributes params[:guide]
       if @guide.save
         session[:guide] = @guide.id
         session[:current_tab] = @guide.tabs.first.id
@@ -48,7 +46,6 @@ class GuideController < ApplicationController
     end
   end
 
-  #create a partial guide. Just takes the title fields to pass validation it is then passed to update for the rest of the fields
   def create
     session[:guide] = nil
     session[:current_tab] = nil
@@ -71,7 +68,6 @@ class GuideController < ApplicationController
     end
   end
 
-  #update a guides title, add associations to link guides to the master subject and course pages. Also add metadata about the guide.
   def update
     @ucurrent = 'current'
     @subjects = Subject.get_subject_values
@@ -82,8 +78,8 @@ class GuideController < ApplicationController
       redirect_to  :action => 'index'
     else
       @tag_list = @guide.tag_list
-      @selected_types =  @guide.masters.collect{|m| m.id}
-      @selected_subjs =  @guide.subjects.collect{|m| m.id}
+      @selected_types = @guide.masters.collect { |m| m.id }
+      @selected_subjs = @guide.subjects.collect { |m| m.id }
       if request.post?
         @guide.attributes = params[:guide]
         @guide.add_master_type(params[:types])
@@ -96,8 +92,6 @@ class GuideController < ApplicationController
     end
   end
 
-
-  #edit the guides tabs and modules. default shows first tab unless params[tab] is set
   def edit
     @ecurrent = 'current'
     begin
@@ -123,7 +117,6 @@ class GuideController < ApplicationController
     end
   end
 
-  # Makes a new copy of a module and add it to the user
   def copy
     @ucurrent = 'current'
     @subjects = Subject.get_subject_values
@@ -136,8 +129,8 @@ class GuideController < ApplicationController
       redirect_to :action => 'index', :list=> 'mine'
     else
       @tag_list = @guide.tag_list
-      @selected_types =  @guide.masters.collect{|m| m.id}
-      @selected_subjs =  @guide.subjects.collect{|m| m.id}
+      @selected_types = @guide.masters.collect { |m| m.id }
+      @selected_subjs = @guide.subjects.collect { |m| m.id }
       if request.post?
         @new_guide = @guide.clone
         @new_guide.attributes = params[:guide]
@@ -225,7 +218,7 @@ class GuideController < ApplicationController
     @guides = Guide.published_guides
     render :partial => "relateds", :layout => false
   end
-  #share a guide with other users and remove users from a guide
+
   def share
     @shcurrent = 'current'
     begin
@@ -241,7 +234,6 @@ class GuideController < ApplicationController
       url = url_for :controller => 'srg', :action => 'index', :id => @guide
       @message =
         "I've shared #{@guide.guide_name} with you. The link to the guide is: #{url} .  -#{@user.name} "
-
     end
   end
 
@@ -252,7 +244,7 @@ class GuideController < ApplicationController
       params[:users].each do |p|
         new_user = User.find(p)
         if new_user and !@guide.users.include?(new_user)
-          @guide.share(new_user.id,params[:copy]) #add_guide_tabs(@guide)
+          @guide.share(new_user.id,params[:copy])
           to_users << new_user
         end
       end
@@ -277,7 +269,6 @@ class GuideController < ApplicationController
     end
   end
 
-  #remove a user from the list of editors via share page
   def remove_user_from_guide
     begin
       user = @guide.users.find(params[:id])
@@ -291,24 +282,23 @@ class GuideController < ApplicationController
     end
   end
 
-  #delete the guide from a user. if only one user then deletes the guide else removes the assocations. Move to dgiue model
   def destroy
     begin
       guide = @user.guides.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       redirect_to :action => 'index'
     else
-      if guide.users.length == 1 # if only one owner delete the guide
+      if guide.users.length == 1
         @user.guides.delete(guide)
         guide.destroy
-      else # just delete the association
+      else
         guide.update_attribute(:created_by, guide.users.at(1).name) if guide.created_by.to_s == @user.name.to_s
         @user.guides.delete(guide)
       end
       if request.xhr?
-        render :text => "" #delete the table row by sending back a blank string.  The <tr> tags still exist though
+        render :text => ""
       else
-        if params[:search]#if the delete request came from the search screen, redirect back to search otherwise go to the regular mod list
+        if params[:search]
           redirect_to :controller => 'search',:action => 'search_guides' , :sort => params[:sort], :page => params[:page],  :all => params[:all],:mod => {:search => params[:search]}
         else
           redirect_to :back, :page => params[:page], :sort => params[:sort]
@@ -317,35 +307,34 @@ class GuideController < ApplicationController
     end
   end
 
-  #publish the guide to the guide portal page
   def publish
     begin
       @guide = @user.guides.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       redirect_to :action => 'index'
     else
-      if request.xhr? #if ajax request, only render the publish partial, otherwise refresh the index
+      if request.xhr?
         render :update do |page|
-          if @guide.toggle_published #check if guide has a contact module and toggle published value if it does
-            if params[:search]#if the request came from search, send back the search term
+          if @guide.toggle_published
+            if params[:search]
               page.replace_html "publish#{@guide.id}" , :partial => "publish" ,:locals => {:guide => @guide, :page => @page, :sort => @sort ,:mod => {:search => params[:search]}}
             else
               page.replace_html "publish#{@guide.id}" , :partial => "publish" ,:locals => {:guide => @guide, :page => @page, :sort => @sort }
             end
-          else #no contact module specified, redirect to contact module set up page
+          else
             flash[:error] = "A contact module is required before you can publish the guide."
             flash[:contact_error] = ""
             page.redirect_to  :action => 'edit_contact', :id => @guide
           end
         end
-      else #not an ajax request so use regular html request
-        if @guide.toggle_published #check if guide has a contact module and toggle published value if it does
-          if params[:search]#if the publish request came from the search screen, redirect back to search otherwise go to the regular guide list
+      else
+        if @guide.toggle_published
+          if params[:search]
             redirect_to :controller => 'search',:action => 'search_guides' , :sort => params[:sort], :page => params[:page],  :all => params[:all],:mod => {:search => params[:search]}
           else
             redirect_to :back, :sort=> params[:sort], :page => params[:page]
           end
-        else #no contact module specified, redirect to contact module set up page
+        else
           flash[:error] = "A contact module is required before you can publish the guide."
           flash[:contact_error] = ""
           redirect_to  :action => 'edit_contact', :id => @guide

@@ -9,19 +9,17 @@ class Tab < ActiveRecord::Base
   validates :tab_name, :presence => true
 
   def update_ferret
-    search = Local.first.enable_search?
-    if search
-      tabable.ferret_update
-    end
+    # search = Local.first.enable_search?
+    # if search
+    #   tabable.ferret_update
+    # end
   end
 
-  #add a resource to the HABTM relationship
   def add_resource(resource)
     resources << resource
     update_users
   end
 
-  #update a users resource list
   def update_resource(resrs)
     resrs.each do |value|
       id = value.gsub(/[^0-9]/, '')
@@ -39,7 +37,6 @@ class Tab < ActiveRecord::Base
     end
   end
 
-  #returns true if the tab is on a page or guide that is shared
   def update_users
     if guide != "" and guide.shared?
       guide.update_users
@@ -60,7 +57,6 @@ class Tab < ActiveRecord::Base
     resources.find_by_mod_id_and_mod_type(id, type)
   end
 
-  #get the collection of associated resources
   def modules
     resources.collect {|a| a.mod if a}.compact
   end
