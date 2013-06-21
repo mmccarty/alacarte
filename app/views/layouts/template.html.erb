@@ -56,9 +56,12 @@
       <%= yield(:layout) or yield %>
       <div id="push"></div>
     </div>
+
     <div id="bootstrap-footer">
       <%= render :partial => 'shared/template_bottom'%>
     </div>
+
     <%= @local.tracking %>
+
   </body>
 </html>

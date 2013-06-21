@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="span8">
+      <h2>Browse Guides</h2>
+
+      <% if guides %>
+        <ul class="unstyled">
+          <% for guide in guides %>
+            <% guide_url = url_for :controller => "srg",
+                                   :action => "index",
+                                   :id => guide %>
+            <li>
+              <%= link_to guide.guide_name,
+                          guide_url,
+                          :title => "#{h guide.description}" %>
+              <div class="hide">
+                <div class="no-image">
+                  <%= guide.description %>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>
+          Sorry, there are no guides available.
+        </p>
+      <% end %>
+    </div>
+
+    <div class="span4">
+      <%= render :partial => "/shared/right_side" %>
+    </div>
+  </div>
+</div>

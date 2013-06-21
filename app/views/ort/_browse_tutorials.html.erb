@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row">
+    <div class="span8">
+      <h2>Browse Tutorials</h2>
+
+      <ul class="unstyled">
+        <% subjects.each do |subject| %>
+          <li>
+            <%= link_to h(subject.subject_code + " : " + subject.subject_name + " " + "Tutorials"),
+                        :controller => "ort",
+                        :action => "subject_list",
+                        :id => subject %>
+            <p>
+              <ul class="unstyled">
+                <% s_tutorials = subject.get_tutorials s_tutorials.each do |tutorial| %>
+                  <li>
+                    <%= link_to h(tutorial.full_name),
+                                :controller => "ort",
+                                :action => "index",
+                                :id => tutorial %>
+                    <div class="hide">
+                      <div class="no-image">
+                        <%= tutorial.description %>
+                      </div>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </p>
+          </li>
+        <% end %>
+
+        <% tutorials.each do |tutorial| %>
+          <li>
+            <%= link_to h(tutorial.full_name),
+                        :controller => "ort",
+                        :action => "index",
+                        :id => tutorial %>
+            <div class="hide">
+              <div class="no-image">
+                <%= tutorial.description %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="span4">
+      <%= render :partial => "/shared/right_side" %>
+    </div>
+  </div>
+</div>

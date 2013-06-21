@@ -1,62 +1,24 @@
-<div id="main">
-  <h1><%=@title %> </h1>
-  <div id="content">
-    <!--<div id="item-corner"></div>-->
-    <div class="item">
-      <h2>Browse Tutorials</h2>
+<% content_for :tab_headings do %>
+  <li class="active">
+    <a href="#tutorial-list" data-toggle="tab">Browse Tutorials</a>
+  </li>
+  <li>
+    <a href="#guide-list" data-toggle="tab">Browse Guides</a>
+  </li>
+<% end %>
 
-      <div class="module">
-	<ul id="tutorialList">
-	  <%@subjects.each do |subject| %>
-	  <li><%=link_to h(subject.subject_code+" : "+subject.subject_name+ " " + "Tutorials"), :controller => 'ort', :action => 'subject_list', :id => subject%>
-	    <p>
-	      <ul id="tutorialList">
-		<% tutorials = subject.get_tutorials
-		   tutorials.each do |tutorial|%>
-		<li><%=link_to h(tutorial.full_name), :controller => 'ort', :action => 'index', :id => tutorial%>
-		  <div class="hide"><div class="no-image"><%=tutorial.description%></div></div>
-		</li>
-		<%end%>
-	      </ul>
-	    </p>
-	  </li>
-	  <%end%>
-	  <%@tutorials.each do |tutorial|%>
-	  <li><%=link_to h(tutorial.full_name), :controller => 'ort', :action => 'index', :id => tutorial%>
-	    <div class="hide"><div class="no-image"><%=tutorial.description%></div></div>
-	  </li>
-	  <%end%>
-	</ul>
-      </div>
-      <div class="bot"><div></div></div>
-    </div>
-    <%if @guides%>
+<% content_for :tab_content do %>
+  <div id="tutorial-list" class="tab-pane active">
+    <%= render :partial => "browse_tutorials",
+               :locals => { :subjects => @subjects,
+                            :tutorials => @tutorials } %>
+  </div>
 
-    <div class="item">
-      <h2>Browse Guides</h2>
+  <div id="guide-list" class="tab-pane">
+    <%= render :partial => "browse_guides",
+               :locals => { :guides => @guides } %>
+  </div>
+<% end %>
 
-      <div class="module">
-	<ul id="tutorialList">
-	  <% for guide in @guides %>
-	  <%guide_url = url_for :controller => 'srg', :action => 'index', :id => guide%>
-	  <li>
-	    <%= link_to guide.guide_name, guide_url, :title => "#{h guide.description}" %>
-	    <div class="hide"><div class="no-image"><%=guide.description%></div></div>
-	  </li>
-	  <%end%>
-	</ul>
-      </div>
-      <div class="bot"><div></div></div>
-    </div>
-    <%end%>
-
-
-</div></div>
-
-<div id="sidebar-right">
-  <%= render :partial => '/shared/right_side'%>
-</div> <!-- end sidebar-right -->
-
-<div id="sidebar-left"><div id="sidebar-left-inner">
-    <%= render :partial => '/shared/left_side'%>
-</div></div> <!-- end sidebar-left-inner, end sidebar-left -->
+<%= render :partial => "shared/tabbed_index",
+           :locals => { :header_title => @title } %>

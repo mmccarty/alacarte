@@ -11,9 +11,8 @@
     <%= csrf_meta_tag %>
     <%= @local.meta %>
     <title><%=h @title%></title>
-    <%= stylesheet_link_tag 'tutorials', 'modules'%>
-    <%= javascript_include_tag 'application' %>
-    <%= javascript_include_tag 'template', 'toc'%>
+    <%= stylesheet_link_tag 'bootstrap.min', 'sticky-footer', 'template' %>
+    <%= javascript_include_tag 'application', 'template', 'bootstrap.min' %>
     <%unless @local.styles.blank? %>
     <%= stylesheet_link_tag(@local.styles) %>
     <%end%>
@@ -23,35 +22,39 @@
     <%if !@local.banner_url.blank? %>
     <style type="text/css">
       /*<![CDATA[*/
-				/* change header */
-				#header{background: repeat-x url('<%= @local.banner_url%>');}
-		 /*]]>*/
+                                /* change header */
+                                #header{background: repeat-x url('<%= @local.banner_url%>');}
+                 /*]]>*/
     </style>
     <%end
        if !@local.logo_url.blank? %>
     <style type="text/css">
       /*<![CDATA[*/
 
-					   #header #logo{background: no-repeat url('<%= @local.logo_url%>');}
-			 /*]]>*/
+                                           #header #logo{background: no-repeat url('<%= @local.logo_url%>');}
+                         /*]]>*/
     </style>
     <%end
        if !@local.logo_height.blank? %>
     <style type="text/css">
       /*<![CDATA[*/
-				   #logo { height: <%= @local.logo_height%>px;}
-			/*]]>*/
+                                   #logo { height: <%= @local.logo_height%>px;}
+                        /*]]>*/
     </style>
     <%end%>
   </head>
 
   <body<%if @tutorials%> id="portal"<%end%>>
 
-    <div id="wrap"><div id="wrap-inner" class="clearfix">
-	<%= render :partial => 'shared/template_top'%>
-	<%= yield :layout %>
-	<%= render :partial => 'shared/template_bottom'%>
-    </div> </div>
+    <div id="bootstrap-wrap">
+      <%= render :partial => "shared/template_top"%>
+      <%= yield :layout %>
+      <div id="push"></div>
+    </div>
+
+    <div id="bootstrap-footer">
+      <%= render :partial => "shared/template_bottom"%>
+    </div>
 
     <%= @local.tracking %>
 
