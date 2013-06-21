@@ -41,15 +41,15 @@
 <% end %>
 
 <!-- Related Guides -->
-<% if @local.guides_list.include?("guides") and @related_guides %>
-  <div id="related-guides" class="accordion grey">
+<div id="related-guides" class="accordion grey">
+  <% if @local.guides_list.include?("guides") and @related_guides %>
     <div class="accordion-group">
       <div class="accordion-heading">
         <a class="accordion-toggle"
            data-toggle="collapse"
            data-parent="related-guides"
            href="#guide-list">
-          <h4>Related Guides</h4></a>
+          <h4>Related Subject Guides</h4></a>
       </div> <!-- end accordion-heading -->
 
       <div id="guide-list" class="accordion-body collapse">
@@ -67,52 +67,48 @@
         </div>
       </div> <!-- end accordion-body -->
     </div> <!-- end accordion-group -->
+  <% end %>
 
+  <!-- Related Course Pages -->
+  <% if @local.guides_list.include?('pages') and @related_pages  %>
     <div class="accordion-group">
       <div class="accordion-heading">
-        <a class="accordion-toggle" href="/subject-guides/">
-          <h4><%= @local.guide_page_title %></h4></a>
-      </div>
-    </div>
+        <a class="accordion-toggle"
+           data-toggle="collapse"
+           data-parent="related-pages"
+           href="#page-list">
+          <h4>Related Course Guides</h4>
+        </a>
+      </div> <!-- end accordion-heading -->
 
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <a class="accordion-toggle" href="/course-guides/">
-          <h4><%= @local.ica_page_title %></h4></a>
-      </div>
+      <div id="page-list" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <ul class="unstyled">
+            <% @related_pages.each do |page| %>
+              <% page_url = url_for :controller => "ica",
+                                    :action => "index",
+                                    :id => page %>
+              <li>
+                <%= link_to h(page.header_title), page_url, :title => "#{h(page.page_description)}" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div> <!-- end accordion-body -->
     </div> <!-- end accordion-group -->
-  </div> <!-- end accordion -->
-<% end %>
+  <% end %>
 
-<!-- Related Course Pages -->
-<% if @local.guides_list.include?('pages') and @related_pages  %>
-  <div class="well well-small">
-    <h4>
-      <div class="expandable">
-        <span id="guide2-title">
-          <%= image_tag "open.png", :alt => "click to close" %>
-        </span>
-        Related Course Guides
-      </div>
-    </h4>
-
-    <div id="guide2" class="guide_list">
-      <ul class="unstyled">
-          <% @related_pages.each do |page| %>
-            <% page_url = url_for :controller => "ica",
-                                  :action => "index",
-                                  :id => page %>
-            <li>
-              <%= link_to h(page.header_title), page_url, :title => "#{h(page.page_description)}" %>
-            </li>
-          <% end %>
-      </ul>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" href="/subject-guides/">
+        <h4><%= @local.guide_page_title %></h4></a>
     </div>
-
-    <ul class="unstyled">
-      <li>
-        <a href="/course-guides/"><%= @local.ica_page_title %> </a>
-      </li>
-    </ul>
   </div>
-<% end %>
+
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" href="/course-guides/">
+        <h4><%= @local.ica_page_title %></h4></a>
+    </div>
+  </div> <!-- end accordion-group -->
+</div> <!-- end accordion -->
