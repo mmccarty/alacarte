@@ -1,0 +1,46 @@
+<% content_for :tab_headings do %>
+  <% for tab in @tabs %>
+    <% @tab_url = url_for :controller => index_controller,
+                          :action => "index",
+                          :id => index,
+                          :tab => tab.id %>
+    <% if tab.id == @tab.id %>
+      <li class="active">
+        <a href="#tab-content"><span><%= tab.tab_name %></span></a>
+      </li>
+    <% else %>
+      <li>
+        <a href ="<%= @tab_url %>"><span><%= tab.tab_name %></span></a>
+      </li>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% content_for :tab_content do %>
+  <div class="container">
+    <div class="row">
+
+      <!-- main content -->
+      <div class="span8">
+        <% unless @mods %>
+          <%= render :partial => "shared/two_column" %>
+        <% else %>
+          <%= render :partial => "shared/one_column" %>
+        <% end %>
+
+        <%= render :partial => "shared/metadata",
+                   :locals => { :tag_list => index.tag_list } %>
+      </div> <!-- end main content -->
+
+      <!-- right sidebar -->
+      <div class="span4">
+        <%= render :partial => "shared/left_side_bar",
+                   :locals => { :index_description => index_description } %>
+      </div>
+
+    </div> <!-- end row -->
+  </div> <!-- end container -->
+<% end %>
+
+<%= render :partial => "shared/tabbed_index",
+           :locals => { :header_title => header_title } %>

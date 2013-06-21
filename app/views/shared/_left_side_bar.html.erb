@@ -3,14 +3,14 @@
   <div class="well well-small">
     <%= raw @local.guide_box %>
   </div>
-<%end%>
+<% end %>
 
 <!-- Contact Modules -->
 <% if @mod %>
   <div class="well well-small">
     <%= show_mod(@mod) %>
   </div>
-<%end%>
+<% end %>
 
 <!-- Guide/Page Description -->
 <% unless index_description.blank? %>
@@ -18,7 +18,7 @@
     <h4>About this Guide</h4>
     <%= index_description %>
   </div>
-<%end%>
+<% end %>
 
 <!-- Related Guides -->
 <% if @local.guides_list.include?("guides") and @related_guides %>
