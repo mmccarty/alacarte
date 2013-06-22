@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: results
+#
+#  id          :integer          not null, primary key
+#  student_id  :integer
+#  score       :integer          default(0)
+#  updated_at  :datetime
+#  question_id :integer
+#  guess       :text
+#  position    :integer
+#
+
 class Result < ActiveRecord::Base
   belongs_to :student
   belongs_to :question

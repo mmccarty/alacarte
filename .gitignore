@@ -2,6 +2,7 @@
 config/database.yml
 console/
 db/*.sqlite3
+lib/import_wiki.rb
 log/*.log
 log/*.log
 log/*.out

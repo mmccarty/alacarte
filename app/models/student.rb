@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: students
+#
+#  id          :integer          not null, primary key
+#  firstname   :string(255)      default("")
+#  created_on  :datetime
+#  onid        :string(255)      default("")
+#  sect_num    :string(255)
+#  tutorial_id :integer
+#  email       :string(255)      default("")
+#  lastname    :string(255)      default("")
+#
+
 class Student < ActiveRecord::Base
   has_many :results, :order => 'position', :dependent => :destroy
   has_many :questions, :through => :results

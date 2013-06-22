@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: database_resources
+#
+#  id           :integer          not null, primary key
+#  created_by   :string(255)
+#  updated_at   :datetime
+#  module_title :string(255)      default(""), not null
+#  global       :boolean          default(FALSE)
+#  content_type :string(255)      default("Databases")
+#  label        :string(255)
+#  info         :text
+#  slug         :string(255)
+#  published    :boolean          default(FALSE)
+#
+
 class DatabaseResource < ActiveRecord::Base
   include HasResources
 

@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: units
+#
+#  id          :integer          not null, primary key
+#  title       :string(255)      not null
+#  description :text
+#  created_by  :integer
+#  updated_at  :datetime
+#  slug        :string(255)      default("")
+#
+
 class Unit < ActiveRecord::Base
   acts_as_taggable
   has_many :unitizations, :dependent => :destroy

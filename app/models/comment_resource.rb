@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: comment_resources
+#
+#  id            :integer          not null, primary key
+#  module_title  :string(255)      default(""), not null
+#  label         :string(255)
+#  topic         :text
+#  num_displayed :integer          default(3)
+#  updated_at    :datetime
+#  content_type  :string(255)      default("Comments")
+#  global        :boolean          default(FALSE)
+#  created_by    :string(255)
+#  slug          :string(255)
+#  published     :boolean          default(FALSE)
+#
+
 class CommentResource < ActiveRecord::Base
   include HasResources
 

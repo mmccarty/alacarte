@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: image_resources
+#
+#  id           :integer          not null, primary key
+#  module_title :string(255)      not null
+#  label        :string(255)
+#  created_by   :string(255)
+#  updated_at   :datetime
+#  information  :text
+#  global       :boolean          default(FALSE)
+#  content_type :string(255)      default("Images")
+#  slug         :string(255)
+#  size         :string(255)      default("F")
+#  orientation  :string(255)      default("V")
+#  published    :boolean          default(FALSE)
+#
+
 class ImageResource < ActiveRecord::Base
   include HasResources
 

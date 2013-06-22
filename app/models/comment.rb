@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: comments
+#
+#  id                  :integer          not null, primary key
+#  comment_resource_id :integer          not null
+#  author_name         :string(255)      default("Anonymous"), not null
+#  author_email        :string(255)
+#  body                :text             not null
+#  created_at          :datetime         not null
+#
+
 class Comment < ActiveRecord::Base
   belongs_to :comment_resource
 

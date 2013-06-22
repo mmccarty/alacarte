@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: questions
+#
+#  id               :integer          not null, primary key
+#  quiz_resource_id :integer          not null
+#  question         :text             not null
+#  position         :integer
+#  points           :integer          default(0)
+#  q_type           :string(255)      default("MC")
+#  updated_at       :datetime
+#
+
 class Question < ActiveRecord::Base
   belongs_to :quiz_resource
   has_many :answers, :order => :position

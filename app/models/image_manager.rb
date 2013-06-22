@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: image_managers
+#
+#  id                 :integer          not null, primary key
+#  created_at         :datetime
+#  updated_at         :datetime
+#  photo_file_name    :string(255)
+#  photo_content_type :string(255)
+#  photo_file_size    :integer
+#  photo_updated_at   :datetime
+#
+
 class ImageManager < ActiveRecord::Base
   has_attached_file :photo,
   :styles => { :original => '505x425>', :thumb => '75x75>' },

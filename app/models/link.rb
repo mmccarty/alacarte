@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: links
+#
+#  id              :integer          not null, primary key
+#  url             :string(255)
+#  description     :text
+#  label           :string(255)
+#  url_resource_id :integer
+#  target          :boolean          default(FALSE)
+#  position        :integer
+#
+
 class Link < ActiveRecord::Base
   belongs_to :url_resource
   acts_as_list :scope => :url_resource

@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: masters
+#
+#  id    :integer          not null, primary key
+#  value :string(255)      not null
+#
+
 class Master < ActiveRecord::Base
   has_and_belongs_to_many :guides
 

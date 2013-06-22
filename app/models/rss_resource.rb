@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: rss_resources
+#
+#  id           :integer          not null, primary key
+#  module_title :string(255)      default(""), not null
+#  label        :string(255)
+#  updated_at   :datetime
+#  content_type :string(255)      default("RSS Feeds")
+#  global       :boolean          default(FALSE)
+#  created_by   :string(255)
+#  information  :text
+#  topic        :string(255)      default("")
+#  num_feeds    :integer          default(6)
+#  style        :string(255)      default("mixed")
+#  slug         :string(255)
+#  published    :boolean          default(FALSE)
+#
+
 class RssResource < ActiveRecord::Base
   include HasResources
 

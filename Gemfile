@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 gem 'acts_as_list'
 gem 'acts-as-taggable-on'
+gem 'annotate'
 gem 'dynamic_form'
 gem 'exception_notification'
 gem 'ferret'

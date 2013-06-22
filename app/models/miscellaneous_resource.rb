@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: miscellaneous_resources
+#
+#  id           :integer          not null, primary key
+#  module_title :string(255)      default(""), not null
+#  label        :string(255)
+#  content      :text
+#  more_info    :text
+#  created_by   :string(255)
+#  updated_at   :datetime
+#  global       :boolean          default(FALSE)
+#  content_type :string(255)      default("Custom Content")
+#  slug         :string(255)
+#  published    :boolean          default(FALSE)
+#
+
 class MiscellaneousResource < ActiveRecord::Base
   include HasResources
 

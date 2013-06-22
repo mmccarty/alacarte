@@ -7,7 +7,6 @@ class TabController < ApplicationController
   in_place_edit_for :tab, :tab_name
   layout 'tool'
 
-  #create a new tab
   def create
     if Guide.exists?(@guide) and request.post?
       if @guide.reached_limit?
@@ -46,7 +45,6 @@ class TabController < ApplicationController
     end
   end
 
-  #show the selected tab. uses ajax to update the tab.
   def show
     if Guide.exists?(@guide)
       @ecurrent = 'current'
@@ -136,7 +134,6 @@ class TabController < ApplicationController
     end
   end
 
-  #Sort modules function for drag and drop
   def sort
     if params['left'] then
       sortables = params['left']
@@ -232,7 +229,6 @@ class TabController < ApplicationController
     end
   end
 
-  #removes a module from a tab.
   def remove_module
     begin
       resource = @tab.find_resource(params[:id],params[:type] )
@@ -244,7 +240,6 @@ class TabController < ApplicationController
     end
   end
 
-  #sets the template
   def toggle_columns
     num = (@tab.template == 2 ? 1 : 2)
     @tab.update_attribute(:template, num)

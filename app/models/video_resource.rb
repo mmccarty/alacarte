@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: video_resources
+#
+#  id           :integer          not null, primary key
+#  module_title :string(255)      default(""), not null
+#  label        :string(255)
+#  created_by   :string(255)
+#  updated_at   :datetime
+#  global       :boolean          default(FALSE)
+#  content_type :string(255)      default("Videos")
+#  information  :text
+#  slug         :string(255)
+#  published    :boolean          default(FALSE)
+#  size         :string(255)      default("F")
+#  orientation  :string(255)      default("V")
+#
+
 class VideoResource < ActiveRecord::Base
   include HasResources
 
