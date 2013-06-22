@@ -1,3 +1,16 @@
+<ul class="naw nav-list docs-sidenav">
+  <% @mods.each do |mod| %>
+    <li>
+      <a href="#topic_<%= mod.id %>">
+        <i class="icon-chevron-right"></i>
+        <%= mod.module_title %>
+      </a>
+    </li>
+  <% end %>
+</ul>
+<br/>
+<br/>
+
 <!-- local customization -->
 <% unless @local.guide_box.blank? %>
   <div class="well well-small">
