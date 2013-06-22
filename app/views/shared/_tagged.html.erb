@@ -1,8 +1,8 @@
 <% content_for :search_results do %>
-  <h2>Browse by Tag Results</h2>
+  <h2>Browse by Tag</h2>
 
   <p>
-    <%= type %> Guides tagged with: <span class="label"><%= @tag %></span>
+    <%= type %> tagged with: <span class="label"><%= @tag %></span>
   </p>
 
   <% if @pages %>
@@ -36,8 +36,8 @@
   <% end %>
 
   <p>
-    <%= image_tag("icons/back.png", :title => "Back to Guides", :alt => "Back") %>
-    <a href ="/<%= type_url %>/">Back to all <%= type %> Guides</a>
+    <%= image_tag("icons/back.png", :title => "Back to " + type, :alt => "Back") %>
+    <a href ="/<%= type_url %>/">Back to all <%= type %></a>
   </p>
 <% end %>
 

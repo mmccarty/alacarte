@@ -5,7 +5,7 @@
   text-decoration: none;
 }
 
-#search + .tab-content {
+#search + .tab-content, .dl-horizontal {
     overflow: hidden;
 }
 
