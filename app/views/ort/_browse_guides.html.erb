@@ -4,23 +4,12 @@
       <h2>Browse Guides</h2>
 
       <% if guides %>
-        <ul class="unstyled">
+        <dl>
           <% for guide in guides %>
-            <% guide_url = url_for :controller => "srg",
-                                   :action => "index",
-                                   :id => guide %>
-            <li>
-              <%= link_to guide.guide_name,
-                          guide_url,
-                          :title => "#{h guide.description}" %>
-              <div class="hide">
-                <div class="no-image">
-                  <%= guide.description %>
-                </div>
-              </div>
-            </li>
-          <% end %>
-        </ul>
+            <%= render :partial => "shared/list_page",
+                       :locals => { :page => guide,
+                                    :controller => "srg" } %>
+        </dl>
       <% else %>
         <p>
           Sorry, there are no guides available.
@@ -29,7 +18,7 @@
     </div>
 
     <div class="span4">
-      <%= render :partial => "/shared/right_sidebar" %>
+      <%= render :partial => "shared/right_sidebar" %>
     </div>
   </div>
 </div>

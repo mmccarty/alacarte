@@ -1,4 +1,4 @@
-<%= render :partial => 'ort/top'%>
+<%= render :partial => "ort/top"%>
 
 <div class="container">
   <div class="row">
@@ -30,7 +30,7 @@
                             :title => 'Download',
                             :alt => 'Download') %>
               This tutorial has a printable handout. Click to download:
-              <a href="<%=@tutorial.attachment.url()%>"
+              <a href="<%= @tutorial.attachment.url() %>"
                  title="Click to download handout">
                 <%=  h(@tutorial.attachment_file_name) %></a>
             </p>

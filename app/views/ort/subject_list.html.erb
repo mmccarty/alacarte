@@ -1,27 +1,31 @@
-<div id="main">
-  <h1><%=@local.tutorial_page_title %> </h1>
-  <div id="content">
-    <!--<div id="item-corner"></div>-->
-    <div class="item">
-      <h2>Browse <%= @subject.subject_code+" : "+@subject.subject_name+ " " + "Tutorials"%></h2>
-      <div class="module">
-	<ul class = 'indent-left'>
-	  <% @tutorials.each do |tutorial|%>
-	  <li><%=link_to h(tutorial.full_name), :controller => 'ort', :action => 'index', :id => tutorial%>
-	    <div class="no-image"><%=tutorial.description%></div>
-	  </li>
-	  <%end%>
-	</ul>
-	<p><%=image_tag("icons/back.png", :title => 'Back to Tutorials', :alt => 'Back')%> <a href ="/tutorials/">Back to all Tutorials</a></p>   </div>
-      <div class="bot"><div></div></div>
-    </div>
+<% content_for :search_results do %>
+  <h2>
+    Browse
+    <%= @subject.subject_code+" : " + @subject.subject_name + " " + "Tutorials" %>
+  </h2>
 
-</div></div>
+  <% if @tutorials %>
+    <dl>
+      <% @tutorials.each do |tutorial| %>
+        <%= render :partial => "shared/list_page",
+                   :locals => { :page => tutorial,
+                                :controller => "ort" } %>
+      <% end %>
+    </dl>
+  <% else %>
+    <p>
+      Sorry, no tutorials found.
+    </p>
+  <% end %>
 
-<div id="sidebar-right">
-  <%= render :partial => '/shared/right_sidebar'%>
-</div> <!-- end sidebar-right -->
+  <p>
+    <%= image_tag("icons/back.png",
+                  :title =>
+                  "Back to all Tutorials",
+                  :alt => "Back") %>
+    <a href="/tutorials/">Back to all Tutorials</a>
+  </p>
+<% end %>
 
-<div id="sidebar-left"><div id="sidebar-left-inner">
-    <%= render :partial => '/shared/left_side'%>
-</div></div> <!-- end sidebar-left-inner, end sidebar-left -->
+<%= render :partial => "shared/published_page_results",
+           :locals => { :header_title => @local.tutorial_page_title } %>

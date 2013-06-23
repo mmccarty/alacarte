@@ -1,24 +1,15 @@
-<% pages.each do |page| %>
-  <% page_url = url_for :controller => controller,
-                        :action => "index",
-                        :id => page %>
-  <ul class="unstyled">
-    <li>
-      <% if controller == "ica" %>
-        <% if defined?(subject_code) and defined?(campus_hash) %>
-          <%= link_to page.browse_title(subject_code, campus_hash),
-                      page_url,
-                      :title => "#{raw page.page_description}" %>
-        <% else %>
-          <%= link_to page.search_title,
-                      page_url,
-                      :title => "#{raw page.page_description}" %>
-        <% end %>
-      <% else %>
-        <%= link_to page.guide_name,
-                    page_url,
-                    :title => "#{raw page.description}" %>
-      <% end %>
-    </li>
-  </ul>
-<% end %>
+<dl>
+  <% pages.each do |page| %>
+    <% if defined?(subject_code) and defined?(campus_hash) %>
+      <%= render :partial => "shared/list_page",
+                 :locals => { :page => page,
+                              :controller => controller,
+                              :subject_code => subject_code,
+                              :campus_hash => campus_hash } %>
+    <% else %>
+      <%= render :partial => "shared/list_page",
+                 :locals => { :page => page,
+                              :controller => controller } %>
+    <% end %>
+  <% end %>
+</dl>

@@ -18,6 +18,17 @@
   </li>
 </ul>
 
+<ul class="naw nav-list docs-sidenav">
+  <% @mods.each do |mod| %>
+    <li>
+      <a href="#topic_<%= mod.id %>">
+        <i class="icon-chevron-right"></i>
+        <%= mod.module_title %>
+      </a>
+    </li>
+  <% end %>
+</ul>
+
 <!-- local customization -->
 <% unless @local.guide_box.blank? %>
   <div class="well well-small">
@@ -60,7 +71,9 @@
                                      :action => "index",
                                      :id => guide %>
               <li>
-                <%= link_to h(guide.guide_name), guide_url, :title => "#{h(guide.description)}" %>
+                <%= link_to raw(guide.guide_name),
+                              guide_url,
+                              :title => "#{ raw(guide.description) }" %>
               </li>
             <% end %>
           </ul>
@@ -89,7 +102,9 @@
                                     :action => "index",
                                     :id => page %>
               <li>
-                <%= link_to h(page.header_title), page_url, :title => "#{h(page.page_description)}" %>
+                <%= link_to raw(page.header_title),
+                            page_url,
+                            :title => "#{ raw(page.page_description) }" %>
               </li>
             <% end %>
           </ul>

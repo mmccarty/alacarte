@@ -3,51 +3,35 @@
     <div class="span8">
       <h2>Browse Tutorials</h2>
 
-      <ul class="unstyled">
+      <dl>
         <% subjects.each do |subject| %>
-          <li>
+          <dt>
             <%= link_to h(subject.subject_code + " : " + subject.subject_name + " " + "Tutorials"),
                         :controller => "ort",
                         :action => "subject_list",
                         :id => subject %>
-            <p>
-              <ul class="unstyled">
-                <% s_tutorials = subject.get_tutorials s_tutorials.each do |tutorial| %>
-                  <li>
-                    <%= link_to h(tutorial.full_name),
-                                :controller => "ort",
-                                :action => "index",
-                                :id => tutorial %>
-                    <div class="hide">
-                      <div class="no-image">
-                        <%= tutorial.description %>
-                      </div>
-                    </div>
-                  </li>
-                <% end %>
-              </ul>
-            </p>
-          </li>
+          </dt>
+          <dd>
+            <dl>
+              <% subject.get_tutorials.each do |tutorial| %>
+                <%= render :partial => "shared/list_page",
+                           :locals => { :page => tutorial,
+                                        :controller => "ort" } %>
+              <% end %>
+            </dl>
+          </dd>
         <% end %>
 
-        <% tutorials.each do |tutorial| %>
-          <li>
-            <%= link_to h(tutorial.full_name),
-                        :controller => "ort",
-                        :action => "index",
-                        :id => tutorial %>
-            <div class="hide">
-              <div class="no-image">
-                <%= tutorial.description %>
-              </div>
-            </div>
-          </li>
+        <% tutorials do |tutorial| %>
+          <%= render :partial => "shared/list_page",
+                     :locals => { :page => tutorial,
+                                  :controller => "ort" } %>
         <% end %>
       </ul>
     </div>
 
     <div class="span4">
-      <%= render :partial => "/shared/right_sidebar" %>
+      <%= render :partial => "shared/right_sidebar" %>
     </div>
   </div>
 </div>

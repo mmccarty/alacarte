@@ -1,0 +1,44 @@
+<dt>
+  <% if controller == "ica" %>
+    <% if defined?(subject_code) and defined?(campus_hash) %>
+      <%= link_to page.browse_title(subject_code, campus_hash),
+                  page_url,
+                  :title => "#{raw page.page_description}" %>
+    <% else %>
+      <%= link_to page.search_title,
+                  page_url,
+                  :title => "#{raw page.page_description}" %>
+    <% end %>
+  <% end %>
+
+  <% if controller == "srg" %>
+    <%= link_to page.guide_name,
+                page_url,
+                :title => "#{raw page.description}" %>
+  <% end %>
+
+  <% if controller == "ort" %>
+    <%= link_to h(page.full_name),
+                :controller => controller,
+                :action => "index",
+                :title => "#{raw page.description}"
+                :id => tutorial %>
+  <% end %>
+</dt>
+
+<dd>
+  <% if controller == "ica" %>
+    <%= page.page_description %>
+  <% else %>
+    <%= page.description %>
+  <% end %>
+  <br/>
+  <small>
+    <b>Tags:</b>
+    <% page.tag_list.each do |tag| %>
+      <span class="label tag">
+        <%= link_to tag, { :action => :tagged, :id => tag } %>
+      </span>
+    <% end %>
+  </small>
+</dd>
