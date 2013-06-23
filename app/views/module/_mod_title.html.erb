@@ -1,7 +1,9 @@
 <label for="mod_module_title" > Private Label<span class="required">*</span>
   <span class = 'more_help' onMouseover="fixedtooltip(MOD_LABEL_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 </label>
-<%= text_field 'mod', 'label',"size" => 55  %>
+
+<%= text_field :mod, :label, :size => 55 %>
+
 <%if !@tutorial.blank? %>
 <div id="vertical_inputs">
   <span>
@@ -21,9 +23,9 @@
 <label for="page_course_name">Module Title<span class="required more_help">*</span>
   <span class = 'more_help' onMouseover="fixedtooltip(MOD_TITLE_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span>
 </label>
-<%= text_field 'mod', 'module_title',"size" => 55  %>
+<%= text_field :mod, :module_title, :size => 55 %>
 <%end%>
+
 <label for="tags">Tags <span class = 'more_help' onMouseover="fixedtooltip(MOD_TAGS, this, event, '125');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
-<%= text_area_tag 'tags', @tags, {"class" => 'tinymce', :size => '40x2'}  %>
-<%= tinymce %>
+<%= text_area_tag 'tags', @tags, { :size => '40x2'}  %>
 <div class = 'tip'>	example: WR101, Databases, Writing</div>

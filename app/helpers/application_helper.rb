@@ -11,8 +11,6 @@ module ApplicationHelper
     render :partial => 'shared/new_button', :locals => { :text => text }
   end
 
-  # Helper method that determines which form to show when editing a module.
-  # Determination is based on the mod_type parameter.
   def show_form(mod_type)
     render :partial => 'module/'+mod_type.underscore+'_form'
   end

@@ -144,13 +144,13 @@ class ModuleController < ApplicationController
       when "UrlResource"
         redirect_to :controller => 'url', :action => 'edit_url', :id => @mod.id  and return
       when "BookResource"
-        redirect_to :controller => 'book', :action => 'edit_book', :id => @mod.id  and return
+        redirect_to :controller => 'book', :action => 'edit_book', :id => @mod.id and return
       when "VideoResource"
-        redirect_to :controller => 'video', :action => 'edit_video', :id => @mod.id  and return
+        redirect_to :controller => 'video', :action => 'edit_video', :id => @mod.id and return
       when "QuizResource"
-        redirect_to :controller => 'quiz', :action => 'edit_quiz', :id => @mod.id  and return
+        redirect_to :controller => 'quiz', :action => 'edit_quiz', :id => @mod.id and return
       when "ImageResource"
-        redirect_to :controller => 'image', :action => 'edit_image', :id => @mod.id  and return
+        redirect_to :controller => 'image', :action => 'edit_image', :id => @mod.id and return
       end
     end
   end
@@ -158,7 +158,7 @@ class ModuleController < ApplicationController
   def update
     @ecurrent = 'current'
     @mod ||= find_mod(params[:id], params[:type])
-    @mod.attributes = params[:mod]
+    @mod.update_attributes params[:mod]
     if @mod.save
       Comment.delete(params[:comment_ids])  if params[:comment_ids]
       @mod.update_attribute(:more_info, nil) if params[:more] == "1"
