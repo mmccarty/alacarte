@@ -1,3 +1,5 @@
+<% page_url = url_for :controller => controller, :action => "index", :id => page %>
+
 <dt>
   <% if controller == "ica" %>
     <% if defined?(subject_code) and defined?(campus_hash) %>
@@ -21,8 +23,8 @@
     <%= link_to h(page.full_name),
                 :controller => controller,
                 :action => "index",
-                :title => "#{raw page.description}"
-                :id => tutorial %>
+                :title => "#{raw page.description}",
+                :id => page %>
   <% end %>
 </dt>
 

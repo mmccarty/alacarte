@@ -1,11 +1,13 @@
 <% content_for :tab_headings do %>
-  <li class="active">
-    <a href="#subjects" data-toggle="tab">Browse by Subjects</a>
-  </li>
-  <li>
-    <a href="#az" data-toggle="tab">Browse by A-Z</a>
-  </li>
-  <%= yield :extra_browse_tabs %>
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a href="#subjects" data-toggle="tab">Browse by Subjects</a>
+    </li>
+    <li>
+      <a href="#az" data-toggle="tab">Browse by A-Z</a>
+    </li>
+    <%= yield :extra_browse_tabs %>
+  </ul> <!-- end nav-tabs -->
 <% end %>
 
 <% content_for :tab_content do %>

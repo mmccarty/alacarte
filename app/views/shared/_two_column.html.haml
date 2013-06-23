@@ -1,0 +1,7 @@
+.row
+  .span4
+    - @mods_left.each do |mod|
+      = show_mod mod
+  .span4
+    - @mods_right.each do |mod|
+      = show_mod mod

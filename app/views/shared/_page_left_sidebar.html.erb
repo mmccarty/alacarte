@@ -1,33 +1,15 @@
-<!-- Social -->
-<ul class="inline social">
-  <li>
-    <% if @owner %>
-      <%= image_tag "icons/comment.png", :alt => "Email Guide Owner" %>
-      <%= mail_to @owner.email, "Comments?", :encode => "javascript" %>
-    <% end %>
-  </li>
-  <li>
-    <%= image_tag "icons/rss.png", :alt => "Subcribe to RSS" %>
-    <%= link_to "RSS" , :action => "feed", :id => @page %>
-  </li>
-  <li>
-    <!-- AddThis Bookmark Button BEGIN -->
-    <%= image_tag "icons/add_big.png", :alt => "add to bookmark" %>
-    <a href="http://www.addthis.com/bookmark.php" onclick="window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;" title="Bookmark using any bookmark manager!">Bookmark</a>
-    <!-- AddThis Bookmark Button END -->
-  </li>
-</ul>
-
-<ul class="naw nav-list docs-sidenav">
+<div class="sidebar">
+<div class="accordion grey">
   <% @mods.each do |mod| %>
-    <li>
-      <a href="#topic_<%= mod.id %>">
-        <i class="icon-chevron-right"></i>
-        <%= mod.module_title %>
-      </a>
-    </li>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a href="#topic_<%= mod.id %>" class="accordion-toggle">
+          <h4><%= raw mod.module_title %></h4>
+        </a>
+      </div>
+    </div>
   <% end %>
-</ul>
+</div>
 
 <!-- local customization -->
 <% unless @local.guide_box.blank? %>
@@ -90,8 +72,7 @@
            data-toggle="collapse"
            data-parent="related-pages"
            href="#page-list">
-          <h4>Related Course Guides</h4>
-        </a>
+          <h4>Related Course Guides</h4></a>
       </div> <!-- end accordion-heading -->
 
       <div id="page-list" class="accordion-body collapse">
@@ -127,3 +108,24 @@
     </div>
   </div> <!-- end accordion-group -->
 </div> <!-- end accordion -->
+
+<!-- Social -->
+<ul class="inline social">
+  <li>
+    <% if @owner %>
+      <%= image_tag "icons/comment.png", :alt => "Email Guide Owner" %>
+      <%= mail_to @owner.email, "Comments?", :encode => "javascript" %>
+    <% end %>
+  </li>
+  <li>
+    <%= image_tag "icons/rss.png", :alt => "Subcribe to RSS" %>
+    <%= link_to "RSS" , :action => "feed", :id => @page %>
+  </li>
+  <li>
+    <!-- AddThis Bookmark Button BEGIN -->
+    <%= image_tag "icons/add_big.png", :alt => "add to bookmark" %>
+    <a href="http://www.addthis.com/bookmark.php" onclick="window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;" title="Bookmark using any bookmark manager!">Bookmark</a>
+    <!-- AddThis Bookmark Button END -->
+  </li>
+</ul>
+</div>

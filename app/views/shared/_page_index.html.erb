@@ -1,18 +1,22 @@
 <% content_for :tab_headings do %>
-  <% for tab in @tabs %>
-    <% @tab_url = url_for :controller => index_controller,
-                          :action => "index",
-                          :id => index,
-                          :tab => tab.id %>
-    <% if tab.id == @tab.id %>
-      <li class="active">
-        <a href="#tab-content"><span><%= tab.tab_name %></span></a>
-      </li>
-    <% else %>
-      <li>
-        <a href ="<%= @tab_url %>"><span><%= tab.tab_name %></span></a>
-      </li>
-    <% end %>
+  <% if @tabs.length > 1 %>
+    <ul class="nav nav-tabs">
+      <% for tab in @tabs %>
+        <% @tab_url = url_for :controller => index_controller,
+                              :action => "index",
+                              :id => index,
+                              :tab => tab.id %>
+        <% if tab.id == @tab.id %>
+          <li class="active">
+            <a href="#tab-content"><span><%= tab.tab_name %></span></a>
+          </li>
+        <% else %>
+          <li>
+            <a href ="<%= @tab_url %>"><span><%= tab.tab_name %></span></a>
+          </li>
+        <% end %>
+      <% end %>
+    </ul> <!-- end nav-tabs -->
   <% end %>
 <% end %>
 
