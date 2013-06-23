@@ -19,6 +19,11 @@
 <% content_for :tab_content do %>
   <div class="container">
     <div class="row">
+      <!-- left sidebar -->
+      <div class="span4">
+        <%= render :partial => "shared/page_left_sidebar",
+                   :locals => { :index_description => index_description } %>
+      </div>
 
       <!-- main content -->
       <div class="span8">
@@ -31,13 +36,6 @@
         <%= render :partial => "shared/metadata",
                    :locals => { :tag_list => index.tag_list } %>
       </div> <!-- end main content -->
-
-      <!-- right sidebar -->
-      <div class="span4">
-        <%= render :partial => "shared/page_right_sidebar",
-                   :locals => { :index_description => index_description } %>
-      </div>
-
     </div> <!-- end row -->
   </div> <!-- end container -->
 <% end %>
