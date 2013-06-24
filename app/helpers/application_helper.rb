@@ -1,9 +1,12 @@
 module ApplicationHelper
+  def show_form(mod_type)
+    render "module/#{ mod_type.underscore }_form"
+  end
+
   def show_mod(mod)
     if !mod.blank?
       @mod = mod
-      mod_class = @mod.class.to_s
-      render :partial => 'shared/'+mod_class.underscore+'_module', :object => @mod
+      render :partial => "shared/#{ mod.class.to_s.underscore }_module", :object => @mod
     end
   end
 
@@ -11,8 +14,25 @@ module ApplicationHelper
     render :partial => 'shared/new_button', :locals => { :text => text }
   end
 
-  def show_form(mod_type)
-    render :partial => 'module/'+mod_type.underscore+'_form'
+  def flash_notice
+    render 'shared/flash_notice'
+  end
+
+  def more_help(msg, width)
+    render :partial => 'shared/more_help', :locals => { :msg => msg, :width => width }
+  end
+
+  def related_link
+    options = {
+      :update => 'suggestions',
+      :loading => "Element.show('spinner_sort')",
+      :complete => "Element.hide('spinner_sort')",
+      :url => { :action => 'suggest_relateds' }
+    }
+    html_options = {
+      :title => "Click to automatically find related guides"
+    }
+    link_to "Automatically Add Related Guides", options, html_options, :remote => true
   end
 
   def render_tooltip(mod)
@@ -72,19 +92,6 @@ module ApplicationHelper
       :title => "view databases the begin with this letter"
     }
     link_to(sort, options, html_options, :remote => true)
-  end
-
-  def related_link
-    options = {
-      :update => 'suggestions',
-      :loading => "Element.show('spinner_sort')",
-      :complete => "Element.hide('spinner_sort')",
-      :url => {:action => 'suggest_relateds'}
-    }
-    html_options = {
-      :title => "Click to automatically find related guides"
-    }
-    link_to("Automatically Add Related Guides", options, html_options, :remote => true)
   end
 
   def set_owner_helper(id, uid)

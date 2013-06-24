@@ -30,35 +30,35 @@ class Guide < ActiveRecord::Base
   end
 
   def create_relateds
-    update_attribute(:relateds, get_related_guides)
+    update_attribute :relateds, get_related_guides
   end
 
   def delete_relateds(id)
-    relateds.delete(id.to_i)
+    relateds.delete id.to_i
     self.save
   end
 
   def add_related_guides(ids)
     ids.each do |id|
-      relateds << id.to_i unless relateds.include?(id.to_i)
+      relateds << id.to_i unless relateds.include? id.to_i
     end
   end
 
   def related_guides
-    guides=[]
+    guides = []
     if relateds == nil
       create_relateds
     end
     relateds.each do |id|
-      if Guide.exists?(id.to_i)
-        guide = Guide.find(id.to_i)
+      if Guide.exists? id.to_i
+        guide = Guide.find id.to_i
         if guide.published?
           guides << guide
         else
-          relateds.delete(id.to_i)
+          relateds.delete id.to_i
         end
       else
-        relateds.delete(id.to_i)
+        relateds.delete id.to_i
       end
     end
     guides.sort { |x,y| x.guide_name.downcase <=> y.guide_name.downcase }

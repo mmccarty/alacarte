@@ -192,14 +192,14 @@ class GuideController < ApplicationController
 
   def edit_relateds
     begin
-      @guide = @user.guides.find(params[:id])
+      @guide = @user.guides.find params[:id]
     rescue ActiveRecord::RecordNotFound
       redirect_to :action => 'index' and return
     end
     @relateds = @guide.related_guides
     @guides = Guide.published_guides
     if request.post?
-      @guide.add_related_guides(params[:relateds]) if params[:relateds]
+      @guide.add_related_guides params[:relateds] if params[:relateds]
       if @guide.save
         flash[:notice] = "The guides were successfully related"
         redirect_to :action => 'edit_relateds'

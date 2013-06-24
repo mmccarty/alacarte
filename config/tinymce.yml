@@ -37,4 +37,4 @@ plugins:
   - fullscreen
 content_css: "/stylesheets/tool.css"
 fix_list_elements: true
-height: 50
+height: 200

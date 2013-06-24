@@ -1,0 +1,24 @@
+#share_right
+  %br/
+  #boxes
+    .item
+      .item2
+        %h2
+          Related Subject Guides
+        #suggestions.module
+          - if @relateds.length < 1
+            %p
+              %b
+                This page has no related guides.
+          - else
+            %ul.undeco.no_indent
+              - @relateds.each do |guide|
+                - guide_url = url_for :controller => 'srg', :action => 'index', :id => guide
+                %li
+                  = link_to guide.guide_name, guide_url, :title => guide.description, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes']
+                  = link_to image_tag('icons/remove.png', :title => 'Remove from related guides list', :alt => 'remove', :border => 0), { :action => 'remove_related', :gid => guide.id, :confirm => 'Are you sure you want to remove this guide from the related guides list?', :method => :post }
+
+      .bot
+
+%br{ :style => 'clear: both;' }
+= render 'side_bar'

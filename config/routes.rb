@@ -20,7 +20,8 @@ Alacarte::Application.routes.draw do
   get 'tutorials/my-quizzes/:id' => 'student#quizzes'
   get 'tutorials/login/:id' => 'student#login'
   get 'tutorials/create-account/:id' => 'student#create_account'
-  get '/javascripts/tiny_mce/plugins/advimage_uploader/image.htm' => 'image_manager#create', :via => :post
-  get '/javascripts/tiny_mce/plugins/advimage_uploader/image.htm' => 'image_manager#show', :via => :get
+
+  get '/guide/edit/:id' => 'guide#edit', :as => 'edit_guide'
+
   match '/:controller(/:action(/:id))'
 end
