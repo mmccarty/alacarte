@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: guides
+#
+#  id          :integer          not null, primary key
+#  guide_name  :string(255)      not null
+#  resource_id :integer
+#  updated_at  :datetime
+#  created_by  :string(255)      default("")
+#  published   :boolean          default(FALSE)
+#  description :text
+#  relateds    :text
+#
+
 class Guide < ActiveRecord::Base
   acts_as_taggable
   has_and_belongs_to_many :users

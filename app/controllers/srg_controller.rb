@@ -53,7 +53,7 @@ class SrgController < ApplicationController
     @meta_keywords = "Search Subject Guides, Course Guides, and Research Tutorials"
     @meta_description= "Search Subject Guides, Course Guides, and Research Tutorials."
     @title = "Search Results"
-    @guides =""
+    @guides = ""
   end
 
   def tagged

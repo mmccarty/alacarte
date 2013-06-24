@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: book_resources
+#
+#  id            :integer          not null, primary key
+#  module_title  :string(255)      default(""), not null
+#  label         :string(255)
+#  updated_at    :datetime
+#  content_type  :string(255)      default("Books")
+#  global        :boolean          default(FALSE)
+#  created_by    :string(255)
+#  created_by_id :integer
+#  information   :text
+#  slug          :string(255)
+#  published     :boolean          default(FALSE)
+#
+
 class BookResource < ActiveRecord::Base
   include HasResources
 

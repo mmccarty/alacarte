@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: subjects
+#
+#  id           :integer          not null, primary key
+#  subject_code :string(255)      default("")
+#  subject_name :string(255)      default("")
+#
+
 class Subject < ActiveRecord::Base
   has_and_belongs_to_many :guides, :order => 'guide_name'
   has_and_belongs_to_many :pages, :order => 'course_num, course_name'

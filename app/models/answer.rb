@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: answers
+#
+#  id          :integer          not null, primary key
+#  question_id :integer
+#  value       :text
+#  correct     :boolean          default(FALSE)
+#  position    :integer
+#  feedback    :text
+#
+
 class Answer < ActiveRecord::Base
   belongs_to :question
   acts_as_list :scope => :question

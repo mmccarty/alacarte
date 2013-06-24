@@ -1,5 +1,14 @@
+# == Schema Information
+#
+# Table name: resources
+#
+#  id       :integer          not null, primary key
+#  mod_id   :integer
+#  mod_type :string(255)
+#
+
 class Resource < ActiveRecord::Base
-  belongs_to :mod, :polymorphic =>true
+  belongs_to :mod, :polymorphic => true
   has_and_belongs_to_many :users
   has_many :tab_resources, :dependent => :destroy
   has_many :tabs, :through => :tab_resources
@@ -10,8 +19,22 @@ class Resource < ActiveRecord::Base
   has_many :guides
   has_many :pages
 
-  #protect these attributes so they can not be set with a POST request
   attr_protected :id
+
+  def self.global_modules(s, rev)
+    global_mods = all.collect{|a| a.mod if a.mod and a.mod.global? }.compact
+    unless global_mods.empty?
+      if s == "label"  || s == "content_type" || s == "created_by"
+        global_mods =   global_mods.sort!{|a,b| a.send(s).downcase <=> b.send(s).downcase }
+      else
+        global_mods =  global_mods.sort!{|a,b| b.send(s) <=> a.send(s)}
+      end
+      global_mods =  global_mods.reverse if rev == 'true'
+      global_mods.uniq
+    else
+      []
+    end
+  end
 
   def copy_mod(name)
     old_mod = mod
@@ -48,26 +71,10 @@ class Resource < ActiveRecord::Base
     mod.save
   end
 
-  def self.global_modules(s, rev)
-    global_mods = all.collect{|a| a.mod if a.mod and a.mod.global? }.compact
-    unless global_mods.empty?
-      if s == "label"  || s == "content_type" || s == "created_by" #not a date or special case so we need to downcase to normalize data
-        global_mods =   global_mods.sort!{|a,b| a.send(s).downcase <=> b.send(s).downcase }
-      else #sort by date DESC
-        global_mods =  global_mods.sort!{|a,b| b.send(s) <=> a.send(s)}
-      end
-      global_mods =  global_mods.reverse if rev == 'true'
-      global_mods.uniq
-    else
-      []
-    end
-  end
-
   def delete_mods
     self.mod.destroy
   end
 
-  #returns true if shared
   def shared?
     users.length > 1
   end

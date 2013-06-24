@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: tutorials
+#
+#  id                      :integer          not null, primary key
+#  subject_id              :integer
+#  name                    :string(255)      not null
+#  description             :text
+#  graded                  :boolean          default(FALSE)
+#  published               :boolean          default(FALSE)
+#  archived                :boolean          default(FALSE)
+#  created_by              :integer
+#  updated_at              :datetime
+#  course_num              :string(255)
+#  section_num             :text
+#  pass                    :string(255)      default("p@ssword")
+#  attachment_file_name    :string(550)
+#  attachment_content_type :string(250)
+#  attachment_file_size    :integer
+#  attachment_updated_at   :datetime
+#  internal                :boolean
+#
+
 class Tutorial < ActiveRecord::Base
   acts_as_taggable
   has_many :units, :through => :unitizations

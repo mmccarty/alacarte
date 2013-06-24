@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id            :integer          not null, primary key
+#  name          :string(255)      default(""), not null
+#  hashed_psswrd :string(255)      default(""), not null
+#  email         :string(255)      default(""), not null
+#  salt          :string(255)      default(""), not null
+#  role          :string(255)      default("author"), not null
+#  resource_id   :integer
+#
+
 require 'digest/sha1'
 require 'xmlrpc/client'
 
@@ -18,10 +31,8 @@ class User < ActiveRecord::Base
   attr_accessor :password_confirmation
   validates_confirmation_of :password
 
-  #protect these attributes so they can not be set with a POST request
   attr_protected :id, :salt
 
-  #check that the password has been set
   def validate
     errors.add("Missing password" ) if hashed_psswrd.blank?
   end
@@ -38,7 +49,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  #add a page to the HABTM relationship
   def add_page(page)
     page.created_by = name
     page.resource_id = resource_id
@@ -89,12 +99,10 @@ class User < ActiveRecord::Base
     self.resources.find_by_mod_id_and_mod_type(id, type)
   end
 
-  #add a resource to the HABTM relationship
   def add_resource(resource)
     resources << resource
   end
 
-  #add a resource to the HABTM relationship
   def add_tutorial(tutorial)
     tutorials << tutorial
   end
@@ -167,15 +175,13 @@ class User < ActiveRecord::Base
     return contacts
   end
 
-  #sorts the modules from the search by the sort_by value
   def sort_search_mods(sort_by,search_results)
-    sort,reverse = mod_sort_by_values(sort_by)  #determine the value to sort by and which direction to sort
+    sort,reverse = mod_sort_by_values(sort_by)
     return  modules(sort, reverse,search_results)
   end
 
-  #returns a list of modules for my modules and global modules view
   def sort_mods(sort_by, list_by = nil)
-    sort,reverse = mod_sort_by_values(sort_by)  #determine the value to sort by and which direction to sort
+    sort,reverse = mod_sort_by_values(sort_by)
     case list_by
     when "global" then (mods =  Resource.global_modules(sort, reverse))
     else  (mods = modules(sort, reverse))
@@ -183,12 +189,11 @@ class User < ActiveRecord::Base
     return mods
   end
 
-  #get the users modules through resources
   def modules(s = nil, rev = nil,list = nil)
     s = (s.nil? ? "label" : s)
     mods = (list == nil ? resources.collect {|a| a.mod if a and a.mod}.compact : list)
 
-    if s == "label"  || s == "content_type" || s == "created_by" #not a date or special case so we need to downcase to normalize data
+    if s == "label"  || s == "content_type" || s == "created_by"
       mods =  mods.sort!{|a,b| a.send(s).downcase <=> b.send(s).downcase }
     elsif s == "published"
       mods =  mods.sort_by {|a|[a.published? ? 0 : 1,a.label]}
@@ -198,7 +203,7 @@ class User < ActiveRecord::Base
       mods =  mods.sort_by {|a|[a.used? ? 0 : 1,a.label]}
     elsif s == "shared"
       mods =  mods.sort_by {|a|[a.shared? ? 0 : 1,a.label]}
-    else #sort by date DESC
+    else
       mods = mods.sort!{|a,b| b.send(s) <=> a.send(s)}.reverse
     end
 
@@ -206,7 +211,6 @@ class User < ActiveRecord::Base
     return mods.uniq
   end
 
-  #determines value to sort by and which direction to sort by
   def mod_sort_by_values(sort_by)
     case sort_by
     when "name"  then  (sort = "label")  and (reverse = "false")
@@ -231,30 +235,29 @@ class User < ActiveRecord::Base
   end
 
   def sort_search_guides(sort_by,search_results)
-    sort,reverse = guide_sort_by_values(sort_by)  #determine the value to sort by and which direction to sort
+    sort,reverse = guide_sort_by_values(sort_by)
     return sorted_guides(sort,reverse,search_results)
   end
 
   def sort_guides(sort_by)
-    sort,reverse = guide_sort_by_values(sort_by)  #determine the value to sort by and which direction to sort
+    sort,reverse = guide_sort_by_values(sort_by)
     return sorted_guides(sort,reverse,guides)
   end
 
   def sorted_guides(sort, reverse, list)
-    if sort == "guide_name"  #not a date so we need to downcase to normalize data
+    if sort == "guide_name"
       guides = list.sort!{|a,b| a.send(sort).downcase <=> b.send(sort).downcase }
     elsif sort == "published"
-      guides = list.sort_by {|a|[a.published? ? 0 : 1,a.guide_name]}#Couldn't use the default search because this is a boolean value
+      guides = list.sort_by {|a|[a.published? ? 0 : 1,a.guide_name]}
     elsif sort == "shared"
       guides = list.sort_by {|a|[a.shared? ? 0 : 1,a.guide_name]}
-    else #sort by date DESC
+    else
       guides = list.sort!{|a,b| b.send(sort) <=> a.send(sort)}.reverse
     end
     guides = guides.reverse if reverse == 'true'
     return guides.uniq
   end
 
-  #determines value to sort by and which direction to sort by
   def guide_sort_by_values(sort_by)
     case sort_by
     when "name"  then  (sort = "guide_name")  and (reverse = "false")
@@ -271,12 +274,12 @@ class User < ActiveRecord::Base
   end
 
   def sort_search_pages(sort_by,search_results)
-    sort,reverse = page_sort_by_values(sort_by)  #determine the value to sort by and which direction to sort
+    sort,reverse = page_sort_by_values(sort_by)
     return sorted_pages(sort,reverse,search_results)
   end
 
   def sort_pages(sort_by)
-    sort,reverse = page_sort_by_values(sort_by)  #determine the value to sort by and which direction to sort
+    sort,reverse = page_sort_by_values(sort_by)
     return sorted_pages(sort,reverse,pages)
   end
 
@@ -296,7 +299,6 @@ class User < ActiveRecord::Base
     return pages.uniq
   end
 
-  #determines value to sort by and which direction to sort by
   def page_sort_by_values(sort_by)
     case sort_by
     when "name"  then  (sort = "course_name")  and (reverse = "false")
@@ -340,7 +342,6 @@ class User < ActiveRecord::Base
     return tutorials.uniq
   end
 
-  #determines value to sort by and which direction to sort by
   def tutorial_sort_by_values(sort_by)
     case sort_by
     when "name"  then  (sort = "name")  and (reverse = "true")
@@ -358,7 +359,6 @@ class User < ActiveRecord::Base
     return sort,reverse
   end
 
-  #sorts a users units through tutorials
   def sort_units(sort_by)
     sort = case sort_by
            when "name"  then "title"
@@ -379,9 +379,6 @@ class User < ActiveRecord::Base
     return  units
   end
 
-  #authentication and account
-
-  #return a user if they are hashed password matches the one stored for that user in the database
   def self.authenticate(email, password)
     user = self.find_by_email(email)
     if user
@@ -393,7 +390,6 @@ class User < ActiveRecord::Base
     user
   end
 
-  #creates accounts for alaCarte users
   def self.create_new_account(params)
     user = User.new
     new_password = user.generate_password  #This password is not actually being used.  It is just there so we don't have blank password fields for the accounts
@@ -421,19 +417,16 @@ class User < ActiveRecord::Base
     return msg
   end
 
-  #create instance variable for password
   def password
     @password
   end
 
-  #set the variable 'password' and store the encrypted version
   def password=(pwd)
     @password = pwd
     self.salt = User.random_string(10) if !self.salt?
     self.hashed_psswrd = User.encrypt(self.password, self.salt)
   end
 
-  #generate a new random password, change the users password to the new password, and email new password to the user
   def set_new_password
     new_pass = User.random_string(10)
     self.password = self.password_confirmation = new_pass
@@ -453,7 +446,6 @@ class User < ActiveRecord::Base
     return User.random_string(10)
   end
 
-  # Uses ActsAsFerret to first search the given index and returns only resources that belong to the user via the intersection operator
   def search(search_term,klass,index)
     search_results = ActsAsFerret.find("#{search_term}","#{index}",:per_page => 100)
     return (search_results & klass)
@@ -461,15 +453,11 @@ class User < ActiveRecord::Base
 
   private
 
-  #create a unique salt value, combine it with the plaintext password into a single string, and
-  #then run an SHA1 digest on the result, returning a 40 character string of hex digits
   def self.encrypt(password, salt)
     string_to_hash = password + salt
     Digest::SHA1.hexdigest(string_to_hash)
   end
 
-  #generate a random password consisting of strings and digits, returning a newpassword of length equal
-  #to parameter len
   def self.random_string(len)
     chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
     newpass = ""

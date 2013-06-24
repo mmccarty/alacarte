@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: course_widgets
+#
+#  id           :integer          not null, primary key
+#  module_title :string(255)      default(""), not null
+#  label        :string(255)
+#  widget       :text
+#  information  :text
+#  updated_at   :datetime
+#  content_type :string(255)      default("Multi-Media Widget")
+#  global       :boolean          default(FALSE)
+#  created_by   :string(255)
+#  slug         :string(255)
+#  published    :boolean          default(FALSE)
+#
+
 class CourseWidget < ActiveRecord::Base
   include HasResources
 

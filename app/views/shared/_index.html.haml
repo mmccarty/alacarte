@@ -1,0 +1,26 @@
+.container
+
+  - if @tabs.length > 1
+    .row
+      %ul.nav.nav-tabs
+        - @tabs.each do |tab|
+          - if tab.id == @tab.id
+            %li.active
+              %a{ :href => '#tab_content' }
+                %span
+                  = tab.tab_name
+          - else
+            %li
+              %a{ :href => url_for(:controller => index_controller, :action => 'index', :id => index, :tab => tab.id) }
+                %span
+                  = tab.tab_name
+
+  .row
+    .span4
+      = render :partial => 'shared/left_side_bar', :locals => { :index_description => index_description }
+    .span8
+      %h1
+        = header_title
+      .tab_content
+        = render "shared/#{ @mods ? 'one' : 'two' }_column"
+        = render :partial => 'shared/metadata', :locals => { :tag_list => index.tag_list }

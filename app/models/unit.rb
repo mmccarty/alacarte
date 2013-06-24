@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: units
+#
+#  id          :integer          not null, primary key
+#  title       :string(255)      not null
+#  description :text
+#  created_by  :integer
+#  updated_at  :datetime
+#  slug        :string(255)      default("")
+#
+
 class Unit < ActiveRecord::Base
   acts_as_taggable
   has_many :unitizations, :dependent => :destroy
@@ -15,12 +27,10 @@ class Unit < ActiveRecord::Base
     self.save
   end
 
-  #add a resource to the HABTM relationship
   def add_resource(resource)
     resources << resource
   end
 
-  #update a users resource list
   def update_resources(resrs)
     resrs.each do |value|
       id = value.gsub(/[^0-9]/, '')
@@ -47,7 +57,6 @@ class Unit < ActiveRecord::Base
     return resources.find_by_mod_id_and_mod_type(id, type)
   end
 
-  #get the collection of associated resources
   def modules
     resources.collect {|a| a.mod}
   end

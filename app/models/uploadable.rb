@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: uploadables
+#
+#  id                   :integer          not null, primary key
+#  upload_file_name     :string(255)
+#  upload_content_type  :string(255)
+#  upload_file_size     :integer
+#  upload_updated_at    :datetime
+#  uploader_resource_id :integer
+#  upload_info          :text
+#  upload_link          :string(255)
+#
+
 class Uploadable < ActiveRecord::Base
   belongs_to :uploader_resource
   has_attached_file :upload,

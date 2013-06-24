@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: quiz_resources
+#
+#  id           :integer          not null, primary key
+#  module_title :string(255)      not null
+#  label        :string(255)
+#  description  :text
+#  created_by   :string(255)
+#  updated_at   :datetime
+#  content_type :string(255)      default("Quiz")
+#  global       :boolean          default(FALSE)
+#  graded       :boolean          default(FALSE)
+#  slug         :string(255)
+#  published    :boolean          default(FALSE)
+#
+
 class QuizResource < ActiveRecord::Base
   include HasResources
 

@@ -39,14 +39,12 @@ module ApplicationHelper
     tip +  "Click to manage this module."
   end
 
-  #adds css class to selected sort value
   def sort_th_class_helper(param)
     result = "sortup" if @sort == param
     result = "sortdown" if @sort == param + "_reverse"
     result
   end
 
-  #sorts list of my mods/guides/pages
   def sort_link_helper(text, param)
     key = param
     key += "_reverse" if params[:sort] == param
@@ -63,7 +61,6 @@ module ApplicationHelper
     link_to(text, options, html_options, :remote => true)
   end
 
-  #database module sort a-z list
   def sort_links(sort)
     options = {
       :update => 'a_z_list',
@@ -90,7 +87,6 @@ module ApplicationHelper
     link_to("Automatically Add Related Guides", options, html_options, :remote => true)
   end
 
-  #sets owner for tutorial/guides/pages
   def set_owner_helper(id, uid)
     options = {
       :update => 'editor-list',
@@ -105,10 +101,6 @@ module ApplicationHelper
     link_to("Make Owner", options, html_options, :remote => true)
   end
 
-  #Truncates a given comment to the passed in size, without breaking words.
-  #Additionally, converts newlines to html break tags, and will truncate
-  #on a newline if the newline falls within the truncated length.
-  #Finally, changes url's into clickable links.
   def truncate_comment(comment, num_characters)
     comment_copy = ""
     comment_size = 0
@@ -133,7 +125,6 @@ module ApplicationHelper
     simple_format(comment_copy)
   end
 
-  #helper method to get targets for library find modules
   def checked?(val)
     targets = @mod.lf_targets.collect{|a| a.value}
     targets.include?(val)

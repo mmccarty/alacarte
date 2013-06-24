@@ -1,10 +1,5 @@
 #!/usr/bin/env ruby
-#
-#Install script to populate the user table of the database with an admin account.
-
-require File.dirname(__FILE__) + '/../config/boot'
-#require 'environment'
-require File.dirname(__FILE__) + '/../config/environment'
+require File.expand_path('../../config/environment', __FILE__)
 
 #Create the default admin user
 user = User.new :name => "Admin",
