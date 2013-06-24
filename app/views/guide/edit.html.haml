@@ -1,0 +1,24 @@
+%fieldset
+
+  %h3.title
+    = render 'title_actions'
+
+  %h4
+    Edit Guide
+
+  #add_tab
+    = new_button 'Add New Tab'
+
+    #tab_new{ :style => 'display: none;' }
+      = form_tag :controller => 'tab', :action => 'create' do
+        = error_messages_for 'tab'
+        %label
+          Tab Title
+          = content_tag :a, 'cancel', :onclick => "$('tab_new').toggle();$('new_button').toggle();; return false;"
+        = text_field :tab, :tab_name, :size => 12
+        = submit_tag 'Create'
+
+  #tab_content
+    = render 'guide/edit_tab'
+
+  = render 'side_bar'

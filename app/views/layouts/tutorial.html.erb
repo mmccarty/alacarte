@@ -10,12 +10,12 @@
     <meta name="revised" content= "<%= @updated ? @updated : Time.now %>" />
     <%= csrf_meta_tag %>
     <%= @local.meta %>
-    <title><%=h @title%></title>
-    <%= stylesheet_link_tag 'bootstrap.min', 'font-awesome', 'sticky-footer', 'template' %>
-    <!--[if IE 7]>
-        <link rel="stylesheet" href="/assets/font-awesome-ie7.min.css"/>
+    <title><%= @title%></title>
+    <%= stylesheet_link_tag 'application', 'sticky-footer', 'template' %>
+    <!--[if lt IE 8]>
+      <%= stylesheet_link_tag 'font-awesome-ie7.min.css', :media => 'all' %>
     <![endif]-->
-    <%= javascript_include_tag 'application', 'template', 'bootstrap.min' %>
+    <%= javascript_include_tag 'application', 'template', %>
     <%unless @local.styles.blank? %>
     <%= stylesheet_link_tag(@local.styles) %>
     <%end%>
