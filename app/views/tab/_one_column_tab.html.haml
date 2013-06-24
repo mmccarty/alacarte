@@ -10,8 +10,8 @@
         %br/
         = more_help "'#{ render_tooltip mod }'", '125'
         |
-        = link_to image_tag("icons/edit.png", :title => 'Edit this Module', :alt => 'Edit', :border => 0), {:controller => 'module', :action => 'edit_content', :id => mod, :type => mod.class}
+        = link_to icon_tag('edit', 'Edit this module'), {:controller => 'module', :action => 'edit_content', :id => mod, :type => mod.class}
         |
-        = link_to image_tag("icons/document_preview.png", :title => 'View this Module', :alt => 'View Module', :border => 0), {:controller => 'module', :action => 'view', :id => mod, :type => mod.class}, :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes']
+        = link_to icon_tag('external-link', 'View this Module'), {:controller => 'module', :action => 'view', :id => mod, :type => mod.class}, :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes']
         |
-        = link_to image_tag("icons/remove.png", :title => 'Delete this Module from Page', :alt => 'Delete Module', :border => 0), {:controller => 'tab', :action => 'remove_module', :id => mod, :type => mod.class, :tab => @tab.id }, :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post
+        = link_to icon_tag('remove', 'Remove this Module from Page'), {:controller => 'tab', :action => 'remove_module', :id => mod, :type => mod.class, :tab => @tab.id }, :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post

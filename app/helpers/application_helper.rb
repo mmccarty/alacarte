@@ -22,6 +22,11 @@ module ApplicationHelper
     render :partial => 'shared/more_help', :locals => { :msg => msg, :width => width }
   end
 
+  def icon_tag(name, title = '')
+    html = "<i class='icon-#{ name }' title='#{ title }'></i>"
+    html.html_safe
+  end
+
   def related_link
     options = {
       :update => 'suggestions',

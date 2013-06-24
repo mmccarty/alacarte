@@ -5,58 +5,66 @@
     %title
       = params[:controller].humanize || ""
       \: Library &agrave; la Carte Tool
-    = stylesheet_link_tag 'modules', 'tool'
+    = stylesheet_link_tag 'application', 'modules', 'tool'
     = javascript_include_tag 'application', 'messages', 'tool'
 
   %body
+    .container
 
-    #wrapper
-      #header_small
-        %span.subtitle= image_tag 'LogoSmall.png', :title => 'Information made to order', :alt => 'logo'
-        #login_bar
-          %b
-            - unless @admin
-              = @user.name
+      .row
+        #header_small
+          %span.subtitle= image_tag 'LogoSmall.png', :title => 'Information made to order', :alt => 'logo'
+          #login_bar
+            %b
+              - unless @admin
+                = @user.name
+              - else
+                Admin
+            IS LOGGED IN |
+            = link_to 'LOGOUT', :controller => 'login', :action => 'logout'
+
+        #tab_container
+          %ul#tabs
+            %li{:class => @mcurrent || 'mod_tab' }
+              = link_to_unless_current "Modules" , :controller => 'module', :action => 'index'
+            - unless @user.is_admin
+              - if @local.guides_list.include?('pages')
+                %li{:class => @pcurrent || "page_tab" }
+                  = link_to_unless_current "Pages" , :controller => 'page', :action => 'index', :sort => 'name'
+              - if @local.guides_list.include?('guides')
+                %li{:class => @gcurrent || "quide_tab" }
+                  = link_to_unless_current "Guides" , :controller => 'guide', :action => 'index', :sort => 'name'
+              - if @local.guides_list.include?('tutorials')
+                %li{:class => @tcurrent || "tutorial_tab" }
+                  = link_to_unless_current "Tutorials" , :controller => 'tutorial', :action => 'index'
+              %li{:class => @dcurrent || "dashboard_tab" }
+                = link_to_unless_current "Dashboard" , :controller => 'dashboard', :action => 'index'
             - else
-              Admin
-          IS LOGGED IN |
-          = link_to 'LOGOUT', :controller => 'login', :action => 'logout'
-
-      #tab_container
-        %ul#tabs
-          %li{:class => @mcurrent || 'mod_tab' }
-            = link_to_unless_current "Modules" , :controller => 'module', :action => 'index'
-          - unless @user.is_admin
-            - if @local.guides_list.include?('pages')
-              %li{:class => @pcurrent || "page_tab" }
+              %li{:class => @pcurrent || 'page_tab' }
                 = link_to_unless_current "Pages" , :controller => 'page', :action => 'index', :sort => 'name'
-            - if @local.guides_list.include?('guides')
-              %li{:class => @gcurrent || "quide_tab" }
+              %li{:class => @gcurrent || 'quide_tab' }
                 = link_to_unless_current "Guides" , :controller => 'guide', :action => 'index', :sort => 'name'
-            - if @local.guides_list.include?('tutorials')
-              %li{:class => @tcurrent || "tutorial_tab" }
+              %li{:class => @tcurrent || 'tutorial_tab' }
                 = link_to_unless_current "Tutorials" , :controller => 'tutorial', :action => 'index'
-            %li{:class => @dcurrent || "dashboard_tab" }
-              = link_to_unless_current "Dashboard" , :controller => 'dashboard', :action => 'index'
+              %li{:class => @dcurrent || 'dashboard_tab' }
+                = link_to_unless_current "Dashboard" , :controller => 'dashboard', :action => 'index'
+              %li{:class => @current || "admin_tab" }
+                = link_to_unless_current "Admin Tools" , :controller => 'admin', :action => 'tools'
+
+      .row
+        #content_full
+          - if params[:controller].humanize.in? %w(Dashboard Index)
+            .span12
+              = yield :layout
           - else
-            %li{:class => @pcurrent || 'page_tab' }
-              = link_to_unless_current "Pages" , :controller => 'page', :action => 'index', :sort => 'name'
-            %li{:class => @gcurrent || 'quide_tab' }
-              = link_to_unless_current "Guides" , :controller => 'guide', :action => 'index', :sort => 'name'
-            %li{:class => @tcurrent || 'tutorial_tab' }
-              = link_to_unless_current "Tutorials" , :controller => 'tutorial', :action => 'index'
-            %li{:class => @dcurrent || 'dashboard_tab' }
-              = link_to_unless_current "Dashboard" , :controller => 'dashboard', :action => 'index'
-            %li{:class => @current || "admin_tab" }
-              = link_to_unless_current "Admin Tools" , :controller => 'admin', :action => 'tools'
+            .span2
+              #side_bar
+                = yield :sidebar
+            .span10
+              = yield :layout
 
-      #content_full
-        - unless params[:controller].humanize.eql?("Dashboard") || params[:action].humanize.eql?("Index")
-          #side_bar
-            = yield :sidebar
-        = yield :layout
-
-      #footer
-        %a{:href => "http://alacarte.library.oregonstate.edu/support" } Help/FAQ
-        |
-        %a{:href => "http://alacarte.library.oregonstate.edu/contact" } Contact Us
+      .row
+        #footer
+          %a{:href => "http://alacarte.library.oregonstate.edu/support" } Help/FAQ
+          |
+          %a{:href => "http://alacarte.library.oregonstate.edu/contact" } Contact Us
