@@ -1,4 +1,4 @@
-<div id="header">
+<div id="header" class="navbar">
   <%if @guide%>
     <%= link_to "Go To Screenreader Version" , {:action => 'print', :id => @guide} , :id => 'ada', :style=>"position:absolute;top:-1000px;"  %>
   <%elsif @page%>

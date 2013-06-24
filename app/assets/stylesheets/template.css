@@ -1,17 +1,36 @@
+/* individual page index */
 .page_header {
   padding-bottom: 9px;
   margin: 20px 0 30px;
   border-bottom: 1px solid #eeeeee;
 }
+#page-header {
+  background-color: #fff;
+  position: fixed;
+}
+#page-header + .container {
+  margin-top: 100px;
+}
 
+/* individual page sections */
 .span8 section {
   padding-bottom: 35px;
+}
+
+/* tab styling */
+.tabs-left {
+  min-height: 175px;
 }
 
 .tab-content .span8 {
   overflow: hidden;
 }
 
+#search + .tab-content, .dl-horizontal {
+  overflow: hidden;
+}
+
+/* tags */
 .tag > a {
   color: #fff;
 }
@@ -19,13 +38,7 @@
   text-decoration: none;
 }
 
-#search + .tab-content, .dl-horizontal {
-  overflow: hidden;
-}
-
-#guide-list ul, #subject-list ul {
-  margin-left: 5px;
-}
+/* miscellaneous */
 
 .grey {
   background-color: #f5f5f5;
@@ -35,13 +48,13 @@
   background-color: #fff;
 }
 
+/* social section for sidebar */
 .social {
   margin-bottom: 25px;
 }
 
 
-/* Sidenav for Docs
- * -------------------------------------------------- */
+/* Side nav for module sections */
 
 .page-sidenav {
   width: 100%;
@@ -82,20 +95,32 @@
      -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
           box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
 }
+.page-sidenav > li > a:hover {
+  background-color: #f5f5f5;
+}
+.accordion-heading > a:hover {
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+
 /* Chevrons */
-.page-sidenav .icon-chevron-right {
+.page-sidebar .icon-chevron-right,
+.page-sidebar .icon-chevron-down
+{
   float: right;
   margin-top: 2px;
   margin-right: -6px;
   opacity: .25;
 }
-.page-sidenav > li > a:hover {
-  background-color: #f5f5f5;
-}
-.page-sidenav a:hover .icon-chevron-right {
+.page-sidebar a:hover .icon-chevron-right,
+.page-sidebar .icon-chevron-down
+{
   opacity: .5;
 }
-.page-sidenav .active .icon-chevron-right,
-.page-sidenav .active a:hover .icon-chevron-right {
+.page-sidebar .active .icon-chevron-right,
+.page-sidebar .active a:hover .icon-chevron-right,
+.page-sidebar .active .icon-chevron-down,
+.page-sidebar .active a:hover .icon-chevron-down
+{
   opacity: 1;
 }

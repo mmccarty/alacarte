@@ -1,0 +1,11 @@
+.container 
+  .container#page-header
+    %h1.page-header
+      = header_title
+
+  .container
+    .row
+      = yield :tab_headings
+
+      .tab-content
+        = yield :tab_content

@@ -46,7 +46,7 @@
 
       <div id="guide-list" class="accordion-body collapse">
         <div class="accordion-inner">
-          <ul class="unstyled">
+          <ul>
             <% @related_guides.each do |guide| %>
               <% guide_url = url_for :controller => "srg",
                                      :action => "index",
@@ -77,7 +77,7 @@
 
       <div id="page-list" class="accordion-body collapse">
         <div class="accordion-inner">
-          <ul class="unstyled">
+          <ul>
             <% @related_pages.each do |page| %>
               <% page_url = url_for :controller => "ica",
                                     :action => "index",
