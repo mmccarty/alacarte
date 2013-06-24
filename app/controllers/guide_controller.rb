@@ -81,12 +81,12 @@ class GuideController < ApplicationController
       @selected_types = @guide.masters.collect { |m| m.id }
       @selected_subjs = @guide.subjects.collect { |m| m.id }
       if request.post?
-        @guide.attributes = params[:guide]
-        @guide.add_master_type(params[:types])
-        @guide.add_related_subjects(params[:subjects])
-        @guide.add_tags(params[:tags])
+        @guide.update_attributes params[:guide]
+        @guide.add_master_type params[:type]
+        @guide.add_related_subjects params[:subject]
+        @guide.add_tags params[:tags]
         if @guide.save
-          redirect_to :action => 'edit', :id => @guide.id
+          redirect_to edit_guide_path(@guide)
         end
       end
     end

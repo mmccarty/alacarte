@@ -21,12 +21,8 @@
     <% end %>
   </div>
   <div id="submit_button">
-    <%= next_master -%>
-    <%= image_tag "spinner.gif", :id => "spinner_search", :class => 'image', :alt => "Spinner", :style => 'display:none;'%>
-  </div>
-  <div id="submit_button">
-    <%= submit_tag 'Save Masters' ,:class =>"submit" %>  or
-    <%= submit_tag 'Save and Add '+@num+' More' ,:class =>"submit" %>
+    <%= submit_tag 'Save Masters', :class =>"submit" %>  or
+    <%= submit_tag 'Save and Add  More', :class =>"submit" %>
   </div>
   <% end %>
   <p>

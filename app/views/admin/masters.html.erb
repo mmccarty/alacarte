@@ -1,9 +1,14 @@
 <fieldset>
   <h3>Listing Master Subjects</h3>
-  <% if flash[:notice] -%>
-  <div id="error_wrapper">   <div id="notice" ><%= flash[:notice] %></div></div>
-  <% end -%>
-  <%= new_button 'Create New Master Subject' %>
+  <%= flash_notice %>
+  <div id="new_button" class="new">
+    <%= link_to :action => 'new_masters' do %>
+      <span>
+        <%= image_tag 'icons/add.png', :alt => 'Create New Master Subject' %>
+        Create New Master Subject
+      </span>
+    <% end %>
+  </div>
   <div id="new" style="display:none">
     <%= form_tag :action => 'new_masters' do%>
     <div id="vertical_inputs" class="index">

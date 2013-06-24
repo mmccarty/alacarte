@@ -37,7 +37,6 @@ class AdminController < ApplicationController
     redirect_to :back
   end
 
-  #User Accounts
   def register
     @user = User.new
     url = url_for :controller => 'login', :action => 'login'
@@ -64,12 +63,10 @@ class AdminController < ApplicationController
     @users =  ( @all == "all" ? users : users.paginate( :per_page => 30, :page => params[:page]))
   end
 
-  #edit User accounts
   def edit
     @user = User.find(params[:id])
   end
 
-  #update User accounts
   def update
     @user = User.find(params[:id])
     @user.update_attributes(:password=>params[:user][:password], :password_confirmation => params[:user][:password_confirmation], :name => params[:user][:name], :email => params[:user][:email])
@@ -82,12 +79,11 @@ class AdminController < ApplicationController
     end
   end
 
-  #delete User accounts
   def destroy
     User.find(params[:id]).destroy
     flash.now[:notice] = "User(s) successfully deleted."
     if request.xhr?
-      render :text => "" #delete the table row by sending back a blank string.  The <tr> tags still exist though
+      render :text => ""
     else
       redirect_to :action => 'users'
     end
@@ -105,9 +101,9 @@ class AdminController < ApplicationController
 
   def approve
     @user = User.find(params[:id])
-    if @user.update_attribute('role', 'author') #skipping validations by using update_attribute instead of update_attributes
+    if @user.update_attribute('role', 'author')
       begin
-        url = url_for :controller => 'login', :action => 'login'   #Set the url to the login page for the approval email
+        url = url_for :controller => 'login', :action => 'login'
         Notifications.deliver_accept_nonsso_pending_user(@user.email, @local.admin_email_from, @user.password, url)
 
       rescue Exception => e
@@ -121,7 +117,6 @@ class AdminController < ApplicationController
     redirect_to :action => 'pending_users' and return
   end
 
-  #delete User accounts
   def deny
     @user = User.find(params[:id])
     email = @user.email
@@ -136,8 +131,6 @@ class AdminController < ApplicationController
     flash[:notice] = "User successfully deleted."
     redirect_to :action => 'pending_users'
   end
-
-  #Masters
 
   def masters
     session[:num] = nil
@@ -162,11 +155,11 @@ class AdminController < ApplicationController
   end
 
   def new_masters
-    if params.member?("master")#set the number of rows to display
-      if params[:master].member?("num")#get the number from the dropdown box
+    if params.member?("master")
+      if params[:master].member?("num")
         @num = session[:num] = params[:master][:num]
       end
-    else #Save masters and add more button was pressed so get the number from the session[:num]
+    else
       flash[:notice] = "Master successfully added."
       @num = session[:num]
     end
@@ -189,13 +182,11 @@ class AdminController < ApplicationController
     render :action => 'new_masters'
   end
 
-  #list of subjects
   def subjects
     session[:num] = nil
     @subjects = Subject.paginate :per_page => 30, :page => params[:page], :order => 'subject_code'
   end
 
-  #edit subject. Posts back to itself.
   def edit_subject
     @subject = Subject.find(params[:id])
     if request.post?
@@ -213,7 +204,6 @@ class AdminController < ApplicationController
     redirect_to :action => 'subjects'
   end
 
-  #Store the number of subjects, make new subjects then go to create
   def new_subjects
     if params.member?("subject")#set the number of rows to display
       if params[:subject].member?("num")#get the number from the dropdown box
@@ -242,13 +232,11 @@ class AdminController < ApplicationController
     render :action => 'new_subjects'
   end
 
-  #list of dods
   def dods
     session[:num] = nil
     @dods = Dod.paginate :per_page => 30, :page => params[:page] , :order => 'title'
   end
 
-  #edit dod. Posts back to itself.
   def edit_dod
     @dod = Dod.find(params[:id])
     if request.post?
@@ -266,7 +254,6 @@ class AdminController < ApplicationController
     redirect_to :action => 'dods'
   end
 
-  #Store the number of dods, make new dods then go to create
   def new_dods
     @num = session[:num] = params[:dod][:num] unless session[:num]
     @dods = Array.new(session[:num].to_i){Dod.new}
@@ -358,7 +345,6 @@ class AdminController < ApplicationController
     end
   end
 
-  #remove a user from the list of editors via share page
   def remove_user_from_guide
     begin
       @guide = Guide.find(params[:id])
@@ -549,7 +535,6 @@ class AdminController < ApplicationController
     end
   end
 
-  #customizations
   def customize_layout
     if request.post?
       @local.update_attributes(params[:local])
@@ -585,11 +570,10 @@ class AdminController < ApplicationController
     end
   end
 
-  #called from tools to enable or disable the search.
   def enable_search
     begin
       @local.toggle!(:enable_search)
-      if request.xhr? #if ajax request
+      if request.xhr?
         render :partial => "enable_search" ,:locals => {:local => @local}
       else
         redirect_to_index

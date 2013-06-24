@@ -1,0 +1,18 @@
+%fieldset
+  %h3.title
+    = render 'title_actions'
+  %h4
+    Title &amp; Metadata
+  - if flash[:error]
+    #error_wrapper
+      #list_error
+        = flash[:error]
+
+  = form_tag :action => 'update', :id => @guide.id do
+    = render 'form'
+    = submit_tag 'Save Guide', :class => 'submit'
+
+  %p
+    = link_to 'Cancel', :action => 'index'
+
+= render 'side_bar'

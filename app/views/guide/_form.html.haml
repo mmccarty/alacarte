@@ -1,48 +1,45 @@
-=error_messages_for 'guide'
+=error_messages_for :guide
 #share
+
   %fieldset
     %h5
       Guide Title &amp; Subject
-      %span.more_help{ :onMouseover => "fixedtooltip(GUIDE_NAME_MSSG, this, event, '125');", :onMouseout => "delayhidetip();" }
-        =image_tag 'icons/small_help.png', :alt => 'Tip', :border => 0
+      = more_help 'GUIDE_NAME_MSSG', '125'
     =render :partial => 'guide_title'
     #vertical_inputs
       %span
-        %label{ :for => 'guide_type' }
+        %label{ :for => 'type[]' }
           Subject Categories
-        =select_tag 'types[]', options_from_collection_for_select(@guide_types, 'id', 'value', @selected_types),
-          :multiple => true, :size => 3
+        =select_tag :type, options_from_collection_for_select(@guide_types, 'id', 'value', @selected_types), :multiple => true, :size => 3
       %br/
     .tip
       (press Ctrl or Command to select more than one item or to deselect an item.)
+
   %fieldset
     %h5
       Related Courses
-      %span.more_help{ :onMouseover => "fixedtooltip(GUIDE_CLASS_MSSG, this, event, '125');", :onMouseout => "delayhidetip();" }
-        =image_tag 'icons/small_help.png', :alt => 'Tip', :border => 0
+      = more_help 'GUIDE_CLASS_MSSG', '125'
     %span
-      %label{ :for => 'guide_type' }
+      %label{ :for => 'subject[]' }
         Associate Course Subjects
-      =select_tag 'types[]', options_from_collection_for_select(@subjects, 'id', 'subject_name', @selected_subjs),
-        :multiple => true, :size => 3
+      =select_tag :subject, options_from_collection_for_select(@subjects, 'id', 'subject_name', @selected_subjs), :multiple => true, :size => 3
       %br/
     .tip
       (press Ctrl or Command to select more than one item or to deselect an item.)
+
   %fieldset
     %h5
       Guide Metadata
-      %label{ :for => 'guide_guide_description' }
+      %label{ :for => 'guide[description]' }
         Description
-        %span.more_help{ :onMouseover => "fixedtooltip(PAGE_DESC, this, event, '125');", :onMouseout => "delayhidetip();" }
-          =image_tag 'icons/small_help.png', :alt => 'Tip', :border => 0
-    =text_area_tag 'guide[description]', nil, :class => 'tinymce', :size => '40x2'
+        = more_help 'PAGE_DESC', '125'
+    =text_area :guide, :description, :class => 'tinymce'
     =tinymce
     .tip
       Enter a short description about the guide.
     %label{ :for => 'tags' }
       Tags
-      %span.more_help{ :onMouseover => "fixedtooltip(PAGE_TAGS, this, event, '125');", :onMouseout => "delayhidetip();" }
-        =image_tag 'icons/small_help.png', :alt => 'Tip', :border => 0
-    =text_area_tag 'tags', @tag_list, :size => '40x2'
+      = more_help 'PAGE_TAGS', '125'
+    =text_area_tag :tags, @tag_list, :size => '40x2'
     .tip
       example: anthropology, insects, caves
