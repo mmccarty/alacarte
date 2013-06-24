@@ -2,30 +2,33 @@ theme_advanced_toolbar_location: top
 theme_advanced_toolbar_align: left
 theme_advanced_statusbar_location: bottom
 theme_advanced_buttons1_add:
-  - forecolor
   - bold
   - italic
   - underline
+  - forecolor
+  - separator
   - link
   - unlink
   - anchor
-  - image
-  - bullist
-  - numlist
-  - blockquote
-  - hr
   - separator
+  - numlist
+  - bullist
   - outdent
   - indent
-  - pasteword
+  - separator
+  - image
+  - blockquote
   - removeformat
+  - hr
+  - charmap
+theme_advanced_buttons2_add:
+  - preview
+  - fullscreen
+  - spellchecker
+  - pasteword
   - code
   - undo
   - redo
-  - fullscreen
-  - preview
-  - charmap
-  - spellchecker
 plugins:
   - advlink
   - fullscreen
@@ -37,4 +40,4 @@ plugins:
   - fullscreen
 content_css: "/stylesheets/tool.css"
 fix_list_elements: true
-height: 200
+height: 500

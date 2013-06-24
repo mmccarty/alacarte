@@ -6,12 +6,10 @@ lib/import_wiki.rb
 log/*.log
 log/*.out
 log/*.pid
+public
 public/css/
+public/files/
 public/images/
 public/photos/
 public/uploads/
 tmp/
-vendor/gems/doc
-vendor/gems/environment.rb
-vendor/gems/gems
-vendor/gems/specifications
