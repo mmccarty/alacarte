@@ -24,13 +24,13 @@
   <div class="container">
     <div class="row">
       <!-- left sidebar -->
-      <div class="span4">
+      <div class="span4 page-sidebar">
         <%= render :partial => "shared/page_left_sidebar",
                    :locals => { :index_description => index_description } %>
       </div>
 
       <!-- main content -->
-      <div class="span8">
+      <div class="scrolled-content span8">
         <% unless @mods %>
           <%= render :partial => "shared/two_column" %>
         <% else %>

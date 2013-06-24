@@ -11,7 +11,10 @@
     <%= csrf_meta_tag %>
     <%= @local.meta %>
     <title><%=h @title%></title>
-    <%= stylesheet_link_tag 'bootstrap.min', 'sticky-footer', 'template' %>
+    <%= stylesheet_link_tag 'bootstrap.min', 'font-awesome.min', 'template' %>
+    <!--[if IE 7]>
+        <link rel="stylesheet" href="/assets/font-awesome-ie7.min.css"/>
+    <![endif]-->
     <%= javascript_include_tag 'application', 'template', 'bootstrap.min' %>
     <%unless @local.styles.blank? %>
     <%= stylesheet_link_tag(@local.styles) %>
@@ -49,7 +52,7 @@
     <%end%>
   </head>
 
-  <body <%if @guides || @pages%> id="browse"  <%end%>>
+  <body data-target=".page-sidebar" data-spy="scroll" data-twttr-rendered="true" <%if @guides || @pages%> id="browse"  <%end%>>
 
     <div id="bootstrap-wrap">
       <%= render :partial => 'shared/template_top'%>
@@ -62,6 +65,5 @@
     </div>
 
     <%= @local.tracking %>
-
   </body>
 </html>

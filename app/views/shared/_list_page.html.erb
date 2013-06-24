@@ -39,7 +39,7 @@
     <b>Tags:</b>
     <% page.tag_list.each do |tag| %>
       <span class="label tag">
-        <%= link_to tag, { :action => :tagged, :id => tag } %>
+        <%= link_to raw(tag), { :action => :tagged, :id => tag } %>
       </span>
     <% end %>
   </small>

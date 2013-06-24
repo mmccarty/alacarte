@@ -1,15 +1,13 @@
-<div class="sidebar">
-<div class="accordion grey">
+<div class="affix">
+<ul class="nav nav-list page-sidenav">
   <% @mods.each do |mod| %>
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <a href="#topic_<%= mod.id %>" class="accordion-toggle">
-          <h4><%= raw mod.module_title %></h4>
-        </a>
-      </div>
-    </div>
+    <li>
+      <a href="#topic_<%= mod.id %>">
+         <i class="icon-chevron-right"></i>
+         <%= raw mod.module_title %></a>
+    </li>
   <% end %>
-</div>
+</ul>
 
 <!-- local customization -->
 <% unless @local.guide_box.blank? %>
@@ -34,15 +32,16 @@
 <% end %>
 
 <!-- Related Guides -->
-<div id="related-guides" class="accordion grey">
-  <% if @local.guides_list.include?("guides") and @related_guides %>
+<div id="related-guides" class="accordion">
+  <% if @local.guides_list.include?("guides") and @related_guides.length > 0 %>
     <div class="accordion-group">
       <div class="accordion-heading">
         <a class="accordion-toggle"
            data-toggle="collapse"
            data-parent="related-guides"
            href="#guide-list">
-          <h4>Related Subject Guides</h4></a>
+          <i class="icon-chevron-down"></i>
+          Related Subject Guides</a>
       </div> <!-- end accordion-heading -->
 
       <div id="guide-list" class="accordion-body collapse">
@@ -65,14 +64,15 @@
   <% end %>
 
   <!-- Related Course Pages -->
-  <% if @local.guides_list.include?('pages') and @related_pages  %>
+  <% if @local.guides_list.include?('pages') and @related_pages.length > 0  %>
     <div class="accordion-group">
       <div class="accordion-heading">
         <a class="accordion-toggle"
            data-toggle="collapse"
            data-parent="related-pages"
            href="#page-list">
-          <h4>Related Course Guides</h4></a>
+          <i class="icon-chevron-down"></i>
+          Related Course Guides</a>
       </div> <!-- end accordion-heading -->
 
       <div id="page-list" class="accordion-body collapse">
@@ -97,14 +97,14 @@
   <div class="accordion-group">
     <div class="accordion-heading">
       <a class="accordion-toggle" href="/subject-guides/">
-        <h4><%= @local.guide_page_title %></h4></a>
+        <%= @local.guide_page_title %></a>
     </div>
   </div>
 
   <div class="accordion-group">
     <div class="accordion-heading">
       <a class="accordion-toggle" href="/course-guides/">
-        <h4><%= @local.ica_page_title %></h4></a>
+        <%= @local.ica_page_title %></a>
     </div>
   </div> <!-- end accordion-group -->
 </div> <!-- end accordion -->
