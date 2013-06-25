@@ -7,9 +7,7 @@
         <% if @tutorial.graded? %>
           <div id="graded">
             <p>
-              <%= image_tag("icons/warning.png",
-                            :title => "Quiz Warning",
-                            :alt => "Quiz Warning") %>
+              <i class="icon-warning-sign icon-large"></i>
               This tutorial has
               <strong>
                 <%= pluralize @tutorial.units.length, 'unit' %>
@@ -26,9 +24,7 @@
         <% unless @tutorial.attachment_file_name.blank?%>
           <div id="download">
             <p>
-              <%= image_tag("icons/warning.png",
-                            :title => 'Download',
-                            :alt => 'Download') %>
+              <i class="icon-warning-sign icon-large"></i>
               This tutorial has a printable handout. Click to download:
               <a href="<%= @tutorial.attachment.url() %>"
                  title="Click to download handout">

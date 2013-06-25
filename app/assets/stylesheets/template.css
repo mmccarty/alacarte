@@ -52,8 +52,8 @@
 }
 
 /* social section for sidebar */
-.social {
-  margin-bottom: 25px;
+.social a {
+  padding: 10px;
 }
 
 

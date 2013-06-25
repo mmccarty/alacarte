@@ -17,7 +17,13 @@
 	  </li>
           <%end%>
 	</ul>
-	<% if @guides.length <= 0 %><p><%=image_tag("icons/back.png", :title => 'Back to Tutorials', :alt => 'Back')%> <a href ="/tutorials/">Back to all Tutorials</a></p> <% end %>
+	<% if @guides.length <= 0 %>
+          <p>
+            <a href="/tutorials/">
+              <i class="icon-circle-arrow-left icon-large"></i>
+              Back to all Tutorials</a>
+          </p>
+        <% end %>
 </div>
 <div class="bot"><div></div></div>
 </div>
@@ -33,7 +39,10 @@
         <%=guide.description%> <small><b>Tags: </b><% guide.tag_list.each do |tag|%> <%= link_to tag, { :action => :tagged, :id => tag }%>  <%end%></small></li>
     </ul>
     <%end%>
-    <p><%=image_tag("icons/back.png", :title => 'Back to Tutorials', :alt => 'Back')%> <a href ="/tutorials/">Back to all Tutorials</a></p>
+    <p>
+      <a href ="/tutorials/">
+        <i class="icon-circle-arrow-left icon-large"></i>
+      Back to all Tutorials</a></p>
   </div>
   <div class="bot"><div></div></div>
 </div>

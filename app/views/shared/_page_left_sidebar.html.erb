@@ -107,25 +107,23 @@
         <%= @local.ica_page_title %></a>
     </div>
   </div> <!-- end accordion-group -->
-</div> <!-- end accordion -->
+</div>
 
 <!-- Social -->
-<ul class="inline social">
-  <li>
-    <% if @owner %>
-      <%= image_tag "icons/comment.png", :alt => "Email Guide Owner" %>
-      <%= mail_to @owner.email, "Comments?", :encode => "javascript" %>
-    <% end %>
-  </li>
-  <li>
-    <%= image_tag "icons/rss.png", :alt => "Subcribe to RSS" %>
-    <%= link_to "RSS" , :action => "feed", :id => @page %>
-  </li>
-  <li>
-    <!-- AddThis Bookmark Button BEGIN -->
-    <%= image_tag "icons/add_big.png", :alt => "add to bookmark" %>
-    <a href="http://www.addthis.com/bookmark.php" onclick="window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;" title="Bookmark using any bookmark manager!">Bookmark</a>
-    <!-- AddThis Bookmark Button END -->
-  </li>
-</ul>
+<div class="btn-group social">
+  <% if @owner %>
+    <a class="btn" href="mailto:<%= @owner.email %>">
+      <i class="icon-comments-alt icon-large"></i>
+      Comments?</a>
+  <% end %>
+  <a class="btn" href="<%= url_for :action => 'feed', :id => @page %>">    
+    <i class="icon-rss icon-large"></i>
+    RSS</a>
+  <!-- AddThis Bookmark Button BEGIN -->
+  <a class="btn" href="http://www.addthis.com/bookmark.php" onclick="window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;" title="Bookmark using any bookmark manager!">
+    <i class="icon-bookmark-empty icon-large"></i>
+    Bookmark</a>
+  <!-- AddThis Bookmark Button END -->
+</div>
+
 </div>
