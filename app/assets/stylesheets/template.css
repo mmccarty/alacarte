@@ -16,8 +16,8 @@
 }
 
 /* individual page sections */
-.span8 section {
-  padding-bottom: 35px;
+.span8 section[id] {
+  padding-top: 75px;
 }
 
 /* tab styling */
