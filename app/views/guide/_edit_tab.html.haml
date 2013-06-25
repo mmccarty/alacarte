@@ -28,4 +28,4 @@
       %li.list-item
         = link_to image_tag("icons/edit.png", :title => 'Edit Related Guides', :alt => 'Edit', :border => 0)+ ' Related Guides', {:controller => 'guide', :action => 'edit_relateds', :id => @guide}
 
-= render "tab/#{ @mods ? 'one' : 'two' }_column_tab"
+  = render "tab/#{ @mods ? 'one' : 'two' }_column_tab"
