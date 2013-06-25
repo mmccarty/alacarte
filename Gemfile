@@ -32,5 +32,13 @@ group :assets do
 end
 
 group :development, :test do
+  gem 'factory_girl_rails', '~> 4.0'
   gem 'rspec-rails', '~> 2.0'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'faker'
+  gem 'guard-rspec'
+  gem 'launchy'
 end

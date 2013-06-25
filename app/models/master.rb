@@ -13,11 +13,11 @@ class Master < ActiveRecord::Base
     :presence => { :message => "Master value may not be blank!" },
     :uniqueness => { :message => "{{value}} is already being used!" }
 
-  def pub_guides(gid = nil)
-    guides.select{ |a| a.published? and a.id != gid }.sort! {|a,b|  a.guide_name <=> b.guide_name}
+  def self.get_guide_types
+    order :value
   end
 
-  def self.get_guide_types
-    order("value")
+  def pub_guides(gid = nil)
+    guides.select{ |a| a.published? and a.id != gid }.sort! {|a,b|  a.guide_name <=> b.guide_name}
   end
 end

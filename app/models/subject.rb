@@ -19,6 +19,18 @@ class Subject < ActiveRecord::Base
     :presence => { :message => 'may not be blank!' },
     :uniqueness => { :message => "{{value}} is already being used!" }
 
+  def self.get_subjects
+    order :subject_code
+  end
+
+  def self.get_subject_values
+    order :subject_name
+  end
+
+  def self.get_page_subjects(pages)
+    pages.collect {|a| a.subjects}.flatten.uniq.sort! {|a,b|  a.subject_code <=> b.subject_code}
+  end
+
   def to_param
     "#{id}-#{subject_name.gsub(/[^a-z0-9]+/i, '-')}"
   end
@@ -33,17 +45,5 @@ class Subject < ActiveRecord::Base
 
   def get_guides
     guides.select{ |a| a.published? }.sort! {|a,b|  a.guide_name <=> b.guide_name}
-  end
-
-  def self.get_subjects
-    order('subject_code')
-  end
-
-  def self.get_subject_values
-    order('subject_name')
-  end
-
-  def self.get_page_subjects(pages)
-    pages.collect {|a| a.subjects}.flatten.uniq.sort! {|a,b|  a.subject_code <=> b.subject_code}
   end
 end

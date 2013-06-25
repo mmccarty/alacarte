@@ -25,6 +25,10 @@ class Guide < ActiveRecord::Base
   serialize :relateds
   after_create :create_relateds
 
+  def self.published_guides
+    self.where(:published => true).order("guide_name").select("id, guide_name, description")
+  end
+
   def to_param
     "#{id}-#{guide_name.gsub(/[^a-z0-9]+/i, '-')}"
   end
@@ -127,10 +131,6 @@ class Guide < ActiveRecord::Base
 
   def related_pages
     subjects.collect{|s| s.get_pages}.flatten.uniq
-  end
-
-  def self.published_guides
-    self.where(:published => true).order("guide_name").select("id, guide_name, description")
   end
 
   def shared?
