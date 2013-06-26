@@ -53,17 +53,9 @@
   </head>
 
   <body data-target=".page-sidebar" data-spy="scroll" data-twttr-rendered="true" <%if @guides || @pages%> id="browse"  <%end%>>
-
-    <div id="bootstrap-wrap">
-      <%= render :partial => 'shared/template_top'%>
-      <%= yield(:layout) or yield %>
-      <div id="push"></div>
-    </div>
-
-    <div id="bootstrap-footer">
-      <%= render :partial => 'shared/template_bottom'%>
-    </div>
-
+    <%= render :partial => 'shared/template_top'%>
+    <%= yield(:layout) or yield %>
+    <%= render :partial => 'shared/template_bottom'%>
     <%= @local.tracking %>
   </body>
 </html>

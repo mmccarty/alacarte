@@ -1,0 +1,40 @@
+- content_for :right_sidebar do
+  .span4
+    = render :partial => 'shared/right_sidebar'
+
+- content_for :tab_headings do
+  %ul.nav.nav-tabs
+    %li.active
+      %a{:href => "#subjects", :data => { :toggle => 'tab' }} Browse by Subjects
+    %li
+      %a{:href => "#az", :data => { :toggle => 'tab' }} Browse by A-Z
+    = yield :extra_browse_tabs
+
+- content_for :tab_content do
+  #subjects.tab-pane.active
+    #by-subjects.accordion
+      - subjects.each_with_index do |m, i|
+        .accordion-group
+          .accordion-heading
+            %a.accordion-toggle{:href => "#subject#{ i }", :data => { :toggle => 'collapse', :parent => '#by-subjects' }}
+              .strong
+                - if controller == 'ica'
+                  = m.subject_code.html_safe
+                  \:
+                  = m.subject_name.html_safe
+                - else
+                  = m.value.html_safe
+          .accordion-body.collapse{:id => "subject#{ i }"}
+            .accordion-inner
+              - if controller == 'ica' and m.get_pages
+                = render :partial => 'shared/az_published_pages', :locals => { :controller => controller, :pages => m.get_pages, :subject_code => m.subject_code, :campus_hash => @campushash }
+              - if controller == 'srg' and m.pub_guides
+                = render :partial => 'shared/az_published_pages', :locals => { :controller => controller, :pages => m.pub_guides }
+
+    = yield :additional_resources
+
+  #az.tab-pane
+    = render :partial => 'shared/az_published_pages', :locals => { :pages => pages, :controller => controller }
+    = yield :additional_resources
+
+= render :partial => 'shared/tabbed_index', :locals => { :header_title => header_title }

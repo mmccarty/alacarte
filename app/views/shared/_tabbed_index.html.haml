@@ -1,11 +1,15 @@
-.container 
-  .container#page-header
+.container
+  .container#page-header{ :data => {:spy => 'affix', :offset => { :top => 150, :bottom => 150 }}}
     %h1.page-header
       = header_title
 
   .container
     .row
-      = yield :tab_headings
+      = yield :left_sidebar
 
-      .tab-content
-        = yield :tab_content
+      .span8
+        = yield :tab_headings
+        .tab-content
+          = yield :tab_content
+
+      = yield :right_sidebar

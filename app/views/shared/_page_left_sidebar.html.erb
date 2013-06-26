@@ -1,13 +1,15 @@
-<div class="affix">
-<ul class="nav nav-list page-sidenav">
-  <% @mods.each do |mod| %>
-    <li>
-      <a href="#topic_<%= mod.id %>">
-         <i class="icon-chevron-right"></i>
-         <%= raw mod.module_title %></a>
-    </li>
+<div class="page-left-sidebar" data-spy="affix" data-offset-top="150" data-offset-bottom="150">
+  <% if @mods.length > 1 %>
+    <ul class="nav nav-list page-sidenav">
+      <% @mods.each do |mod| %>
+        <li>
+          <a href="#topic_<%= mod.id %>">
+             <i class="icon-chevron-right"></i>
+             <%= raw mod.module_title %></a>
+        </li>
+      <% end %>
+    </ul>
   <% end %>
-</ul>
 
 <!-- local customization -->
 <% unless @local.guide_box.blank? %>
@@ -33,7 +35,7 @@
 
 <!-- Related Guides -->
 <div id="related-guides" class="accordion">
-  <% if @local.guides_list.include?("guides") and @related_guides.length > 0 %>
+  <% if @local.guides_list.include?("guides") and defined?(@related_guides) and @related_guides.length > 0 %>
     <div class="accordion-group">
       <div class="accordion-heading">
         <a class="accordion-toggle"
@@ -64,7 +66,7 @@
   <% end %>
 
   <!-- Related Course Pages -->
-  <% if @local.guides_list.include?('pages') and @related_pages.length > 0  %>
+  <% if @local.guides_list.include?('pages') and defined?(@related_pages) and @related_pages.length > 0  %>
     <div class="accordion-group">
       <div class="accordion-heading">
         <a class="accordion-toggle"
@@ -116,7 +118,7 @@
       <i class="icon-comments-alt icon-large"></i>
       Comments?</a>
   <% end %>
-  <a class="btn" href="<%= url_for :action => 'feed', :id => @page %>">    
+  <a class="btn" href="<%= url_for :action => 'feed', :id => @page %>">
     <i class="icon-rss icon-large"></i>
     RSS</a>
   <!-- AddThis Bookmark Button BEGIN -->

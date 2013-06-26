@@ -1,0 +1,26 @@
+- content_for :left_sidebar do
+  .span4.page-sidebar
+    = render :partial => 'shared/page_left_sidebar', :locals => { :index_description => index_description }
+
+- content_for :tab_headings do
+  - if @tabs.length > 1
+    %ul.nav.nav-tabs
+      - for tab in @tabs
+        - @tab_url = url_for :controller => index_controller, :action => 'index', :id => index, :tab => tab.id
+        - if tab.id == @tab.id
+          %li.active
+            %a{:href => "#tab-content"} %span = tab.tab_name
+        - else
+          %li
+            %a{:href => "<%= @tab_url %>" %span = tab.tab_name
+
+- content_for :tab_content do
+  .scrolled-content
+    - unless @mods
+      = render :partial => 'shared/two_column'
+    - else
+      = render :partial => 'shared/one_column'
+
+    = render :partial => 'shared/metadata', :locals => { :tag_list => index.tag_list }
+
+= render :partial => 'shared/tabbed_index', :locals => { :header_title => header_title }

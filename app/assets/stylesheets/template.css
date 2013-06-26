@@ -1,22 +1,22 @@
 /* individual page index */
 .page_header {
   padding-bottom: 9px;
-  margin: 20px 0 30px;
   border-bottom: 1px solid #eeeeee;
 }
 #page-header {
   background-color: #fff;
-  position: fixed;
-  top: 0;
   margin-left: -30px;
   padding-right: 30px;
 }
-#page-header + .container {
-  margin-top: 100px;
+#page-header.affix {
+  top: 0;
+}
+.page-list dd {
+    margin-bottom: 15px;
 }
 
 /* individual page sections */
-.span8 section[id] {
+.span8 section[id]:not(:first-child) {
   padding-top: 75px;
 }
 
@@ -58,6 +58,12 @@
 
 
 /* Side nav for module sections */
+.page-left-sidebar {
+  width: 350px;
+}
+.page-left-sidebar.affix {
+  top: 100px;
+}
 
 .page-sidenav {
   width: 100%;
@@ -126,4 +132,13 @@
 .page-sidebar .active a:hover .icon-chevron-down
 {
   opacity: 1;
+}
+
+/* footer */
+
+.footer {
+  background-color: #F5F5F5;
+  border-top: 1px solid #E5E5E5;
+  margin-top: 70px;
+  padding: 30px 0 5px;
 }
