@@ -1,5 +1,5 @@
 .container
-  .container#page-header{ :data => {:spy => 'affix', :offset => { :top => 150, :bottom => 150 }}}
+  .container#page-header
     %h1.page-header
       = header_title
 
@@ -13,3 +13,13 @@
           = yield :tab_content
 
       = yield :right_sidebar
+
+
+:javascript
+  setTimeout(function () {
+    $('#page-header').affix({
+      offset: {
+        top: function () { return $('#header').height(); },
+        bottom: 250
+      }
+    })}, 100);

@@ -1,6 +1,7 @@
 /* individual page index */
 .page_header {
-  padding-bottom: 9px;
+  padding: 9px 0;
+  margin-bottom: 15px;
   border-bottom: 1px solid #eeeeee;
 }
 #page-header {
@@ -11,8 +12,12 @@
 #page-header.affix {
   top: 0;
 }
+#page-header.affix + .container .span8 section[id]:first-child {
+  padding-top: 75px;
+}
+
 .page-list dd {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 /* individual page sections */

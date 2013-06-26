@@ -52,7 +52,7 @@
     <%end%>
   </head>
 
-  <body data-target=".page-sidebar" data-spy="scroll" data-twttr-rendered="true" <%if @guides || @pages%> id="browse"  <%end%>>
+  <body data-target=".page-sidebar" data-spy="scroll" data-offset="250" <%if @guides || @pages%> id="browse"  <%end%>>
     <%= render :partial => 'shared/template_top'%>
     <%= yield(:layout) or yield %>
     <%= render :partial => 'shared/template_bottom'%>
