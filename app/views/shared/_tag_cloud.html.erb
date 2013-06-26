@@ -1,9 +1,0 @@
-<% @tags.sort! { |a,b| a.name.downcase <=> b.name.downcase } %>
-<h4 class="text-center">Browse by Tags</h4>
-<p>
-  <% tag_cloud @tags, ['css1', 'css2', 'css3', 'css4'] do |tag, css_class| %>
-    <span class="label tag">
-      <%= link_to tag.name, { :action => :tagged, :id => tag.name }, :class => css_class, :title => tag.count.to_s+" guides are tagged with "+tag.name %>
-    </span>
-  <% end %>
-</p>

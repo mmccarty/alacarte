@@ -1,0 +1,10 @@
+%hr
+
+%p.muted
+  Last Update:
+  = @updated
+  - if tag_list.length > 0
+    | Tagged with:
+    - tag_list.each do |tag|
+      %span.label.tag
+        = link_to tag, {:action => :tagged, :id => tag }
