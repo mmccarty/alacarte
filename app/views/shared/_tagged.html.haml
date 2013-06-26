@@ -1,0 +1,26 @@
+- content_for :search_results do
+  %h2 Browse by Tag
+
+  %p
+    = type
+    tagged with:
+    %span.label
+      = @tag
+
+  - if @pages
+    - for page in @pages
+      %dl
+        = render :partial => 'shared/list_page', :locals => { :page => page, :controller => controller }
+  - else
+    %p
+      Sorry, no
+      = type
+      found.
+
+  %p
+    %i.icon-circle-arrow-left.icon-large
+    %a{:href => "/#{ type_url }/"}
+      Back to all
+      = type
+
+= render :partial => 'shared/published_page_results', :locals => { :header_title => header_title }
