@@ -1,0 +1,19 @@
+- content_for :search_results do
+  %h2
+    Browse
+    = @subject.subject_code+' : ' + @subject.subject_name + ' ' + 'Tutorials'
+
+  - if @tutorials
+    %dl
+      - @tutorials.each do |tutorial|
+        = render :partial => 'shared/list_page', :locals => { :page => tutorial, :controller => 'ort' }
+  - else
+    %p
+      Sorry, no tutorials found.
+
+  %p
+    %a{:href => '/tutorials/'}
+      %i.icon-circle-arrow-left.icon-large
+      Back to all Tutorials
+
+= render :partial => 'shared/published_page_results', :locals => { :header_title => @local.tutorial_page_title }

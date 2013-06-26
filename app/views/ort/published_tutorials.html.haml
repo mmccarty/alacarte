@@ -1,0 +1,20 @@
+- content_for :right_sidebar do
+  .span4
+    = render :partial => 'shared/right_sidebar'
+
+- content_for :tab_headings do
+  %ul.nav.nav-tabs
+    %li.active
+      %a{:href => '#tutorial-list', :data => {:toggle => 'tab'}}
+        Browse Tutorials
+    %li
+      %a{:href => '#guide-list', :data => {:toggle => 'tab'}}
+        Browse Guides
+
+- content_for :tab_content do
+  #tutorial-list.tab-pane.active
+    = render :partial => 'browse_tutorials', :locals => { :subjects => @subjects, :tutorials => @tutorials }
+  #guide-list.tab-pane
+    = render :partial => 'browse_guides', :locals => { :guides => @guides }
+
+= render :partial => 'shared/tabbed_index', :locals => { :header_title => @title }

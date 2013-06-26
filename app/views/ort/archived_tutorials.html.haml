@@ -1,0 +1,8 @@
+- content_for :search_results do
+  %h2 Browse Tutorials
+
+  %dl
+    - tutorials.each do |tutorial|
+      = render :partial => 'shared/list_page', :locals => { :page => tutorial, :controller => 'ort' }
+
+= render :partial => 'shared/published_page_results', :locals => { :header_title => @local.tutorial_page_title }

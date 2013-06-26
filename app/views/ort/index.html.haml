@@ -1,0 +1,45 @@
+= render :partial => 'ort/top'
+
+.container
+  .row
+    - if @tutorial.graded? or !@tutorial.attachment_file_name.blank?
+      .alert
+        - if @tutorial.graded?
+          #graded
+            %p
+              %i.icon-warning-sign.icon-large
+              This tutorial has
+              %strong
+                = pluralize @tutorial.units.length, 'unit'
+              and
+              %strong>
+                = pluralize @tutorial.quizzes.length, 'quiz'
+              \. Make sure you complete all the quiz questions. Remember, you can only take the graded quizzes once.
+        - unless @tutorial.attachment_file_name.blank?
+          #download
+            %p
+              %i.icon-warning-sign.icon-large
+              This tutorial has a printable handout. Click to download:
+              %a{:href => '#{ @tutorial.attachment.url() }', :title => 'Click to download handout'}
+                = raw @tutorial.attachment_file_name
+
+    %h2 About this tutorial
+    %p
+      = @tutorial.description
+    %p
+      - if !@student && @tutorial.graded?
+       = link_to 'Login', :controller => 'student', :action => 'login', :id => @tutorial
+      - else
+       = link_to 'Start', :controller => 'ort', :action => 'start', :id => @tutorial
+    %hr.muted
+
+    %h2 What to expect
+    - unless @tutorial.unitizations.blank?
+      %ol
+        - @tutorial.unitizations.each do |uz| unit = uz.unit
+          %li
+            = link_to unit.title, { :controller => 'ort', :action => 'unit', :id =>@tutorial, :uid => unit.id }
+            %p
+              = unit.description
+
+    = render :partial => 'shared/metadata', :locals => { :tag_list => @tutorial.tag_list }

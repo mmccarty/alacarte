@@ -11,11 +11,11 @@
     <%= csrf_meta_tag %>
     <%= @local.meta %>
     <title><%= @title%></title>
-    <%= stylesheet_link_tag 'application', 'sticky-footer', 'template' %>
+    <%= stylesheet_link_tag 'application', 'template' %>
     <!--[if lt IE 8]>
       <%= stylesheet_link_tag 'font-awesome-ie7.min.css', :media => 'all' %>
     <![endif]-->
-    <%= javascript_include_tag 'application', 'template', %>
+    <%= javascript_include_tag 'application', 'template' %>
     <%unless @local.styles.blank? %>
     <%= stylesheet_link_tag(@local.styles) %>
     <%end%>
@@ -47,19 +47,10 @@
     <%end%>
   </head>
 
-  <body<%if @tutorials%> id="portal"<%end%>>
-
-    <div id="bootstrap-wrap">
-      <%= render :partial => "shared/template_top"%>
-      <%= yield :layout %>
-      <div id="push"></div>
-    </div>
-
-    <div id="bootstrap-footer">
-      <%= render :partial => "shared/template_bottom"%>
-    </div>
-
+  <body <%if @tutorials%> id="portal"<%end%>>
+    <%= render :partial => "shared/template_top"%>
+    <%= yield :layout %>
+    <%= render :partial => "shared/template_bottom"%>
     <%= @local.tracking %>
-
   </body>
 </html>
