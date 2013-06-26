@@ -1,0 +1,16 @@
+- content_for :extra_browse_tabs do
+  %li
+    = link_to 'Archived Course Guides', :action => 'archived'
+
+- content_for :additional_resources do
+  %p
+    Didn't find what you were looking for? Try the
+    = link_to 'Archived Course', :action => 'archived'
+    guides.
+
+  %p
+    Need help with your discipline, topic or format? Try the
+    = link_to 'Subject Research', :controller => 'srg', :action => 'published_guides'
+    guides.
+
+= render :partial => 'shared/published_pages', :locals => { :controller => 'ica', :header_title => @local.ica_page_title, :pages => @pages, :subjects => @subjects, :type => 'Course' }

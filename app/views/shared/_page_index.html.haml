@@ -9,10 +9,12 @@
         - @tab_url = url_for :controller => index_controller, :action => 'index', :id => index, :tab => tab.id
         - if tab.id == @tab.id
           %li.active
-            %a{:href => "#tab-content"} %span = tab.tab_name
+            %a{:href => "#tab-content"}
+              %span = tab.tab_name
         - else
           %li
-            %a{:href => "<%= @tab_url %>" %span = tab.tab_name
+            %a{:href => "#{ @tab_url }"}
+              %span = tab.tab_name
 
 - content_for :tab_content do
   .scrolled-content
