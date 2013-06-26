@@ -1,0 +1,16 @@
+- content_for :search_results do
+  %h2 Browse by Search Results
+
+  - unless @local.g_results.blank?
+    = raw @local.g_results
+
+  %p
+    %i.icon-circle-arrow-left.icon-large
+    Back To:
+    %a{:href => '/subject-guides/'} Subject Guides
+    |
+    %a{:href => '/course-guides/'} Course Guides
+    |
+    %a{:href => '/tutorials/'} Tutorials
+
+= render :partial => 'shared/published_page_results', :locals => { :header_title => 'Search Results' }

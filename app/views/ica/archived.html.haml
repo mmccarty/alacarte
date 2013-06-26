@@ -1,0 +1,32 @@
+- content_for :search_results do
+  %h2 Browse Archived Course Guides
+
+  - form_tag :action => 'archived' do
+    %strong By department:
+    .input-append
+      %select{:id => 'subject', :name => 'subject'}
+        %option{:value => '00', :selected => 'selected'} Select
+        = options_from_collection_for_select(@subjects, 'id', 'subject_code', @subj.to_i)
+      %button.btn{:type => 'submit'} Go
+    - if @subj
+      %small
+        = link_to 'Show All Pages', :action => 'archived'
+
+  %p
+    - if @pages.size < 1
+      %p
+        Sorry there are no archived course guides for this department.
+    - else
+      - if @subject
+        %p
+          Course Guides for:
+          %strong
+            = @subject.subject_name
+      = render :partial => 'shared/az_published_pages', :locals => { :controller => 'ica', :pages => @pages }
+
+  %p
+    Looking for a more recent course guide? Try the
+    = link_to 'Current Course Guides', :action => 'published_pages'
+    list.
+
+= render :partial => 'shared/published_page_results', :locals => { :header_title => 'Archived Course Guides' }
