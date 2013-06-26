@@ -64,7 +64,7 @@
 
 /* Side nav for module sections */
 .page-left-sidebar {
-  width: 350px;
+  width: 310px;
 }
 .page-left-sidebar.affix {
   top: 100px;
@@ -115,6 +115,10 @@
 .accordion-heading > a:hover {
   text-decoration: none;
   background-color: #f5f5f5;
+}
+.accordion-toggle:hover, .accordion-toggle:focus {
+  text-decoration: none;
+  outline: none;
 }
 
 /* Chevrons */

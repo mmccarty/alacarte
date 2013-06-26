@@ -1,0 +1,78 @@
+.page-left-sidebar
+  - if @mods.length > 1
+    %ul.nav.nav-list.page-sidenav
+      - @mods.each do |mod|
+        %li
+          %a{:href => "#topic_#{ mod.id }"}
+            %i.icon-chevron-right
+            = raw mod.module_title
+
+  -unless @local.guide_box.blank?
+    .well.well-small
+      = @local.guide_box.html_safe
+  - if @mod
+    .well.well-small
+      = show_mod(@mod)
+  - unless index_description.blank?
+    .well.well-small
+      %h4 About this Guide
+      = index_description
+  #related-guides.accordion
+    - if @local.guides_list.include?('guides') and defined?(@related_guides) and @related_guides.length > 0
+      .accordion-group
+        .accordion-heading
+          %a.accordion-toggle{:href => "#guide-list", :data => {:toggle => 'collapse', :parent => 'related-guides'}}
+            %i.icon-chevron-down
+            Related Subject Guides
+        #guide-list.accordion-body.collapse
+          .accordion-inner
+            %ul
+              - @related_guides.each do |guide|
+                - guide_url = url_for :controller => 'srg', :action => 'index', :id => guide
+                %li
+                  = link_to raw(guide.guide_name), guide_url, :title => "#{ raw guide.description }"
+    - if @local.guides_list.include?('pages') and defined?(@related_pages) and @related_pages.length > 0
+      .accordion-group
+        .accordion-heading
+          %a.accordion-toggle{:href => "#page-list", :data => {:toggle => 'collapse', :parent => 'related-pages'}}
+            %i.icon-chevron-down
+            Related Course Guides
+      #page-list.accordion-body.collapse
+        .accordion-inner
+          %ul
+            - @related_pages.each do |page|
+              - page_url = url_for :controller => 'ica', :action => 'index', :id => page
+              %li
+                = link_to raw(page.header_title), page_url, :title => "#{ raw page.page_description }"
+    .accordion-group
+      .accordion-heading
+        %a.accordion-toggle{:href => '/subject-guides/'}
+          = @local.guide_page_title.html_safe
+    .accordion-group
+      .accordion-heading
+        %a.accordion-toggle{:href => '/course-guides/'}
+          = @local.ica_page_title.html_safe
+  .btn-group.social
+    - if @owner
+      %a.btn{:href => "mailto:#{ @owner.email }", :title => 'Email your comments', :data => {:toggle => 'tooltip', :placement => 'bottom'}}
+        %i.icon-comments-alt.icon-large
+        Comments?
+    %a.btn{:href => "#{ url_for :action => 'feed', :id => @page }", :title => 'RSS feed', :data => {:toggle => 'tooltip', :placement => 'bottom'}}
+      %i.icon-rss.icon-large
+      RSS
+    %a.btn{:href => "http://www.addthis.com/bookmark.php", :onclick => "window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;", :title => "Bookmark using any bookmark manager!", :data => {:toggle => 'tooltip', :placement => 'bottom'}}
+      %i.icon-bookmark-empty.icon-large
+      Bookmark
+
+:javascript
+  setTimeout(function () {
+    $('.page-left-sidebar').affix({
+      offset: {
+        top: function () { return $('#header').height(); },
+        bottom: 250
+      }
+    })}, 100);
+
+  setTimeout(function () {
+    $("[data-toggle='tooltip']").tooltip();
+  });
