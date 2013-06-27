@@ -1,1 +1,4 @@
-= render :partial => 'shared/tagged', :locals => { :controller => 'srg', :header_title => @local.guide_page_title, :type => 'Subject Guides', :type_url => 'subject-guides' }
+- content_for :search_results do
+  = render :partial => 'shared/browse_by_tag', :locals => { :controller => 'srg', :type => 'Subject Guides', :tag => @tag, :pages => @pages, :type_url => 'subject-guides' }
+
+= render :partial => 'shared/published_page_results', :locals => { :header_title => @local.guide_page_title }

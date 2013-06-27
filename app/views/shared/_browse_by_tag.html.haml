@@ -1,0 +1,26 @@
+%h2
+  Browse
+  = type
+  by Tag
+
+%p
+  = type
+  tagged with:
+  %span.label
+    = tag
+
+- if defined?(pages) and pages.length > 0
+  - for page in pages
+    %dl
+      = render :partial => 'shared/list_page', :locals => { :page => page, :controller => controller }
+- else
+  %p
+    Sorry, no
+    = type
+    found.
+
+%p
+  %i.icon-circle-arrow-left.icon-large
+  %a{:href => "/#{ type_url }/"}
+    Back to all
+    = type
