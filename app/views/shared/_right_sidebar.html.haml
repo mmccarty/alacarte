@@ -1,0 +1,81 @@
+- unless @local.book_search.blank? and @local.site_search.blank? and @local.g_search.blank?
+  .well.well-small.white
+    #search
+      %ul.nav.nav-tabs
+        - unless @local.g_search.blank?
+          %li.active
+            %a{:href => '#guides', :data => { :toggle => 'tab' }}
+              Guides
+        - unless @local.book_search.blank?
+          %li
+            %a{:href => '#books', :data => { :toggle => 'tab' }}
+              Books
+        - unless @local.site_search.blank?
+          %li
+            %a{:href => '#library', :data => { :toggle => 'tab' }}
+              Library
+    .tab-content
+      - unless @local.g_search.blank?
+        #guides.tab-pane.active
+          %label.text-center
+            Search Library Guides
+          = raw @local.g_search
+
+      - unless @local.book_search.blank?
+        #books.tab-pane
+          %label.text-center
+            = @local.book_search_label
+          = raw @local.book_search
+
+      - unless @local.site_search.blank?
+        #library.tab-pane
+          %label.text-center
+            = @local.site_search_label
+          = raw @local.site_search
+
+- unless @local.right_box.blank?
+  .well.well-small
+    = raw @local.right_box
+
+.well.well-small.tabs-left
+  %ul.nav.nav-tabs
+    %li.active
+      %a{ :href => '#all', :data => { :toggle => 'tab' }}
+        About
+    %li
+      %a{ :href => '#students', :data => { :toggle => 'tab' }}
+        Students
+    %li
+      %a{ :href => '#teachers', :data => { :toggle => 'tab' }}
+        Instructors
+    %li
+      %a{ :href => '#librarians', :data => { :toggle => 'tab' }}
+        Librarians
+
+  .tab-content
+    #all.tab-pane.active
+      %p
+        Library guides and tutorials suggest tips and search strategies for finding and using information in a course, discipline, topic or format.
+    #students.tab-pane
+      %p
+        Guides help you do university-level research in an academic discipline or course assignment.
+      %p
+        Revisit to find new resources, related guides or learn about other disciplines.
+    #teachers.tab-pane
+      %p
+        Librarians can create guides to help students find resources, including discipline specific article databases, core journals, scholarly reference works and key web sites important to your field or course.
+      - unless @local.lib_url.blank?
+        %p
+          %a{ :href => "#{ @local.lib_url }" }
+            Contact a Librarian
+          if you would like something tailored for your specific subject or assignment.
+    #librarians.tab-pane
+      %p
+        These Guides are created with
+        %a{ :href => '#' }
+          Library &agrave; la Carte (Phoenix Edition),
+        an open source tool which helps you quickly and easily create subject and course guides.
+
+- if @tags
+  .well.well-small
+    = render :partial => '/shared/tag_cloud'
