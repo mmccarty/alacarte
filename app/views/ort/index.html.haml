@@ -20,12 +20,12 @@
             %p
               %i.icon-warning-sign.icon-large
               This tutorial has a printable handout. Click to download:
-              %a{:href => '#{ @tutorial.attachment.url() }', :title => 'Click to download handout'}
+              %a{ :href => '#{ @tutorial.attachment.url() }', :title => 'Click to download handout' }
                 = raw @tutorial.attachment_file_name
 
     %h2 About this tutorial
     %p
-      = @tutorial.description
+      = raw @tutorial.description
     %p
       - if !@student && @tutorial.graded?
        = link_to 'Login', :controller => 'student', :action => 'login', :id => @tutorial

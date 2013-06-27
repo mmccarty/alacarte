@@ -1,0 +1,13 @@
+= render :partial => 'ort/top'
+
+.container
+  %h2
+    = @unit.title
+
+  %p
+    = @unit.description
+
+  %p
+    = link_to 'Start', :controller => 'ort', :action => 'start', :id => @tutorial, :uid => @unit.id
+
+  = render :partial => 'shared/metadata', locals => { :updated => @unit.updated_at.to_formatted_s(:long), :tag_list => @unit.tag_list }

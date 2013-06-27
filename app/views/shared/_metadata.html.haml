@@ -2,7 +2,7 @@
 
 %p.muted
   Last Update:
-  = @updated
+  = if defined?(updated) ? updated : @updated
   - if tag_list.length > 0
     | Tagged with:
     - tag_list.each do |tag|

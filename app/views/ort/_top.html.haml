@@ -1,0 +1,49 @@
+%ul.breadcrumb
+  %li
+    = link_to @local.tutorial_page_title, :controller => :ort, :action => :published_tutorials
+    %span.divider
+  - unless @tutorial.subject.blank?
+    %li
+       = link_to raw(@tutorial.subject.subject_name + " " + "Tutorials"), :controller => 'ort', :action => 'subject_list', :id => @tutorial.subject.id
+       %span.divider
+   %li.active
+     = @unit.title
+
+%h1.page-header
+    = raw @tutorial.full_name
+
+.btn-group.pull-right
+  - if @student
+    - if @tutorial.graded?
+      %button.btn
+        %i.icon-gears
+        = link_to "My Account", { :controller => :student, :action => :quizzes, :id => @tutorial }
+      %button.btn
+        %i.icon-signout
+        = link_to "Log Out", { :controller => :student, :action => :log_out, :id => @tutorial }
+  - else
+    %button.btn
+      %i.icon-signin
+      = link_to "Login", { :controller => :student, :action => :login, :id => @tutorial }
+
+.navbar
+  .navbar-inner
+    %ul.nav
+      %li
+        = link_to 'Start', { :controller => :ort, :action => :index, :id => @tutorial }
+      - @tutorial.unitizations.each do |uz|
+        - unit = uz.unit
+        - resources = unit.resourceables
+        - if !unit.slug.blank?
+          - if @unit and unit.id == @unit.id
+            %li{ :class => unit_menu_item(unit, @unit and unit.id == @unit.id) }
+              = unit_menu_link_to(unit)
+              - unless resources.blank?
+                %i.icon-caret-down
+                %ul.dropdown-menu
+                - resources.each do |resable|
+                  - res = resable.resource
+                  - mod = res.mod
+                  - if !mod.slug.blank?
+                    %li
+                      = link_to_unless_current raw(mod.slug), { :controller => 'ort', :action => 'lesson', :id => @tutorial, :uid => unit.id, :mid => mod, :type => mod.class}, :title => mod.module_title
