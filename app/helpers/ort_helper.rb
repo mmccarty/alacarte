@@ -8,16 +8,19 @@ module OrtHelper
     classes = ''
     if active
       classes += 'active'
+    end
     unless unit.resourceables.blank?
       classes += 'dropdown'
+    end
     classes
   end
 
   def unit_menu_link_to(unit)
     if unit.resourceables.blank?
-      = link_to raw(unit.slug), { :controller => 'ort', :action => 'unit', :id => @tutorial, :uid => unit.id }, :title => unit.title
+      link_to raw(unit.slug), { :controller => 'ort', :action => 'unit', :id => @tutorial, :uid => unit.id }, :title => unit.title
     else
-      = link_to raw(unit.slug), { :controller => 'ort', :action => 'unit', :id => @tutorial, :uid => unit.id }, { :title => unit.title, :class => 'dropdown-toggle', :data => { :toggle => 'dropdown' }}
+      link_to raw(unit.slug), { :controller => 'ort', :action => 'unit', :id => @tutorial, :uid => unit.id }, { :title => unit.title, :class => 'dropdown-toggle', :data => { :toggle => 'dropdown' }}
+    end
   end
 
 end
