@@ -1,0 +1,23 @@
+%label
+  Style
+  %span.required *
+  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(FIND_FEED_STYLE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+= radio_button 'mod', 'style','search'
+Add RSS Search Box
+\#{radio_button 'mod', 'style','nosearch'} No Search Box
+%label
+  Result Set Size
+  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(FIND_FEED_NUM_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+%select#num.page{:name => "num"}
+  = options_for_select([2,4,6,8], @mod.num_feeds)
+#find_feeds
+  %label{:for => "mod_topic"}
+    Feeds Search Topic
+    %span.required *
+    %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(FEED_QUERY_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+  = text_field 'mod', 'topic',"size" => 54
+  .tip
+    Note: These can be keywords such as
+    %b Biology News
+    or you can specify a website to search:
+    %b site:yahoo.com Biology News

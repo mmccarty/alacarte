@@ -1,0 +1,17 @@
+%label
+  Style
+  %span.required *
+  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(ADD_FEED_STYLE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+= radio_button 'mod', 'style','tabbed'
+Separated
+\#{radio_button 'mod', 'style','mixed'} Mixed
+%label
+  Result Set Size
+  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(ADD_FEED_NUM_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+= select('mod','num_feeds', RssResource::NUMFEEDS,{}, {:class => 'page'})
+#feeds
+  = render :partial => 'feed', :collection => @mod.feeds
+%label
+  = link_to_function image_tag("icons/add.png", :title => 'Click to add a feed', :alt => '', :border => 0)+" Add Feed" do |page| |
+    page.insert_html :bottom, :feeds, :partial => 'feed', :object => Feed.new                                                    |
+    end                                                                                                                          |

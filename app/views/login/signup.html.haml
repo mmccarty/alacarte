@@ -1,0 +1,14 @@
+%fieldset
+  %h3 Request New Account
+  - if flash[:notice]
+    #notice= flash[:notice]
+  = form_tag :action => 'request_account' do
+    = render :partial => 'form'
+    = recaptcha_tags
+    %br/
+    %br/
+    = submit_tag 'Request New Account' ,:class =>"submit"
+    %br/
+    %br/
+  %p
+    %b= link_to 'Cancel', :action => 'login'

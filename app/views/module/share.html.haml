@@ -1,0 +1,35 @@
+%fieldset
+  %h3.title
+    = render :partial => 'title_actions'
+  %h4
+    Share Module
+  - if flash[:notice]
+    #error_wrapper
+      #notice= flash[:notice]
+  #share
+    #share_left
+      %fieldset
+        %h5 Add Editor
+        .tip By sharing this module you are giving editing rights to the people you select.
+        = form_tag({:action=> 'share_update', :id =>@mod.id, :type=> @mod.class}) do
+          %select#users.share{:multiple => "multiple", :name => "users[]"}
+            = options_from_collection_for_select(@user_list, 'id', 'name')
+          %br/
+          .tip (press Ctrl or Command to select mutiple users)
+          %br/
+          = submit_tag "Share", :class => "submit"
+          %p
+            %br/
+            %b= link_to 'Cancel', :action => 'index',:id => @mod, :type =>@mod.class, :list => 'mine', :sort => 'name'
+    #share_right
+      %fieldset
+        %h5 Module Editors
+        .tip Removing someone revokes their editing rights. The module's owner can not be removed from the list.
+        #editor-list
+          %table
+            - for user in @mod_owners
+              %tr{:class => cycle('list-line-odd', 'list-line-even')}
+                %td= h user.name
+                %td
+                  - unless user.name == @mod.created_by
+                    = link_to image_tag("icons/user_remove.png", :title => 'Remove this user from editor list', :alt => 'remove user', :border => 0), {:action => 'remove_user_from_mod', :id => @mod.id, :type => @mod.class, :user => user.id}, :confirm => 'Are you sure you want to remove this user form the editor list?', :method => :post

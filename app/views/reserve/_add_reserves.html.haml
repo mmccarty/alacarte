@@ -1,0 +1,19 @@
+#page_title
+  %label{:for => "mod_course_reserves"}
+    Search Course Reserves
+    %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('Please select a class to get course reserves for', this, event, '');"}
+      = image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      = image_tag "spinner.gif", :id => "spinner_search", :class => 'image', :alt => "Spinner", :style => 'display:none;'
+  %fieldset
+    %label.form_float{:for => "page_subject"}
+      Subject
+      %select#page_subject.page{:name => "page_subject"}
+        = options_from_collection_for_select(@subj_list, 'subject_code', 'subject_code')
+    %label.form_float{:for => "page_cnum"}
+      Course #
+      \#{text_field_tag 'page_cnum', '', :size => 5}
+    %label.form_float{:for => "button"}
+      = button_to_function("Search reserves",                                                                                                |
+          remote_function(:update => "returns", :loading => "Element.show('spinner_search')", :complete => "Element.hide('spinner_search')", |
+        :url => { :action => 'update_reserves', :id => @mod}, :submit =>'page_title'))                                                       |
+.clearer

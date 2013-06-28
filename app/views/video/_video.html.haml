@@ -1,0 +1,45 @@
+.video{:id => "video_#{video.id}"}
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  = error_messages_for "video"
+  - new_or_existing = video.new_record? ? 'new' : 'existing'
+  - prefix = "mod[#{new_or_existing}_video_attributes][]"
+  = fields_for prefix, video do |video_form|
+    %fieldset
+      <span class = 'handle' style = #{new_or_existing == 'existing' ? "" : "display:none"}>#{image_tag("icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)}
+      <div id="new_video_#{video.id}" style = #{new_or_existing == 'new' ? "" : "display:none"} >
+      %h5
+        Embed YouTube Video
+        \#{content_tag :a, image_tag("icons/remove.png", :alt => 'Remove', :border => 0), :onclick => "$(this).up('.video').remove()"}
+      %label{:for => "mod_label"}
+        Video URL
+        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(VIDEO_URL_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      = video_form.text_field :url, :value => video.url || "http://"
+      %label{:for => "mod_video_info"}
+        Video Description
+        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(VIDEO_DESC_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      = video_form.text_area :description, {:class => 'tinymce', :size => '40x2'}
+      = tinymce
+      %label Video Transcript
+      = video_form.file_field :transcript
+<div id="ex_video_#{video.id}" style = #{new_or_existing == 'existing' ? "" : "display:none"} >
+%h5
+  Video Preview
+  \#{content_tag :a, "edit", :onclick => "$('ex_video_#{video.id}').toggle(); + $('new_video_#{video.id}').toggle();"}
+  |
+  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(VIDEO_PREVIEW_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+  |
+  \#{content_tag :a, image_tag("icons/remove.png", :title => 'Click to remove this video', :alt => 'Remove', :border => 0), :onclick => "$(this).up('.video').remove()"}
+%p
+  - @vid = video.retrieve_video
+  - unless @vid.blank?
+    = render :partial => "video/player"
+  - else
+    %p No Video Found.
+  - unless video.transcript.url.blank?
+    %p
+      Video Transcript:
+      %a{:href => video.transcript.url(), :title => "Click to download"}= h(video.transcript_file_name)
+  - unless video.description.blank?
+    %div= h(video.description)

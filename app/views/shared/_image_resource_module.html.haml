@@ -1,0 +1,13 @@
+%h2= h @mod.module_title
+.module
+  - unless @mod.information.blank?
+    = @mod.information
+  %div{:id => @mod.orientation}
+    - @mod.images.each do |image|
+      %p
+        %a{:href => image.url, :title => "Go to original image: #{image.alt}"}
+          %img{:alt => image.alt, :src => image.url.gsub(/(.jpg)/,@mod.fk_size)}/
+        - unless image.description.blank?
+          %span{:class => @mod.size}= image.description
+  - if @mod.orientation == "H"
+    %br.clearer/

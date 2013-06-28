@@ -1,0 +1,30 @@
+- @results ||= results
+- @mod ||= mod
+- if @results and !@results.empty?
+  - if @results.first[:course]
+    #catalog_title
+      .reserves_results
+        %p
+          There is more than one result for
+          %b
+            = @query
+            \.
+          Click on the correct title
+        = image_tag "spinner.gif", :id => "spinner_ambig", :class => 'image', :alt => "Spinner", :style => 'display:none;'
+        #ambiguous_reserved_titles
+          %ul.undeco.list
+            - @results.each do |r|
+              - course = r[:course].scan(/\>(.*?)\</)
+              %li= link_to course, :remote => true, :loading => "Element.show('spinner_ambig')", :complete => "Element.hide('spinner_ambig')", :url => {:controller => :book, :action => :retrieve_results, :title => r[:course] ,:id =>@mod}, :update => "catalog_title"
+  - else
+    .results_results
+      %p.bolded
+        Result for #{@title}
+        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(BOOK_RESULTS_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      <div ="result">
+      \#{render :partial => "/book/show_catalog_titles", :locals => {:results => @results}}
+- else
+  #results
+    %p.results_results
+      There are no results for
+      %b= @query

@@ -1,0 +1,41 @@
+%h1= @tutorial.full_name
+%p
+  Name: #{@student.name}
+  = succeed "Onid:" do
+    %br/
+  = @student.onid
+  = succeed "Section:" do
+    %br/
+  = @student.sect_num
+%h2 Tutorial Quizes
+%h4
+  Total Score: #{@student.final_score} out of #{@tutorial.possible_score}
+#quizes
+  - @quizes.each do |quiz|
+  - total = 0
+    %fieldset
+      %h4= quiz.module_title
+      - results = @student.get_results(quiz.id)
+      - results.each do |result|
+        - question = quiz.questions.find(result[0])
+        %label= question.question
+        %ul
+          %li
+            %label Answer:
+            = question.correct_answer
+            %br/
+            %label Your Answer:
+            = h result[1]
+            - unless question.points == 0
+              %br/
+              %label
+                = result[2]
+                out of #{h question.points}
+        - total = result[2] + total
+      %h5
+        Score:
+        %span.required
+          = total
+          \/ #{quiz.possible_points}
+      %p
+        Taken on: #{@student.taken_on.to_formatted_s(:long)}

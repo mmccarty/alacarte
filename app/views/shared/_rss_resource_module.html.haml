@@ -1,0 +1,16 @@
+%h2= @mod.module_title
+.module
+  - unless @mod.information.blank?
+    = @mod.information
+  %script{:src => @mod.reader, :type => "text/javascript"}
+  - if @mod.style=="tabbed" || @mod.style=="mixed"
+    = render :partial => '/feed/feed_added'
+  - else
+    = render :partial => '/feed/feed_finder'
+  %noscript
+    For best results you must have javasript enabled to see the RSS feeds.
+    %br/
+    You can find similar information by using this link to a
+    = succeed "." do
+      %a{:href => "http://www.google.com/search?result&cd=1&q=rss+feeds%3A#{@mod.topic}"} google search results page
+  %p **Links open in a new window**

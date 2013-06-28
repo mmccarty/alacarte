@@ -1,0 +1,64 @@
+%fieldset
+  %h3.title= render :partial => 'tutorial/title_actions'
+  %h4
+    Edit Unit : #{@unit.title}
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  = form_tag :controller => 'unit', :action => 'update', :id => @unit.id do
+    = error_messages_for 'unit'
+    #share
+      %fieldset
+        #vertical_inputs
+          %span
+            %label{:for => "unit_name"}
+              Title
+              %span.required.more_help *
+              %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(UNIT_NAME_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+            = text_field 'unit','title',"size" => 56
+          %span
+            %label{:for => "unit_name"}
+              Slug
+              %span.required.more_help *
+              %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(UNIT_SLUG_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+            = text_field 'unit','slug',"size" => 18
+        %br.clearer/
+        %label{:for => "unit_description"}
+          Description
+          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(UNIT_DESC_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+        = text_area_tag 'unit', 'description', "class" => 'tinymce'
+        = tinymce
+        %label{:for => "tags"}
+          Tags
+          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(UNIT_TAG_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+        = text_field_tag 'tags', @tag_list,"size" => 62
+        .tip e.g. anthropology, insects, caves
+        %p
+          = submit_tag 'Save', :class => "submit"
+          or #{submit_tag 'Save &amp; Add Modules', :class => "submit"}
+        %p= link_to 'Cancel', :back
+  - unless @mods.blank?
+    %fieldset
+      %h4 Unit Modules
+      %ul{:id => "full#{@unit.id.to_s}"}
+        - @mods.each do |resable|
+        - res = resable.resource
+        - mod = res.mod
+          %li.list-item{:id => "item_#{resable.id}"}
+            %span.list-title= truncate(h(mod.label) ,:length => 40)
+            %span.handle
+              = image_tag("icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)
+            %br/
+            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('#{render_tooltip(mod)}', this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+            |
+            \#{link_to image_tag("icons/edit.png", :title => 'Edit this module', :alt => 'Edit', :border => 0), { :controller =>'module', :action => 'edit_content', :id => mod, :type => mod.class}} |
+            \#{link_to image_tag("icons/document_preview.png", :title => 'View this Module', :alt => 'View Module', :border => 0),{ :controller => 'module', :action => 'view', :id => mod, :type => mod.class}, :popup => ['', 'height=500,width=400,toolbar=yes, scrollbars =yes,resizable=yes']}|
+            \#{link_to image_tag("icons/remove.png", :title => 'Delete this module from lesson', :alt => 'Delete', :border => 0), {:controller => 'unit', :action => 'remove_module', :rid => res , :id => @unit}, :confirm => 'Are you sure you want to remove this module from the lesson?', :method => :post}
+      %span.clear
+      = sortable_element 'full'+@unit.id.to_s,                        |
+        :url => {:controller => 'unit', :action => "sort_mods" },     |
+        :complete => visual_effect(:highlight, 'full'+@unit.id.to_s), |
+        :handle => 'handle',                                          |
+        :containment => ['full'+@unit.id.to_s],                       |
+        :constraint => false                                          |
+= render :partial => 'tutorial/side_bar'

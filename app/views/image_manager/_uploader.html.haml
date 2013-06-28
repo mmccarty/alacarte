@@ -1,0 +1,11 @@
+#image-upload
+  %fieldset
+    %legend Upload New Image
+    = form_for(:image,:url => {:action => 'create'}, |
+      :html => {	:target=>"upframe",                 |
+      :multipart => true,                            |
+      :onsubmit => "disableUpload();" }) do |form|   |
+      %br/
+      = form.file_field('photo')
+      %br/
+      = submit_tag("Upload file",:id => 'upload_button')

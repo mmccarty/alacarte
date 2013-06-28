@@ -1,0 +1,11 @@
+#boxes
+  .item
+    .item2
+      .module
+        - if @vid
+          %p
+            = render :partial => "video/player"
+        - else
+          %p No Video Found.
+      .bot
+        %div

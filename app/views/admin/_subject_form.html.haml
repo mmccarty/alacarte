@@ -1,0 +1,11 @@
+%span
+  %label{:for => "subject_code"}
+    %span.required> *
+    Subject Code
+  = text_field 'subject','subject_code', :size => 10
+%span
+  %label{:for => "subject_name"}
+    %span.required> *
+    Subject Name
+  = text_field 'subject','subject_name'
+%br.clearer/

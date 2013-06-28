@@ -1,0 +1,26 @@
+- search_results_message
+%fieldset
+  %h3.title
+    = setTitleAction
+  %h4 Add Modules
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  - if flash[:notice]
+    #list_error= flash[:notice]
+  %p
+    %b
+      = set_tab_unit_message
+    %span.tip
+      = setEditLink
+  = render :partial => "shared/search_form"
+  - unless @search_results.size <1
+    #product-list
+      = form_tag :controller => set_controller, :action => set_action, :id => set_id  do
+        #table
+          = render :partial => "shared/add_modules_list"
+        = submit_tag 'Add to ' + set_tab_or_unit, :class=> "submit"
+  - else
+    %p
+      %b You currently have no Modules. Create a new module or copy a global module to get started.
+  = setSideBar

@@ -1,0 +1,19 @@
+%fieldset
+  %h3.title
+    = render :partial => 'title_actions'
+  %h4
+    = link_to "Add To/Used On", :controller => 'module', :action =>'manage', :id => @mod.id, :type => @mod.class
+    >> Add to Subject Guides
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  %p Check the box next to the guide's tab you want to add the module to.
+  - unless @guides.size <1
+    = form_tag :action => 'add_to_guide', :id => @mod.id, :type => @mod.class do
+      #product-list
+        #table
+          = render :partial => "add_guide_list"
+      %div= submit_tag 'Add Module', :class=> "submit"
+  - else
+    %p
+      %b You currently have no Guides. Create a new guide to get started.

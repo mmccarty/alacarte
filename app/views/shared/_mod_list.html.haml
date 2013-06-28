@@ -1,0 +1,26 @@
+- if flash[:notice]
+  #list_error= flash[:notice]
+#mod-list
+  = new_button 'Create New Module'
+  #new{:style => "display:none"}
+    = form_tag :controller => 'module', :action => 'create' do
+      = error_messages_for 'mod'
+      #vertical_inputs.index
+        %h4
+          Create New Module
+          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_TITLE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+          = content_tag :a, 'cancel', :onclick => "$('new').toggle();$('new_button').toggle();; return false;"
+        <span #{%(class="required") if flash[:mod_title_error]}>
+        %label{:for => "page_course_name"}
+          Module Title
+          %span.required.more_help *
+        = text_field 'mod', 'module_title',"size" => 45 , :value => flash[:mod_title]
+        <span #{%(class="required") if flash[:mod_type_error]}>
+        %label{:for => "mod_type"}
+          Content Type
+          %span.required.more_help *
+        = select('mod','type', @types, {:selected => flash[:mod_type], :prompt => "Select"}, {:class => 'page'})
+        %span
+          %label &nbsp;
+          = submit_tag 'Create Module'
+        %br/

@@ -1,0 +1,24 @@
+%fieldset
+  = render :partial => '/module/edit_top'
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  = error_messages_for 'mod'
+  = form_tag({:controller => 'uploader', :action => 'update_uploader', :id => @mod} , {:multipart => true})  do
+    = render :partial => '/module/mod_title'
+    %label{:for => "mod_info"}
+      General Information
+      %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(UPLOADER_INFO_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+    = text_area_tag 'mod', 'info',:class => "tinymce"
+    = tinymce
+    #uploadables
+      = render :partial => '/uploader/uploadable', :collection => @mod.uploadables
+    %label
+      = link_to_function image_tag("icons/add.png", :title => 'Click to add an attachment', :alt => '', :border => 0)+" Add Attachment" do |page| |
+        page.insert_html :bottom, :uploadables, :partial => 'uploadable', :object => Uploadable.new                                               |
+        end                                                                                                                                       |
+    = image_tag "spinner.gif", :id => "spinner_search", :class => 'image', :alt => "Spinner", :style => 'display:none;'
+    #submit_button
+      = submit_tag 'Save Module', :class => "submit"
+      %p
+        = link_to 'Cancel', :controller => 'module', :action => 'index',:id => @mod, :type =>@mod.class, :list => 'mine', :sort => 'name'

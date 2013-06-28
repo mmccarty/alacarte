@@ -1,0 +1,28 @@
+= render 'shared/mod_list'
+#second_tabs
+  %ul#second_tabs
+    %li{:class => @globcurrent}
+      = link_to "Global Modules" , :controller => 'module', :action => 'index', :sort => 'name', :list => 'global'
+    %li{:class => @tgcurrent}
+      = link_to "Browse By Tags" , :controller => 'tagged', :action => 'index', :sort => 'name'
+    %li{:class => @mycurrent}= link_to "My Modules" , :controller => 'module', :action => 'index', :sort => 'name', :list => 'mine'
+    %li{:class => @seccurrent}
+      %span#message= search_results_message
+      = form_tag  :action => 'index' do
+        = text_field 'mod', 'search',"size" => 35, |
+          :value => @search_term                   |
+        = submit_tag 'Search'
+    %li.pagination
+      - if @mods.total_pages > 1
+        = will_paginate @mods, :params => params.merge({:sort=> @sort}).except(:authenticity_token), :page_links => false
+.clearer
+#product-list
+  - unless @mods.empty?
+    #table
+      = render :partial => "search_list"
+  - else
+    #notice
+      No Modules found with
+      = succeed "." do
+        %b= @search_term
+    %div

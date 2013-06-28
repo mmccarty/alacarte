@@ -1,0 +1,59 @@
+%fieldset
+  #main
+    %h3
+      Save Guide As
+    - if flash[:error]
+      #list_error
+        = flash[:error]
+    #share
+      = form_tag :action => 'copy' do
+        %fieldset
+          <h4 #{%(class="required") if flash[:error]}>Title &amp; Subject
+          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(GUIDE_NAME_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+          = render  :partial => "guide_title"
+          #vertical_inputs
+            %span
+              %label{:for => "guide_type"}
+                Subject Categories
+                %span.required.more_help *
+              %select#guide_type.page{:multiple => "multiple", :name => "types[]", :size => "3"}
+                = options_from_collection_for_select(@guide_types, 'id', 'value', @selected_types)
+            %br/
+        %fieldset
+          %h4
+            Copy Options
+            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(GUIDE_COPY_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+          %b
+            = radio_button_tag 'options', 'copy', :checked => true
+            Copy the Modules
+          .tip{:style => "display:inline;"} Edits to the modules will not change the original guide's modules.
+          %br/
+          %b
+            = radio_button_tag 'options', 'reuse'
+            Link the Modules
+          .tip{:style => "display:inline;"}
+            Whenever edits are made to the original modules, this guide's modules will be updated too.
+        %fieldset
+          %h4
+            Related Courses
+            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(GUIDE_CLASS_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+          %label{:for => "guide_type"} Associate Course Subjects
+          %select#guide_type.page{:multiple => "multiple", :name => "subjects[]", :size => "3"}
+            = options_from_collection_for_select(@subjects, 'id', 'subject_name', @selected_subjs)
+          %br/
+          .tip (press Ctrl to select more than one item. press Ctrl to deselect an item.)
+        %fieldset
+          %h4 Guide Metadata
+          %label{:for => "guide_guide_description"}
+            Description
+            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_DESC, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+          = text_area_tag 'guide', 'description',"class" => 'tinymce', :size => '40x2'
+          .tip Enter a short description about the guide.
+          %label{:for => "tags"}
+            Tags
+            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_TAGS, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+          = text_area_tag 'tags', @guide.tag_list, {"class" => 'tinymce', :size => '40x2'}
+          = tinymce
+          .tip example: anthropology, insects, caves
+        = submit_tag 'Save As', :class => "submit"
+    %p= link_to 'Cancel', :action => 'index'

@@ -1,0 +1,58 @@
+- @reserves ||= reserves
+- @course_title ||= @mod.course_title
+- if @reserves and !@reserves.empty?
+  - if @reserves.first[:course]
+    #reserved_titles
+      %label{:for => "mod_course_reserves"}
+        Course Reserves
+        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('Course Reserves Search results', this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+        = link_to('Select a different course',:update => "returns", :loading => "Element.show('spinner_select')", :complete => "Element.hide('spinner_select')", |
+          :url =>{ :controller => 'reserve', :action => 'edit_reserves', :id => @mod} , :update => "returns", :remote => true)                                   |
+        = image_tag "spinner.gif", :id => "spinner_select", :class => 'image', :alt => "Spinner", :style => 'display:none;'
+      .reserves_results
+        There is more than one course for  #{@course_title}
+        %br/
+        Select the correct instructor/location.
+        \#{image_tag "spinner.gif", :id => "spinner_ambig", :class => 'image', :alt => "Spinner", :style => 'display:none;'}
+        #ambiguous_reserved_titles
+          %ul.undeco
+            - @reserves.each do |r|
+              - course = r[:course].scan(/\>(.*?)\</)
+              %li= link_to  course, :loading => "Element.show('spinner_ambig')", :complete => "Element.hide('spinner_ambig')",                            |
+                  :url => {:controller => 'reserve', :action => :retrieve_reserves, :title => r[:course]}, :update => "reserved_titles", :remote => true |
+  - else
+    %label{:for => "mod_course_reserves"}
+      Course Reserves
+      %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('Course Reserves Search results', this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      = link_to('Select a different course', :update => "returns", :loading => "Element.show('spinner_select')", :complete => "Element.hide('spinner_select')",:url =>{:controller => 'reserve', :action => 'edit_reserves', :id => @mod} , :update => "returns", :remote => true)
+      = image_tag "spinner.gif", :id => "spinner_select", :class => 'image', :alt => "Spinner", :style => 'display:none;'
+    .reserves_results
+      %p.bolded
+        Reserves for #{@course_title}
+        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(RESERVE_LIST_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      %table.reserves_table
+        %tr
+          %th
+          %th Title
+          %th Author
+          %th Call Number
+        - @reserves.each do |r|
+          %tr
+            %td
+              <input type="checkbox"
+              - if @mod.library_reserves.blank? or @mod.library_reserves.include?(r)
+                checked="checked"
+              name="reserves[]" value="#{r[:id]}" />
+            %td
+              = r[:title]
+            %td= r[:author]
+            %td= r[:availability]
+- else
+  #results
+    %label{:for => "mod_course_reserves"}
+      Course Reserves
+      %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('Course Reserves Search results', this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      = link_to('Select a different course', :update => "returns", :loading => "Element.show('spinner_select')", :complete => "Element.hide('spinner_select')",:url =>{ :controller => 'reserve',:action => 'edit_reserves', :id => @mod} , :update => "returns", :remote => true)
+    %p.reserves_results
+      There are currently no titles on reserve for #{@course_title} .
+      %br/

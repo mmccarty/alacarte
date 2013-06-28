@@ -1,0 +1,51 @@
+%fieldset
+  %h3 New Database
+  - if flash[:error]
+    #error_wrapper
+      #list_error
+        = flash[:error]
+  = form_tag :action => 'create_dods' do
+    #subjects
+      - @dods.each_with_index do |dod, index|
+        = fields_for "dods[#{index}]", dod do |f|
+          = error_messages_for :dod
+          %label{:for => "title"}
+            %span.required> *
+            Database Title
+          = f.text_field 'title'
+          = f.error_message_on "title"
+          %label{:for => "url"}
+            %span.required> *
+            Database URL
+          = f.text_field 'url'
+          = f.error_message_on "url"
+          %label{:for => "startdate"} Coverage Start Date
+          = f.text_field 'startdate'
+          = f.error_message_on "startdate"
+          %label{:for => "enddate"} Coverage End Date
+          = f.text_field 'enddate'
+          = f.error_message_on "enddate"
+          %label{:for => "provider"}
+            %span.required> *
+            Provider Name
+          = f.text_field 'provider'
+          = f.error_message_on "provider"
+          %label{:for => "providerurl"} Provider URL
+          = f.text_field 'providerurl'
+          = f.error_message_on "providerurl"
+          %label{:for => "proxy"}
+            %span.required> *
+            Requires Proxy (0 = false, 1 = true)
+          = f.text_field 'proxy'
+          = f.error_message_on "proxy"
+          %label{:for => "descr"}
+            %span.required> *
+            Database Description
+          = f.text_area 'descr'
+          = f.error_message_on "descr"
+    #submit_button
+      = submit_tag 'Save Databases' ,:class =>"submit"
+      or
+      \#{submit_tag 'Save and Add 1 More' ,:class =>"submit"}
+  %p
+    = link_to 'Cancel', :action => 'dods'

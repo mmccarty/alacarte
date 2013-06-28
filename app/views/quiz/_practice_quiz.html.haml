@@ -1,0 +1,11 @@
+= form_tag :url => {:controller => "quiz", :action => "practice_quiz", :id => @mod.id}, :remote => true do
+  - @mod.questions.each do |question|
+    %fieldset
+      %strong= question.question
+      %ul
+        - question.answers.each do |answer|
+          %li
+            = render :partial => '/quiz/view_answer_'+question.q_type,  :locals => {:answer => answer,:question => question}
+        - if question.answers.blank? and question.q_type == "FW"
+          = render :partial => '/quiz/view_answer_'+question.q_type,  :locals => {:question => question}
+  = submit_tag 'Submit My Answers', :class => "submit"

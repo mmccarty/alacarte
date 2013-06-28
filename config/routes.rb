@@ -21,22 +21,22 @@ Alacarte::Application.routes.draw do
   get 'tutorials/login/:id' => 'student#login'
   get 'tutorials/create-account/:id' => 'student#create_account'
 
-  get 'admin/tools' => 'admin#tools', :as => 'show_tools'
+  get 'admin/tools' => 'admin#tools', :as => 'tools'
 
-  get 'dashboard' => 'dashboard#index', :as => 'show_dashboard'
+  get 'dashboard' => 'dashboard#index', :as => 'dashboard'
 
-  get 'guide' => 'guide#index', :as => 'list_guides'
+  get 'guide' => 'guide#index', :as => 'guides'
   get 'guide/copy/:id' => 'guide#copy', :as => 'copy_guide'
   get 'guide/destroy/:id' => 'guide#destroy', :as => 'delete_guide'
   get 'guide/edit/:id' => 'guide#edit', :as => 'edit_guide'
 
   get 'login/logout' => 'login#logout', :as => 'logout'
 
-  get 'module' => 'module#index', :as => 'list_modules'
+  get 'module' => 'module#index', :as => 'modules'
 
-  get 'page' => 'page#index', :as => 'list_pages'
+  get 'page' => 'page#index', :as => 'pages'
 
-  get 'tutorial' => 'tutorial#index', :as => 'list_tutorials'
+  get 'tutorial' => 'tutorial#index', :as => 'tutorials'
 
   match '/:controller(/:action(/:id))'
 end

@@ -1,0 +1,18 @@
+%fieldset
+  %h3.title
+    = render :partial => '/tutorial/title_actions'
+  %h4 Add Units
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  = render :partial => "unit/new_unit"
+  - unless @units.size <1
+    #product-list
+      = form_tag :controller => 'unit', :action => 'add' do
+        #table
+          = render :partial => "unit/unit_list"
+        = submit_tag 'Add to Tutorial', :class=> "submit"
+  - else
+    %p
+      %b You currently have no Units.
+  = render :partial => 'tutorial/side_bar'

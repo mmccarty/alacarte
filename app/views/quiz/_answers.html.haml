@@ -1,0 +1,13 @@
+- question.answers.uniq.each do |answer|
+  <div class="answer" id = "item_#{answer.id}"">
+  #answers
+    %fieldset
+      %div{:id => "ex_answer_#{answer.id}"}
+        %h4
+          = link_to "Edit Answer", :controller => 'quiz', :action => 'edit_answer', :id =>@mod, :qid => question.id, :aid => answer.id
+          |
+          \#{link_to image_tag("icons/remove.png", :title => 'Click to remove this answer', :alt => 'Remove', :border => 0), :url => {:controller => 'quiz', :action => 'remove_answer', :id => @mod, :qid => question.id, :aid =>answer}, :remote => true}
+          %span.handle
+            = image_tag("icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)
+        %div{:id => "more_#{answer.id}", :style => "display:block; margin-top:.5em;"}
+          = render :partial => '/quiz/preview_answer_'+question.q_type, :locals => {:answer => answer}

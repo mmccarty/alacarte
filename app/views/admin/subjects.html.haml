@@ -1,0 +1,31 @@
+%fieldset
+  %h3 Listing Subjects
+  - if flash[:notice]
+    #error_wrapper
+      #notice= flash[:notice]
+  = new_button 'Create New Subject'
+  #new{:style => "display:none"}
+    = form_tag :action => 'new_subjects' do
+      #vertical_inputs.index
+        %label{:for => "num"} Number of Subjects to Add
+        = select('subject','num', [[1,1],[2,2],[3,3],[4,4],[5,5],[10,10]],:selected => 1, :size => 5)
+        = submit_tag 'Add New Subject'
+        %br/
+        %br/
+        = content_tag :a, 'cancel', :onclick => "$('new').toggle();$('new_button').toggle();; return false;"
+        %br/
+  #product-list
+    %table
+      %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
+        %th Subject Code
+        %th Subject Name
+        %th Actions
+      - for sub in @subjects
+        %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
+          %td= h sub.subject_code
+          %td= h sub.subject_name
+          %td
+            = link_to 'Edit', :action => 'edit_subject', :id => sub
+            |
+            \#{link_to 'Delete', { :action => 'destroy_subject', :id => sub }, :confirm => 'Are you sure you want to delete this subject?', :method => :post}
+  = will_paginate @subjects

@@ -1,0 +1,23 @@
+<span #{%(class="required") if flash[:course_subj_error]}>
+%label{:for => "page_subject"} Subject
+<div #{%(class="fieldWithErrors") if flash[:course_subj_error]}>
+%select#subject.page{:multiple => "multiple", :name => "subjects[]", :size => "2"}
+  = options_from_collection_for_select(@subj_list, 'id', 'subject_code', (flash[:course_subj] || @selected))
+<span #{%(class="required") if flash[:course_num_error]}>
+%label{:for => "page_course_num"} Course #
+= text_field 'page', 'course_num',"size" => 5, :tabindex=>"2", :value => ( if !@page.nil? then "#{@page.course_num}" else flash[:course_num] end)
+<span #{%(class="required") if flash[:course_name_error]}>
+%label{:for => "page_course_name"} Course Name
+= text_field 'page', 'course_name',"size" => 30 , :tabindex=>"3", :value => (if !@page.nil? then"#{@page.course_name}" else flash[:course_name] end)
+<span #{%(class="required") if flash[:course_term_error]}>
+%label{:for => "page_term"} Term
+= select('page','term',@terms,  {:selected => (if !@page.nil? then "#{@page.term}"  else flash[:course_term] end)}, :class => 'page', :tabindex=>"4")
+<span #{%(class="required") if flash[:course_year_error]}>
+%label{:for => "page_year"} Year
+= select('page','year',@years,  {:selected => (if !@page.nil? then "#{@page.year}"  else flash[:course_year] end)} , :class => 'page', :tabindex=>"5")
+%span
+  %label{:for => "page_sect_num"} Section#
+  = text_field 'page', 'sect_num',"size" => 5 , :tabindex=>"6", :value => (if !@page.nil? then "#{@page.sect_num}"  else flash[:course_sect] end)
+%span
+  %label{:for => "page_campus"} Campus
+  = select('page','campus',@campus, {}, {:class => 'page', :tabindex=>"7"})

@@ -1,0 +1,24 @@
+%fieldset
+  %h3 New Master Subject(s)
+  - if flash[:error]
+    #error_wrapper
+      #list_error
+        = flash[:error]
+  = form_tag :action => 'create_masters' do
+    #counter
+      = hidden_field_tag "formCount" , @num
+    #masters
+      - @masters.each_with_index do |master, index|
+        = fields_for "masters[#{index}]", master do |f|
+          = error_messages_for :master
+          %label{:for => "value"}
+            %span.required> *
+            Master Subject Name
+          = f.text_field 'value'
+          = f.error_message_on "value"
+    #submit_button
+      = submit_tag 'Save Masters', :class =>"submit"
+      or
+      \#{submit_tag 'Save and Add  More', :class =>"submit"}
+  %p
+    = link_to 'Cancel', :action => 'masters'

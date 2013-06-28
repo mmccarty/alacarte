@@ -1,0 +1,26 @@
+%fieldset
+  %h3
+    Subject Guides for #{h @user.name}
+  - if flash[:notice]
+    #error_wrapper
+      #notice= flash[:notice]
+  %p
+    Total Guides: #{@count}
+  #product-list
+    %table
+      %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
+        %th Title
+        %th Last Update
+        %th Published
+        %th Actions
+      - for guide in @guides
+        %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
+          %td= link_to h(guide.guide_name),{ :controller => "srg", :action => 'index', :id => guide}
+          %td= h guide.updated_at
+          %td= h guide.published
+          %td
+            = link_to 'Assign', { :controller => "admin", :action => 'assign_guide', :id => guide}
+            | #{link_to 'Archive', { :action => 'archive_guide', :id => guide}, :confirm => 'Are you sure you want to archive this guide?', :method => :post}
+            | #{link_to 'Delete', { :controller => "admin", :action => 'destroy_guide', :id => guide}, :confirm => 'Are you sure you want to delete this guide?', :method => :post}
+  %p
+    %b= link_to 'Back to Users', :action => 'users'

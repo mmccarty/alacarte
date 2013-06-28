@@ -1,9 +1,0 @@
-<label for="chat_widget"> Widget Code
-  <span class = 'more_help'  onMouseover="fixedtooltip(WIDGET_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label><br/>
-<%= text_area_tag 'mod', 'widget', "class" => 'tinymce', :size => '40x5'%>
-
-
-<label for="description">Widget Information
-  <span class = 'more_help'  onMouseover="fixedtooltip(WIDGET_INFO_MSSG, this, event, '');" onMouseout="delayhidetip();"><%= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)%></span></label>
-<%= text_area_tag 'mod', 'information', :class => 'tinymce' %>
-<%= tinymce %>

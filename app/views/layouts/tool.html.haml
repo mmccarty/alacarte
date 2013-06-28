@@ -26,24 +26,24 @@
         #tab_container
           %ul#tabs
             %li{:class => @mcurrent || 'mod_tab' }
-              = link_to_unless_current "Modules" , list_modules_path
+              = link_to_unless_current "Modules" , modules_path
 
             - if @user.is_admin || @local.guides_list.include?('pages')
               %li{:class => @pcurrent || "page_tab" }
-                = link_to_unless_current "Pages" , list_pages_path(:sort => 'name')
+                = link_to_unless_current "Pages" , pages_path(:sort => 'name')
             - if @user.is_admin || @local.guides_list.include?('guides')
               %li{:class => @gcurrent || "quide_tab" }
-                = link_to_unless_current "Guides" , list_guides_path(:sort => 'name')
+                = link_to_unless_current "Guides" , guides_path(:sort => 'name')
             - if @user.is_admin || @local.guides_list.include?('tutorials')
               %li{:class => @tcurrent || "tutorial_tab" }
-                = link_to_unless_current "Tutorials" , list_tutorials_path
+                = link_to_unless_current "Tutorials" , tutorials_path
 
             %li{:class => @dcurrent || "dashboard_tab" }
-              = link_to_unless_current "Dashboard" , show_dashboard_path
+              = link_to_unless_current "Dashboard" , dashboard_path
 
             - if @user.is_admin
               %li{:class => @current || "admin_tab" }
-                = link_to_unless_current "Admin Tools" , show_tools_path
+                = link_to_unless_current "Admin Tools" , tools_path
 
       .row
         #content_full

@@ -1,0 +1,42 @@
+- link.id = Integer("712981823917#{(Time.now.to_f*1000).round}") if link.id.blank?
+.link{:id => "link_#{link.id}"}
+  - new_or_existing = link.new_record? ? 'new' : 'existing'
+  - prefix = "mod[#{new_or_existing}_link_attributes][]"
+  = fields_for prefix, link do |link_form|
+    %fieldset
+      <span class = 'handle' style = #{new_or_existing == 'existing' ? "" : "display:none"}>#{image_tag("icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)}
+      <div id="new_link_#{link.id}" style = #{new_or_existing == 'new' ? "" : "display:none"} >
+      %h5
+        Web Link
+        \#{content_tag :a, image_tag("icons/remove.png", :alt => 'Remove', :border => 0), :onclick => "$(this).up('.link').remove()"}
+      %label{:for => "mod_link_info"}
+        Open link in a new window?
+        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(LINK_TARGET_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+        Yes #{link_form.radio_button :target, true} No #{link_form.radio_button :target, false}
+      %label{:for => "mod_label"}
+        Link Text
+        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(NEW_LINK_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      = link_form.text_field :label
+      %label{:for => "mod_label"}
+        Link URL
+        %span.required *
+        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(NEW_URL_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      = link_form.text_field :url, :value => link.url || "http://", :onfocus => ("if(value=='http://'){value=''}")
+      %label{:for => "mod_link_info"}
+        Link Description
+        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(LINK_DESC_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      = link_form.text_area :description, {:class => 'tinymce', :size => '40x2'}
+      = tinymce
+<div id="ex_link_#{link.id}" style = #{new_or_existing == 'existing' ? "" : "display:none"} >
+%h5
+  Link Preview
+  \#{content_tag :a, "edit", :onclick => "$('ex_link_#{link.id}').toggle(); + $('new_link_#{link.id}').toggle();"}
+  |
+  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(LINK_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+  |
+  \#{content_tag :a, image_tag("icons/remove.png", :title => 'Click to remove this link', :alt => 'Remove', :border => 0), :onclick => "$(this).up('.link').remove()"}
+%p
+  %a{:href => link.url}= link.label.blank? ? h(link.url) : h(link.label)
+  - unless link.description.blank?
+    %br/
+    = h(link.description)

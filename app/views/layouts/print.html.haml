@@ -1,0 +1,15 @@
+!!!
+%html{:lang => "en", "xml:lang" => "en", :xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "text/css", "http-equiv" => "Content-Style-Type"}/
+    %meta{:content => "text/javascript", "http-equiv" => "Content-Script-Type"}/
+    %meta{:content => "en", "http-equiv" => "content-language"}/
+    %meta{:content => @meta_keywords, :name => "keywords"}/
+    %meta{:content => @meta_description, :name => "description"}/
+    = csrf_meta_tag
+    %title= @title
+    %link{:href => "/stylesheets/print.css", :rel => "stylesheet", :type => "text/css"}/
+    = javascript_include_tag 'application'
+  %body
+    = yield :layout

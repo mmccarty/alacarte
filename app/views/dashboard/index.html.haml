@@ -1,0 +1,131 @@
+#page-list
+  - if flash[:notice]
+    #notice= flash[:notice]
+  %fieldset
+    %h2
+      Hello #{@user.name}
+    .left_side
+      #share
+        %fieldset
+          %h3 Modules
+          %p
+            = image_tag("icons/image_add.png", :title => 'New Module', :alt => 'add', :border => 0)
+            = link_to 'Create a New Content Module', :controller => 'module', :action => 'new_mod'
+          %p
+            = image_tag("icons/bookmark_folder.png", :title => 'Browse My Modules', :alt => 'browse', :border => 0)
+            = link_to 'Browse Content Modules', :controller => 'module', :action => 'index'
+          - unless @user.resource_id.blank?
+            %p
+              = image_tag("icons/user_comment.png", :title => 'My Contact Module', :alt => 'add', :border => 0)
+              = link_to "Edit Default Contact Module" , :controller => 'dashboard', :action => 'my_profile', :rid => @user.resource_id
+              %br/
+          - else
+            %p
+              = image_tag("icons/user_comment.png", :title => 'Set My Contact Module', :alt => 'add', :border => 0)
+              = link_to " Set Default Contact Module" , :controller => 'dashboard', :action => 'edit_profile'
+          %p
+            = image_tag("icons/global.png", :title => 'Browse Global Modules', :alt => 'browse', :border => 0)
+            = link_to 'Browse Global Modules', :controller => 'module', :action => 'index', :list=>'global'
+        - if @local.guides_list.include?('pages')
+          %fieldset
+            %h3 My Pages
+            %p
+              = image_tag("icons/window_add.png", :title => 'New Page', :alt => 'add', :border => 0)
+              = link_to 'Create a New Course Page', :controller => 'page', :action => 'new'
+            %p
+              = image_tag("icons/bookmark_folder.png", :title => 'Browse My Pages', :alt => 'browse', :border => 0)
+              = link_to 'Browse Your Course Pages', :controller => 'page', :action => 'index'
+        - if @local.guides_list.include?('guides')
+          %fieldset
+            %h3 My Guides
+            %p
+              = image_tag("icons/guide_add.png", :title => 'New Guide', :alt => 'add', :border => 0)
+              = link_to 'Create a New Subject Guide', :controller => 'guide', :action => 'new'
+            %p
+              = image_tag("icons/bookmark_folder.png", :title => 'Browse My Guides', :alt => 'browse', :border => 0)
+              = link_to 'Browse Subject Guides', :controller => 'guide', :action => 'index'
+        - if @local.guides_list.include?('tutorials')
+          %fieldset
+            %h3 My Tutorials
+            %p
+              = image_tag("icons/tutorial_add.png", :title => 'New Tutorial', :alt => 'add', :border => 0)
+              = link_to 'Create a New Tutorial', :controller => 'tutorial', :action => 'new'
+            %p
+              = image_tag("icons/bookmark_folder.png", :title => 'Browse My Tutoroials', :alt => 'browse', :border => 0)
+              = link_to 'Browse Tutorials', :controller => 'tutorial', :action => 'index'
+    .right_side
+      #boxes
+        .item
+          .item2
+            %h2 Overview
+            .module
+              %p
+                You have #{@cnum} published course pages, #{@acnum} archived course pages, #{@gnum} published subject guides, #{@tnum} published tutorials, #{@atnum} archived tutorials, and #{@mnum} modules.
+              %p
+                = image_tag("icons/user.png", :title => 'My Account', :alt => 'Account', :border => 0)
+                = link_to"Edit Your Account" , :controller => 'dashboard', :action => 'my_account'
+                %br/
+                Edit your user name, email or password.
+              %p
+                = image_tag("icons/help.png", :title => 'Help FAQ', :alt => 'Help', :border => 0)
+                %a{:href => "http://alacarte.library.oregonstate.edu/support", :target => "_blank"} Get Help
+                %br/
+                Get help and read about new features.
+            .bot
+              %div
+      #boxes
+        .item
+          .item2
+            %h2 Recent Activity
+            .module
+              %ul.undeco.no_indent
+                - for item in @recents
+                  %li
+                    = image_tag("icons/edit.png", :title => 'Edit', :alt => 'Edit', :border => 0)
+                    = activity_link(item)
+            .bot
+              %div
+      #boxes
+        .item
+          .item2
+            %h2 Legend
+            .module
+              %ul.undeco.no_indent
+                %li
+                  = image_tag("icons/edit.png", :title => 'Edit', :alt => 'Edit', :border => 0)
+                  Edit
+                %li
+                  = image_tag("icons/document_preview.png", :title => 'View', :alt => 'View', :border => 0)
+                  Preview
+                %li
+                  = image_tag("icons/application_add.png", :title => 'Copy', :alt => 'Copy', :border => 0)
+                  Copy
+                %li
+                  = image_tag("icons/remove.png", :title => 'Delete', :alt => 'Delete', :border => 0)
+                  Remove / Delete
+                %li
+                  = image_tag("icons/user_add.png", :title => 'Share', :alt => 'Share', :border => 0)
+                  Share
+                %li
+                  = image_tag("icons/users.png", :title => 'Shared', :alt => 'Shared', :border => 0)
+                  Shared
+                %li
+                  = image_tag("icons/Minus.png", :title => 'No', :alt => 'No', :border => 0)
+                  No
+                %li
+                  = image_tag("icons/Plus.png", :title => 'Yes', :alt => 'Yes', :border => 0)
+                  Yes
+                %li
+                  = image_tag("icons/archive.png", :title => 'Archived', :alt => 'Archived', :border => 0)
+                  Archived
+                %li
+                  = image_tag("icons/star.png", :title => 'Starred', :alt => '', :border => 0)
+                  In Use
+                %li
+                  = image_tag("icons/no-star.png", :title => 'Not Starred', :alt => 'Stared', :border => 0)
+                  Not Used
+                %li
+                  = image_tag("icons/global.png", :title => 'Global', :alt => 'Global', :border => 0)
+                  Global
+            .bot
+              %div

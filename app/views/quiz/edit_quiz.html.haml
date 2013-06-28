@@ -1,0 +1,46 @@
+%fieldset
+  = render :partial => '/module/edit_top'
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  = error_messages_for 'mod'
+  #share
+    = form_tag({:controller => 'quiz', :action => 'update_quiz', :id => @mod} , {:multipart => true})  do
+      %fieldset
+        = render :partial => '/module/mod_title'
+      - if @tutorial
+        %fieldset
+          - if @tutorial.graded?
+            %label
+              Graded Quiz?
+              %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(QUIZ_GRADE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+              = radio_button 'mod', 'graded', true
+              Yes or  #{radio_button 'mod', 'graded', false} No
+          - else
+            %label
+              This Tutorial is not Graded.
+              %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(NOT_GRADE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+              = hidden_field 'mod','graded', :value => 'false'
+      - else
+        = hidden_field 'mod','graded', :value => 'false'
+      %fieldset
+        %label{:for => "mod_info"}
+          General Information
+          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(QUIZ_INFO_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+        = text_area_tag 'mod', 'description',:class => "tinymce"
+        = tinymce
+        `
+        #submit_button
+          = submit_tag 'Save Module', :class => "submit"
+          or  #{submit_tag 'Save &amp; Add Question', :class => "submit"}
+          %p
+            = link_to 'Cancel', :controller => 'module', :action => 'index',:id => @mod, :type =>@mod.class, :list => 'mine', :sort => 'name'
+  #question_container
+    = render :partial => '/quiz/questions'
+= sortable_element 'question_container',                                     |
+      :tag => 'div',                                                         |
+  :url => {:controller => 'quiz', :action => "sort_questions", :id => @mod}, |
+  :complete => visual_effect(:highlight, 'question_container'),              |
+  :handle => 'handle',                                                       |
+  :containment => ['question_container'],                                    |
+  :constraint => false                                                       |

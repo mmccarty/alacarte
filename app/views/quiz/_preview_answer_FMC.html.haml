@@ -1,0 +1,8 @@
+%strong
+  Answer: #{answer.value.blank? ? "" : answer.value.gsub("\n",'<br />')}
+%br/
+%strong Feedback:
+= answer.feedback.blank? ? "" : answer.feedback.gsub("\n",'<br />')
+%br/
+%strong
+  = answer.correct? ? "Correct" : "Incorrect"

@@ -1,0 +1,34 @@
+= new_button 'Create New Module'
+#new{:style => "display:none"}
+  = form_tag :action => 'new_module' do
+    = error_messages_for 'mod'
+    #vertical_inputs.page_index
+      %h5
+        Create New Module
+        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_TITLE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+        = content_tag :a, 'cancel', :onclick => "$('new').toggle();$('new_button').toggle();; return false;"
+      <span #{%(class="required") if flash[:mod_title_error]}>
+      %label{:for => "page_course_name"}
+        Module Title
+        %span.required.more_help *
+      = text_field 'mod', 'module_title',"size" => 45 , :value => flash[:mod_title]
+      <span #{%(class="required") if flash[:mod_type_error]}>
+      %label{:for => "mod_type"}
+        Content Type
+        %span.required.more_help *
+      = select('mod','type', @types, {:selected => flash[:mod_type], :prompt => "Select"}, {:class => 'page'})
+      %span
+        %label &nbsp;
+        = submit_tag 'Create Module'
+      %br/
+#second_tabs
+  %ul#second_tabs
+    - if @local.enable_search?
+      %li.current
+        = form_tag :controller => 'search', :action => 'add_modules' ,:tab => @tab do
+          = text_field 'mod', 'search',"size" => 35,                                                           |
+            :style => "color:#aaa;",                                                                           |
+            :value => @search_value,                                                                           |
+            :onfocus => "if(this.getValue()=='#{@search_value}'){this.clear();this.style.color = '#000';}",    |
+            :onblur => "if(this.getValue()==''){this.setValue('#{@search_value}');this.style.color = '#aaa';}" |
+          = submit_tag 'Search Modules'

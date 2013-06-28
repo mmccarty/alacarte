@@ -1,0 +1,8 @@
+- result = Result.get_answer(question.id, session[:saved_student])
+= radio_button_tag question.id, 1, result == "1" ? true : false, :onclick =>                                             |
+  remote_function(:url => {:controller => "quiz", :action => "save_question_answer", :id => question.id, :guess => "1"}) |
+%label True
+%br/
+= radio_button_tag question.id, 0,  result == "0" ? true : false, :onclick =>                                            |
+  remote_function(:url => {:controller => "quiz", :action => "save_question_answer", :id => question.id, :guess => "0"}) |
+%label False

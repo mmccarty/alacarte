@@ -1,0 +1,16 @@
+%fieldset
+  %h3
+    Edit #{h @master.value}
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  = error_messages_for 'master'
+  = form_tag :action => 'edit_master' ,:id => @master do
+    %label{:for => "value"}
+      %span.required> *
+      Master Subject Name
+    = text_field 'master', 'value'
+    #submit_button
+      = submit_tag 'Save Master Subject', :class=>"submit"
+  %p
+    = link_to 'Cancel', :action => 'masters'

@@ -1,0 +1,13 @@
+= error_messages_for 'mod'
+%label{:for => "mod_module_title"}
+  Module Title
+  %span.required *
+  %label
+    Select Groups to Search
+    %span.more_help{:onmouseout => "delayhidetip()", :onmouseover => "fixedtooltip(LF_GROUPS_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+  = render :partial => 'module/lf_targets'
+  %label{:for => "description"}
+    Search Information
+    %span.more_help{:onmouseout => "delayhidetip()", :onmouseover => "fixedtooltip(LF_INFO_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+  = text_area_tag 'mod', 'information', :class => 'tinymce'
+  = tinymce

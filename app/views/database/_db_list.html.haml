@@ -1,0 +1,10 @@
+#db{:style => "display:none"}
+  %label Add Databases
+  %p Select the databases you want to add to this module and then click the button to add them.
+  = form_tag({:controller => 'database', :action => 'add_databases', :id => @mod} , {:multipart => true})  do
+    #a_z_list
+      = render :partial => "a_z_list"
+    #submit_button
+      = submit_tag 'Add Databases', :class => "submit"
+      %p
+        = content_tag :a, "Cancel", :onclick => "$('db').toggle(); + $('mo').toggle(); + $('link').toggle();"

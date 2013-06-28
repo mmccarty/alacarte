@@ -1,0 +1,6 @@
+#share_left
+  %h5 Add People
+  .tip Select people you want to share with.
+  %select#users.share{:multiple => "multiple", :name => "users[]"}
+    = options_from_collection_for_select(@user_list, 'id', 'name')
+  .tip (press Ctrl+Alt to select multiple users)

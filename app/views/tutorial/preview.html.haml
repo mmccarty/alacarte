@@ -1,0 +1,20 @@
+%fieldset
+  %h3.title
+    = render :partial => 'title_actions'
+  %h4
+    Preview
+  #boxes
+    .item
+      .item2
+        = render :partial => 'view'
+        .bot
+          %div
+  %p
+    Tagged with:
+    - @tutorial.tag_list.each do |tag|
+      = tag
+  %p
+    Course Data: #{@tutorial.course}
+    %br/
+    Graded? #{@tutorial.graded == true ? 'Yes' : 'No'}
+  = render :partial => 'side_bar'

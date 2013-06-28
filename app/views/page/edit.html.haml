@@ -1,0 +1,19 @@
+%fieldset
+  %h3.title
+    = render :partial => 'title_actions'
+  %h4 Edit Page
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  = error_messages_for 'page'
+  = new_button 'Add New Tab'
+  #tab_new{:style => "display:none"}
+    = form_tag :controller => 'tab', :action => 'page_create' do
+      = error_messages_for 'tab'
+      %label
+        Tab Title  #{content_tag :a, 'cancel', :onclick => "$('tab_new').toggle();$('new_button').toggle();; return false;"}
+      = text_field 'tab', 'tab_name',"size" => 12
+      = submit_tag 'Create'
+  #tab_content
+    = render :partial => 'page/edit_tab'
+  = render :partial => 'side_bar'

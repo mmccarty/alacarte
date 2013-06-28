@@ -1,0 +1,41 @@
+%fieldset
+  %h3 Listing Users
+  - if flash[:notice]
+    #error_wrapper
+      #notice= flash[:notice]
+  .new
+    %a{:href => "/admin/register"}
+      %span
+        = image_tag "icons/add.png", :alt => "Add New User"
+        Add New User
+  #product-list
+    %table
+      %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
+        %th Name
+        %th Email
+        %th Role
+        %th Actions
+        %th Guides
+      - for author in @users
+        - if author.role != 'pending'
+          %tr{:class => cycle('list-line-odd', 'list-line-even'), :id => "row#{author.id}", :valign => "top"}
+            %td= h author.name
+            %td= h author.email
+            %td= h author.role
+            %td
+              = link_to 'Edit', :action => 'edit', :id => author
+              |
+              \#{link_to 'Delete', {:remote => true, :url => { :action => 'destroy', :id => author },:update => "row#{author.id}" , :confirm => 'Are you sure you want to delete this user?'}, :href => url_for(:action => 'destroy', :controller => 'admin',:id => author)}
+            %td
+              = link_to 'Pages', :action => 'pages', :id => author
+              |
+              \#{link_to 'Guides', :action => 'guides', :id => author} |
+              \#{link_to 'Tutorials', :action => 'tutorials', :id => author}
+  .pagination
+    %ul
+      - if !@all
+        %li= will_paginate @users
+        %li= link_to 'show all', { :controller => 'admin', :action => 'users', :all => 'all' }
+        %li= image_tag "spinner.gif", :id => "spinner_links", :class => 'image', :alt => "Spinner", :style => 'display:none;'
+      - else
+        %li= link_to 'show less', :controller => 'admin', :action => 'users'

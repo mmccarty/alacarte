@@ -1,0 +1,12 @@
+%object{:data => @vid, :style => @style, :type => "application/x-shockwave-flash"}
+  %param{:name => "movie", :value => @vid}/
+  %param{:name => "allowFullScreen", :value => "true"}/
+  %param{:name => "allowscriptaccess", :value => "always"}/
+  %param{:name => "quality", :value => "best"}/
+  %param{:name => "bgcolor", :value => "#FFFFFF"}/
+  %param{:name => "scale", :value => "noScale"}/
+  %param{:name => "salign", :value => "TL"}/
+  /[if IE ]
+    <embed src="<haml:loud>@vid</haml:loud>"
+    type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true"
+    style="<haml:loud>@style</haml:loud>" ></embed>

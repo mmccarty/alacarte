@@ -1,0 +1,37 @@
+%fieldset
+  = render :partial => '/module/edit_top'
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  = error_messages_for 'mod', 'link'
+  = form_tag({:controller => 'url', :action => 'update_url', :id => @mod} , {:multipart => true , :onKeyPress=> 'return disableEnterKey(event)'})  do
+    = render :partial => '/module/mod_title'
+    %label{:for => "mod_info"}
+      General Information
+      %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(URL_INFO_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+    = text_area_tag 'mod', 'information',:class => "tinymce"
+    = tinymce
+    #links
+      = render :partial => '/url/link', :collection => @mod.links
+    = sortable_element 'links',                               |
+          :url => {:controller => 'url' ,:action => "sort" }, |
+      :complete => visual_effect(:highlight, 'links'),        |
+      :handle => 'handle',                                    |
+      :containment => ['links'],                              |
+      :constraint => false,                                   |
+      :tag => :div                                            |
+    - content = render :partial => '/url/link', :object => Link.new
+    %label
+      = content_tag :a, image_tag("icons/add.png", :title => 'Click to add an link', :alt => '', :border => 0)+" Add Link", :onclick => |
+        "var newid = new Date().getTime();                                                                                              |
+        var newcontent = \"#{escape_javascript(content)}\"                                                                              |
+        newcontent = newcontent.replace(/712981823917[0-9]*/g,newid);                                                                   |
+        console.log(newcontent)                                                                                                         |
+        $('links').insert({                                                                                                             |
+        bottom: newcontent                                                                                                              |
+        });"                                                                                                                            |
+    = image_tag "spinner.gif", :id => "spinner_search", :class => 'image', :alt => "Spinner", :style => 'display:none;'
+    #submit_button
+      = submit_tag 'Save Module', :class => "submit"
+      %p
+        = link_to 'Cancel', :controller => 'module', :action => 'index',:id => @mod, :type =>@mod.class, :list => 'mine', :sort => 'name'

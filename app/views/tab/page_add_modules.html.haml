@@ -1,0 +1,22 @@
+%fieldset
+  %h3.title
+    = render :partial => 'page/title_actions'
+  %h4 Add Modules
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  %p
+    %b
+      On Tab: #{@tab.tab_name}
+    | #{link_to 'Select a different tab', :controller => 'page', :action => 'edit', :id => @page}
+  = render :partial => "shared/new_module"
+  - unless @mods.size <1
+    #product-list
+      = form_tag :controller => 'tab', :action => 'page_add_modules', :id => @tab.id do
+        #table
+          = render :partial => "shared/add_modules_list"
+        = submit_tag 'Add to Tab', :class=> "submit"
+  - else
+    %p
+      %b You currently have no Modules. Create a new module or copy a global module to get started.
+  = render :partial => 'page/side_bar'

@@ -1,0 +1,21 @@
+%fieldset
+  %h3 My Contact Module
+  - if flash[:notice]
+    #list_error= flash[:notice]
+  %br/
+  .tip
+    Your default contact module.
+    %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PROFILE_MOD_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+  %br/
+  #boxes
+    .item
+      .item2
+        = show_mod(@mod)
+        .bot
+          %div
+  %p
+    %b
+      = link_to 'Select New Profile', :action => 'edit_profile'
+      | #{link_to 'Edit Module', {:controller => 'module', :action => 'edit_content', :id => @mod, :type => @mod.class}}
+  %p
+    %b= link_to 'Cancel', :action => 'index'

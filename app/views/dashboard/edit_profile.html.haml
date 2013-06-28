@@ -1,0 +1,20 @@
+%fieldset
+  %h3 Set My Profile
+  - if flash[:notice]
+    #list_error= flash[:notice]
+  %br/
+  .tip
+    Select your profile and default contact module for your guides and pages.
+    %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PROFILE_MOD_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+  %br/
+  = form_tag :action => 'edit_profile'  do
+    %select#guide_type{:name => "contact"}
+      %option Select
+      - for resource in @resources
+        <option value=#{resource.id}
+        - if resource.id == @selected
+          selected='selected'
+        >#{h resource.mod.label}
+    = submit_tag 'Set Profile', :class => "submit"
+  %p
+    %b= link_to 'Cancel', :action => 'index'

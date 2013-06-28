@@ -1,0 +1,21 @@
+/ [form:page]
+%label{:for => "name"}
+  Instructor's Name
+  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(INST_NAME_MSSG, this, event, '300');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+= text_field 'mod', 'instructor_name',"size" => 54
+%label{:for => "email"}
+  Email Address
+  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(INST_EMAIL_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+= text_field 'mod', 'email',"size" => 54
+%label{:for => "office_loc"}
+  Office Location
+  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(INST_LOCATE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+= text_field 'mod', 'office_location',"size" => 54
+%label{:for => "office_hrs"}
+  Office Hours
+  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(INST_HOURS_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+= text_field 'mod', 'office_hours',"size" => 54
+%label{:for => "web"}
+  Website URL
+  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(INST_URL_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+= text_field 'mod', 'website' , "size" => 54

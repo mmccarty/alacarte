@@ -1,0 +1,69 @@
+= render :partial => 'ort/top'
+#content
+  / <div id="item-corner"></div>
+  #content-column2
+    .item
+      .item2
+        .item3
+          %h2 Edit Course Section
+          %p
+            You registered as being in course section
+            %b= @student.sect_num
+            = form_tag :controller =>"student", :action=>'edit_section', :id =>@tutorial.id do
+              %label{:for => "email"}
+                Change Section #
+                \#{select "student","sect_num",@sections}
+                \#{submit_tag 'Change', :class => 'submit'}
+  #content-column1
+    %h2.no-bar
+      Account for #{@student.name}
+    %p
+      Not #{@student.name}? #{link_to "Log Out", {:controller => :student, :action => :log_out, :id => @tutorial}}
+      - if !@left.blank?
+        %h4 You have the following graded quizzes left to take:
+        %ul
+          - @left.flatten.each do |quiz|
+            %li
+              = quiz.module_title
+      - if !@quizes.blank?
+        %h2
+          My Quizzes
+          %span.printer
+            %img.printer{:alt => "Printer", :src => "icons/printer.png"}/
+            = link_to "Print" , :controller => 'student', :action => 'print_quiz', :id =>@tutorial
+        #quizes
+          - unless @tutorial.possible_score == 0
+            %h4.required
+              Tutorial Score: #{@student.final_score} out of #{@tutorial.possible_score}
+          - @quizes.each do |quiz|
+          - total = 0
+            %fieldset
+              %h4= quiz.module_title
+              - results = @student.get_results(quiz.id)
+              - results.each do |result|
+                - question = quiz.questions.find(result[0])
+                %label= question.question
+                %ul
+                  %li
+                    %label Correct Answer:
+                    = question.correct_answer
+                    %br/
+                    %label Your Answer:
+                    = h result[1]
+                    - unless question.points == 0
+                      %br/
+                      %label.required
+                        = result[2]
+                        out of #{h question.points}
+                - total = result[2] + total
+                %p
+                  Taken on: #{@student.taken_on.to_formatted_s(:long)}
+              %h5
+                Quiz Score:
+                %span.required
+                  = total
+                  \/ #{quiz.possible_points}
+      / end content-column1
+  / end content
+  .bot
+    %div

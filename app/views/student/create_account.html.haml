@@ -1,0 +1,66 @@
+= render :partial => 'ort/top'
+#content
+  / <div id="item-corner"></div>
+  #content-column2
+    .item
+      .item2
+        .item3
+          %p
+            This account information will be saved for
+            = succeed "." do
+              %b= @tutorial.full_name
+          %p
+            = image_tag("icons/warning.png", :title => 'Quiz Warning', :alt => 'Quiz Warning')
+            You will need to know the section number for your class. Find your section number by going to BlackBoard and checking the name of the link for your class.
+            For example, WR 121 001 W2010 means you are in section 001.
+          %p
+            Already have an account?  #{link_to 'Login', {:controller => 'student', :action => 'login', :id =>@tutorial}}
+  #content-column1
+    %h3 Create an Account
+    - if flash[:notice]
+      #notice= flash[:notice]
+    = error_messages_for 'student'
+    = form_tag :controller =>"student", :action=>'create_account', :id =>@tutorial.id do
+      %fieldset
+        %legend About You
+        <label for="student_sect_num" #{%(class="required") if flash[:selection_error]}>
+        Course Section #
+        \#{select "student","sect_num",@sections, :prompt => 'Select', :selected => flash[:selection]}
+        \#{!flash[:selection_error].blank? ? flash[:selection_error] : ""}
+        .tip
+          Find your section number by going to BlackBoard and checking the name of the link for your class.
+          %br/
+          For example, WR 121 001 W2010 means you are in section 001.
+        #vertical_inputs
+          %span
+            <label for="student_firstname" #{%(class="required") if flash[:fname_error]}>First Name
+            \#{!flash[:fname_error].blank? ? flash[:fname_error] : ""}
+            = text_field "student","firstname", :size =>25, :value => flash[:fname]
+          %span
+            <label for="student_lastname" #{%(class="required") if flash[:lname_error]}>Last Name
+            \#{!flash[:lname_error].blank? ? flash[:lname_error] : ""}
+            = text_field "student","lastname", :size =>25, :value => flash[:lname]
+          %br/
+      %fieldset
+        %legend Onid Login
+        <label for="student_onid" #{%(class="required") if flash[:uname_error]}>Onid Username
+        \#{!flash[:lname_error].blank? ? flash[:uname_error] : ""}
+        = text_field "student","onid", :size =>45, :value => (flash[:uname] || @onid)
+        .tip e.g. smithj
+        <label for="student_email" #{%(class="required") if flash[:email_error]}>Onid Email
+        \#{!flash[:email_error].blank? ? flash[:email_error] : ""}
+        = text_field "student","email", :size =>45, :value => (flash[:email] || @email)
+        .tip e.g. smithj@email.edu
+      = submit_tag 'Create Account', :class => 'submit'
+      %a{:href => "https://secure.onid.oregonstate.edu/cgi-bin/chpw?type=want_auth"} Forgot your Onid?
+    / end content-column1
+  #content-column1
+    %h3 Why Create an Account?
+    %p
+      To ease the submission of your quiz scores to your instructor, please create an account.
+      If you log back into this tutorial, your account information will be remembered.  You are required to log in so that you can take the graded quizzes.
+      If you have not previously logged into this tutorial, please create an account at this time.
+    / end content-column1
+  / end content
+  .bot
+    %div

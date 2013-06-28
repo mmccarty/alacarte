@@ -1,0 +1,24 @@
+%fieldset
+  %h3 Create New Module
+  #share
+    = error_messages_for 'mod'
+    - if flash[:error]
+      #error_wrapper
+        #list_error= flash[:error]
+    %fieldset
+      = form_tag :action => 'new_mod' do
+        %label{:for => "mod_type"}
+          Content Type
+          %span.required.more_help *
+        = select('mod','type', @types, {:selected => @selected , :prompt => "Select"}, {})
+        = render :partial => "mod_title"
+        %label{:for => "tags"}
+          Tags
+          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_TAGS, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+        = text_area_tag 'tags', @tags, {"class" => 'tinymce', :size => '40x2'}
+        = tinymce
+        .tip example: WR101, Databases, Writing
+        %span
+          %label &nbsp;
+          = submit_tag 'Create Module'
+    %p= link_to 'Cancel', :action => 'index'

@@ -1,0 +1,18 @@
+!!!
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %meta{:content => "application/xhtml+xml; charset=utf-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no, height=device-height", :name => "viewport"}/
+    %meta{:content => "yes", :name => "apple-mobile-web-app-capable"}/
+    %meta{:content => "black", :name => "apple-mobile-web-app-status-bar-style"}/
+    %link{:href => "", :rel => "apple-touch-icon"}/
+    %meta{:content => "telephone=no", :name => "format-detection"}/
+    = csrf_meta_tag
+    = stylesheet_link_tag 'mobile.css'
+    %link{:href => "/stylesheets/modules.css", :rel => "stylesheet", :type => "text/css"}/
+    = javascript_include_tag 'application'
+    - if js_enabled_mobile_device?
+      %script{:src => "/javascripts/template.js", :type => "text/javascript"}
+    %title= @mod.module_title
+  %body
+    = yield :layout

@@ -1,0 +1,12 @@
+!!!
+%html{:lang => "en", "xml:lang" => "en", :xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %title= @mod.module_title
+    %meta{:content => "text/html; charset=ISO-8859-1", "http-equiv" => "Content-Type"}/
+    = csrf_meta_tag
+    %link{:href => "/stylesheets/pop-up.css", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "/stylesheets/modules.css", :rel => "stylesheet", :type => "text/css"}/
+    = javascript_include_tag 'application'
+    %script{:src => "/javascripts/template.js", :type => "text/javascript"}
+  %body
+    = yield :layout

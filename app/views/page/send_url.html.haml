@@ -1,0 +1,26 @@
+%fieldset
+  #main
+    %h3.title
+      = render :partial => 'title_actions'
+    %h4 Send URL
+    - if flash[:notice]
+      #error_wrapper
+        #notice= flash[:notice]
+    #share
+      %label
+        Page URL: #{@page_url}
+      .tip Enter the recipient's address and edit the message, if needed, than click on the EMAIL URL button and the message will be sent.
+      = form_tag :action=>'send_url', :id => @page do
+        %label{:for => "email"}
+          Email Address
+          %span.required *
+        = text_field_tag "email", nil, :size =>54
+        %label{:for => "body"} Email Message
+        = text_area_tag "body", @message, :rows => 10, :cols => 3, :class => "tinymce"
+        = tinymce
+        %br/
+        #submit_button
+          = submit_tag 'Email URL', :class=> "submit"
+      %p
+        %b= link_to 'Cancel', :action => 'index'
+= render :partial => 'side_bar'

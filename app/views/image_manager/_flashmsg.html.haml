@@ -1,0 +1,8 @@
+#msg_flash
+  - flash.each do |key, msg|
+    %div{:id => key}
+      %p{:style => "float:right;"}= content_tag :a, 'X', :onclick => "Effect.Fade('#{key}')"
+      %p= msg
+      .clear
+  - end
+  - flash.clear

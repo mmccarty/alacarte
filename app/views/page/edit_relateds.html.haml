@@ -1,0 +1,23 @@
+%fieldset
+  #main
+    %h3.title
+      = render :partial => 'title_actions'
+    %h4
+      = link_to 'Edit Page', :controller => 'page', :action => 'edit',  :id => @page
+      >> Related Subject Guides
+    - if flash[:notice]
+      #error_wrapper
+        #notice= flash[:notice]
+    %p
+      = related_link
+      %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(AUTO_RELATED_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+    #share_left
+      = form_tag :action => 'edit_relateds'  do
+        %label
+          Add Related Guides
+          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(ADD_RELATED_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+        %select#guide_id{:multiple => "multiple", :name => "relateds[]", :size => "8"}
+          = options_from_collection_for_select(@guides, 'id', 'guide_name', @relateds)
+        %br/
+        .tip (Click CTRL to select multiple guides)
+        = render 'shared/edit_relateds'

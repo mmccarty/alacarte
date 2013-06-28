@@ -1,0 +1,38 @@
+%fieldset
+  #main
+    %h3.title
+      = render :partial => 'title_actions'
+    %h4 Title &amp; Metadata
+    - if flash[:error]
+      #error_wrapper
+        #list_error= flash[:error]
+    = form_tag :action => 'update', :id => @page do
+      = error_messages_for 'page'
+      = error_messages_for 'new_page'
+      / [form:page]
+      #share
+        %fieldset
+          <h5 #{%(class="required") if flash[:error]}>Page Title
+          .tip
+            A course page title must be unique. Press Ctrl to select or deselect multiple subjects.
+            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_TITLE_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+          #vertical_inputs
+            = render  :partial => "page_title"
+        %fieldset
+          %h5 Page Metadata
+          %label{:for => "page_page_description"}
+            Description
+            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_DESC, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+          = text_area_tag 'page', 'page_description',"class" => 'tinymce', :size => '40x2'
+          = tinymce
+          .tip Enter a short description about the page.
+          %label{:for => "tags"}
+            Tags
+            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_TAGS, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+          = text_area_tag 'tags', @page.tag_list, {"class" => 'tinymce', :size => '40x2'}
+          .tip example: anthropology, insects, caves
+        %fieldset
+      / [eoform:page]
+      = submit_tag 'Save Page', :class => "submit"
+    %p= link_to 'Cancel', :action => 'index'
+= render :partial => 'side_bar'

@@ -1,0 +1,36 @@
+%fieldset
+  %h3 New Subjects
+  - if flash[:error]
+    #error_wrapper
+      #list_error
+        = flash[:error]
+  #vertical_inputs
+    = form_tag :action => 'create_subjects' do
+      #counter
+        = hidden_field_tag "formCount" , @num
+      #subjects
+        - @subjects.each_with_index do |subject, index|
+          = fields_for "subjects[#{index}]", subject do |f|
+            = error_messages_for :subject
+            %span
+              %label{:for => "subject_code"}
+                %span.required> *
+                Subject Code
+              = f.text_field 'subject_code' , :size => 10
+              = f.error_message_on "subject_code"
+            %span
+              %label{:for => "subject_name"}
+                %span.required> *
+                Subject Name
+              = f.text_field 'subject_name'
+              = f.error_message_on "subject_name"
+            %br.clearer/
+  #submit_button
+    = next_subject
+    = image_tag "spinner.gif", :id => "spinner_search", :class => 'image', :alt => "Spinner", :style => 'display:none;'
+  #submit_button
+    = submit_tag 'Save Subjects' ,:class =>"submit"
+    or
+    \#{submit_tag 'Save and Add ' + @num +' More' ,:class =>"submit"}
+  %p
+    = link_to 'Cancel', :action => 'subjects'

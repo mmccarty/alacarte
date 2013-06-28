@@ -1,0 +1,25 @@
+%fieldset
+  %h3.title
+    = render :partial => 'title_actions'
+  %h4
+    Subject Guides
+  #new_button.new
+    %a{:href => "/module/add_to_guide/#{@mod.id}?type=#{@mod.class}&sort=name"}
+      %span
+        %img{:alt => "Add Tab", :src => "icons/add.png"}/
+        Add to Subject Guides
+  #product-list
+    - if !@guides.blank?
+      %table
+        %thead
+      %th{:colspan => "2"}
+        Guides Containing #{@mod.label}
+      - @guides.each do |guide|
+        %tr{:class => cycle('list-line-odd', 'list-line-even')}
+          %td
+            %b= h guide.guide_name
+          %td
+            = link_to image_tag("icons/edit.png", :title => 'Edit this Guide', :alt => 'Edit', :border => 0), {:controller =>'guide', :action => 'edit',  :id => guide}, :class=>'space'
+            |	#{link_to image_tag("icons/document_preview.png", :title => 'Preview this Guide', :alt => 'View', :border => 0), { :controller => "srg", :action => 'index', :id => guide}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] , :class=>'space'}
+    - else
+      %p This Module is not used on any Subject Guides

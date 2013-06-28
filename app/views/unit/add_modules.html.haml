@@ -1,0 +1,22 @@
+%fieldset
+  %h3.title
+    = render :partial => '/tutorial/title_actions'
+  %h4 Add Modules
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+  %p
+    %b
+      On Unit: #{@unit.title}
+    %span.tip= link_to 'Choose a different Unit.', {:controller => 'unit', :action => 'units',  :id => @unit}
+  = render :partial => "shared/new_module"
+  - unless @mods.size <1
+    #product-list
+      = form_tag :controller => 'unit', :action => 'add_modules', :id => @unit do
+        #table
+          = render :partial => "shared/add_modules_list"
+        = submit_tag 'Add to Unit', :class=> "submit"
+  - else
+    %p
+      %b You currently have no Modules.
+  = render :partial => 'tutorial/side_bar'

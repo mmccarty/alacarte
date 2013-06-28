@@ -1,0 +1,59 @@
+- if flash[:notice]
+  #notice= flash[:notice]
+#mod-list
+  #new_button.new
+    = link_to :action => 'new_mod' do
+      %span
+        = image_tag 'icons/add.png', :alt => 'Create New Module'
+        Create New Module
+  #new{:style => "display:none"}
+    = form_tag :action => 'create' do
+      = error_messages_for 'mod'
+      #vertical_inputs.index
+        %h4
+          New Module
+          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_TITLE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+          = content_tag :a, 'cancel', :onclick => "$('new').toggle();$('new_button').toggle();; return false;"
+        <span #{%(class="required") if flash[:mod_title_error]}>
+        %label{:for => "page_course_name"}
+          Module Title
+          %span.required.more_help *
+        = text_field 'mod', 'module_title',"size" => 45 , :value => flash[:mod_title]
+        <span #{%(class="required") if flash[:mod_type_error]}>
+        %label{:for => "mod_type"}
+          Content Type
+          %span.required.more_help *
+        = select('mod','type', @types, {:selected => flash[:mod_type], :prompt => "Select"}, {:class => 'page'})
+        %span
+          %label &nbsp;
+          = submit_tag 'Create Module'
+        %br/
+  #second_tabs
+    %ul#second_tabs
+      %li{:class => @globcurrent}
+        = link_to "Global Modules" , :controller => 'module', :action => 'index', :sort => 'name', :list => 'global'
+      %li{:class => @tgcurrent}
+        = link_to "Browse By Tags" , :controller => 'tagged', :action => 'index', :sort => 'name'
+      %li{:class => @mycurrent}= link_to "My Modules" , :controller => 'module', :action => 'index', :sort => 'name', :list => 'mine'
+      - if @list == 'mine' and @local.enable_search?
+        %li{:class => @mycurrent}
+          = form_tag :controller => 'search', :action => 'index' do
+            = text_field 'mod', 'search',"size" => 35 ,                                                          |
+              :style => "color:#aaa;",                                                                           |
+              :value => @search_value,                                                                           |
+              :onfocus => "if(this.getValue()=='#{@search_value}'){this.clear();this.style.color = '#000';}",    |
+              :onblur => "if(this.getValue()==''){this.setValue('#{@search_value}');this.style.color = '#aaa';}" |
+            = submit_tag 'Go'
+      %li.pagination
+        - if !@all and @mods.total_pages > 1
+          = will_paginate @mods, :params => params.merge({:sort=> @sort}).except(:authenticity_token), :page_links => false
+  .clearer
+  - unless @mods.empty?
+    #product-list
+      #table
+        - if @list == 'mine'
+          = render :partial => "mods_list"
+        - else
+          = render :partial => "global_list"
+  - else
+    #notice You currently have no Modules. Create a new Module to get started.
