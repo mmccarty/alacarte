@@ -9,7 +9,6 @@ class ModuleController < ApplicationController
   layout 'tool'
 
   def index
-    @mcurrent = 'current'
     @sort = params[:sort] || 'name'
     @all = params[:all]
     @list = params[:list] || 'mine'
@@ -105,7 +104,6 @@ class ModuleController < ApplicationController
   end
 
   def edit_tags
-    @etcurrent = 'current'
     begin
       @mod = find_mod(params[:id], params[:type])
     rescue ActiveRecord::RecordNotFound
@@ -123,7 +121,6 @@ class ModuleController < ApplicationController
   end
 
   def edit_content
-    @ecurrent = 'current'
     begin
       @mod = find_mod(params[:id], params[:type])
     rescue ActiveRecord::RecordNotFound
@@ -156,7 +153,6 @@ class ModuleController < ApplicationController
   end
 
   def update
-    @ecurrent = 'current'
     @mod ||= find_mod(params[:id], params[:type])
     @mod.update_attributes params[:mod]
     if @mod.save
@@ -207,7 +203,6 @@ class ModuleController < ApplicationController
   end
 
   def manage
-    @cpcurrent = 'current'
     begin
       @mod = find_mod(params[:id],params[:type])
     rescue Exception => e
@@ -241,7 +236,6 @@ class ModuleController < ApplicationController
   end
 
   def add_to_guide
-    @sgcurrent = 'current'
     session[:tabs] ||= []
     begin
       @mod = find_mod(params[:id],params[:type])
@@ -266,7 +260,6 @@ class ModuleController < ApplicationController
   end
 
   def add_to_page
-    @cpcurrent = 'current'
     session[:page_tabs] ||= []
     begin
       @mod = find_mod(params[:id],params[:type])
@@ -291,7 +284,6 @@ class ModuleController < ApplicationController
   end
 
   def add_to_tutorial
-    @tgcurrent = 'current'
     session[:units] ||= []
     begin
       @mod = find_mod(params[:id],params[:type])
@@ -346,7 +338,6 @@ class ModuleController < ApplicationController
   end
 
   def share
-    @shcurrent = 'current'
     resource = @user.find_resource(params[:id],params[:type])
     if !resource
       redirect_to :action => 'index', :list=> 'mine' and return

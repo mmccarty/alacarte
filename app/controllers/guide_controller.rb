@@ -8,7 +8,6 @@ class GuideController < ApplicationController
   layout 'tool'
 
   def index
-    @gcurrent = 'current'
     @sort = params[:sort] || 'name'
     @guides = @user.sort_guides(@sort)
     @guides = paginate_guides(@guides,(params[:page] ||= 1), @sort)
@@ -69,7 +68,6 @@ class GuideController < ApplicationController
   end
 
   def update
-    @ucurrent = 'current'
     @subjects = Subject.get_subject_values
     @guide_types = Master.get_guide_types
     begin
@@ -93,7 +91,6 @@ class GuideController < ApplicationController
   end
 
   def edit
-    @ecurrent = 'current'
     begin
       @guide = @user.guides.find(params[:id])
     rescue ActiveRecord::RecordNotFound
@@ -118,7 +115,6 @@ class GuideController < ApplicationController
   end
 
   def copy
-    @ucurrent = 'current'
     @subjects = Subject.get_subject_values
     @guide_types = Master.get_guide_types
     session[:guide] = nil
@@ -220,7 +216,6 @@ class GuideController < ApplicationController
   end
 
   def share
-    @shcurrent = 'current'
     begin
       @guide = @user.guides.find(params[:id])
     rescue ActiveRecord::RecordNotFound

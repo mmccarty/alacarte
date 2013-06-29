@@ -38,6 +38,5 @@ plugins:
   - table
   - fullscreen
   - code
-content_css: "/stylesheets/tool.css"
 fix_list_elements: true
 height: 500

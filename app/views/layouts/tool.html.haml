@@ -11,48 +11,27 @@
   %body
     .container
 
-      .row
-        #header_small
-          %span.subtitle= image_tag 'LogoSmall.png', :title => 'Information made to order', :alt => 'logo'
-          #login_bar
-            %b
-              - unless @admin
-                = @user.name
-              - else
-                Admin
-            IS LOGGED IN |
-            = link_to icon_tag('signout', 'Logout'), logout_path
-
-        #tab_container
-          %ul#tabs
-            %li{:class => @mcurrent || 'mod_tab' }
-              = link_to_unless_current "Modules" , modules_path
-
-            - if @user.is_admin || @local.guides_list.include?('pages')
-              %li{:class => @pcurrent || "page_tab" }
-                = link_to_unless_current "Pages" , pages_path(:sort => 'name')
-            - if @user.is_admin || @local.guides_list.include?('guides')
-              %li{:class => @gcurrent || "quide_tab" }
-                = link_to_unless_current "Guides" , guides_path(:sort => 'name')
+      .navbar
+        .navbar-inner
+          %span.brand<
+            Library &agrave; la Carte
+          %ul.nav
+            %li{ :class => current_page?(tools_path) && "active" }
+              = link_to 'Admin Tools', tools_path
+            %li{ :class => current_page?(dashboard_path) && "active" }
+              = link_to 'Dashboard', dashboard_path
             - if @user.is_admin || @local.guides_list.include?('tutorials')
-              %li{:class => @tcurrent || "tutorial_tab" }
-                = link_to_unless_current "Tutorials" , tutorials_path
+              %li{ :class => (controller.controller_name == 'tutorial') && "active" }
+                = link_to 'Tutorials', tutorials_path
+            - if @user.is_admin || @local.guides_list.include?('guides')
+              %li{ :class => (controller.controller_name == 'guide') && "active" }
+                = link_to 'Guides', guides_path(:sort => :name)
+            - if @user.is_admin || @local.guides_list.include?('pages')
+              %li{ :class => (controller.controller_name == 'page') && "active" }
+                = link_to 'Pages', pages_path(:sort => :name)
+            %li{ :class => (controller.controller_name == 'module') && "active" }
+              = link_to 'Modules', modules_path
+          %form.navbar-search.pull-right
+            %input.search-query.input-medium{ :placeholder => 'Search' }
 
-            %li{:class => @dcurrent || "dashboard_tab" }
-              = link_to_unless_current "Dashboard" , dashboard_path
-
-            - if @user.is_admin
-              %li{:class => @current || "admin_tab" }
-                = link_to_unless_current "Admin Tools" , tools_path
-
-      .row
-        #content_full
-          - if params[:controller].humanize.in? %w(Dashboard Index)
-            .span12
-              = yield :layout
-          - else
-            .span2
-              #side_bar
-                = yield :sidebar
-            .span10
-              = yield :layout
+      = yield :layout

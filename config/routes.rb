@@ -25,16 +25,34 @@ Alacarte::Application.routes.draw do
 
   get 'dashboard' => 'dashboard#index', :as => 'dashboard'
 
-  get 'guide' => 'guide#index', :as => 'guides'
-  get 'guide/copy/:id' => 'guide#copy', :as => 'copy_guide'
-  get 'guide/destroy/:id' => 'guide#destroy', :as => 'delete_guide'
-  get 'guide/edit/:id' => 'guide#edit', :as => 'edit_guide'
+  scope :path => '/guide', :controller => :guide do
+    get '' => :index, :as => 'guides'
+    get 'copy/:id' => :copy, :as => 'copy_guide'
+    get 'destroy/:id' => :destroy, :as => 'delete_guide'
+    get 'edit/:id' => :edit, :as => 'edit_guide'
+    get 'new' => :new, :as => 'new_guide'
+    post 'publish/:id' => :publish, :as => 'publish_guide'
+    get 'share/:id' => :share, :as => 'share_guide'
+    get 'update/:id' => :update, :as => 'update_guide'
+  end
 
   get 'login/logout' => 'login#logout', :as => 'logout'
 
-  get 'module' => 'module#index', :as => 'modules'
+  scope :path => '/module', :controller => :module do
+    get '' => :index, :as => 'modules'
+    get 'copy/:id' => :copy, :as => 'copy_module'
+    get 'edit/:id' => :edit, :as => 'edit_module'
+    get 'edit_content/:id' => :edit_content, :as => 'edit_content'
+    get 'view/:id' => :view, :as => 'module'
+  end
 
   get 'page' => 'page#index', :as => 'pages'
+
+  scope :path => '/tab', :controller => :tab do
+    get 'add_modules/:id' => :add_modules, :as => 'add_modules'
+    post 'remove_module/:id' => :remove_module, :as => 'remove_module'
+    get 'new' => :new, :as => 'new_tab'
+  end
 
   get 'tutorial' => 'tutorial#index', :as => 'tutorials'
 

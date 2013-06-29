@@ -6,3 +6,12 @@
  *= require bootstrap_and_overrides
  *= require font-awesome
 */
+
+a[class^="icon-"] {
+  color: #333;
+}
+
+a[class^="icon-"]:hover {
+  color: #08C;
+  text-decoration: none;
+}

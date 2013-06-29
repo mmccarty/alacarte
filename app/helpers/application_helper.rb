@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   def new_button(text)
-    render :partial => 'shared/new_button', :locals => { :text => text }
+    link_to text, { :action => :new }, :class => 'btn'
   end
 
   def flash_notice

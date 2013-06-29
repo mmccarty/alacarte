@@ -1,14 +1,3 @@
-body {
-	font-family: sans-sarif, ariel, helvetica;
-	font-size:100%;
-	line-height: 1.125em;
-	background:  #F2F2F2; 
-	color: #575757; 
-	outline:0;	
-}
-
-
-
 div#wrapper { /* keeping everything in line */
 	margin: 10px auto;
 	width: 1000px;
@@ -25,7 +14,7 @@ div#header { /* large header for login page (template #1) */
 
 div#header_small { /* slim header for all templates except #1 */
 
-	height:37px;	
+	height:37px;
 
 	margin: 0;
 
@@ -58,32 +47,6 @@ div#content_wrapper {
 	margin: 0 45px 0 0;
 
 }
-
-
-
-div#content_full { /* full width content div */
-	background-color: #F7F7F7;
-	margin: 27px 0 0 0;
-	padding: 0 0 0px 0;
-	position: relative;
-}
-
-
-
-#content_full:after{
-	content: normal;
-	display: block;
-	height: 0;
-	clear: both;
-}
-
-
-
-#content_full {
-	height: 100%;
-}
-
-
 
 div#footer {
 	padding-top:15px;
@@ -219,7 +182,7 @@ padding-bottom: 1px;
 ul#second_tabs li.pagination a, ul#second_tabs li.pagination a:visited, .pagination a, .pagination a:visited{
 padding:0.2em 0.5em;
 border: 1px solid #003c8f;
-text-decoration: none; 
+text-decoration: none;
 }
 
 ul#second_tabs li.pagination a:hover,ul#second_tabs li.pagination a:active, .pagination a:hover, .pagination a:active{
@@ -260,7 +223,7 @@ fieldset .new {margin-top:15px; padding: 0;}
 
 
 #vertical_inputs.index{
-	margin: 0 10px 10px; 
+	margin: 0 10px 10px;
 	border: 2px solid #F2F2F2;
 	width: 62%;
 	padding: 1em 1em;
@@ -268,7 +231,7 @@ fieldset .new {margin-top:15px; padding: 0;}
 }
 
 #vertical_inputs.page_index{
-	margin: 0 10px 10px; 
+	margin: 0 10px 10px;
 	border: 2px solid #F2F2F2;
 	width: 85%;
 	padding: 1em 1em;
@@ -340,41 +303,6 @@ fieldset .new {margin-top:15px; padding: 0;}
 	font-weight: bold;
 }
 
-#product-list table{
-	margin: 0 .9em .5em;
-	border-spacing: 0;
-	padding: 10px;
-	width: 97%;
-}
-
-#product-list #notice {
-	padding:1em;
-	margin: 0 2em;
-	border: 2px solid #DBEDFF;
-	font-weight:bold;
-	color:#333;
-	background:#fff;
-}
-#product-list .small{
-	width: 2.5%;
-}
-#product-list .small_med{
-	width: 8%;
-}
-
-#product-list .medium{
-	width: 15%;
-}
-#product-list .big{
-	width: 45%;
-}
-
-#product-list th a  {text-decoration: none;}
-
-#product-list td.sortup, td.sortdown  {	font-weight: bolder;}
-
-#product-list thead{background-color: #DBEDFF;}
-
 #page_header{
 	background-color: #5FB300;
 	white-space: nowrap;
@@ -399,23 +327,6 @@ fieldset .new {margin-top:15px; padding: 0;}
 	font-weight:bolder;
 }
 
-#product-list .tip{padding: 0; font-size: .8em;}
-
-
-#product-list th {
-	text-align: left;
-	padding: .5em .3em;
-	white-space: nowrap;
-}
-
-#product-list td, #product-list tr{
-	padding: .5em 0;
-	white-space: nowrap;
-	vertical-align:top;
-	overflow:hidden;
-}
-
-#product-list .center{text-align: center;}
 .check  {background:#73B0FF;}
 .sortup a:after{content: url(icons/up.png);}
 .sortdown a:after {content: url(icons/down.png);}
@@ -439,7 +350,7 @@ fieldset .new {margin-top:15px; padding: 0;}
 /*update page*/
 
 
-#page_data{	
+#page_data{
 
 }
 
@@ -483,7 +394,7 @@ div#right_column {
 /*share page*/
 
 #share fieldset{
-	margin: 15px 0 1em 0; 
+	margin: 15px 0 1em 0;
 	padding:.5em .5em 1em;
 	background: #F7F7F7 url(grey_gradient.png) repeat-x scroll center top;
 	border:medium solid #fff;
@@ -549,7 +460,7 @@ div#mock_content {
 	position:relative;
 
 	padding: 4px;
-	
+
 	border: 1px solid #888888;
 
 }
@@ -735,7 +646,7 @@ span.clear {
 #guide_tabs li.editable {
 
 	background: #FFFFFF;
- 
+
 	font-weight: bolder;
 
 }
@@ -755,86 +666,6 @@ span.clear {
 #guide_tabs li.editable img {
 
 	padding-left:1px;
-
-}
-
-
-
-/* main tabs */
-
-div#tab_container { /* we need this container because IE sucks */
-
-	margin: 0 .5em -7px 0;
-
-	padding: 0;
-
-}
-
-ul#tabs { /* main tab list */
-
-	list-style: none;
-
-	padding: 0 0 8px;
-
-	display:block;
-
-	font-weight:bold;
-
-}
-
-ul#tabs li { /* line item, floated right which inverts the display order (done because IE sucks) */
-
-	padding:5px 10px 5px 10px;
-
-	margin: 0 0 0 1px;
-
-	display:block;
-
-	float:right;
-
-}
-
-ul#tabs li.dashboard_tab{
-
-	background-color:#33A0FF; 
-
-}
-
-ul#tabs li.tutorial_tab{
-	background-color: #7AE600; 
-}
-
-ul#tabs li.quide_tab{
-
-	background-color:#66B3FF; 
-
-}
-
-ul#tabs li.page_tab{
-
-	background-color:#5FB300; 
-
-}
-
-ul#tabs li.mod_tab{
-
-	background-color:#0080FF; 
-
-}
-
-ul#tabs li.admin_tab{	
-
-	background-color:#A0FF33; 
-
-}
-
-ul#tabs li.current { /* current tab class, should rotate per page */
-
-	background-color:#FCFCFC;
-
-	font-weight:bold;
-
-	color:#366600;
 
 }
 
@@ -862,7 +693,7 @@ ul#tabs li.current a { /* used to keep the current tab looking un-tabby */
 
 }
 
- ul#tabs li a { 
+ ul#tabs li a {
 
 	color:#fff;
 
@@ -870,7 +701,7 @@ ul#tabs li.current a { /* used to keep the current tab looking un-tabby */
 
 }
 
-ul#tabs li a:hover { 
+ul#tabs li a:hover {
 
 	color:#366600;
 
@@ -922,7 +753,7 @@ ul#second_tabs li.spinner {
 
 	margin: 0;
 
-	padding: 0;	
+	padding: 0;
 
 }
 
@@ -940,7 +771,7 @@ ul#second_tabs li.current a { /* used to keep the current tab looking un-tabby *
 	color:#366600;
 }
 
- ul#second_tabs li a { 
+ ul#second_tabs li a {
 	color:#003C8F;
 	text-decoration:none;
 	font-weight:900;
@@ -949,41 +780,13 @@ ul#second_tabs li.current a { /* used to keep the current tab looking un-tabby *
 
 
 
-ul#second_tabs li a:hover { 
+ul#second_tabs li a:hover {
 
 	color:#28571E;
 
 	text-decoration:none;
 
 }
-
-
-
-/* typography and headers */
-
-a{
-
-	color: #003C8F;
-
-}
-
-
-
-a:hover{
-
-	color: #448000;
-
-}
-
-
-
-li a{
-
-	color:#003C8F;
-
-}
-
-
 
 h1 {
 
@@ -1101,7 +904,7 @@ label {
 
 fieldset {
 	padding: 0 .9em 1em 1em;
-	border: 0; 
+	border: 0;
 	background: #fff url(headerbg.gif) repeat-x scroll center top;
 }
 
@@ -1123,7 +926,7 @@ fieldset h5{font-size:1.1em; margin:0;padding:0;}
 
 
 
-legend {  
+legend {
 
 	color: #316A24;
 
@@ -1139,43 +942,11 @@ legend span {
 
 	margin-bottom: 1em;
 
-	bottom: 5em; 
+	bottom: 5em;
 
-	font-size: 1.1em; 
-
-}
-
-
-
-input {
-
-	margin-left: .5em;
+	font-size: 1.1em;
 
 }
-
-
-
-#submit_button{
-
-	margin-top: 2em;
-
-}
-
-
-
-input.submit{
-
-	font-weight:bold; 
-
-	font-size: .9em;
-
-	color:#4A4A4A;
-
-}
-
-
-
-
 
 textarea{
 
@@ -1265,7 +1036,7 @@ label.form_float {
 
 #db_list td {padding:8px 5px;}
 
-#db_list th { 
+#db_list th {
 
   border-bottom: 1px solid #E8E8E8;
 
@@ -1505,27 +1276,7 @@ label.form_float {
 
 }
 
-
-
- input.search-input {
-
-        width : 275px;
-
-        border: 1px solid #BCCDF0;
-
-        color: #9CADD0;
-
-        margin-bottom : 15px;
-
-		margin-left: 0;
-
-		padding: .5em .2em;
-
-      }
-
-
-
-      #feedControl { 
+      #feedControl {
 
         color: #899EC8;
 
@@ -1571,7 +1322,7 @@ label.form_float {
 
   #feedControl  .gfc-results {
 
-        margin-bottom: 15px; 
+        margin-bottom: 15px;
 
        }
 
@@ -1581,7 +1332,7 @@ label.form_float {
 
 	margin-top:0;
 
-	
+
 
 }
 
@@ -1591,13 +1342,13 @@ label.form_float {
 
 	padding-top:3px;
 
-	
+
 
 }
 
 #feedControl .gfc-tabHeader.gfc-tabhActive{
 
-	
+
 
 }
 
@@ -1605,7 +1356,7 @@ label.form_float {
 
 #feedControl .gfc-tabHeader.gfc-tabhInactive{
 
-	
+
 
 }
 
@@ -1787,7 +1538,7 @@ div.sdmenu div ul a {
 
 	border: none;
 
-	
+
 
 }
 
@@ -1857,13 +1608,13 @@ div.sdmenu div a:hover {
 
 .required {
 
- color: #c00;	
+ color: #c00;
 
 }
 
 #required {
 
- color: #c00;	
+ color: #c00;
 
  background: none;
 
