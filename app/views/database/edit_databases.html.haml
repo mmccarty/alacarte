@@ -42,4 +42,37 @@
       = submit_tag 'Save Module', :class => "submit"
       %p
         = link_to 'Cancel', :controller => 'module', :action => 'index',:id => @mod, :type =>@mod.class, :list => 'mine', :sort => 'name'
-  = render :partial => "/database/db_list"
+  #db{:style => "display:none"}
+    %label Add Databases
+    %p Select the databases you want to add to this module and then click the button to add them.
+    = form_tag({:controller => 'database', :action => 'add_databases', :id => @mod} , {:multipart => true})  do
+      #a_z_list
+        %h4
+          %p
+            = sort_links("A")
+            \&nbsp; #{sort_links("B")}&nbsp;
+            \#{sort_links("C")}&nbsp; #{sort_links("D")}&nbsp;
+            \#{sort_links("E")}&nbsp; #{sort_links("F")}&nbsp;
+            \#{sort_links("G")}&nbsp; #{sort_links("H")}&nbsp;
+            \#{sort_links("I")}&nbsp; #{sort_links("J")}&nbsp;
+            \#{sort_links("K")}&nbsp; #{sort_links("L")}&nbsp;
+            \#{sort_links("M")}&nbsp; #{sort_links("N")}&nbsp;
+            
+            \#{sort_links("O")}&nbsp; #{sort_links("P")}&nbsp;
+            \#{sort_links("Q")}&nbsp; #{sort_links("R")}&nbsp;
+            \#{sort_links("S")}&nbsp; #{sort_links("T")}&nbsp;
+            \#{sort_links("U")}&nbsp; #{sort_links("V")}&nbsp;
+            \#{sort_links("W")}&nbsp; #{sort_links("X")}&nbsp;
+            \#{sort_links("Y")}&nbsp; #{sort_links("Z")}&nbsp;
+        %p
+          %strong
+            Databases starting with: #{@letter}
+    %ul.undeco
+      - @dbs.each do |db|
+        %li
+          = check_box_tag(db.id, db.id,session[:selected].include?(db.id.to_s) || @mod.dods.include?(db), :onclick => remote_function( :url => {:controller => 'database', :action => 'add_databases',:cid => db, :id =>@mod}))
+          = db.title
+      #submit_button
+        = submit_tag 'Add Databases', :class => "submit"
+        %p
+          = content_tag :a, "Cancel", :onclick => "$('db').toggle(); + $('mo').toggle(); + $('link').toggle();"
