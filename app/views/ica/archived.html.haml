@@ -1,3 +1,6 @@
+- content_for :ada_navigation do
+  = link_to 'Go to screenreader version' , { :action => 'mobile_archived', :id => @page } , :id => 'alt-version'
+
 - content_for :search_results do
   %h2 Browse Archived Course Guides
 
@@ -28,5 +31,8 @@
     Looking for a more recent course guide? Try the
     = link_to 'Current Course Guides', :action => 'published_pages'
     list.
+
+- content-for :footer do
+  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_archived', :id => @page } , :id => 'alt-version'
 
 = render :partial => 'shared/published_page_results', :locals => { :header_title => 'Archived Course Guides' }

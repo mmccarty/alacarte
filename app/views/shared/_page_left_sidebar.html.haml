@@ -15,8 +15,10 @@
       = show_mod(@mod)
   - unless index_description.blank?
     .well.well-small
-      %h4 About this Guide
-      = index_description
+      %h4
+        About this Guide
+      %p
+        = raw index_description
   #related-guides.accordion
     - if @local.guides_list.include?('guides') and defined?(@related_guides) and @related_guides.length > 0
       .accordion-group
@@ -52,17 +54,8 @@
       .accordion-heading
         %a.accordion-toggle{:href => '/course-guides/'}
           = @local.ica_page_title.html_safe
-  .btn-group.social
-    - if @owner
-      %a.btn{:href => "mailto:#{ @owner.email }", :title => 'Email your comments', :data => {:toggle => 'tooltip', :placement => 'bottom'}}
-        %i.icon-comments-alt.icon-large
-        Comments?
-    %a.btn{:href => "#{ url_for :action => 'feed', :id => @page }", :title => 'RSS feed', :data => {:toggle => 'tooltip', :placement => 'bottom'}}
-      %i.icon-rss.icon-large
-      RSS
-    %a.btn{:href => "http://www.addthis.com/bookmark.php", :onclick => "window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;", :title => "Bookmark using any bookmark manager!", :data => {:toggle => 'tooltip', :placement => 'bottom'}}
-      %i.icon-bookmark-empty.icon-large
-      Bookmark
+
+  = render :partial => 'shared/social'
 
 :javascript
   setTimeout(function () {

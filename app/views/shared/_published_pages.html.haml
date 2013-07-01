@@ -18,17 +18,12 @@
           .accordion-heading
             %a.accordion-toggle{:href => "#subject#{ i }", :data => { :toggle => 'collapse', :parent => '#by-subjects' }}
               .strong
-                - if controller == 'ica'
-                  = m.subject_code.html_safe
-                  \:
-                  = m.subject_name.html_safe
-                - else
-                  = m.value.html_safe
+                = @page ? m.subject_code.html_safe + ' : ' + m.subject_name.html_safe : m.value.html_safe
           .accordion-body.collapse{:id => "subject#{ i }"}
             .accordion-inner
-              - if controller == 'ica' and m.get_pages
+              - if @page and m.get_pages
                 = render :partial => 'shared/az_published_pages', :locals => { :controller => controller, :pages => m.get_pages, :subject_code => m.subject_code, :campus_hash => @campushash }
-              - if controller == 'srg' and m.pub_guides
+              - if @guide and m.pub_guides
                 = render :partial => 'shared/az_published_pages', :locals => { :controller => controller, :pages => m.pub_guides }
 
     = yield :additional_resources

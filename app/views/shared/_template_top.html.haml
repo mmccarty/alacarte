@@ -1,13 +1,9 @@
+%div{ :style => 'position:absolute; top:-1000px;' }
+  = yield :ada_navigation
+  %a{ :href => '#skip', :id => 'skipNav', :title => 'Skip Navigation and Jump to Content'}
+    Jump to Content
+
 #header.navbar
-  - if @guide
-    = link_to 'Go To Screenreader Version' , {:action => 'print', :id => @guide} , :id => 'ada', :style => 'position:absolute;top:-1000px;'
-  - elsif @page
-    = link_to 'Go To Screenreader Version' , {:action => 'print', :id => @page} , :id => 'ada', :style => 'position:absolute;top:-1000px;'
-  - else
-    = link_to 'Go To Screenreader Version' , {:action => 'print_portal', :from => @from} , :id => 'ada', :style => 'position:absolute;top:-1000px;'
-
-  %a{:href => '#skip', :id => 'skipNav', :title => 'Skip Navigation and Jump to Content', :style => 'position:absolute;top:-1000px;'} Jump to Content
-
   .container
     #logo
       = if !@local.image_map.blank? then @local.image_map end

@@ -1,0 +1,4 @@
+- content-for :footer do
+  = link_to 'Full version', { :action => 'index', :id => @guide }
+
+= render :partial => 'shared/mobile_index', locals => { :header_title => @guide.guide_name }

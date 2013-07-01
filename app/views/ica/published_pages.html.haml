@@ -1,3 +1,6 @@
+- content_for :ada_navigation do
+  = link_to 'Go to screenreader version' , { :action => 'mobile_published_pages', :id => @page } , :id => 'alt-version'
+
 - content_for :extra_browse_tabs do
   %li
     = link_to 'Archived Course Guides', :action => 'archived'
@@ -12,5 +15,8 @@
     Need help with your discipline, topic or format? Try the
     = link_to 'Subject Research', :controller => 'srg', :action => 'published_guides'
     guides.
+
+- content-for :footer do
+  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_published_pages', :id => @page } , :id => 'alt-version'
 
 = render :partial => 'shared/published_pages', :locals => { :controller => 'ica', :header_title => @local.ica_page_title, :pages => @pages, :subjects => @subjects, :type => 'Course' }

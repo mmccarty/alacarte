@@ -1,3 +1,6 @@
+- content_for :ada_navigation do
+  = link_to 'Go to screenreader version' , { :action => 'mobile_subject_list', :id => @tutorial } , :id => 'alt-version'
+
 - content_for :search_results do
   %h2
     Browse
@@ -15,5 +18,8 @@
     %a{:href => '/tutorials/'}
       %i.icon-circle-arrow-left.icon-large
       Back to all Tutorials
+
+- content-for :footer do
+  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_subject_list', :id => @tutorial } , :id => 'alt-version'
 
 = render :partial => 'shared/published_page_results', :locals => { :header_title => @local.tutorial_page_title }

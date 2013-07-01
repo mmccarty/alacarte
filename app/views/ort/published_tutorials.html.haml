@@ -1,3 +1,6 @@
+- content_for :ada_navigation do
+  = link_to 'Go to screenreader version' , { :action => 'mobile_published_tutorials', :id => @tutorial } , :id => 'alt-version'
+
 - content_for :right_sidebar do
   .span4
     = render :partial => 'shared/right_sidebar'
@@ -16,5 +19,8 @@
     = render :partial => 'browse_tutorials', :locals => { :subjects => @subjects, :tutorials => @tutorials }
   #guide-list.tab-pane
     = render :partial => 'browse_guides', :locals => { :guides => @guides }
+
+- content-for :footer do
+  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_published_tutorials', :id => @tutorial } , :id => 'alt-version'
 
 = render :partial => 'shared/tabbed_index', :locals => { :header_title => @title }

@@ -1,0 +1,67 @@
+.container
+  %h1.page-header
+    = header_title
+
+  %section#table-of-contents
+    %ul.small
+      - unless description.blank?
+        %li
+          %a{ :href => '#about-this-guide' }
+            About this Guide
+      - if @mod
+        %li
+          %a{ :href => '#guide-contents' }
+            Contents
+      - if defined?(resources) and resources.length > 0
+        %li
+          %a{ :href => '#guide-resources' }
+            Resources
+      %li
+        %a{ :href => '#related-guides' }
+          Related Guides
+
+  - unless @page.page_description.blank?
+    %section#about-this-guide
+      %h2
+        About this Guide
+      %p
+        = raw description
+
+  - if @mod
+    %section#guide-contents
+      = show_mod(@mod)
+
+  - if defined?(resources) and resources.length > 0
+    %section#guide-resources
+      - resources.each do |mod|
+        = show_mod(mod)
+
+  %section#related-guides
+    %h2
+     Related Guides
+    %ul.unstyled
+      - if @related_guides.length > 0
+        %li
+          Related subject guides
+          %ul
+            - @related_guides.each do |guide|
+              - guide_url = url_for :controller => 'srg', :action => 'index', :id => guide
+              %li
+                = link_to raw(guide.guide_name), guide_url, :title => "#{ raw(guide.description) }"
+      - if @related_pages.length > 0
+        %li
+          Related course guides
+          %ul
+            - @related_pages.each do |guide|
+              - guide_url = url_for :controller => 'ica', :action => 'index', :id => guide
+              %li
+                = link_to raw(guide.header_title), guide_url, :title => "#{ raw(guide.page_description) }"
+      %li
+        %a{ :href=> '/subject-guides/'}
+          = @local.guide_page_title
+      %li
+        %a{ :href=> '/course-guides/'}
+          = @local.ica_page_title
+
+  %p
+    = render :partial => 'shared/social'
