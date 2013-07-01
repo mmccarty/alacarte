@@ -48,8 +48,4 @@ class LibfindResource < ActiveRecord::Base
   def rss_content
     self.information.blank? ? "" : self.information
   end
-
-  def search
-    "http://search.library.oregonstate.edu/record/retrieve"
-  end
 end

@@ -8,7 +8,6 @@ Alacarte::Application.routes.draw do
   get 'subject-guides/' => 'srg#published_guides'
   get 'subject-guides/tagged/:id' => 'srg#tagged'
   get 'subject-guide/:id' => 'srg#index', :as => 'show_srg'
-  get 'guides/search/' => 'srg#search'
   get 'internal-guides/' => 'srg#internal_guides'
   get 'tutorials' => 'ort#published_tutorials'
   get 'tutorials/archived/' => 'ort#archived_tutorials'

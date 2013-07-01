@@ -62,7 +62,6 @@ class UnitController < ApplicationController
       @unit.attributes = params[:unit]
       @unit.add_tags(params[:tags])
       if @unit.save
-        @tutorial.ferret_update unless !@local.enable_search?
         case params[:commit]
         when "Save"
           redirect_to :action => 'units'
@@ -78,8 +77,6 @@ class UnitController < ApplicationController
     uz = @tutorial.unitizations.select{|u| u.unit_id == unit.id}.first
     uz.remove_from_list
     @tutorial.units.delete(unit)
-    #fix for units not being removed from search index when removed from a tutorial
-    @tutorial.ferret_update unless !@local.enable_search?
     redirect_to :back
   end
 

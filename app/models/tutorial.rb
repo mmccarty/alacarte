@@ -224,7 +224,6 @@ class Tutorial < ActiveRecord::Base
     self.save
   end
 
-  #Used to create the search index
   def index_unit_title
     units.map{|unit| unit.title}.join(", ")
   end

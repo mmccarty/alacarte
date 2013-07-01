@@ -16,17 +16,8 @@ class Tab < ActiveRecord::Base
   has_many :tab_resources, :order => :position, :dependent => :destroy
   has_many :resources, :through => :tab_resources
   acts_as_list :scope => 'tabable_id=#{tabable_id} AND tabable_type=\'#{tabable_type}\''
-  after_save :update_ferret
-  after_destroy :update_ferret
 
   validates :tab_name, :presence => true
-
-  def update_ferret
-    # search = Local.first.enable_search?
-    # if search
-    #   tabable.ferret_update
-    # end
-  end
 
   def add_resource(resource)
     resources << resource

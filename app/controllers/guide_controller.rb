@@ -293,11 +293,7 @@ class GuideController < ApplicationController
       if request.xhr?
         render :text => ""
       else
-        if params[:search]
-          redirect_to :controller => 'search',:action => 'search_guides' , :sort => params[:sort], :page => params[:page],  :all => params[:all],:mod => {:search => params[:search]}
-        else
-          redirect_to :back, :page => params[:page], :sort => params[:sort]
-        end
+        redirect_to :back, :page => params[:page], :sort => params[:sort]
       end
     end
   end
@@ -311,11 +307,7 @@ class GuideController < ApplicationController
       if request.xhr?
         render :update do |page|
           if @guide.toggle_published
-            if params[:search]
-              page.replace_html "publish#{@guide.id}" , :partial => "publish" ,:locals => {:guide => @guide, :page => @page, :sort => @sort ,:mod => {:search => params[:search]}}
-            else
-              page.replace_html "publish#{@guide.id}" , :partial => "publish" ,:locals => {:guide => @guide, :page => @page, :sort => @sort }
-            end
+            page.replace_html "publish#{@guide.id}" , :partial => "publish" ,:locals => {:guide => @guide, :page => @page, :sort => @sort }
           else
             flash[:error] = "A contact module is required before you can publish the guide."
             flash[:contact_error] = ""
@@ -324,11 +316,7 @@ class GuideController < ApplicationController
         end
       else
         if @guide.toggle_published
-          if params[:search]
-            redirect_to :controller => 'search',:action => 'search_guides' , :sort => params[:sort], :page => params[:page],  :all => params[:all],:mod => {:search => params[:search]}
-          else
-            redirect_to :back, :sort=> params[:sort], :page => params[:page]
-          end
+          redirect_to :back, :sort=> params[:sort], :page => params[:page]
         else
           flash[:error] = "A contact module is required before you can publish the guide."
           flash[:contact_error] = ""

@@ -38,14 +38,6 @@ class BookController < ApplicationController
     end
   end
 
-  def search_book
-    @mod = find_mod(params[:id], "BookResource")
-    @query = params[:query]
-    @results = search_catalog(@query)
-    session[:results] =  @results
-    render :partial => "book/catalog_title", :locals => {:results => @results, :mod =>@mod} and return
-  end
-
   def save_book
     @mod = find_mod(params[:id], "BookResource")
     image =  params[:isbn] ? params[:isbn].scan(/^(.*?)\s/) : ""

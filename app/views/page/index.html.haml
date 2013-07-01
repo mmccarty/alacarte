@@ -19,15 +19,6 @@
   - unless @pages.size <1
     #second_tabs
       %ul#second_tabs
-        - if @local.enable_search?
-          %li.current
-            = form_tag :controller => 'search', :action => 'search_pages' do
-              = text_field 'mod', 'search',"size" => 35,                                                           |
-                :style => "color:#aaa;",                                                                           |
-                :value => @search_value,                                                                           |
-                :onfocus => "if(this.getValue()=='#{@search_value}'){this.clear();this.style.color = '#000';}",    |
-                :onblur => "if(this.getValue()==''){this.setValue('#{@search_value}');this.style.color = '#aaa';}" |
-              = submit_tag 'Search'
         %li.guide_pag.pagination
           - if !@all and @pages.total_pages > 1
             = will_paginate @pages, :params => params.merge({:sort=> @sort}).except(:authenticity_token), :page_links => false

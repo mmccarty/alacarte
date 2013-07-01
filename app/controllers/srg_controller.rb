@@ -49,13 +49,6 @@ class SrgController < ApplicationController
     render "ort/published_tutorials"
   end
 
-  def search
-    @meta_keywords = "Search Subject Guides, Course Guides, and Research Tutorials"
-    @meta_description= "Search Subject Guides, Course Guides, and Research Tutorials."
-    @title = "Search Results"
-    @guides = ""
-  end
-
   def tagged
     @tag = params[:id]
     @meta_keywords = @local.guide_page_title + " Tagged: "+ @tag

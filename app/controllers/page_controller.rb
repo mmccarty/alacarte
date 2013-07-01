@@ -218,17 +218,9 @@ class PageController < ApplicationController
       page.update_attribute(:archived, false)
       if request.xhr?
         @sort = params[:sort] #set the sort variable to make sure the proper sort class is set for the updated row
-        if params[:search]#if the request came from search, send back the search term
-          render :partial => "index_row" ,:locals => {:id => page, :page => params[:page], :sort => @sort , :all => params[:all],:mod => {:search => params[:search]}}
-        else
-          render :partial => "index_row" ,:locals => {:id => page, :page => params[:page], :sort => @sort , :all => params[:all]}
-        end
+        render :partial => "index_row" ,:locals => {:id => page, :page => params[:page], :sort => @sort , :all => params[:all]}
       else
-        if params[:search]#if the delete request came from the search screen, redirect back to search otherwise go to the regular mod list
-          redirect_to :controller => 'search',:action => 'search_pages' , :sort => params[:sort], :page => params[:page],  :all => params[:all],:mod => {:search => params[:search]}
-        else
-          redirect_to :back, :page => params[:page], :sort => params[:sort]
-        end
+        redirect_to :back, :page => params[:page], :sort => params[:sort]
       end
     end
   end
@@ -243,17 +235,9 @@ class PageController < ApplicationController
       page.update_attribute(:published, false)
       if request.xhr?
         @sort = params[:sort] #set the sort variable to make sure the proper sort class is set for the updated row
-        if params[:search]#if the request came from search, send back the search term
-          render :partial => "index_row" ,:locals => {:id => page, :page => params[:page], :sort => @sort , :all => params[:all],:mod => {:search => params[:search]}}
-        else
-          render :partial => "index_row" ,:locals => {:id => page, :page => params[:page], :sort => @sort , :all => params[:all]}
-        end
+        render :partial => "index_row" ,:locals => {:id => page, :page => params[:page], :sort => @sort , :all => params[:all]}
       else
-        if params[:search]#if the delete request came from the search screen, redirect back to search otherwise go to the regular mod list
-          redirect_to :controller => 'search',:action => 'search_pages' , :sort => params[:sort], :page => params[:page],  :all => params[:all],:mod => {:search => params[:search]}
-        else
-          redirect_to :back, :page => params[:page], :sort => params[:sort]
-        end
+        redirect_to :back, :page => params[:page], :sort => params[:sort]
       end
     end
   end
@@ -377,11 +361,7 @@ Please contact me if you have any questions or suggestions.
       if request.xhr?
         render :text => "" #delete the table row by sending back a blank string.  The <tr> tags still exist though
       else
-        if params[:search]#if the delete request came from the search screen, redirect back to search otherwise go to the regular mod list
-          redirect_to :controller => 'search',:action => 'search_pages' , :sort => params[:sort], :page => params[:page],  :all => params[:all],:mod => {:search => params[:search]}
-        else
-          redirect_to :back, :page => params[:page], :sort => params[:sort]
-        end
+        redirect_to :back, :page => params[:page], :sort => params[:sort]
       end
     end
   end

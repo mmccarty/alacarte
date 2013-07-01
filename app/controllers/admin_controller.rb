@@ -545,13 +545,6 @@ class AdminController < ApplicationController
   def view_customizations
   end
 
-  def customize_search
-    if request.post?
-      @local.update_attributes(params[:local])
-      redirect_to(:action => 'view_customizations')  if @local.save
-    end
-  end
-
   def customize_content_types
     @guide_types = [['Course Guides', 'pages'], ['Subject Guides', 'guides'], ['Research Tutorials', 'tutorials']]
     @types = MODULES
@@ -567,20 +560,6 @@ class AdminController < ApplicationController
     if request.post?
       @local.update_attributes(params[:local])
       redirect_to(:action => 'view_customizations')  if @local.save
-    end
-  end
-
-  def enable_search
-    begin
-      @local.toggle!(:enable_search)
-      if request.xhr?
-        render :partial => "enable_search" ,:locals => {:local => @local}
-      else
-        redirect_to_index
-      end
-    rescue Exception => e
-      logger.error("Exception in enable search: #{e}" )
-      redirect_to :action => 'index' and return
     end
   end
 end

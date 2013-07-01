@@ -30,11 +30,4 @@ module Paginating
     objects = objects.paginate :per_page => items_per_page, :page => page , :order => sort         
     objects
   end
-
-  def paginate_mobile_search(mods, pagin, sort)
-    page = (pagin).to_i
-    items_per_page = 10
-    mods = mods.paginate :per_page => items_per_page, :page => page , :order => sort
-    mods
-  end
 end

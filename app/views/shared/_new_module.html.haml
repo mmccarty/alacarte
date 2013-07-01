@@ -21,14 +21,3 @@
         %label &nbsp;
         = submit_tag 'Create Module'
       %br/
-#second_tabs
-  %ul#second_tabs
-    - if @local.enable_search?
-      %li.current
-        = form_tag :controller => 'search', :action => 'add_modules' ,:tab => @tab do
-          = text_field 'mod', 'search',"size" => 35,                                                           |
-            :style => "color:#aaa;",                                                                           |
-            :value => @search_value,                                                                           |
-            :onfocus => "if(this.getValue()=='#{@search_value}'){this.clear();this.style.color = '#000';}",    |
-            :onblur => "if(this.getValue()==''){this.setValue('#{@search_value}');this.style.color = '#aaa';}" |
-          = submit_tag 'Search Modules'
