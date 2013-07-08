@@ -42,12 +42,9 @@ class Local < ActiveRecord::Base
   serialize :guides
   before_create :initialize_types
 
+  # Returns a list of derived resource types in a form suitable for a select/option control.
   def mod_types
-    list =[]
-    MODULES.each do |m|
-      list << m if types_list.include?(m[1])
-    end
-    list
+    MODULES.select { |m| m[1].in? types_list }
   end
 
   def guides_list
@@ -59,14 +56,7 @@ class Local < ActiveRecord::Base
   end
 
   def initialize_types
-    self.types = []
-    self.guides = []
-    self.types <<
-      ['comment_resource', 'miscellaneous_resource',  'database_resource',
-       'image_resource', 'inst_resource' ,   'lib_resource' ,   'quiz_resource',
-       'rss_resource' ,   'url_resource',  'video_resource'
-      ]
-
-    self.guides << ['pages','guides','tutorials']
+    self.guides = %w(pages guides tutorials)
+    self.types  = %w(comment miscellaneous database image inst lib quiz rss url video).map { |s| "#{ s }_resource" }
   end
 end

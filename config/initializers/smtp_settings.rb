@@ -1,5 +1,5 @@
-#Select delivery method - Defines a delivery method. 
-  #Possible values are :smtp (default), :sendmail, and :test. 
+#Select delivery method - Defines a delivery method.
+  #Possible values are :smtp (default), :sendmail, and :test.
 
 #Add your settings
 # smtp_settings - Allows detailed configuration for :smtp delivery method:
@@ -21,7 +21,7 @@
 #smtp example
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
-  :address => "localhost",
-  :port => 25,
-  :domain => "your_domain.edu"
-} 
+  address: 'localhost',
+  port: 25,
+  domain: 'your_domain.edu'
+}

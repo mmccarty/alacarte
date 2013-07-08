@@ -15,31 +15,32 @@
 class Guide < ActiveRecord::Base
   acts_as_taggable
   has_and_belongs_to_many :users
-  has_many :tabs, :as => 'tabable', :order => 'position', :dependent => :destroy
+  has_many :tabs, as: 'tabable', order: 'position', dependent: :destroy
   has_and_belongs_to_many :masters
-  has_and_belongs_to_many :subjects, :order => 'subject_name'
+  has_and_belongs_to_many :subjects, order: 'subject_name'
   belongs_to :resource
 
-  validates :guide_name, :presence => true, :uniqueness => true
+  validates :guide_name, presence: true, uniqueness: true
 
   serialize :relateds
   after_create :create_relateds
 
   def self.published_guides
-    self.where(:published => true).order("guide_name").select("id, guide_name, description")
+    self.where(:published => true).order(:guide_name).select 'id, guide_name, description'
   end
 
   def to_param
     "#{id}-#{guide_name.gsub(/[^a-z0-9]+/i, '-')}"
   end
 
+  # Defaults related guides on creation.
   def create_relateds
     update_attribute :relateds, get_related_guides
   end
 
   def delete_relateds(id)
     relateds.delete id.to_i
-    self.save
+    save
   end
 
   def add_related_guides(ids)
@@ -48,6 +49,7 @@ class Guide < ActiveRecord::Base
     end
   end
 
+  # Return a safe list of related guides.
   def related_guides
     guides = []
     if relateds == nil
@@ -68,27 +70,22 @@ class Guide < ActiveRecord::Base
     guides.sort { |x,y| x.guide_name.downcase <=> y.guide_name.downcase }
   end
 
+  # Defines the list of related guides to be those suggested by master subject.
   def suggested_relateds
-    ids = get_related_guides
-    add_related_guides(ids)
-    self.save
+    add_related_guides get_related_guides
+    save
     related_guides
   end
 
+  # Suggest a list of related guides sharing at least one master subject.
   def get_related_guides
-    gds = masters.collect{|m| m.pub_guides(id)}.flatten.uniq
-    gds = gds.collect{|a| a.id}.compact if gds
-    (gds.blank? ? [] : gds)
+    masters.map { |m| m.pub_guides id }.flatten.map { |a| a.id }.uniq
   end
 
+  # Define master subjects by ID.
   def add_master_type(master_types)
     masters.clear
-    if master_types
-      master_types.each do |id|
-        master = Master.find(id)
-        masters << master
-      end
-    end
+    (master_types || []).each { |id| masters << Master.find(id) }
   end
 
   def add_related_subjects(subjs)
@@ -218,9 +215,9 @@ class Guide < ActiveRecord::Base
   def toggle_published
     if self.resource || self.published?
       self.toggle!(:published)
-      return true
+      true
     else
-      return false
+      false
     end
   end
 

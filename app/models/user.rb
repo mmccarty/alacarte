@@ -37,16 +37,20 @@ class User < ActiveRecord::Base
     errors.add("Missing password" ) if hashed_psswrd.blank?
   end
 
-  def self.create_and_add_resource(id, mod_list, item=nil)
-    user = find(id)
+  # Associates a user with a list of modules, by way of resource objects.
+  def self.create_and_add_resource(id, mod_list, item = nil)
+    user = find id
     mod_list.each do |mod|
-      mod.update_attribute(:created_by, user.name)
-      resource = Resource.create(:mod => mod)
-      user.add_resource(resource)
-      unless item == nil
-        item.add_resource(resource)
-      end
+      user.create_and_add_resource mod, item
     end
+  end
+
+  # Creates a "resource" to associate the current user with the given module.
+  def create_and_add_resource(mod, item = nil)
+    mod.update_attribute :created_by, name
+    resource = Resource.create :mod => mod
+    add_resource resource
+    item.add_resource resource unless item.nil?
   end
 
   def add_page(page)
@@ -316,18 +320,18 @@ class User < ActiveRecord::Base
     return sort,reverse
   end
 
-  def sort_search_tutorials(sort_by,search_results)
-    sort,reverse = tutorial_sort_by_values(sort_by)  #determine the value to sort by and which direction to sort
-    return sorted_tuts(sort,reverse,search_results)
+  def sort_search_tutorials(sort_by, search_results)
+    sort,reverse = tutorial_sort_by_values sort_by
+    sorted_tuts sort, reverse, search_results
   end
 
   def sort_tutorials(sort_by)
-    sort,reverse = tutorial_sort_by_values(sort_by)  #determine the value to sort by and which direction to sort
-    return sorted_tuts(sort,reverse,my_tutorials)
+    sort,reverse = tutorial_sort_by_values sort_by
+    sorted_tuts sort, reverse, my_tutorials
   end
 
   def sorted_tuts(sort, reverse, list)
-    if sort == "name"  #not a date so we need to downcase to normalize data
+    if sort == "name"
       tutorials = list.sort!{|a,b| a.send(sort).downcase <=> b.send(sort).downcase }
     elsif sort == "published"
       tutorials = list.sort_by {|a|[a.published? ? 0 : 1,a.name]}
@@ -335,54 +339,54 @@ class User < ActiveRecord::Base
       tutorials = list.sort_by {|a|[a.archived? ? 0: 1,a.name]}
     elsif  sort == "shared"
       tutorials = list.sort_by {|a|[a.shared? ? 0: 1,a.name]}
-    else #sort by date DESC
+    else
       tutorials = list.sort!{|a,b| b.send(sort) <=> a.send(sort)}.reverse
     end
     tutorials = tutorials.reverse if reverse == 'true'
-    return tutorials.uniq
+    tutorials.uniq
   end
 
   def tutorial_sort_by_values(sort_by)
     case sort_by
-    when "name"  then  (sort = "name")  and (reverse = "true")
-    when "date"   then (sort =  "updated_at")  and (reverse = "false")
-    when "publish"   then (sort =  "published")  and (reverse = "true")
-    when "archive"   then (sort =  "archived")  and (reverse = "true")
-    when "shared"  then (sort =  "shared")  and (reverse = "true")
-    when "name_reverse"  then (sort =  "name") and (reverse = "false")
-    when "date_reverse"   then (sort =  "updated_at") and (reverse = "true")
-    when "publish_reverse"   then (sort =  "published")  and (reverse = "false")
-    when "archive_reverse"   then (sort =  "archived")  and (reverse = "false")
+    when "name"            then  (sort = "name")  and (reverse = "true")
+    when "date"            then (sort =  "updated_at")  and (reverse = "false")
+    when "publish"         then (sort =  "published")  and (reverse = "true")
+    when "archive"         then (sort =  "archived")  and (reverse = "true")
+    when "shared"          then (sort =  "shared")  and (reverse = "true")
+    when "name_reverse"    then (sort =  "name") and (reverse = "false")
+    when "date_reverse"    then (sort =  "updated_at") and (reverse = "true")
+    when "publish_reverse" then (sort =  "published")  and (reverse = "false")
+    when "archive_reverse" then (sort =  "archived")  and (reverse = "false")
     when "shared_reverse"  then (sort =  "shared")  and (reverse = "false")
-    else (sort = "name")  and (reverse = "false")
+    else (sort = "name") and (reverse = "false")
     end
-    return sort,reverse
+    return sort, reverse
   end
 
   def sort_units(sort_by)
     sort = case sort_by
-           when "name"  then "title"
-           when "date"   then "updated_at"
-           when "name_reverse"  then "title"
-           when "date_reverse"   then "updated_at"
+           when "name"         then "title"
+           when "date"         then "updated_at"
+           when "name_reverse" then "title"
+           when "date_reverse" then "updated_at"
            else "title"
            end
-    units = my_tutorials.collect{|t| t.units if t}.flatten.uniq
+    units = my_tutorials.collect {|t| t.units if t}.flatten.uniq
     if sort == "updated_at"
-      units = units.sort!{|a,b| b.send(sort) <=> a.send(sort)}
+      units = units.sort! {|a,b| b.send(sort) <=> a.send(sort)}
     else
-      units = units.sort!{|a,b| a.send(sort).downcase <=> b.send(sort).downcase }
+      units = units.sort! {|a,b| a.send(sort).downcase <=> b.send(sort).downcase }
     end
     if sort_by == 'name_reverse' || sort_by =='date_reverse'
       units = units.reverse
     end
-    return  units
+    units
   end
 
   def self.authenticate(email, password)
-    user = self.find_by_email(email)
+    user = self.find_by_email email
     if user
-      expected_password = encrypt(password, user.salt)
+      expected_password = encrypt password, user.salt
       if user.hashed_psswrd != expected_password
         user = nil
       end
@@ -391,21 +395,14 @@ class User < ActiveRecord::Base
   end
 
   def self.create_new_account(params)
-    user = User.new
-    new_password = user.generate_password  #This password is not actually being used.  It is just there so we don't have blank password fields for the accounts
-    if(params[:from_login])#Check to see if the request is going to contain password information (meaning that it came from /login/request_account as oppossed to sso_login)
-      user = User.new(:name => params[:name],:email => params[:email],:password => params[:password],:password_confirmation => params[:password_confirmation])
-    else
-      user = User.new(:name => params[:name],:email => params[:email],:password => new_password,:password_confirmation => new_password)
-    end
+    user = User.new name: params[:name], email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation]
     user.role = "pending"
     user.save
-
-    return user
+    user
   end
 
   def self.send_pending_user_mail(user,url)
-    local = Local.first  #need to get a locals object to get the email addresses to send to and from
+    local = Local.first
     begin
       Notifications.deliver_add_pending_user(user.email, local.admin_email_from)
       Notifications.deliver_notify_admin_about_pending_user(local.admin_email_to, local.admin_email_from,url)
@@ -446,22 +443,14 @@ class User < ActiveRecord::Base
     return User.random_string(10)
   end
 
-  def search(search_term,klass,index)
-    search_results = ActsAsFerret.find("#{search_term}","#{index}",:per_page => 100)
-    return (search_results & klass)
-  end
-
   private
 
   def self.encrypt(password, salt)
-    string_to_hash = password + salt
-    Digest::SHA1.hexdigest(string_to_hash)
+    Digest::SHA1.hexdigest(password + salt)
   end
 
   def self.random_string(len)
-    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-    newpass = ""
-    1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
-    return newpass
+    chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    1.upto(len).collect { chars[rand(chars.size - 1)]}
   end
 end

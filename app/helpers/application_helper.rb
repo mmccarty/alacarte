@@ -143,6 +143,6 @@ module ApplicationHelper
   end
 
   def is_more?
-    @mod.more_info.blank?
+    ! @mod.more_info.blank?
   end
 end

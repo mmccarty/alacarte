@@ -19,11 +19,11 @@ class MiscellaneousResource < ActiveRecord::Base
   include HasResources
 
   acts_as_taggable
-  has_many :resources, :as => :mod,  :dependent => :destroy
+  has_many :resources, as: :mod,  dependent: :destroy
   before_create :private_label
 
-  validates :module_title, :presence => true
-  validates :label, :presence => { :on => :update }
+  validates :module_title, presence: true
+  validates :label, presence: { on: :update }
 
   def private_label
     self.label = self.module_title
@@ -35,6 +35,6 @@ class MiscellaneousResource < ActiveRecord::Base
   end
 
   def rss_content
-    self.content.blank? ? "" : self.content
+    self.content.blank? ? '' : self.content
   end
 end

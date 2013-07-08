@@ -85,17 +85,18 @@ class ModuleController < ApplicationController
   end
 
   def new_mod
-    @selected =""
-    @tags=""
+    @selected = ''
+    @tags = ''
+
     if request.post?
-      @mod = create_module_object(params[:mod][:type]) unless params[:mod][:type].empty?
+      @mod = create_module_object params[:mod][:type] unless params[:mod][:type].empty?
       if @mod
-        @mod.attributes = params[:mod]
-        @mod.slug = create_slug(params[:mod][:module_title])
+        @mod.update_attributes params[:mod]
+        @mod.slug = create_slug params[:mod][:module_title]
         if @mod.save
-          @mod.add_tags(params[:tags])
-          create_and_add_resource(@user,@mod)
-          redirect_to  :action => 'edit_content' , :id =>@mod.id, :type => @mod.class and return
+          @mod.add_tags params[:tags]
+          create_and_add_resource @user, @mod
+          redirect_to edit_content_path @mod.id, type: @mod.class and return
         end
         @selected = params[:mod][:type]
         @tags = params[:tags] if params[:tags]
@@ -122,16 +123,16 @@ class ModuleController < ApplicationController
 
   def edit_content
     begin
-      @mod = find_mod(params[:id], params[:type])
+      @mod = find_mod params[:id], params[:type]
     rescue ActiveRecord::RecordNotFound
-      redirect_to :action => 'index' and return
+      redirect_to modules_path and return
     else
       session[:mod_id] = @mod.id
       session[:mod_type] = @mod.class.to_s
       @tags = @mod.tag_list
       case session[:mod_type]
       when "ReserveResource"
-        redirect_to :controller => 'reserve',:action => 'edit_reserves', :id => @mod.id and return
+        redirect_to :controller => 'reserve', :action => 'edit_reserves', :id => @mod.id and return
       when "DatabaseResource"
         redirect_to :controller => 'database',:action => 'edit_databases', :id => @mod.id and return
       when  "UploaderResource"
@@ -380,10 +381,10 @@ class ModuleController < ApplicationController
   end
 
   def preview
-    @class ='thumbnail'
-    @style ='width:255px; height:220px;'
+    @class = 'thumbnail'
+    @style = 'width:255px; height:220px;'
     begin
-      @mod = find_mod(params[:id],params[:type] )
+      @mod = find_mod params[:id], params[:type]
     rescue Exception => e
       redirect_to :back
     else

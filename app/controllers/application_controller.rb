@@ -5,42 +5,37 @@ class ApplicationController < ActionController::Base
   before_filter :local_customization
 
   unless Rails.application.config.consider_all_requests_local
-    #first will be selected last
     rescue_from Exception, :with => :render_500
-    #rescue_from ActionView::TemplateError, :with => :render_500 good for development only
     rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, ActionController::UnknownController, ActionController::UnknownAction, :with => :render_404
     rescue_from RuntimeError, :with => :render_500
   end
 
   def authorize
-    user = User.find_by_id(session[:user_id])
-    unless user
-      session[:original_uri] = request.request_uri #remember where the user was trying to go
-      flash[:notice]= "Please log in"
-      redirect_to(:controller=> "login", :action => "login") and return
-      return false
-    else
+    user = User.find_by_id session[:user_id]
+    if user
       @user = user
+    else
+      session[:original_uri] = request.request_uri
+      flash[:notice]= "Please log in"
+      redirect_to login_path and return
     end
   end
 
   def student_authorize
     student = Student.find_by_id_and_tutorial_id(session[:student],session[:tutorial])
     unless student
-      session[:tut_uri] = request.request_uri #remember where the user was trying to go
+      session[:tut_uri] = request.request_uri
       redirect_to(:controller=> "student", :action => "login", :id => session[:tutorial]) and return
-      return false
     else
       @student = student
     end
   end
 
-  #check to see if user is admin
   def authorize_admin
     user = User.find_by_id(session[:user_id])
 
     unless user and  user.is_admin == true
-      session[:original_uri] = request.request_uri #remember where the user was trying to go
+      session[:original_uri] = request.request_uri
       flash[:notice]= "Please log in"
       redirect_to(:controller=> "login", :action => "login")
       return false
@@ -50,29 +45,23 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  #create and add a resource to the HABTM relationship for user and page, guides,tutorials
-  def create_and_add_resource(user, mod, item=nil)
-    mod.update_attribute(:created_by, user.name)
-    resource = Resource.create(:mod => mod)
-    user.add_resource(resource)
-    unless item == nil
-      item.add_resource(resource)
-    end
+  # Constructs one of the derived resource object types, by name.
+  def create_module_object(type)
+    type.camelize.constantize.new
   end
 
-  #find a particular module
+  # Finds a resource object given the id and type name.
   def find_mod(id, type)
-    klass = type.constantize
-    return  klass.find(id)
+    type.constantize.find id
   end
 
-  #create a new module
-  def create_module_object(klass)
-    klass.camelize.constantize.new
+  # Creates a "resource" to associate a user with a module (derived resource).
+  def create_and_add_resource(user, mod, item = nil)
+    user.create_and_add_resource mod, item
   end
 
-  #create a shorten title for tutorial units and lessons
-  def create_slug(text, trunc = 25, truncate_string = "...")
+  # Abbreviates a chunk of text.
+  def create_slug(text, trunc = 25, truncate_string = '...')
     if text
       l = trunc - truncate_string.mb_chars.length
       chars = text.mb_chars
@@ -80,9 +69,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  #set variables
+  # Return a list of all the derived resource types in a format suitable for use in a select tag.
   def module_types
-    @types = Local.first.mod_types
+    @types = local_customization.mod_types
+  end
+
+  # Returns the database record containing the local customizations.
+  def local_customization
+    @local = Local.first
   end
 
   def custom_page_data
@@ -91,42 +85,34 @@ class ApplicationController < ActionController::Base
     @campus = CAMPUS
   end
 
-  def local_customization
-    @local = Local.first
-  end
-
-  #returns the current page in a session
   def current_page
-    @page = Page.find(session[:page]) if session[:page]
+    @page = Page.find session[:page] if session[:page]
   end
 
   def current_guide
-    @guide = Guide.find(session[:guide]) if session[:guide]
+    @guide = Guide.find session[:guide] if session[:guide]
   end
 
   def current_tab
-    @tab = Tab.find(session[:current_tab]) if session[:current_tab]
+    @tab = Tab.find session[:current_tab] if session[:current_tab]
   end
 
-  #returns the current module in a session
   def current_module
-    @mod = find_mod(session[:mod_id],session[:mod_type]) if session[:mod_id] and session[:mod_type]
+    @mod = find_mod session[:mod_id], session[:mod_type] if session[:mod_id] and session[:mod_type]
   end
 
   def current_tutorial
-    @tutorial = Tutorial.find(session[:tutorial]) if session[:tutorial]
+    @tutorial = Tutorial.find session[:tutorial] if session[:tutorial]
   end
 
   def current_student
     @student = Student.find_by_id_and_tutorial_id(session[:student],session[:tutorial])
-    return @student ? @student : (@student = session[:student] = nil)
+    @student ? @student : (@student = session[:student] = nil)
   end
 
   def current_unit
     @unit = Unit.find(session[:unit]) if session[:unit]
   end
-
-  # clean up sessions
 
   def clear_tab_sessions
     session[:current_tab] = nil if session[:current_tab]
@@ -172,6 +158,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def render_404(exception=nil)
     unless exception == nil
       log_error(exception)

@@ -1,23 +1,18 @@
 require 'faker'
 
 FactoryGirl.define do
-  factory :user do |user|
-    user.name  { Faker::Name.name      }
-    user.email { Faker::Internet.email }
+  factory :user do
+    pass = Faker::Lorem.characters 54
 
-    user.salt 'salt'
-    user.password 'password'
-    user.password_confirmation 'password'
-  end
+    name  { Faker::Internet.user_name }
+    email { Faker::Internet.email }
 
-  factory :admin, :class => :user do |user|
-    user.name  { Faker::Name.name      }
-    user.email { Faker::Internet.email }
+    salt { Faker::Lorem.characters 4 }
+    password pass
+    password_confirmation pass
 
-    user.salt 'salt'
-    user.password 'password'
-    user.password_confirmation 'password'
-
-    user.role 'admin'
+    factory :admin do
+      role 'admin'
+    end
   end
 end

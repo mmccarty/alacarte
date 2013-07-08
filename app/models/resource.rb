@@ -8,13 +8,13 @@
 #
 
 class Resource < ActiveRecord::Base
-  belongs_to :mod, :polymorphic => true
+  belongs_to :mod, polymorphic: true
   has_and_belongs_to_many :users
-  has_many :tab_resources, :dependent => :destroy
-  has_many :tabs, :through => :tab_resources
+  has_many :tab_resources, dependent: :destroy
+  has_many :tabs, through: :tab_resources
 
-  has_many :resourceables, :dependent => :destroy
-  has_many :units, :through => :resourceables
+  has_many :resourceables, dependent: :destroy
+  has_many :units, through: :resourceables
 
   has_many :guides
   has_many :pages
@@ -22,14 +22,14 @@ class Resource < ActiveRecord::Base
   attr_protected :id
 
   def self.global_modules(s, rev)
-    global_mods = all.collect{|a| a.mod if a.mod and a.mod.global? }.compact
+    global_mods = all.collect { |a| a.mod if a.mod and a.mod.global? }.compact
     unless global_mods.empty?
       if s == "label"  || s == "content_type" || s == "created_by"
-        global_mods =   global_mods.sort!{|a,b| a.send(s).downcase <=> b.send(s).downcase }
+        global_mods = global_mods.sort! { |a,b| a.send(s).downcase <=> b.send(s).downcase }
       else
-        global_mods =  global_mods.sort!{|a,b| b.send(s) <=> a.send(s)}
+        global_mods = global_mods.sort! { |a,b| b.send(s) <=> a.send(s) }
       end
-      global_mods =  global_mods.reverse if rev == 'true'
+      global_mods = global_mods.reverse if rev == 'true'
       global_mods.uniq
     else
       []

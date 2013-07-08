@@ -15,10 +15,10 @@
           %table
             %thead
               %tr
-                %th{:class => sort_th_class_helper "name"}
+                %th{:class => sort_th_class_helper("name")}
                   = sort_link_helper "Title", "name"
                 %th= image_tag "spinner.gif", :id => "spinner_sort", :class => 'image', :alt => "Spinner", :style => 'display:none;'
-                %th{:class => sort_th_class_helper "date"}
+                %th{:class => sort_th_class_helper("date")}
                   = sort_link_helper "Last Update", "date"
                 %th{:class => "#{sort_th_class_helper "publish"} center"}
                   = sort_link_helper "Published?", "publish"
@@ -26,7 +26,7 @@
                   = sort_link_helper "Archived?", "archive"
             - for page in @pages
               %tr{:class => cycle('list-line-odd', 'list-line-even')}
-                %td{:class => sort_th_class_helper "name", :width => "40%"}
+                %td{:class => sort_th_class_helper("name"), :width => "40%"}
                   = truncate(h(page.search_title),:length => 45)
                   %br/
                   - for tab in page.tabs
@@ -35,7 +35,7 @@
                     %br/
                 %td{:width => "15%"}
                   = link_to image_tag("icons/document_preview.png", :title => 'Preview this Page', :alt => 'View Page', :border => 0),{ :controller => "ica", :action => 'index', :id => page}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes']
-                %td{:class => sort_th_class_helper "date", :width => "10%"}
+                %td{:class => sort_th_class_helper("date"), :width => "10%"}
                   = page.updated_at.to_date
                 %td.center{:width => "5%"}
                   - unless page.published?

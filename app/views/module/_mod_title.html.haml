@@ -1,8 +1,10 @@
-%label{:for => "mod_module_title"}
+%label{ for: 'mod_module_title' }
   Private Label
   %span.required *
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_LABEL_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+
 = text_field :mod, :label, :size => 55
+
 - if !@tutorial.blank?
   #vertical_inputs
     %span
@@ -10,22 +12,24 @@
         Module Title
         %span.required.more_help *
         %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_TITLE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-      = text_field 'mod', 'module_title',"size" => 55
+      = text_field :mod, :module_title, size: 55
     %span
       %label{:for => "page_course_name"}
         Slug
         %span.required.more_help *
         %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_SLUG_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-      = text_field 'mod', 'slug',"size" => 26
-  %br.clearer/
+      = text_field :mod, :slug, size: 26
+  %br.clearfix/
 - else
   %label{:for => "page_course_name"}
     Module Title
     %span.required.more_help *
     %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_TITLE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-  = text_field :mod, :module_title, :size => 55
+  = text_field :mod, :module_title, size: 55
+
 %label{:for => "tags"}
   Tags
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_TAGS, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-= text_area_tag 'tags', @tags, { :size => '40x2'}
+
+= text_field_tag :tags, @tags, size: 55
 .tip example: WR101, Databases, Writing

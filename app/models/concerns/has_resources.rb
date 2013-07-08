@@ -6,7 +6,7 @@ module HasResources
   end
 
   def used?
-    not resources.any? do |r|
+    resources.any? do |r|
       r.tab_resources.length > 0 || r.pages.length > 0 || r.guides.length > 0 || r.resourceables.length > 0
     end
   end
