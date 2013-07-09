@@ -35,7 +35,7 @@
     Need help with your discipline, topic or format? Try the
     = link_to "Subject Research Guides", :controller => 'srg', :action => 'published_guides'
 
-- content-for :footer do
+- content_for :footer do
   = link_to 'Screenreader, print, & mobile version' , { :action => 'mobile_archived' } , :id => 'alt-version'
 
 = render :partial => 'shared/published_page_results', :locals => { :header_title => 'Archived Course Guides' }

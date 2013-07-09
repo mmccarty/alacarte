@@ -1,4 +1,4 @@
-- content-for :additional_toc do
+- content_for :additional_toc do
   - if defined?(@subjects) and @subjects.length > 0
     %li
       %a{ :href => '#browse-by-subject' }
@@ -8,7 +8,7 @@
       %a{ :href => '#browse-guides' }
         Browse Guides
 
-- content-for :additional_browsing do
+- content_for :additional_browsing do
   - if defined?(@subjects) and @subjects.length > 0
     %section#browse-by-subject
       %h2
@@ -30,10 +30,10 @@
         - @guides.each do |guide|
           = render :partial => 'shared/list_page', :locals => { :controller => 'srg', :mobile => true, page => guide }
 
-- content-for :additional_resources do
+- content_for :additional_resources do
   None.
 
-- content-for :footer do
+- content_for :footer do
   = link_to 'Full version' , { :action => 'published_tutorials' }
 
 = render :partial => 'shared/mobile_published_page_results', locals => { :controller => 'ort', :header_title => 'Tutorials', type => 'Tutorials', pages => @tutorials }

@@ -20,7 +20,7 @@
   #guide-list.tab-pane
     = render :partial => 'browse_guides', :locals => { :guides => @guides }
 
-- content-for :footer do
+- content_for :footer do
   = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_published_tutorials' } , :id => 'alt-version'
 
 = render :partial => 'shared/tabbed_index', :locals => { :header_title => @title }

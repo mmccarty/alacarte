@@ -20,7 +20,7 @@
         - resources.each do |resable|
           - show_mod(resable.resource.mod)
 
-- content-for :footer do
+- content_for :footer do
   = link_to 'Full version' , { :action => 'index', :id => @tutorial }
 
 = render :partial => 'ort/index'

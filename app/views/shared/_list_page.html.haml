@@ -1,17 +1,17 @@
 - page_url = url_for :controller => controller, :action => 'index', :id => page
 
 %dt
-  - if @page
+  - if controller == 'ica'
     - if defined?(subject_code) and defined?(campus_hash)
       = link_to page.browse_title(subject_code, campus_hash), page_url, :title => '#{raw page.page_description}'
     - else
       = link_to page.search_title, page_url, :title => '#{raw page.page_description}'
-  - if @guide
+  - if controller == 'srg'
     = link_to page.guide_name, page_url, :title => '#{raw page.description}'
-  - if @tutorial
-    = link_to h(page.full_name), :controller => controller, :action => 'index', :title => '#{raw page.description}', :id => page
+  - if controller == 'ort'
+    = link_to page.full_name.html_safe, :controller => controller, :action => 'index', :title => '#{raw page.description}', :id => page
 %dd
-  = @page ? raw page.page_description : raw page.description
+  = controller == 'ica' ? raw(page.page_description) : raw(page.description)
   %br
   %small
     - if page.tag_list.length > 0

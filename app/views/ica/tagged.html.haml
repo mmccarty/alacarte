@@ -4,7 +4,7 @@
 - content_for :search_results do
   = render :partial => 'shared/browse_by_tag', :locals => { :controller => 'ica', :type => 'Course Guides', :tag => @tag, :pages => @pages, :type_url => 'course-guides' }
 
-- content-for :footer do
+- content_for :footer do
   = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_tagged' } , :id => 'alt-version'
 
 = render :partial => 'shared/published_page_results', :locals => { :header_title => @local.ica_page_title }

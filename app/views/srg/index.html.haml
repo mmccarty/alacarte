@@ -1,7 +1,7 @@
 - content_for :ada_navigation do
   = link_to 'Go to screenreader version' , { :action => 'mobile_index', :id => @guide } , :id => 'alt-version'
 
-- content-for :footer do
+- content_for :footer do
   = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_index', :id => @guide } , :id => 'alt-version'
 
 = render :partial => "shared/page_index", :locals => { :header_title => @guide.guide_name, :index => @guide, :index_controller => "srg", :index_description => @guide.description }

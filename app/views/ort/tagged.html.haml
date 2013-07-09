@@ -6,7 +6,7 @@
   %hr
   = render :partial => 'shared/browse_by_tag', :locals => { :controller => 'srg', :type => 'Guides', :tag => @tag, :pages => @guides, :type_url => 'subject-guides' }
 
-- content-for :footer do
+- content_for :footer do
   = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_tagged' } , :id => 'alt-version'
 
 = render :partial => 'shared/published_page_results', :locals => { :header_title => @local.tutorial_page_title }

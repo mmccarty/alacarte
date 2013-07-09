@@ -1,7 +1,7 @@
 - content_for :ada_navigation do
   = link_to 'Go to screenreader version' , { :action => 'mobile_index', :id => @tutorial } , :id => 'alt-version'
 
-- content-for :unitizations do
+- content_for :unitizations do
   %h2
     What to expect
   %ol
@@ -12,7 +12,7 @@
         %p
           = raw unit.description
 
-- content-for :footer do
+- content_for :footer do
   = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_index', :id => @tutorial } , :id => 'alt-version'
 
 = render :partial => 'ort/top'

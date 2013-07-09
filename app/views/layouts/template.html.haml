@@ -5,7 +5,7 @@
     %meta{:content => "text/css", "http-equiv" => "Content-Style-Type"}/
     %meta{:content => "text/javascript", "http-equiv" => "Content-Script-Type"}/
     %meta{:content => @meta_keywords, :name => "keywords"}/
-    %meta{:content => h @meta_description, :name => "description"}/
+    %meta{:content => raw(@meta_description), :name => "description"}/
     %meta{:content => @owner ? @owner.name : 'System Generated', :name => "author"}/
     %meta{:content => @updated ? @updated : Time.now, :name => "revised"}/
     = csrf_meta_tag
@@ -26,13 +26,11 @@
         				/* change header */
         				#header{background: repeat-x url('#{@local.banner_url}');}
         			 /**/
-    - end
     - if !@local.logo_url.blank?
       :css
         /**/
         				   #header #logo{background: no-repeat url('#{@local.logo_url}');}
         			 /**/
-    - end
     - if !@local.logo_height.blank?
       :css
         /**/
