@@ -1,14 +1,14 @@
 - content_for :ada_navigation do
-  = link_to 'Go to screenreader version' , { :action => 'mobile_archived_tutorials', :id => @tutorial } , :id => 'alt-version'
+  = link_to 'Go to screenreader version' , { :action => 'mobile_archived_tutorials' } , :id => 'alt-version'
 
 - content_for :search_results do
   %h2 Browse Tutorials
 
   %dl
-    - tutorials.each do |tutorial|
+    - @tutorials.each do |tutorial|
       = render :partial => 'shared/list_page', :locals => { :page => tutorial, :controller => 'ort' }
 
 - content-for :footer do
-  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_archived_tutorials', :id => @tutorial } , :id => 'alt-version'
+  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_archived_tutorials' } , :id => 'alt-version'
 
 = render :partial => 'shared/published_page_results', :locals => { :header_title => @local.tutorial_page_title }

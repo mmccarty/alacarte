@@ -1,0 +1,39 @@
+- content-for :additional_toc do
+  - if defined?(@subjects) and @subjects.length > 0
+    %li
+      %a{ :href => '#browse-by-subject' }
+        Browse by subject
+  - if defined?(@guides) and @guides.length > 0
+    %li
+      %a{ :href => '#browse-guides' }
+        Browse Guides
+
+- content-for :additional_browsing do
+  - if defined?(@subjects) and @subjects.length > 0
+    %section#browse-by-subject
+      %h2
+        Browse by Subject
+          %dl
+            - subjects.each do |subject|
+              %dt
+                = link_to raw(subject.subject_code + ' : ' + subject.subject_name + ' ' + 'Tutorials'), :controller => 'ort', :action => 'mobile_subject_list', :id => subject
+              %dd
+                %dl
+                  - subject.get_tutorials.each do |tutorial|
+                    = render :partial => 'shared/list_page', :locals => { :page => tutorial, :controller => 'ort' }
+
+  - if defined?(@guides) and @guides.length > 0
+    %section#browse-guides
+      %h2
+        Browse Guides
+      %dl
+        - @guides.each do |guide|
+          = render :partial => 'shared/list_page', :locals => { :controller => 'srg', :mobile => true, page => guide }
+
+- content-for :additional_resources do
+  None.
+
+- content-for :footer do
+  = link_to 'Full version' , { :action => 'published_tutorials' }
+
+= render :partial => 'shared/mobile_published_page_results', locals => { :controller => 'ort', :header_title => 'Tutorials', type => 'Tutorials', pages => @tutorials }

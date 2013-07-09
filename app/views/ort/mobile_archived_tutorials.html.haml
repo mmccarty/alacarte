@@ -1,0 +1,7 @@
+- content-for :additional_resources do
+  None.
+
+- content-for :footer do
+  = link_to 'Full version' , { :action => 'archived_tutorials' }
+
+= render :partial => 'shared/mobile_published_page_results', locals => { :controller => 'ort', :header_title => 'Tutorials', type => 'Tutorials', pages => @tutorials }

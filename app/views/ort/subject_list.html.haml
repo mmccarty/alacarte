@@ -1,10 +1,10 @@
 - content_for :ada_navigation do
-  = link_to 'Go to screenreader version' , { :action => 'mobile_subject_list', :id => @tutorial } , :id => 'alt-version'
+  = link_to 'Go to screenreader version' , { :action => 'mobile_subject_list' } , :id => 'alt-version'
 
 - content_for :search_results do
   %h2
     Browse
-    = @subject.subject_code+' : ' + @subject.subject_name + ' ' + 'Tutorials'
+    = @subject.subject_code + ' : ' + @subject.subject_name + ' Tutorials'
 
   - if @tutorials
     %dl
@@ -20,6 +20,6 @@
       Back to all Tutorials
 
 - content-for :footer do
-  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_subject_list', :id => @tutorial } , :id => 'alt-version'
+  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_subject_list' } , :id => 'alt-version'
 
 = render :partial => 'shared/published_page_results', :locals => { :header_title => @local.tutorial_page_title }

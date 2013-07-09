@@ -1,0 +1,9 @@
+- content_for :additional_resources do
+  %p
+    Need help with your discipline, topic or format? Try the
+    = link_to "Subject Research Guides", :controller => 'srg', :action => 'mobile_published_guides'
+
+- content-for :footer do
+  = link_to 'Full version' , { :action => 'tagged' }
+
+= render :partial => 'shared/mobile_published_page_results', locals => { :controller => 'ica', :header_title => @local.ica_page_title, type => 'Course Guides', pages => @pages }

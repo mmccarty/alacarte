@@ -1,5 +1,5 @@
 - content_for :ada_navigation do
-  = link_to 'Go to screenreader version' , { :action => 'mobile_published_guides', :id => @guide } , :id => 'alt-version'
+  = link_to 'Go to screenreader version' , { :action => 'mobile_published_guides' } , :id => 'alt-version'
 
 - content_for :additional_resources do
   %p
@@ -8,6 +8,6 @@
     guides.
 
 - content_for :footer do
-  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_published_guides', :id => @guide } , :id => 'alt-version'
+  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_published_guides' } , :id => 'alt-version'
 
 = render :partial => 'shared/published_pages', :locals => { :controller => 'srg', :header_title => @local.guide_page_title, :pages => @guides, :subjects => @masters, :type => 'Subject' }

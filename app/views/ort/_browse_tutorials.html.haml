@@ -3,11 +3,12 @@
 %dl
   - subjects.each do |subject|
     %dt
-      = link_to h(subject.subject_code + ' : ' + subject.subject_name + ' ' + 'Tutorials'), :controller => 'ort', :action => 'subject_list', :id => subject
+      = link_to raw(subject.subject_code + ' : ' + subject.subject_name + ' ' + 'Tutorials'), :controller => 'ort', :action => 'subject_list', :id => subject
     %dd
       %dl
         - subject.get_tutorials.each do |tutorial|
           = render :partial => 'shared/list_page', :locals => { :page => tutorial, :controller => 'ort' }
-  - unless tutorials.blank?
-    - tutorials do |tutorial|
-      = render :partial => 'shared/list_page', :locals => { :page => tutorial, :controller => 'ort' }
+  - if defined?(tutorials) and tutorials.length > 0
+    %dl
+      - tutorials do |tutorial|
+        = render :partial => 'shared/list_page', :locals => { :page => tutorial, :controller => 'ort' }

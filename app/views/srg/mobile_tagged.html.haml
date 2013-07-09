@@ -1,0 +1,9 @@
+- content_for :additional_resources do
+  %p
+    Didn't find what you were looking for? Try the
+    = link_to "Course Guides", :controller => 'ica', :action => 'mobile_index'
+
+- content_for :footer do
+  = link_to 'Full version' , { :action => 'tagged' }
+
+= render :partial => 'shared/mobile_published_page_results', locals => { :controller => 'srg', :header_title => @local.guide_page_title, type => 'Subject Guides', pages => @guides }

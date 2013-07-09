@@ -1,0 +1,44 @@
+.container
+  %h1.page-header
+    = header_title
+
+  %section#table-of-contents
+    %ul.small
+      %li
+        %a{ :href => '#browse-pages' }
+          Browse
+          = type
+      - if defined?(@tags) and @tags.length > 0
+        %li
+          %a{ :href => '#browse-by-tag' }
+            Browse by tag
+      = yield :additional_toc
+      %li
+        %a{ :href => '#additional-resources' }
+          Additional resources
+
+  %hr
+
+  %section#browse-pages
+    %h2
+      Browse
+      = type
+    %dl
+      - pages.each do |page|
+        = render :partial => 'shared/list_page', :locals => { :controller => controller, :mobile => true, page => page }
+
+  = yield :additional_browsing
+
+  - if defined?(@tags) and @tags.length > 0
+    %section#browse-by-tag
+      %h2
+        Browse by Tag
+      %ul.unstyled
+        - tag_cloud @tags, ['css1', 'css2', 'css3', 'css4'] do |tag, css_class|
+            %li
+              %span.label.tag
+                = link_to tag.name, { :action => :tagged, :id => tag.name }, :class => css_class, :title => tag.count.to_s + ' guides are tagged with ' + tag.name
+
+  %section#additional-resources
+    %p
+      = yield :additional_resources
