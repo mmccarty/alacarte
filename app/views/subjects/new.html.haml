@@ -1,4 +1,4 @@
 %fieldset
-  %h3 New Subjects
-
+  %legend Add Subject
+  = flash_notice
   = render partial: 'form', locals: { subject: @subject }

@@ -1,15 +1,38 @@
-= form_for user do |f|
-  = error_messages_for 'user'
-  %label{:for => "user_login"} Email
-  = f.text_field :email
-  %label{:for => "user_psswrd"} Password
-  = f.password_field :password
-  %label{:for => "user_password_confirmation"} Confirm Password
-  = f.password_field :password_confirmation
-  %label{:for => "user_email"} Full Name
-  = f.text_field :name
-  %label{:for => "user_role"}
-    Role:
-    \#{f.radio_button(:role, "admin" )}    Admin
-    \#{f.radio_button(:role, "author")}    Author
-  = f.submit
+= form_for user, html: { class: 'form-horizontal' } do |f|
+  = error_messages_for :user
+
+  .control-group
+    %label.control-label{ for: 'user_email' } Email
+    .controls
+      = f.text_field :email
+
+  .control-group
+    %label.control-label{ for:'user_psswrd' } Password
+    .controls
+      = f.password_field :password
+
+  .control-group
+    %label.control-label{ for: 'user_password_confirmation' } Confirm Password
+    .controls
+      = f.password_field :password_confirmation
+
+  .control-group
+    %label.control-label{ for: 'user_name' } Full Name
+    .controls
+      = f.text_field :name
+
+  .control-group
+    %label.control-label Role
+    .controls
+      %label.radio{ for: 'user_role' }
+        = f.radio_button :role, 'admin'
+        Admin
+      %label.radio{ for: 'user_role' }
+        = f.radio_button :role, 'author'
+        Author
+
+  .control-group
+    %label.control-label
+    .controls
+      = f.submit class: 'btn btn-primary'
+      = link_to 'Cancel', users_path, class: 'btn btn-cancel'

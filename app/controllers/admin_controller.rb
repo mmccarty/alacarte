@@ -1,15 +1,15 @@
 class AdminController < ApplicationController
   before_filter :authorize_admin
 
-  def tools
-    @user_count = User.count
-    @page_count = Page.count
-    @guide_count = Guide.count
-    @tutorial_count = Tutorial.count
-    @ppage_count = Page.where(:published => true).count
-    @apage_count = Page.where(:archived => true).count
-    @pguide_count = Guide.where(:published => true).count
-    @ptutorial_count = Tutorial.where(:published => true).count
+  def index
+    @user_count      = User.count
+    @page_count      = Page.count
+    @guide_count     = Guide.count
+    @tutorial_count  = Tutorial.count
+    @ppage_count     = Page.where(published: true).count
+    @apage_count     = Page.where(archived: true).count
+    @pguide_count    = Guide.where(published: true).count
+    @ptutorial_count = Tutorial.where(published: true).count
   end
 
   def auto_archive

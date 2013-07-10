@@ -1,22 +1,21 @@
-%fieldset
-  %h3 Listing Database of Databases
-  = flash_notice
+%h1 Listing Database of Databases
+= flash_notice
 
-  = link_to new_dod_path, class: 'btn btn-primary' do
-    %i.icon-plus
-    'Create New Database'
+= link_to new_dod_path, class: 'btn btn-primary' do
+  %i.icon-plus
+  Create New Database
 
-  #product-list
-    %table
-      %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
-        %th Title
-        %th Actions
-      - @dods.each do |dod|
-        %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
-          %td= dod.title
-          %td
-            = link_to 'Edit', edit_dod_path(dod)
-            |
-            = link_to 'Delete', dod_path(dod), :confirm => 'Are you sure you want to delete this Dod?', :method => :delete
+%table.table.table-striped
+  %thead
+    %tr
+      %th Title
+      %th Actions
+  %tbody
+    - @dods.each do |dod|
+      %tr
+        %td= dod.title
+        %td
+          = link_to '', edit_dod_path(dod), class: 'icon-edit'
+          = link_to '', dod_path(dod), class: 'icon-trash', :confirm => 'Are you sure you want to delete this Dod?', :method => :delete
 
-  = will_paginate @dods
+= will_paginate @dods

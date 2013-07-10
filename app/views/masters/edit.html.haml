@@ -1,5 +1,4 @@
 %fieldset
-  %h3
-    Edit #{@master.value}
-
+  %legend Edit #{@master.value}
+  = flash_notice
   = render partial: 'form', locals: { master: @master }

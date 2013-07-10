@@ -1,24 +1,23 @@
-%fieldset
-  %h3 Listing Subjects
-  = flash_notice
+%h1 Listing Subjects
+= flash_notice
 
-  = link_to new_subject_path, class: 'btn btn-primary' do
-    %i.icon-plus
-    'Create New Subject'
+= link_to new_subject_path, class: 'btn btn-primary' do
+  %i.icon-plus
+    Create New Subject
 
-  #product-list
-    %table
-      %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
-        %th Subject Code
-        %th Subject Name
-        %th Actions
-      - @subjects.each do |sub|
-        %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
-          %td= sub.subject_code
-          %td= sub.subject_name
-          %td
-            = link_to 'Edit', edit_subject_path(sub)
-            |
-            = link_to 'Delete', subject_path(sub), :confirm => 'Are you sure you want to delete this subject?', :method => :delete
+%table.table.table-striped
+  %thead
+    %tr
+      %th Subject Code
+      %th Subject Name
+      %th Actions
+  %tbody
+    - @subjects.each do |subject|
+      %tr
+        %td= subject.subject_code
+        %td= subject.subject_name
+        %td
+          = link_to '', edit_subject_path(subject), class: 'icon-edit'
+          = link_to '', subject_path(subject), class: 'icon-trash', :confirm => 'Are you sure you want to delete this subject?', :method => :delete
 
-  = will_paginate @subjects
+= will_paginate @subjects

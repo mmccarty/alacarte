@@ -1,24 +1,23 @@
-%fieldset
-  %h3 Listing Pending Users
-  - if flash[:notice]
-    #error_wrapper
-      #notice= flash[:notice]
+%h1 Listing Pending Users
+= flash_notice
 
-  #product-list
-    %table
-      %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
-        %th Name
-        %th Email
-        %th Role
-        %th Actions
-      - @users.each do |author|
-        - if author.role == 'pending'
-          %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
-            %td= author.name
-            %td= author.email
-            %td= author.role
-            %td
-              = link_to 'Approve', approve_user_path(author) , :confirm => 'Are you sure you want to approve this user?', :method => :post
-              |
-              \#{link_to 'Deny', deny_user_path(author), :confirm => 'Are you sure you want to deny this user?', :method => :post}
-  = will_paginate @users
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th Role
+      %th Actions
+  %tbody
+    - @users.each do |user|
+      - if user.role == 'pending'
+        %tr
+          %td= user.name
+          %td= user.email
+          %td= user.role
+          %td
+            = link_to 'Approve', approve_user_path(user) , :confirm => 'Are you sure you want to approve this user?', :method => :post
+            |
+            = link_to 'Deny', deny_user_path(author), :confirm => 'Are you sure you want to deny this user?', :method => :post
+
+= will_paginate @users

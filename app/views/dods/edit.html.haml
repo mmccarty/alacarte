@@ -1,5 +1,4 @@
 %fieldset
-  %h3
-    Edit #{@dod.title}
-
+  %legend Edit #{@dod.title}
+  = flash_notice
   = render partial: 'form', locals: { dod: @dod }

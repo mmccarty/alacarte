@@ -1,5 +1,4 @@
 %fieldset
-  %h3
-    Edit Account for #{h @user.name}
-
+  %legend Edit Account for #{ @user.name }
+  = flash_notice
   = render partial: 'form', locals: { user: @user }

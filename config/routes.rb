@@ -33,7 +33,7 @@ Alacarte::Application.routes.draw do
         post 'deny'
       end
     end
-    get 'tools' => :tools, as: 'tools'
+    get 'tools' => :index, as: 'tools'
   end
 
   get 'dashboard' => 'dashboard#index', as: 'dashboard'

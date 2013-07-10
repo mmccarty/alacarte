@@ -106,7 +106,7 @@ list-style: none none;
 margin: 0 0 0 0;
 padding: 0;
 }
-.module li.rss-item{ 
+.module li.rss-item{
     list-style: none none;
     margin-top: 1px;
     margin-bottom: 8px;
@@ -122,16 +122,8 @@ padding: 0;
 .feedback{border:1px solid #ccc; background-color:#fff; padding: 5px; margin:.2em 2em 1em;}
 /*RSS module*/
 #boxes #feedcontrol {width: 100%; overflow: hidden;}
- input.search-input {
-        width : 75%;
-        border: 1px solid #BCCDF0;
-        color: #9CADD0;
-        margin-bottom : 15px;
-		margin-left: 0;
-		padding: .5em .2em;
-      }
 
-      #feedControl { 
+      #feedControl {
         color: #6F6F6F;
        }
 
@@ -153,7 +145,7 @@ padding: 0;
        }
 
   #feedControl  .gfc-results { margin-bottom: 15px;  color: #6F6F6F; }
-  
+
   .feeds_class, .gf-snippet {color: #6F6F6F;}
 
 
