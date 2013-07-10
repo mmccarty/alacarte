@@ -16,7 +16,7 @@
 #
 
 class UrlResource < ActiveRecord::Base
-  include HasResources
+  include PolymorphicModule
 
   acts_as_taggable
   has_many :resources, :as => :mod,  :dependent => :destroy
@@ -26,10 +26,6 @@ class UrlResource < ActiveRecord::Base
 
   validates_presence_of :module_title
   validates_presence_of :label, :on => :update
-
-  def private_label
-    self.label = self.module_title
-  end
 
   def new_link_attributes=(link_attributes)
     logger.info "Link Attributes: #{link_attributes.inspect}"
@@ -64,10 +60,5 @@ class UrlResource < ActiveRecord::Base
 
   def rss_content
     self.information.blank? ? "" : self.information
-  end
-
-  def add_tags(tags)
-    self.tag_list = tags
-    self.save
   end
 end

@@ -6,7 +6,7 @@ describe MiscellaneousResource do
   end
 
   it 'should require a title' do
-    expect(build(:miscellaneous_resource, module_title: nil)).to_not be_valid
+    expect(build(:miscellaneous_resource, module_title: nil)).to have(1).errors_on :module_title
   end
 
   it 'should by default not be shared' do

@@ -23,17 +23,13 @@ class Resource < ActiveRecord::Base
 
   def self.global_modules(s, rev)
     global_mods = all.collect { |a| a.mod if a.mod and a.mod.global? }.compact
-    unless global_mods.empty?
-      if s == "label"  || s == "content_type" || s == "created_by"
-        global_mods = global_mods.sort! { |a,b| a.send(s).downcase <=> b.send(s).downcase }
-      else
-        global_mods = global_mods.sort! { |a,b| b.send(s) <=> a.send(s) }
-      end
-      global_mods = global_mods.reverse if rev == 'true'
-      global_mods.uniq
+    if s.in? %w(content_type created_by label)
+      global_mods.sort_by! { |mod| mod.send(s).downcase }
     else
-      []
+      global_mods.sort_by! { |mod| mod.send(s) }
     end
+    global_mods.reverse! if rev == 'true'
+    global_mods.uniq
   end
 
   def copy_mod(name)
@@ -41,24 +37,24 @@ class Resource < ActiveRecord::Base
     new_mod = old_mod.clone
     case old_mod.class.to_s
     when "DatabaseResource"
-      new_mod.database_dods << old_mod.database_dods.collect{|d| d.clone}.flatten
+      new_mod.database_dods << old_mod.database_dods.map {|d| d.clone}.flatten
     when "UploaderResource"
-      new_mod.uploadables << old_mod.uploadables
+      new_mod.uploadables   << old_mod.uploadables
     when "RSSResource"
-      new_mod.feeds << old_mod.feeds.collect{|f| f.clone}.flatten
+      new_mod.feeds         << old_mod.feeds.map {|f| f.clone}.flatten
     when "VideoResource"
-      new_mod.videos << old_mod.videos.collect{|f| f.clone}.flatten
+      new_mod.videos        << old_mod.videos.map {|f| f.clone}.flatten
     when "UrlResource"
-      new_mod.links << old_mod.links.collect{|f| f.clone}.flatten
+      new_mod.links         << old_mod.links.map {|f| f.clone}.flatten
     when "BookResource"
-      new_mod.books << old_mod.books.collect{|f| f.clone}.flatten
+      new_mod.books         << old_mod.books.map {|f| f.clone}.flatten
     when "ImageResource"
-      new_mod.images << old_mod.images.collect{|f| f.clone}.flatten
+      new_mod.images        << old_mod.images.map {|f| f.clone}.flatten
     when "QuizResource"
-      new_mod.questions << old_mod.copy_questions
+      new_mod.questions     << old_mod.copy_questions
     end
-    new_mod.label =  old_mod.label+'-'+name
-    new_mod.global= false
+    new_mod.label  =  old_mod.label+'-'+name
+    new_mod.global = false
     new_mod.save
     new_mod
   end

@@ -1,0 +1,12 @@
+- if flash[:error]
+  #error_wrapper
+    #list_error= flash[:error]
+
+= error_messages_for 'master'
+
+= form_for master do |f|
+  = f.text_field :value
+  = f.submit
+
+%p
+  = link_to 'Cancel', masters_path

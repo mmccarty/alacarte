@@ -47,5 +47,29 @@ describe User do
       user = create :user
       expect(User.authenticate user.email, user.password).to eq user
     end
+
+    it 'should be able to find resources' do
+      mod = create :miscellaneous_resource
+      res = Resource.create mod: mod
+      user = create :user
+      user.add_resource res
+      expect(user.find_resource mod.id, mod.class.name).to eq res
+    end
+
+    it 'should understand module tags' do
+      mod = create :miscellaneous_resource
+      mod.add_tags 'this, that'
+      user = create :user
+      user.create_and_add_resource mod
+      expect(user.module_tags.sort).to eq %w(that this)
+    end
+
+    it 'should find modules by tag' do
+      mod = create :miscellaneous_resource
+      mod.add_tags 'this, that'
+      user = create :user
+      user.create_and_add_resource mod
+      expect(user.find_mods_tagged_with 'this').to eq [mod]
+    end
   end
 end

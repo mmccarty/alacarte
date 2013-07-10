@@ -1,0 +1,21 @@
+- if flash[:error]
+  #error_wrapper
+    #list_error
+      = flash[:error]
+
+= form_for subject do |f|
+  = error_messages_for :subject
+  %span
+    %label{ for: 'subject_subject_code' }
+      %span.required> *
+      Subject Code
+    = f.text_field :subject_code, size: 10
+  %span
+    %label{ for: 'subject_subject_name' }
+      %span.required> *
+      Subject Name
+    = f.text_field :subject_name
+  %br/
+  = f.submit
+
+%p= link_to 'Cancel', subjects_path

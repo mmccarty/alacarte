@@ -103,5 +103,18 @@ describe Guide do
     guide.add_tags 'this, that'
     expect(Guide.tagged_with('this').first).to eq guide
   end
+
+  it 'should create a default tab' do
+    guide = create :guide
+    guide.create_home_tab
+    expect(guide.tabs.length).to eq 1
+  end
+
+  it 'should allow tabs to be added' do
+    guide = create :guide
+    tab = build :tab
+    guide.add_tab tab
+    expect(guide.tabs.length).to eq 1
+  end
 end
 

@@ -15,7 +15,7 @@
 #
 
 class LibfindResource < ActiveRecord::Base
-  include HasResources
+  include PolymorphicModule
 
   acts_as_taggable
   has_many :resources, :as => :mod, :dependent => :destroy
@@ -24,15 +24,6 @@ class LibfindResource < ActiveRecord::Base
 
   validates :label, :presence => { :on => :update }
   validates :module_title, :presence => true
-
-  def private_label
-    self.label = self.module_title
-  end
-
-  def add_tags(tags)
-    self.tag_list = tags
-    self.save
-  end
 
   def add_lf_targets(targets)
     lf_targets.clear

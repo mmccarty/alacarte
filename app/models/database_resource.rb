@@ -15,7 +15,7 @@
 #
 
 class DatabaseResource < ActiveRecord::Base
-  include HasResources
+  include PolymorphicModule
 
   acts_as_taggable
   has_many :resources, :as => :mod, :dependent => :destroy
@@ -26,15 +26,6 @@ class DatabaseResource < ActiveRecord::Base
 
   validates :module_title, :presence => true
   validates :label, :presence => { :on => :update }
-
-  def private_label
-    self.label = self.module_title
-  end
-
-  def add_tags(tags)
-    self.tag_list = tags
-    self.save
-  end
 
   def proxy
     Local.first.proxy

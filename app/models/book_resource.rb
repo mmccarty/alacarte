@@ -16,7 +16,7 @@
 #
 
 class BookResource < ActiveRecord::Base
-  include HasResources
+  include PolymorphicModule
 
   acts_as_taggable
   has_many :resources, :as => :mod,  :dependent => :destroy
@@ -26,10 +26,6 @@ class BookResource < ActiveRecord::Base
 
   validates :module_title, :presence => true
   validates :label, :presence => { :on => :update }
-
-  def private_label
-    self.label = self.module_title
-  end
 
   def new_book_attributes=(book_attributes)
     book_attributes.each do |attributes|
@@ -56,10 +52,5 @@ class BookResource < ActiveRecord::Base
 
   def rss_content
     self.information.blank? ? '' : self.information
-  end
-
-  def add_tags(tags)
-    self.tag_list = tags
-    self.save
   end
 end

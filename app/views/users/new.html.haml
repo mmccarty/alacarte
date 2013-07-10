@@ -1,0 +1,10 @@
+%fieldset
+  %h3 Add User
+  - if flash[:notice]
+    #error_wrapper
+      #notice= flash[:notice]
+
+  = render partial: 'form', locals: { user: @user }
+
+  %p
+    %b= link_to 'Cancel', users_path

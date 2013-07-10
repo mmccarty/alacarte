@@ -12,16 +12,19 @@
 #
 
 class Tab < ActiveRecord::Base
-  belongs_to :tabable, :polymorphic => true
-  has_many :tab_resources, :order => :position, :dependent => :destroy
-  has_many :resources, :through => :tab_resources
-  acts_as_list :scope => 'tabable_id=#{tabable_id} AND tabable_type=\'#{tabable_type}\''
+  belongs_to :tabable, polymorphic: true
+  has_many :tab_resources, order: :position, dependent: :destroy
+  has_many :resources, through: :tab_resources
+  acts_as_list scope: 'tabable_id=#{tabable_id} AND tabable_type=\'#{tabable_type}\''
 
-  validates :tab_name, :presence => true
+  validates :tab_name, presence: true
 
-  def add_resource(resource)
-    resources << resource
-    update_users
+  def add_module(id, type)
+    resource = Resource.find_by_mod_id_and_mod_type(id,type)
+    if resource
+      resources << resource
+      update_users
+    end
   end
 
   def update_resource(resrs)
@@ -33,12 +36,9 @@ class Tab < ActiveRecord::Base
     end
   end
 
-  def add_module(id, type)
-    resource = Resource.find_by_mod_id_and_mod_type(id,type)
-    if resource
-      resources << resource
-      update_users
-    end
+  def add_resource(resource)
+    resources << resource
+    update_users
   end
 
   def update_users

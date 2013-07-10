@@ -1,5 +1,6 @@
 Alacarte::Application.routes.draw do
   root to: 'login#login'
+
   get ':controller/service.wsdl' => '#wsdl'
   get 'course-guides/' => 'ica#published_pages'
   get 'course-guides/archived/' => 'ica#archived'
@@ -20,7 +21,20 @@ Alacarte::Application.routes.draw do
   get 'tutorials/login/:id' => 'student#login'
   get 'tutorials/create-account/:id' => 'student#create_account'
 
-  get 'admin/tools' => 'admin#tools', as: 'tools'
+  scope path: '/admin', controller: :admin do
+    resources :dods, :masters, :subjects
+    resources :users do
+      collection do
+        get 'email_list'
+        get 'pending'
+      end
+      member do
+        post 'approve'
+        post 'deny'
+      end
+    end
+    get 'tools' => :tools, as: 'tools'
+  end
 
   get 'dashboard' => 'dashboard#index', as: 'dashboard'
 
@@ -32,7 +46,7 @@ Alacarte::Application.routes.draw do
     get 'new' => :new, as: 'new_guide'
     post 'publish/:id' => :publish, as: 'publish_guide'
     get 'share/:id' => :share, as: 'share_guide'
-    get 'update/:id' => :update, as: 'update_guide'
+    post 'update/:id' => :update, as: 'update_guide'
   end
 
   get 'login/logout' => 'login#logout', as: 'logout'
@@ -56,7 +70,18 @@ Alacarte::Application.routes.draw do
     get 'new' => :new, as: 'new_tab'
   end
 
-  get 'tutorial' => 'tutorial#index', as: 'tutorials'
+  scope path: '/tutorial', controller: :tutorial do
+    get '' => :index, as: 'tutorials'
+    get 'copy/:id' => :copy, as: 'copy_tutorial'
+    get 'new' => :new, as: 'new_tutorial'
+    post 'update/:id' => :update, as: 'update_tutorial'
+  end
+
+  scope path: '/unit', controller: :unit do
+    post 'create' => :create, as: 'create_unit'
+    get 'new' => :new, as: 'new_unit'
+    post 'update/:id' => :update, as: 'update_unit'
+  end
 
   match '/:controller(/:action(/:id))'
 end

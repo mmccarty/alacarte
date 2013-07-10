@@ -1,0 +1,22 @@
+%fieldset
+  %h3 Listing Master Subjects
+  = flash_notice
+
+  = link_to new_master_path, class: 'btn btn-primary' do
+    %i.icon-plus
+    Create New Master Subject
+
+  #product-list
+    %table
+      %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
+        %th Master Subject Name
+        %th Actions
+      - @masters.each do |sub|
+        %tr{:class => cycle('list-line-odd', 'list-line-even'), :valign => "top"}
+          %td= sub.value
+          %td
+            = link_to 'Edit', edit_master_path(sub)
+            |
+            = link_to 'Delete', master_path(sub), :confirm => 'Are you sure you want to delete this master?', :method => :delete
+
+  = will_paginate @masters

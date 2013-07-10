@@ -3,19 +3,19 @@
   Title
   %span.required.more_help *
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(TUTORIAL_TITLE_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-= text_field 'tutorial','name',"size" => 62
+= text_field :tutorial, :name, size: 62
 %label{:for => "tutorial_tutorial_description"}
   Description
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(TUTORIAL_DESC_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-= text_area_tag 'tutorial', 'description', :class => 'tinymce'
+= text_area :tutorial, :description, class: 'tinymce'
 = tinymce
 %label{:for => "tags"}
   Tags
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(TUTORIAL_TAG_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-= text_field_tag 'tags', @tag_list,"size" => 62
+= text_field_tag :tags, @tag_list,"size" => 62
 .tip e.g. anthropology, insects, caves
 %label Handout Upload
-= file_field 'tutorial', 'attachment'
+= file_field :tutorial, :attachment
 - unless @tutorial.attachment_file_name.blank?
   .tip NOTE: This tutorial has an attachment.
 %fieldset
@@ -36,15 +36,15 @@
       = select('tutorial','subject_id', Subject.all.collect {|p| [ p.subject_code, p.id ] },{:include_blank => true}, {:class => 'page'})
     <span #{%(class="required") if flash[:course_num_error]}>
     %label{:for => "tutorial_course_num"} Course Numbers
-    = text_field 'tutorial', 'course_num',"size" => 15
+    = text_field :tutorial, :course_num, size: 15
     .tip e.g. 451 or 451/551
     %span
       %label{:for => "tutorial_section_num"} Section Numbers
-      = text_field 'tutorial', 'section_num',"size" => 20
+      = text_field :tutorial, :section_num, size: 20
     .tip e.g. 001 or 011, 012, 013
   .clearer
   %label{:for => "tutorial_internal"} Internal:
-  = check_box 'tutorial', 'internal', "size" => 20
+  = check_box :tutorial, :internal, size: 20
 %p
   = submit_tag 'Save', :class => "submit"
-  or #{submit_tag 'Save &amp; Add Unit', :class => "submit"}
+  or #{submit_tag 'Save & Add Unit', :class => "submit"}

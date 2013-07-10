@@ -2,15 +2,14 @@ class AdminController < ApplicationController
   before_filter :authorize_admin
 
   def tools
-    @tcurrent = 'current'
     @user_count = User.count
     @page_count = Page.count
     @guide_count = Guide.count
     @tutorial_count = Tutorial.count
-    @ppage_count = Page.where(:published => true).count()
-    @apage_count = Page.where(:archived => true).count()
-    @pguide_count = Guide.where(:published => true).count()
-    @ptutorial_count = Tutorial.where(:published => true).count()
+    @ppage_count = Page.where(:published => true).count
+    @apage_count = Page.where(:archived => true).count
+    @pguide_count = Guide.where(:published => true).count
+    @ptutorial_count = Tutorial.where(:published => true).count
   end
 
   def auto_archive
@@ -35,243 +34,6 @@ class AdminController < ApplicationController
       end
     end
     redirect_to :back
-  end
-
-  def register
-    @user = User.new
-    url = url_for :controller => 'login', :action => 'login'
-    if request.post?
-      @user = User.new(params[:user])
-      @user.role = params[:user][:role]
-      if @user.save
-        begin
-          Notifications.deliver_add_user(@user.email, @admin.email, @user.password, url)
-        rescue Exception => e
-          flash[:notice] = "Could not send email"
-          redirect_to  :action => "register" and return
-        end
-        flash[:notice] = "User successfully added."
-        redirect_to(:action => 'users')  and return
-      end
-    end
-  end
-
-  def users
-    @ucurrent = 'current'
-    @all = params[:all]
-    users = User.where("role <> 'pending'").order(:name)
-    @users =  ( @all == "all" ? users : users.paginate( :per_page => 30, :page => params[:page]))
-  end
-
-  def edit
-    @user = User.find(params[:id])
-  end
-
-  def update
-    @user = User.find(params[:id])
-    @user.update_attributes(:password=>params[:user][:password], :password_confirmation => params[:user][:password_confirmation], :name => params[:user][:name], :email => params[:user][:email])
-    @user.role = params[:user][:role]
-    if @user.save
-      flash[:notice] = 'User was successfully updated.'
-      redirect_to :action => 'users'
-    else
-      render :action => 'edit'
-    end
-  end
-
-  def destroy
-    User.find(params[:id]).destroy
-    flash.now[:notice] = "User(s) successfully deleted."
-    if request.xhr?
-      render :text => ""
-    else
-      redirect_to :action => 'users'
-    end
-  end
-
-  def email_list
-    user = User.all
-    @emails = user.collect(&:email).join(', ')
-  end
-
-  def pending_users
-    @ucurrent = 'current'
-    @users = User.where(:role => 'pending').paginate :per_page => 30, :page => params[:page]
-  end
-
-  def approve
-    @user = User.find(params[:id])
-    if @user.update_attribute('role', 'author')
-      begin
-        url = url_for :controller => 'login', :action => 'login'
-        Notifications.deliver_accept_nonsso_pending_user(@user.email, @local.admin_email_from, @user.password, url)
-
-      rescue Exception => e
-        logger.error("Exception in register user: #{e}}" )
-        flash[:notice] = "User was successfully approved but email was not able to be sent"
-      end
-      flash[:notice] = 'User was successfully approved.'
-    else
-      flash[:notice] = 'User was not approved.'
-    end
-    redirect_to :action => 'pending_users' and return
-  end
-
-  def deny
-    @user = User.find(params[:id])
-    email = @user.email
-    @user.destroy
-    begin
-      Notifications.deliver_reject_pending_user(email, @local.admin_email_from)
-    rescue Exception => e
-      logger.error("Exception in register user: #{e}}" )
-      flash.now[:notice] = "User was successfully deleted but email was not able to be sent"
-    end
-
-    flash[:notice] = "User successfully deleted."
-    redirect_to :action => 'pending_users'
-  end
-
-  def masters
-    session[:num] = nil
-    @masters = Master.paginate :per_page => 30, :page => params[:page], :order => 'value'
-  end
-
-  def edit_master
-    @master = Master.find(params[:id])
-    if request.post?
-      @master.update_attributes(params[:master])
-      if @master.save
-        flash[:notice] = 'Master was successfully updated.'
-        redirect_to :action => 'masters'
-      end
-    end
-  end
-
-  def destroy_master
-    Master.find(params[:id]).destroy
-    flash[:notice] = "Master successfully deleted."
-    redirect_to :action => 'masters'
-  end
-
-  def new_masters
-    if params.member?("master")
-      if params[:master].member?("num")
-        @num = session[:num] = params[:master][:num]
-      end
-    else
-      flash[:notice] = "Master successfully added."
-      @num = session[:num]
-    end
-    @masters = Array.new(@num.to_i){Master.new}
-  end
-
-  def create_masters
-    @masters = params[:masters].values.collect{ |master| Master.new(master) }
-    if  @masters.all?(&:valid?)
-      if @masters.each(&:save)
-        if params[:commit]=="Save Masters and Add #{session[:num]} More"
-          redirect_to :action => 'new_masters' and return
-        else
-          session[:num] = nil
-          redirect_to :action => 'masters' and return
-        end
-      end
-    end
-    @num = params[:formCount]
-    render :action => 'new_masters'
-  end
-
-  def subjects
-    session[:num] = nil
-    @subjects = Subject.paginate :per_page => 30, :page => params[:page], :order => 'subject_code'
-  end
-
-  def edit_subject
-    @subject = Subject.find(params[:id])
-    if request.post?
-      @subject.update_attributes(params[:subject])
-      if @subject.save
-        flash[:notice] = 'Subject was successfully updated.'
-        redirect_to :action => 'subjects'
-      end
-    end
-  end
-
-  def destroy_subject
-    Subject.find(params[:id]).destroy
-    flash[:notice] = "Subject successfully deleted."
-    redirect_to :action => 'subjects'
-  end
-
-  def new_subjects
-    if params.member?("subject")#set the number of rows to display
-      if params[:subject].member?("num")#get the number from the dropdown box
-        @num = session[:num] = params[:subject][:num]
-      end
-    else #Save masters and add more button was pressed so get the number from the session[:num]
-      flash[:notice] = "Subject successfully added."
-      @num = session[:num]
-    end
-    @subjects = Array.new(@num.to_i){Subject.new}
-  end
-
-  def create_subjects
-    @subjects = params[:subjects].values.collect{ |subject| Subject.new(subject) }
-    if  @subjects.all?(&:valid?)
-      if @subjects.each(&:save)
-        if params[:commit]=="Save Subjects and Add #{session[:num]} More"
-          redirect_to :action => 'new_subjects' and return
-        else
-          session[:num] = nil
-          redirect_to :action => 'subjects' and return
-        end
-      end
-    end
-    @num = params[:formCount]
-    render :action => 'new_subjects'
-  end
-
-  def dods
-    session[:num] = nil
-    @dods = Dod.paginate :per_page => 30, :page => params[:page] , :order => 'title'
-  end
-
-  def edit_dod
-    @dod = Dod.find(params[:id])
-    if request.post?
-      @dod.update_attributes(params[:dod])
-      if @dod.save
-        flash[:notice] = 'Database was successfully updated.'
-        redirect_to :action => 'dods'
-      end
-    end
-  end
-
-  def destroy_dod
-    Dod.find(params[:id]).destroy
-    flash[:notice] = "Dod successfully deleted."
-    redirect_to :action => 'dods'
-  end
-
-  def new_dods
-    @num = session[:num] = params[:dod][:num] unless session[:num]
-    @dods = Array.new(session[:num].to_i){Dod.new}
-  end
-
-  def create_dods
-    @dods = params[:dods].values.collect{ |dod| Dod.new(dod) }
-    if  @dods.all?(&:valid?)
-      if @dods.each(&:save)
-        if params[:commit]=="Save Dods and Add 1 More"
-          redirect_to :action => 'new_dods' and return
-        else
-          session[:num] = nil
-          redirect_to :action => 'dods' and return
-        end
-      end
-    end
-    render :action => 'new_dods'
   end
 
   def guides
@@ -474,7 +236,6 @@ class AdminController < ApplicationController
   end
 
   def assign_tutorial
-    @scurrent = 'current'
     begin
       @tutorial = Tutorial.find(params[:id])
     rescue ActiveRecord::RecordNotFound

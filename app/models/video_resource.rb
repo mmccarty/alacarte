@@ -17,7 +17,7 @@
 #
 
 class VideoResource < ActiveRecord::Base
-  include HasResources
+  include PolymorphicModule
 
   acts_as_taggable
   has_many :resources, :as => :mod,  :dependent => :destroy
@@ -28,10 +28,6 @@ class VideoResource < ActiveRecord::Base
 
   validates_presence_of :module_title
   validates_presence_of :label, :on => :update
-
-  def private_label
-    self.label = self.module_title
-  end
 
   def new_video_attributes=(video_attributes)
     video_attributes.each do |attributes|
@@ -58,10 +54,5 @@ class VideoResource < ActiveRecord::Base
 
   def rss_content
     self.information.blank? ? "" : self.information
-  end
-
-  def add_tags(tags)
-    self.tag_list = tags
-    self.save
   end
 end

@@ -15,7 +15,7 @@
 #
 
 class UploaderResource < ActiveRecord::Base
-  include HasResources
+  include PolymorphicModule
 
   acts_as_taggable
   has_many :resources, :as => :mod, :dependent => :destroy
@@ -26,15 +26,6 @@ class UploaderResource < ActiveRecord::Base
   attr_protected :upload_file_name, :upload_content_type, :upload_size
   validates_presence_of :module_title
   validates_presence_of :label, :on => :update
-
-  def private_label
-    self.label = self.module_title
-  end
-
-  def add_tags(tags)
-    self.tag_list = tags
-    self.save
-  end
 
   def rss_content
     self.info.blank? ? "" : self.info

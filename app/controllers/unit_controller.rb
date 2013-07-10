@@ -7,15 +7,16 @@ class UnitController < ApplicationController
   layout 'tool'
 
   def units
-    @uscurrent = 'current'
     @units = @tutorial.unitizations
     session[:unit] = nil
   end
 
+  def new
+  end
+
   def create
     if request.post?
-      @unit = Unit.new
-      @unit.attributes = params[:unit]
+      @unit = Unit.new params[:unit]
       @unit.created_by = @user.id
       if @unit.save
         @tutorial.units << @unit
@@ -53,7 +54,6 @@ class UnitController < ApplicationController
   end
 
   def update
-    @uscurrent = 'current'
     @unit = @tutorial.units.find(params[:id])
     session[:unit] = @unit.id
     @tag_list = @unit.tag_list

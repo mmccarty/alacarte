@@ -99,10 +99,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def find_resource(id, type)
-    self.resources.find_by_mod_id_and_mod_type(id, type)
-  end
-
   def add_resource(resource)
     resources << resource
   end
@@ -112,35 +108,35 @@ class User < ActiveRecord::Base
   end
 
   def num_modules
-    return resources.collect { |a| a.mod if a and a.mod}.flatten.length
+    resources.collect { |a| a.mod if a and a.mod}.flatten.length
   end
 
   def pub_pages
-    return pages.select{|p| p.published == true}
+    pages.select{|p| p.published == true}
   end
 
   def arch_pages
-    return pages.select{|p| p.archived == true}
+    pages.select{|p| p.archived == true}
   end
 
   def pub_tuts
-    return tutorials.select{|p| p.published == true}
+    tutorials.select{|p| p.published == true}
   end
 
   def arch_tuts
-    return tutorials.select{|p| p.archived == true}
+    tutorials.select{|p| p.archived == true}
   end
 
   def pub_guides
-    return guides.select{|p| p.published == true}
+    guides.select{|p| p.published == true}
   end
 
   def published_tutorials
-    return tutorials.select{|p| p.published == true}
+    tutorials.select{|p| p.published == true}
   end
 
   def archived_tutorials
-    return tutorials.select{|p| p.archived == true}
+    tutorials.select{|p| p.archived == true}
   end
 
   def recent_activity
@@ -149,19 +145,19 @@ class User < ActiveRecord::Base
     srgs = guides.select{|g|g and  g.updated_at >= 7.days.ago}
     orts = tutorials.select{|t|t and  t.updated_at >= 7.days.ago}
     recents =  mods[0..5] + icaps[0..5] + srgs[0..5] + orts[0..5]
-    return recents.sort { |x,y| y.updated_at <=> x.updated_at }
+    recents.sort { |x,y| y.updated_at <=> x.updated_at }
   end
 
   def module_tags
-    return resources.collect {|a| a.mod.tag_list if a.mod }.flatten.uniq
+    resources.map { |a| a.mod.tag_list if a.mod }.flatten.uniq
   end
 
   def find_mods_tagged_with(tag)
-    return resources.collect {|a| a.mod if a.mod and a.mod.tag_list.include?(tag) }.compact.uniq
+    resources.map { |a| a.mod if a.mod and a.mod.tag_list.include? tag }.compact.uniq
   end
 
   def find_resource(id, type)
-    return resources.find_by_mod_id_and_mod_type(id, type)
+    resources.find_by_mod_id_and_mod_type(id, type)
   end
 
   def add_profile(rid)
@@ -169,19 +165,19 @@ class User < ActiveRecord::Base
   end
 
   def get_profile
-    return (Resource.exists?(resource_id) ? Resource.find(resource_id).mod : "")
+    (Resource.exists?(resource_id) ? Resource.find(resource_id).mod : "")
   end
 
   def contact_resources
     contacts =[]
     res = resources.collect { |a| a if a.mod and a.mod.content_type == "Librarian Profile" || a.mod.content_type == "Custom Content" || a.mod.content_type == "Course Widget"  }.compact
     contacts = res.sort! {|a,b|  a.mod.send('label').downcase <=> b.mod.send('label').downcase} unless res.empty?
-    return contacts
+    contacts
   end
 
   def sort_search_mods(sort_by,search_results)
     sort,reverse = mod_sort_by_values(sort_by)
-    return  modules(sort, reverse,search_results)
+    modules(sort, reverse,search_results)
   end
 
   def sort_mods(sort_by, list_by = nil)
@@ -190,7 +186,7 @@ class User < ActiveRecord::Base
     when "global" then (mods =  Resource.global_modules(sort, reverse))
     else  (mods = modules(sort, reverse))
     end
-    return mods
+    mods
   end
 
   def modules(s = nil, rev = nil,list = nil)
@@ -212,7 +208,7 @@ class User < ActiveRecord::Base
     end
 
     mods = mods.reverse if rev == 'true'
-    return mods.uniq
+    mods.uniq
   end
 
   def mod_sort_by_values(sort_by)

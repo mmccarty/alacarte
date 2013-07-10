@@ -1,0 +1,5 @@
+%fieldset
+  %h3
+    Edit Account for #{h @user.name}
+
+  = render partial: 'form', locals: { user: @user }

@@ -103,17 +103,16 @@ class Guide < ActiveRecord::Base
     self.save
   end
 
+  def create_home_tab
+    add_tab Tab.new(tab_name: 'Quick Links')
+  end
+
   def add_tab(tab)
     tabs << tab
   end
 
-  def create_home_tab
-    tab = Tab.new(:tab_name => 'Quick Links')
-    self.tabs << tab
-  end
-
   def reached_limit?
-    tabs.length > 6 ? true : false
+    tabs.length > 6
   end
 
   def modules

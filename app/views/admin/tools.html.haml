@@ -5,13 +5,13 @@
       %h4 Users
       %ul.undeco
         %li
-          = link_to "Add User" , :controller => 'admin', :action => 'register'
+          = link_to 'Add User', new_user_path
         %li
-          = link_to "View User Accounts" , :controller => 'admin', :action => 'users'
+          = link_to 'View User Accounts', users_path
         %li
-          = link_to "View Pending User Accounts" , :controller => 'admin', :action => 'pending_users'
+          = link_to 'View Pending User Accounts', pending_users_path
         %li
-          = link_to "View User Emails" ,  :action => 'email_list'
+          = link_to "View User Emails", email_list_users_path
         %li
           = link_to "Auto Archive" , {:action => 'auto_archive'}, :confirm => 'Are you sure you want to auto archive ICAPs?', :method => :post
     %fieldset

@@ -11,11 +11,9 @@
         = form_tag :controller => 'tutorial', :action => 'recent_tutorials' do
           %ul.undeco
             %li When finished editing; mark as done.
-            - for altered in @altered_tutorials
-            - if altered
-            %li
-              = check_box_tag("altered_list[]", altered.id ,false, {})
-              = link_to h(altered.route_title), {:controller => 'tutorial', :action => 'edit',  :id => altered.id }, :title => "edit guide"
-            - end
-            - end
+            - @altered_tutorials.each do |altered|
+              - if altered
+                %li
+                  = check_box_tag("altered_list[]", altered.id ,false, {})
+                  = link_to h(altered.route_title), {:controller => 'tutorial', :action => 'edit',  :id => altered.id }, :title => "edit guide"
             %li= submit_tag 'Done'

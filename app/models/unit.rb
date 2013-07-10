@@ -54,7 +54,7 @@ class Unit < ActiveRecord::Base
   end
 
   def find_resource(id, type)
-    return resources.find_by_mod_id_and_mod_type(id, type)
+    resources.find_by_mod_id_and_mod_type(id, type)
   end
 
   def modules
@@ -63,34 +63,34 @@ class Unit < ActiveRecord::Base
 
   def recent_modules
     sortable = "updated_at"
-    return resources.collect{ |a| a.mod}.sort! {|a,b|  a.send(sortable) <=> b.send(sortable)}
+    resources.collect{ |a| a.mod}.sort! {|a,b|  a.send(sortable) <=> b.send(sortable)}
   end
 
   def sorted_resources
-    return resourceables.collect{|t| t.resource}
+    resourceables.collect{|t| t.resource}
   end
 
   def first_module
     res = sorted_resources.first
-    return (res.blank? ? false : res.mod)
+    (res.blank? ? false : res.mod)
   end
 
   def last_module
     res = sorted_resources.last
-    return (res.blank? ? false : res.mod)
+    (res.blank? ? false : res.mod)
   end
 
   def next_module(id, type)
     res = find_resource(id, type)
     resable = resourceables.select{|r| r.resource.id == res.id}.first
     next_resable = resable.lower_item
-    return (next_resable.blank? ? false : next_resable.resource.mod)
+    (next_resable.blank? ? false : next_resable.resource.mod)
   end
 
   def prev_module(id, type)
     res = find_resource(id, type)
     resable = resourceables.select{|r| r.resource.id == res.id}.first
     prev_resable = resable.higher_item
-    return (prev_resable.blank? ? false : prev_resable.resource.mod)
+    (prev_resable.blank? ? false : prev_resable.resource.mod)
   end
 end

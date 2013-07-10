@@ -1,0 +1,15 @@
+= form_for user do |f|
+  = error_messages_for 'user'
+  %label{:for => "user_login"} Email
+  = f.text_field :email
+  %label{:for => "user_psswrd"} Password
+  = f.password_field :password
+  %label{:for => "user_password_confirmation"} Confirm Password
+  = f.password_field :password_confirmation
+  %label{:for => "user_email"} Full Name
+  = f.text_field :name
+  %label{:for => "user_role"}
+    Role:
+    \#{f.radio_button(:role, "admin" )}    Admin
+    \#{f.radio_button(:role, "author")}    Author
+  = f.submit

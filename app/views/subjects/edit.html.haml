@@ -1,0 +1,5 @@
+%fieldset
+  %h3
+    Edit #{@subject.subject_name}
+
+  = render partial: 'form', locals: { subject: @subject }

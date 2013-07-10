@@ -8,16 +8,12 @@
 #
 
 class Subject < ActiveRecord::Base
-  has_and_belongs_to_many :guides, :order => 'guide_name'
-  has_and_belongs_to_many :pages, :order => 'course_num, course_name'
-  has_many :tutorials, :order => 'name'
+  has_and_belongs_to_many :guides, order: 'guide_name'
+  has_and_belongs_to_many :pages, order: 'course_num, course_name'
+  has_many :tutorials, order: 'name'
 
-  validates :subject_code,
-    :presence => { :message => 'may not be blank!' },
-    :uniqueness => { :message => "{{value}} is already being used!" }
-  validates :subject_name,
-    :presence => { :message => 'may not be blank!' },
-    :uniqueness => { :message => "{{value}} is already being used!" }
+  validates :subject_code, presence: true, uniqueness: true
+  validates :subject_name, presence: true, uniqueness: true
 
   def self.get_subjects
     order :subject_code
@@ -28,7 +24,7 @@ class Subject < ActiveRecord::Base
   end
 
   def self.get_page_subjects(pages)
-    pages.collect {|a| a.subjects}.flatten.uniq.sort! {|a,b|  a.subject_code <=> b.subject_code}
+    pages.map {|a| a.subjects}.flatten.uniq.sort_by { |a| a.subject_code }
   end
 
   def to_param
@@ -36,14 +32,14 @@ class Subject < ActiveRecord::Base
   end
 
   def get_pages
-    pages.select{ |a| a.published? }.sort! {|a,b|  a.browse_title(subject_code) <=> b.browse_title(subject_code)}
+    pages.select { |a| a.published? }.sort_by { |a| a.browse_title(subject_code) }
   end
 
   def get_tutorials
-    tutorials.select{ |a| a.published? }.sort! {|a,b|  a.full_name <=> b.full_name}
+    tutorials.select { |a| a.published? }.sort_by { |a| a.full_name }
   end
 
   def get_guides
-    guides.select{ |a| a.published? }.sort! {|a,b|  a.guide_name <=> b.guide_name}
+    guides.select { |a| a.published? }.sort_by { |a| a.guide_name }
   end
 end

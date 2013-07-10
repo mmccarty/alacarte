@@ -18,7 +18,7 @@
 #
 
 class RssResource < ActiveRecord::Base
-  include HasResources
+  include PolymorphicModule
 
   acts_as_taggable
   has_many :resources, :as => :mod,  :dependent => :destroy
@@ -35,19 +35,6 @@ class RssResource < ActiveRecord::Base
                ["9",       9],
                ["15",      15],
               ]
-
-  def private_label
-    self.label = self.module_title
-  end
-
-  def add_tags(tags)
-    self.tag_list = tags
-    self.save
-  end
-
-  def rss_content
-    self.information.blank? ? "" : self.information
-  end
 
   def new_feed_attributes=(feed_attributes)
     feed_attributes.each do |attributes|
@@ -84,5 +71,9 @@ class RssResource < ActiveRecord::Base
         feed.save(false)
       end
     end
+  end
+
+  def rss_content
+    self.information.blank? ? "" : self.information
   end
 end

@@ -16,7 +16,7 @@
 #
 
 class QuizResource < ActiveRecord::Base
-  include HasResources
+  include PolymorphicModule
 
   acts_as_taggable
   has_many :resources, :as => :mod,  :dependent => :destroy
@@ -43,23 +43,10 @@ class QuizResource < ActiveRecord::Base
     return question_copies
   end
 
-  def private_label
-    self.label = self.module_title
-  end
-
   def save_questions
     questions.each do |question|
       question.save(false)
     end
-  end
-
-  def rss_content
-    self.description.blank? ? "" : self.description
-  end
-
-  def add_tags(tags)
-    self.tag_list = tags
-    self.save
   end
 
   def check_student(student)
@@ -69,5 +56,9 @@ class QuizResource < ActiveRecord::Base
 
   def possible_points
     questions.inject(0){|sum,item| sum + item.points}
+  end
+
+  def rss_content
+    self.description.blank? ? "" : self.description
   end
 end

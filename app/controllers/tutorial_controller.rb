@@ -1,6 +1,6 @@
 class TutorialController < ApplicationController
   include Paginating
-  
+
   before_filter :clear_sessions, :only => [:index, :new]
   layout 'tool'
 
@@ -43,7 +43,6 @@ class TutorialController < ApplicationController
     end
   end
 
-  #create a partial tutorial. Just takes the title fields to pass validation it is then passed to update for the rest of the fields
   def create
     if request.post?
       @tutorial =  Tutorial.new

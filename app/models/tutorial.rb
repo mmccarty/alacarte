@@ -29,24 +29,27 @@ class Tutorial < ActiveRecord::Base
   has_many :authorships,  :dependent => :destroy
   has_many :students, :order => :lastname, :dependent => :destroy
   belongs_to :subject
+
   serialize :section_num
+
   after_create :password_protect
+
   has_attached_file :attachment,
-  :styles => { :medium => '505x405>', :thumb => '75x75>' },
-  :url => "/uploads/:attachment/:style/:basename.:extension",
-  :path => ":rails_root/public/uploads/:attachment/:style/:basename.:extension"
+    :styles => { :medium => '505x405>', :thumb => '75x75>' },
+    :url => "/uploads/:attachment/:style/:basename.:extension",
+    :path => ":rails_root/public/uploads/:attachment/:style/:basename.:extension"
 
   validates_presence_of  :name
   validates_uniqueness_of :name,
-  :scope => [:course_num, :section_num, :subject_id],
-  :message => "is already in use. Change the Tutorial title to make it unique."
+    :scope => [:course_num, :section_num, :subject_id],
+    :message => "is already in use. Change the Tutorial title to make it unique."
 
   validates_format_of :section_num,
-  :with =>  /^(\d{1,}\,?\d{1,})*$/,
-  :message => "must be a comma seperated list of numbers or blank"
+    :with =>  /^\d+(,\d+)*$/,
+    :message => "must be a comma seperated list of numbers or blank"
   validates_format_of :course_num,
-  :with => /^(\d{1,}\/?\d{1,})*$/,
-  :message => "must be a number or number/number."
+    :with => /^\d+(\/\d+)?$/,
+    :message => "must be a number or number/number."
 
   attr_protected :id
 
@@ -64,17 +67,15 @@ class Tutorial < ActiveRecord::Base
   end
 
   def full_name
-    course + " " + name
+    "#{ course } #{ name }"
   end
 
   def course
-    subject ? subject.subject_code + " "+ course_num : ""
+    subject ? "#{ subject.subject_code } #{ course_num }" : ''
   end
 
   def sections
-    nums=[]
-    nums << section_num.split(',') if !section_num.blank?
-    nums.flatten
+    section_num.split ','
   end
 
   def self.get_published_tutorials
@@ -142,22 +143,21 @@ class Tutorial < ActiveRecord::Base
   end
 
   def shared?
-    return users.length > 1
+    users.length > 1
   end
 
   def any_editors?
-    return users.collect{|u| u.rights = 1}.length > 1
+    users.map {|u| u.rights = 1}.length > 1
   end
 
   def creator
-    return User.exists?(created_by) ? User.find(created_by).name : ""
+    User.exists?(created_by) ? User.find(created_by).name : ''
   end
 
   def publish
-    return published == 1 ? true : false
+    published == 1 ? true : false
   end
 
-  #update resources with shared users
   def update_users
     resources =  units.collect{|t| t.resources}.compact
     resources.each do |resource|
@@ -175,31 +175,23 @@ class Tutorial < ActiveRecord::Base
   def next_unit(current_id)
     uts= unitizations.select{|uz| uz.unit.id == current_id}.first
     next_uz = uts.lower_item
-    if !next_uz.blank?
-      return next_uz.unit
-    else
-      return false
-    end
+    ! next_uz.blank? && next_uz.unit
   end
 
   def prev_unit(current_id)
-    uts= unitizations.select{|uz| uz.unit.id == current_id}.first
+    uts= unitizations.select {|uz| uz.unit.id == current_id}.first
     prev_uz = uts.higher_item
-    if !prev_uz.blank?
-      return prev_uz.unit
-    else
-      return false
-    end
+    ! prev_uz.blank? && prev_uz.unit
   end
 
   def quizzes
     resources = units.collect{|u| u.resources}.flatten
     mods = resources.collect{|a| a.mod if a.mod.class== QuizResource}.flatten.compact
-    return mods.uniq
+    mods.uniq
   end
 
   def get_students(section=nil)
-    return section ? students.select{|s| s.sect_num == section} : students
+    section ? students.select{|s| s.sect_num == section} : students
   end
 
   def clear_grades(section=nil)
@@ -207,7 +199,7 @@ class Tutorial < ActiveRecord::Base
     studs.each do |student|
       student.destroy
     end
-    return studs.length > 0 ? "Tutorial grades were successfully cleared." : "There were no grades to clear."
+    studs.length > 0 ? "Tutorial grades were successfully cleared." : "There were no grades to clear."
   end
 
   def possible_score
@@ -215,20 +207,20 @@ class Tutorial < ActiveRecord::Base
     quizzes.each do |q|
       scores << q.possible_points
     end
-    return scores.inject(0){|sum,item| sum + item}
+    scores.inject(0) {|sum,item| sum + item}
   end
 
   def password_protect
     words = ["p@ssword","passw0rd", "p@ssw0rd", "pa33word"]
-    self.pass = words.rand
+    self.pass = words[rand(words.length)]
     self.save
   end
 
   def index_unit_title
-    units.map{|unit| unit.title}.join(", ")
+    units.map {|unit| unit.title}.join(", ")
   end
 
   def index_unit_slug
-    units.map{|unit| unit.slug}.join(", ")
+    units.map {|unit| unit.slug}.join(", ")
   end
 end

@@ -1,0 +1,23 @@
+%fieldset
+  %h3.title
+    = render :partial => '/tutorial/title_actions'
+  %h4 Add Units
+  - if flash[:error]
+    #error_wrapper
+      #list_error= flash[:error]
+
+  = form_tag create_unit_path do
+    = error_messages_for 'unit'
+    #vertical_inputs.index
+      %h5 New Unit
+      %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_TITLE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      = content_tag :a, 'cancel', :onclick => "$('new').toggle();$('new_button').toggle();; return false;"
+      <span #{%(class="required") if flash[:unit_title_error]}>
+      %label{:for => "page_course_name"}
+        Unit Name
+        %span.required.more_help *
+      = text_field 'unit', 'title', "size" => 45 , :value => flash[:unit_title]
+      %span
+        %label &nbsp;
+        = submit_tag 'Create Unit'
+      %br/
