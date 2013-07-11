@@ -1,22 +1,20 @@
 class DashboardController < ApplicationController
-  before_filter :clear_sessions, :only =>[:index]
+  before_filter :clear_sessions, only: [:index]
+  layout 'admin'
 
-  layout 'tool'
-
-  def index
-    @dcurrent = 'current'
-    @cnum = @user.pub_pages.length
-    @acnum = @user.arch_pages.length
-    @tnum = @user.pub_tuts.length
-    @atnum = @user.arch_tuts.length
-    @gnum = @user.pub_guides.length
-    @mnum = @user.num_modules
+  def show
+    @cnum    = @user.pub_pages.length
+    @acnum   = @user.arch_pages.length
+    @tnum    = @user.pub_tuts.length
+    @atnum   = @user.arch_tuts.length
+    @gnum    = @user.pub_guides.length
+    @mnum    = @user.num_modules
     @recents = @user.recent_activity
   end
 
   def my_profile
     begin
-      resource = @user.resources.find(params[:rid])
+      resource = @user.resources.find params[:rid]
     rescue Exception => e
       redirect_to :action => 'index' and return
     else
@@ -41,9 +39,9 @@ class DashboardController < ApplicationController
 
   def my_account
     if request.post?
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes params[:user]
         flash[:notice]="Account Changed"
-        redirect_to :action => 'index' and return
+        redirect_to dashboard_path and return
       end
     end
   end

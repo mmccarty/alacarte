@@ -1,4 +1,4 @@
-module PageHelper
+module PagesHelper
   def page_search_params(search,id,page)
     page_params = {}
     if search #if request came from a search, add search term to paramaters

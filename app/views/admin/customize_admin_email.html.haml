@@ -1,17 +1,15 @@
-%fieldset
-  %h2 Customize Admin Email Addresses
-  = form_tag :action => 'customize_admin_email', :id => @local do
-    = error_messages_for 'local'
-    #share
-      %fieldset
-        %h4 Admin Email Addresses
-        %label{:for => "admin_email_to"} Admin Email Address to
-        .tip Enter the email address that you want administrative emails sent to.
-        %br/
-        = text_field 'local','admin_email_to',  :size => '63'
-        %label{:for => "admin_email_from"} Admin Email Address from
-        .tip Enter the email address that you want administrative emails sent from.
-        %br/
-        = text_field 'local', 'admin_email_from' , :size => '63'
-    = submit_tag 'Customize Email', :class => "submit"
-  = link_to 'Cancel', :action => 'tools'
+%h1 Customize Admin Email Addresses
+
+= form_tag :action => 'customize_admin_email', :id => @local do
+  = error_messages_for 'local'
+  %label{:for => "admin_email_to"} Admin Email Address to
+  .tip Enter the email address that you want administrative emails sent to.
+  %br/
+  = text_field 'local','admin_email_to',  :size => '63'
+  %label{:for => "admin_email_from"} Admin Email Address from
+  .tip Enter the email address that you want administrative emails sent from.
+  %br/
+  = text_field 'local', 'admin_email_from' , :size => '63'
+  %br/
+  = submit_tag 'Customize Email', class: 'btn btn-primary'
+  = link_to 'Cancel', tools_path, class: 'btn btn-cancel'

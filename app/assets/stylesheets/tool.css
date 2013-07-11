@@ -235,14 +235,6 @@ padding:0.2em 0.5em;
 
 .page_actions {margin-left: .5em;}
 
-/*alternating list */
-
-.list-title {font-weight: 900;}
-
-.list-line-even {background: #F5F9FF;}
-
-.list-line-odd {background:  #ffffff;}
-
 .list-item {
 	margin: 0 0 10px;
 	padding: 5px;

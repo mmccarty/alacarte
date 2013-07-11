@@ -1,102 +1,22 @@
-class GuideController < ApplicationController
+class GuidesController < ApplicationController
   include Paginating
   before_filter :current_guide, :only => [:remove_user_from_guide, :suggest_relateds, :remove_related]
   before_filter :clear_sessions, :only =>[:index, :new]
   before_filter :clear_page_sessions, :only =>[:edit]
 
   in_place_edit_for :tab, :tab_name
-  layout 'tool'
+  layout 'admin'
 
   def index
-    @sort = params[:sort] || 'name'
+    @sort   = params[:sort] || 'name'
     @guides = @user.sort_guides(@sort)
     @guides = paginate_guides(@guides,(params[:page] ||= 1), @sort)
-    @search_value = "Search My Guides"
-    if request.xhr?
-      render :partial => "guides_list", :layout => false
-    end
   end
 
-  def index_all
-    @all = 'all'
-    @sort = params[:sort]
-    @guides = @user.sort_guides(params[:sort])
-    render :partial => "guides_list", :layout => false
-  end
-
-  def new
-    @subjects = Subject.get_subject_values
-    @guide_types = Master.get_guide_types
-    @resources = @user.contact_resources
-    @tag_list = ""
-    if request.post?
-      @guide = Guide.new
-      @guide.create_home_tab
-      @guide.update_attributes params[:guide]
-      if @guide.save
-        session[:guide] = @guide.id
-        session[:current_tab] = @guide.tabs.first.id
-        @user.add_guide(@guide)
-        @guide.add_master_type(params[:types])
-        @guide.add_related_subjects(params[:subjects])
-        @guide.add_tags(params[:tags])
-        redirect_to  :action => 'edit', :id => @guide.id
-      end
-    end
-  end
-
-  def create
-    session[:guide] = nil
-    session[:current_tab] = nil
-    if request.post?
-      @guide =  Guide.new
-      @guide.create_home_tab
-      @guide.attributes = params[:guide]
-      if @guide.save
-        session[:guide] = @guide.id
-        session[:current_tab] = @guide.tabs.first.id
-        @user.add_guide(@guide)
-        redirect_to  :action => 'update', :id => @guide.id
-      else
-        flash[:notice] = "Could not create the guide. There were problems with the following fields:
-                           #{@guide.errors.full_messages.join(", ")}"
-        flash[:guide_title] = params[:guide][:guide_title]
-        flash[:guide_title_error] = ""
-        redirect_to :action => 'index', :sort =>"name"
-      end
-    end
-  end
-
-  def update
-    @subjects = Subject.get_subject_values
-    @guide_types = Master.get_guide_types
-    begin
-      @guide =  @user.guides.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to  :action => 'index'
-    else
-      @tag_list = @guide.tag_list
-      @selected_types = @guide.masters.collect { |m| m.id }
-      @selected_subjs = @guide.subjects.collect { |m| m.id }
-      if request.post?
-        @guide.update_attributes params[:guide]
-        @guide.add_master_type params[:type]
-        @guide.add_related_subjects params[:subject]
-        @guide.add_tags params[:tags]
-        if @guide.save
-          redirect_to edit_guide_path(@guide)
-        end
-      end
-    end
-  end
-
-  def edit
+  def show
     begin
       @guide = @user.guides.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to  :action => 'index'
-    else
-      session[:guide] = @guide.id
+      session[:guides] = @guide.id
       @tabs = @guide.tabs
       if session[:current_tab]
         @tab = @tabs.select{|t| t.id == session[:current_tab].to_i}.first
@@ -111,13 +31,67 @@ class GuideController < ApplicationController
       else
         @mods = @tab.tab_resources
       end
+    rescue ActiveRecord::RecordNotFound
+      redirect_to guides_path
+    end
+  end
+
+  def new
+    @guide = Guide.new
+    @masters = Master.get_guide_types
+    @subjects = Subject.get_subject_values
+    @resources = @user.contact_resources
+  end
+
+  def create
+    guide = Guide.new params[:guide]
+    guide.create_home_tab
+    if guide.save
+      @user.add_guide guide
+      guide.add_master_type params[:types]
+      guide.add_related_subjects params[:subjects]
+      redirect_to guide
+    else
+      flash[:notice] = "Could not create the guide. There were problems with the following fields: #{@guide.errors.full_messages.join(", ")}"
+      flash[:guide_title] = params[:guides][:guide_title]
+      flash[:guide_title_error] = ""
+      redirect_to guides_path
+    end
+  end
+
+  def edit
+    begin
+      @guide = @user.guides.find params[:id]
+      @masters = Master.get_guide_types
+      @subjects = Subject.get_subject_values
+      @resources = @user.contact_resources
+    rescue ActiveRecord::RecordNotFound
+      redirect_to guides_path
+    end
+  end
+
+  def update
+    begin
+      guide = @user.guides.find params[:id]
+      if guide.save
+        guide.add_master_type params[:types]
+        guide.add_related_subjects params[:subjects]
+        redirect_to guide and return
+      else
+        flash[:notice] = "Could not create the guide. There were problems with the following fields: #{@guide.errors.full_messages.join(", ")}"
+        flash[:guide_title] = params[:guides][:guide_title]
+        flash[:guide_title_error] = ""
+        redirect_to guides_path and return
+      end
+    rescue ActiveRecord::RecordNotFound
+      redirect_to guides_path and return
     end
   end
 
   def copy
     @subjects = Subject.get_subject_values
     @guide_types = Master.get_guide_types
-    session[:guide] = nil
+    session[:guides] = nil
     session[:current_tab] = nil
     begin
       @guide = @user.guides.find(params[:id])
@@ -129,7 +103,7 @@ class GuideController < ApplicationController
       @selected_subjs = @guide.subjects.collect { |m| m.id }
       if request.post?
         @new_guide = @guide.clone
-        @new_guide.attributes = params[:guide]
+        @new_guide.attributes = params[:guides]
         @new_guide.published = false
         @new_guide.add_tags(params[:tags])
         if @new_guide.save
@@ -141,7 +115,7 @@ class GuideController < ApplicationController
           else
             @new_guide.copy_tabs(@guide.tabs)
           end
-          session[:guide] = @new_guide.id
+          session[:guides] = @new_guide.id
           session[:current_tab] = @new_guide.tabs.first.id
           redirect_to :action => "edit", :id =>@new_guide and return
         else
@@ -169,19 +143,19 @@ class GuideController < ApplicationController
 
   def edit_contact
     begin
-      @guide = @user.guides.find(params[:id])
+      @guide = @user.guides.find params[:id]
+      @tab = @guide.tabs.first
     rescue ActiveRecord::RecordNotFound
-      redirect_to :action => 'index' and return
+      redirect_to guides_path and return
     else
-      @resources = @user.contact_resources
-      @selected = @guide.resource_id
-      @mod = @guide.resource.mod if @guide.resource
-      if request.post?
-        @guide.resource_id = params[:contact].to_i  if params[:contact]
+      if request.put?
+        @guide.update_attributes params[:guide]
         if @guide.save
           flash[:notice] = "The Contact Module was successfully changed."
-          redirect_to :action => 'edit_contact'
+          redirect_to @guide and return
         end
+      else
+        @resources = @user.contact_resources.map { |resource| [resource.mod.label, resource.id] }
       end
     end
   end
@@ -190,16 +164,17 @@ class GuideController < ApplicationController
     begin
       @guide = @user.guides.find params[:id]
     rescue ActiveRecord::RecordNotFound
-      redirect_to :action => 'index' and return
+      redirect_to guides_path and return
     end
-    @relateds = @guide.related_guides
-    @guides = Guide.published_guides
-    if request.post?
+    if request.put?
       @guide.add_related_guides params[:relateds] if params[:relateds]
       if @guide.save
         flash[:notice] = "The guides were successfully related"
-        redirect_to :action => 'edit_relateds'
+        redirect_to @guide and return
       end
+    else
+      @guides   = Guide.published_guides
+      @relateds = @guide.related_guides.map &:id
     end
   end
 
@@ -222,7 +197,7 @@ class GuideController < ApplicationController
       flash[:notice] = "Successfully removed from shared guide."
       redirect_to :action => 'index'
     else
-      session[:guide] = @guide.id
+      session[:guides] = @guide.id
       session[:current_tab] = @guide.tabs.first.id
       @user_list = User.order("name")
       @guide_owners = @guide.users
@@ -307,7 +282,7 @@ class GuideController < ApplicationController
       if request.xhr?
         render :update do |page|
           if @guide.toggle_published
-            page.replace_html "publish#{@guide.id}" , :partial => "publish" ,:locals => {:guide => @guide, :page => @page, :sort => @sort }
+            page.replace_html "publish#{@guide.id}" , :partial => "publish" ,:locals => {:guides => @guide, :page => @page, :sort => @sort }
           else
             flash[:error] = "A contact module is required before you can publish the guide."
             flash[:contact_error] = ""

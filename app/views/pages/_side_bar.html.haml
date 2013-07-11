@@ -1,0 +1,11 @@
+%ul.nav.nav-pills.nav-stacked
+  %li{ :class => current_page?(edit_page_path @page) && "active" }
+    = link_to 'Title & Metadata', edit_page_path(@page)
+  %li{ :class => current_page?(page_path @page) && "active" }
+    = link_to 'Edit page', page_path(@page)
+  %li{ :class => current_page?(add_modules_tab_path(@tab)) && "active" }
+    = link_to 'Add Modules', add_modules_tab_path(@tab)
+  %li{ :class => current_page?(share_page_path(@page)) && "active" }
+    = link_to 'Share page', share_page_path(@page)
+  %li{ :class => current_page?(new_page_path) && "active" }
+    = link_to 'Create New page', new_page_path

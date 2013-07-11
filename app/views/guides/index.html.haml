@@ -15,16 +15,15 @@
     %table.table.table-striped
       %thead
         %tr
-          %th= sort_link_helper "Shared?", "shared"
-          %th= sort_link_helper "Title", "name"
+          %th Shared?
+          %th Title
           %th
-          %th= sort_link_helper "Last Update", "date"
-          %th= sort_link_helper "Published?", "publish"
+          %th Last Update
+          %th Published?
 
       %tbody
         - @guides.each do |guide|
           %tr
-
             %td
               - unless guide.shared?
                 = link_to '',  share_guide_path(guide), :class => 'icon-share-alt', :title => 'Click to share this guide'
@@ -34,13 +33,10 @@
             %td= truncate(guide.guide_name,:length => 65)
 
             %td
-              = link_to '', edit_guide_path(guide), :class =>'icon-edit', :title => 'Edit this Guide'
-              &nbsp;
+              = link_to '', guide, :class =>'icon-edit', :title => 'Edit this Guide'
               = link_to '', show_srg_path(guide, :tab => session[:current_tab]), :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'], :class =>'icon-external-link', :title => 'Preview this Guide in a New Window'
-              &nbsp;
               = link_to '', copy_guide_path(guide), :class =>'icon-copy', :title => 'Copy this guide'
-              &nbsp;
-              = link_to '', {:url => delete_guide_path(guide, :page => @page, :sort => @sort), :update => "row#{guide.id}" , :confirm => 'Are you sure you want to delete this guide from your list?'}, :href => delete_guide_path(guide, :page => @page, :sort => @sort), :class =>'icon-trash', :title => 'Delete this guide', :method => :post, :remote => true
+              = link_to '', guide, :update => "row#{guide.id}" , :confirm => 'Are you sure you want to delete this guide from your list?', :class =>'icon-trash', :title => 'Delete this guide', :method => :delete, :remote => true
 
             %td= guide.updated_at.to_date
 

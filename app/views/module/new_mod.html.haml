@@ -1,19 +1,17 @@
-%fieldset
-  %h3 Create New Module
-  #share
-    = error_messages_for :mod
-    - if flash[:error]
-      #error_wrapper
-        #list_error= flash[:error]
+%h1 Create New Module
 
-    %fieldset
-      = form_tag action: 'new_mod' do
-        %label{ for: 'mod_type' }
-          Content Type
-          %span.required.more_help *
-        = select :mod, :type, @types, {:selected => @selected , :prompt => "Select"}, {}
-        = render 'mod_title'
-        %span
-          %label &nbsp;
-          = submit_tag 'Create Module'
-    %p= link_to 'Cancel', :action => 'index'
+= error_messages_for :mod
+- if flash[:error]
+  #error_wrapper
+    #list_error= flash[:error]
+
+= form_tag action: 'new_mod' do
+  %label{ for: 'mod_type' }
+    Content Type
+    %span.required.more_help *
+  = select :mod, :type, @types, {:selected => @selected , :prompt => "Select"}, {}
+  = render 'mod_title'
+  %span
+    %label &nbsp;
+    = submit_tag 'Create Module', class: 'btn btn-primary'
+    = link_to 'Cancel', modules_path, class: 'btn btn-cancel'

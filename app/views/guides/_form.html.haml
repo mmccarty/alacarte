@@ -1,0 +1,35 @@
+= form_for guide do |f|
+  =error_messages_for :guide
+
+  %fieldset
+    %legend Guide Title &amp; Subject
+    %span{ :class => flash[:guide_title_error] && 'required' }
+      %label{ :for => 'guide[guide_name]' }
+        Title
+        %span.required.more_help
+          *
+    = f.text_field :guide_name, :size => 50
+    %label{ :for => 'type[]' } Subject Categories
+    = select_tag :masters, options_from_collection_for_select(@masters, :id, :value, @selected_masters), :multiple => true, :size => 3
+    %br/
+    .tip (press Ctrl or Command to select more than one item or to deselect an item.)
+
+  %fieldset
+    %legend Related Courses
+    %label{ :for => 'subject[]' } Associate Course Subjects
+    = select_tag :subjects, options_from_collection_for_select(@subjects, :id, :subject_name, @selected_subjects), :multiple => true, :size => 3
+    %br/
+    .tip (press Ctrl or Command to select more than one item or to deselect an item.)
+
+  %fieldset
+    %legend Guide Metadata
+    %label{ :for => 'guide[description]' } Description
+    = f.text_area :description, :class => 'tinymce'
+    =tinymce
+    .tip Enter a short description about the guide.
+    %label{ :for => 'tags' } Tags
+    = f.text_field :tag_list, :size => '40x2'
+    .tip example: anthropology, insects, caves
+
+  = f.submit class: 'btn btn-primary'
+  = link_to 'Cancel', guides_path, class: 'btn btn-cancel'

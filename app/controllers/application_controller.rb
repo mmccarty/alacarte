@@ -90,7 +90,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_guide
-    @guide = Guide.find session[:guide] if session[:guide]
+    @guide = Guide.find session[:guides] if session[:guides]
   end
 
   def current_tab
@@ -122,7 +122,7 @@ class ApplicationController < ActionController::Base
   end
 
   def clear_guide_sessions
-    session[:guide] = nil if  session[:guide]
+    session[:guides] = nil if  session[:guides]
   end
 
   def clear_tutorial_sessions

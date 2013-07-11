@@ -1,18 +1,10 @@
-- if flash[:notice]
-  = flash[:notice]
+- flash_notice
 
 .row
   .span12
-
-  = link_to 'Create New Module', :action => 'new_mod', :class => 'btn'
-
-  %ul
-    %li= link_to "Global Modules" , :controller => 'module', :action => 'index', :sort => 'name', :list => 'global'
-    %li= link_to "Browse By Tags" , :controller => 'tagged', :action => 'index', :sort => 'name'
-    %li= link_to "My Modules" , :controller => 'module', :action => 'index', :sort => 'name', :list => 'mine'
-    %li
-      - if !@all and @mods.total_pages > 1
-        = will_paginate @mods, :params => params.merge({:sort=> @sort}).except(:authenticity_token), :page_links => false
+    = link_to '/module/new_mod', class: 'btn btn-primary' do
+      %i.icon-plus
+      Create New Module
 
 .row
   .span12= render "#{ @list == 'mine' ? 'mods' : 'global' }_list"

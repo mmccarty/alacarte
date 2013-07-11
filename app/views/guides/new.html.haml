@@ -1,0 +1,7 @@
+%h1 Create New Guide
+-if flash[:error]
+  #error_wrapper
+    #list_error
+      =flash[:error]
+
+= render partial: 'form', locals: { guide: @guide }

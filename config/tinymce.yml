@@ -39,4 +39,4 @@ plugins:
   - fullscreen
   - code
 fix_list_elements: true
-height: 500
+height: 400

@@ -68,7 +68,7 @@ class AdminController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       redirect_to :action => 'tools'
     else
-      session[:guide] = @guide.id
+      session[:guides] = @guide.id
       @user_list = User.order("name")
       @guide_owners = @guide.users
     end
@@ -296,31 +296,31 @@ class AdminController < ApplicationController
     end
   end
 
-  def customize_layout
-    if request.post?
-      @local.update_attributes(params[:local])
-      redirect_to(:action => 'view_customizations')  if @local.save
-    end
+  def view_customizations
   end
 
-  def view_customizations
+  def customize_layout
+    if request.post?
+      @local.update_attributes params[:local]
+      redirect_to action: 'view_customizations' if @local.save
+    end
   end
 
   def customize_content_types
     @guide_types = [['Course Guides', 'pages'], ['Subject Guides', 'guides'], ['Research Tutorials', 'tutorials']]
-    @types = MODULES
+    @types = ::MODULES
     @selected = @local.types_list
     @selected_guides = @local.guides_list
     if request.post?
-      @local.update_attributes(params[:local])
-      redirect_to(:action => 'view_customizations')  if @local.save
+      @local.update_attributes params[:local]
+      redirect_to action: 'view_customizations' if @local.save
     end
   end
 
   def customize_admin_email
     if request.post?
-      @local.update_attributes(params[:local])
-      redirect_to(:action => 'view_customizations')  if @local.save
+      @local.update_attributes params[:local]
+      redirect_to action: 'view_customizations' if @local.save
     end
   end
 end

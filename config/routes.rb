@@ -1,26 +1,6 @@
 Alacarte::Application.routes.draw do
   root to: 'login#login'
 
-  get ':controller/service.wsdl' => '#wsdl'
-  get 'course-guides/' => 'ica#published_pages'
-  get 'course-guides/archived/' => 'ica#archived'
-  get 'course-guides/tagged/:id' => 'ica#tagged'
-  get 'course-guide/:id' => 'ica#index'
-  get 'subject-guides/' => 'srg#published_guides'
-  get 'subject-guides/tagged/:id' => 'srg#tagged'
-  get 'subject-guide/:id' => 'srg#index', as: 'show_srg'
-  get 'internal-guides/' => 'srg#internal_guides'
-  get 'tutorials' => 'ort#published_tutorials'
-  get 'tutorials/archived/' => 'ort#archived_tutorials'
-  get 'tutorials/:id' => 'ort#index'
-  get 'tutorials/unit/:id' => 'ort#unit'
-  get 'tutorials/lesson/:id' => 'ort#lesson'
-  get 'tutorials/tagged/:id' => 'ort#tagged'
-  get 'tutorials/subject/:id' => 'ort#subject_list'
-  get 'tutorials/my-quizzes/:id' => 'student#quizzes'
-  get 'tutorials/login/:id' => 'student#login'
-  get 'tutorials/create-account/:id' => 'student#create_account'
-
   scope path: '/admin', controller: :admin do
     resources :dods, :masters, :subjects
     resources :users do
@@ -36,52 +16,88 @@ Alacarte::Application.routes.draw do
     get 'tools' => :index, as: 'tools'
   end
 
-  get 'dashboard' => 'dashboard#index', as: 'dashboard'
+  scope path: '/course-guides', controller: :ica do
+    get ''           => :published_pages
+    get 'archived'   => :archived
+    get 'tagged/:id' => :tagged
+    get ':id'        => :index
+  end
 
-  scope path: '/guide', controller: :guide do
-    get '' => :index, as: 'guides'
-    get 'copy/:id' => :copy, as: 'copy_guide'
-    get 'destroy/:id' => :destroy, as: 'delete_guide'
-    get 'edit/:id' => :edit, as: 'edit_guide'
-    get 'new' => :new, as: 'new_guide'
-    post 'publish/:id' => :publish, as: 'publish_guide'
-    get 'share/:id' => :share, as: 'share_guide'
-    post 'update/:id' => :update, as: 'update_guide'
+  resource :dashboard, controller: :dashboard
+
+  resources :guides do
+    member do
+      get   'copy'
+      match 'edit_contact',  via: [:get, :put]
+      match 'edit_relateds', via: [:get, :put]
+      get   'publish'
+      get   'share'
+    end
   end
 
   get 'login/logout' => 'login#logout', as: 'logout'
 
   scope path: '/module', controller: :module do
-    get '' => :index, as: 'modules'
-    get 'copy/:id' => :copy, as: 'copy_module'
-    get 'edit/:id' => :edit, as: 'edit_module'
+    get ''                 => :index,        as: 'modules'
+    get 'copy/:id'         => :copy,         as: 'copy_module'
+    get 'edit/:id'         => :edit,         as: 'edit_module'
     get 'edit_content/:id' => :edit_content, as: 'edit_content'
-    get 'view/:id' => :view, as: 'module'
+    get 'new'              => :new,          as: 'new_module'
+    get 'view/:id'         => :view,         as: 'module'
   end
 
-  scope path: '/page', controller: :page do
-    get '' => :index, as: 'pages'
-    get 'new' => :new, as: 'new_page'
+  resources :pages do
+    member do
+      get   'copy'
+      match 'edit_contact',  via: [:get, :put]
+      match 'edit_relateds', via: [:get, :put]
+      get   'publish'
+      get   'share'
+    end
   end
 
-  scope path: '/tab', controller: :tab do
-    get 'add_modules/:id' => :add_modules, as: 'add_modules'
-    post 'remove_module/:id' => :remove_module, as: 'remove_module'
-    get 'new' => :new, as: 'new_tab'
+  scope path: '/subject-guides', controller: :srg do
+    get ''           => :published_guides
+    get 'tagged/:id' => :tagged
+    get ':id'        => :index, as: 'show_srg'
+  end
+
+  get 'internal-guides/' => 'srg#internal_guides'
+
+  resources :tabs do
+    member do
+      post  'add_mod'
+      match 'add_modules', via: [:get, :post]
+      post  'remove_module'
+    end
   end
 
   scope path: '/tutorial', controller: :tutorial do
-    get '' => :index, as: 'tutorials'
-    get 'copy/:id' => :copy, as: 'copy_tutorial'
-    get 'new' => :new, as: 'new_tutorial'
+    get  ''           => :index,  as: 'tutorials'
+    get  'copy/:id'   => :copy,   as: 'copy_tutorial'
+    get  'new'        => :new,    as: 'new_tutorial'
     post 'update/:id' => :update, as: 'update_tutorial'
   end
 
+  scope path: '/tutorials', controller: :ort do
+    get ''            => :published_tutorials
+    get 'archived'    => :archived_tutorials
+    get ':id'         => :index
+    get 'unit/:id'    => :unit
+    get 'tagged/:id'  => :tagged
+    get 'subject/:id' => :subject_list
+  end
+
+  get 'tutorials/my-quizzes/:id'     => 'student#quizzes'
+  get 'tutorials/login/:id'          => 'student#login'
+  get 'tutorials/create-account/:id' => 'student#create_account'
+
   scope path: '/unit', controller: :unit do
-    post 'create' => :create, as: 'create_unit'
-    get 'new' => :new, as: 'new_unit'
+    post 'create'     => :create, as: 'create_unit'
+    get  'new'        => :new,    as: 'new_unit'
     post 'update/:id' => :update, as: 'update_unit'
   end
 
+  get ':controller/service.wsdl' => '#wsdl'
   match '/:controller(/:action(/:id))'
 end

@@ -1,0 +1,20 @@
+.row
+  .span2= render 'side_bar'
+
+  .span10
+    = render 'title_actions'
+
+    %h2
+      = link_to 'Edit Page', @page
+      >> Contact Module
+
+    = flash_notice
+
+    = form_for @page, url: edit_contact_page_path(@page) do |f|
+      %label
+        Contact Module
+        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(CONTACT_MOD_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+      = f.select :resource_id, @resources
+      %br/
+      = f.submit 'Update Contact', class: 'btn btn-primary'
+      = link_to 'Cancel', @page, class: 'btn btn-cancel'

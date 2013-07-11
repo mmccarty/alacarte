@@ -1,11 +1,12 @@
-class TabController < ApplicationController
+class TabsController < ApplicationController
   include Paginating
   before_filter :module_types, :only =>[ :add_modules, :page_add_modules]
   before_filter :current_tab, :only => [:sort, :add_mod, :add_modules, :new_module, :remove_module, :toggle_columns, :page_add_modules]
   before_filter :current_guide, :except => [:page_create, :page_show, :page_delete, :page_add_modules]
   before_filter :current_page, :except => [:create, :show, :delete, :add_modules]
+
   in_place_edit_for :tab, :tab_name
-  layout 'tool'
+  layout 'admin'
 
   def create
     if Guide.exists?(@guide) and request.post?
@@ -60,7 +61,7 @@ class TabController < ApplicationController
         end
         render :partial => 'guide/edit_tab', :layout => false
       else
-        redirect_to :controller => 'guide', :action => 'edit', :id => @guide
+        redirect_to @guide
       end
     else
       render :text => "Please refresh your browser.", :layout => false
@@ -167,19 +168,15 @@ class TabController < ApplicationController
 
   def add_modules
     setSessionGuideId
-    @amcurrent = 'current'
     @sort = params[:sort] || 'label'
     session[:add_mods] ||= []
     @mods = @user.sort_mods(@sort)
     @mods = paginate_mods(@mods, params[:page] ||= 1, @sort)
-    @search_value = "Search My Modules"
-    if request.xhr?
-      render :partial => "shared/add_modules_list", :layout => false
-    elsif request.post? and !session[:add_mods].nil?
+    if request.post? and !session[:add_mods].nil?
       @tab.update_resource(session[:add_mods])
       @guide.update_users if @guide and @guide.shared?
       session[:add_mods] = nil
-      redirect_to :action => "show", :id => @tab.id
+      redirect_to @tab
     end
   end
 

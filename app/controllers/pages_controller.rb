@@ -1,82 +1,55 @@
-class PageController < ApplicationController
+class PagesController < ApplicationController
   include Paginating
   before_filter :current_page, :only => [:edit_relateds, :remove_related, :suggest_relateds, :send_url, :remove_user_from_page]
   before_filter :custom_page_data, :only => [:index, :new, :update, :copy]
   before_filter :clear_sessions, :only =>[:index, :new]
-  layout 'tool'
+  layout 'admin'
 
   in_place_edit_for :tab, :tab_name
 
   def index
-    @pcurrent = 'current'
     @subj_list = Subject.get_subjects
     @sort = params[:sort] || 'name'
     @search_value ='Search My Pages'
     @pages = @user.sort_pages(@sort)
     @pages = paginate_pages(@pages, params[:page] ||= 1,@sort)
-    if request.xhr?
-      render :partial => "pages_list", :layout => false
-    end
   end
 
-  def index_all
-    @all = 'all'
-    @sort = params[:sort]
-    @pages = @user.sort_pages(@sort)
-    render :partial => "pages_list", :layout => false
-  end
-
-  def create
-    session[:page]= nil
-    session[:current_tab] = nil
-    if request.post?
-      @page =  Page.new
-      @page.attributes = params[:page]
-      @page.add_subjects(params[:subjects])
-      @page.create_home_tab
-      if @page.save
-        session[:page] = @page.id
-        session[:current_tab] = @page.tabs.first.id
-        @user.add_page(@page)
-        redirect_to  :action => 'update', :id =>@page.id
+  def show
+    begin
+      @page = @user.pages.find(params[:id])
+      session[:page] = @page.id
+      @tabs = @page.tabs
+      @tab = (session[:current_tab].blank? ? @tabs.first : @tabs.select{|t| t.id == session[:current_tab].to_i}.first)
+      if @tab
+        session[:current_tab] = @tab.id
+        if @tab.template == 2
+          @mods_left  = @tab.left_resources
+          @mods_right = @tab.right_resources
+        else
+          @mods = @tab.tab_resources
+        end
       else
-        flash[:notice] = "Could not create the page. There were problems with the following fields:
-                           #{@page.errors.full_messages.join(", ")}"
-        flash[:course_name] = params[:page][:course_name]
-        flash[:course_num] = params[:page][:course_num]
-        flash[:course_term] = params[:page][:term]
-        flash[:course_year] = params[:page][:year]
-        flash[:course_campus] = params[:page][:campus]
-        flash[:course_sect] = params[:page][:sect_num]
-        flash[:course_subj] = params[:subjects].collect{|s|s.to_i} if params[:subjects]
-        flash[:course_subj_error] = @page.errors[:subjects]
-        flash[:course_name_error] = @page.errors[:course_name]
-        flash[:course_num_error] = @page.errors[:course_num]
-        flash[:course_term_error] = @page.errors[:term]
-        flash[:course_year_error] = @page.errors[:year]
-        flash[:course_sect_error] = @page.errors[:sect_num]
-        redirect_to :back
+        flash[:notice] = "There are critical errors on the guide. Consider deleting this guide."
+        redirect_to  :action => 'index' and return
       end
+    rescue ActiveRecord::RecordNotFound
+      redirect_to pages_path and return
     end
   end
 
   def new
+    @page = Page.new
     @subj_list = Subject.get_subjects
-    if request.post?
-      @page =  Page.new
-      @page.attributes = params[:page]
-      @page.add_subjects(params[:subjects])
-      if @page.save
-        @page.create_home_tab
-        session[:page] = @page.id
-        session[:current_tab] = @page.tabs.first.id
-        @user.add_page(@page)
-        @page.add_tags(params[:tags])
-        redirect_to  :action => 'edit', :id =>@page.id and return
-      else
-        flash[:course_subj_error] = @page.errors[:subjects]
-        flash[:course_subj] = params[:subjects].collect{|s|s.to_i} if params[:subjects]
-      end
+  end
+
+  def create
+    page = Page.new params[:page]
+    page.add_subjects params[:subjects]
+    if page.save
+      @user.add_page page
+      page.create_home_tab
+      redirect_to page
     end
   end
 
@@ -140,47 +113,21 @@ class PageController < ApplicationController
     end
   end
 
-  #edit page . Gets the modules and template
-  def edit
-    @ecurrent = 'current'
-    begin
-      @page = @user.pages.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to  :action => 'index' and return
-    else
-      session[:page] = @page.id
-      @tabs = @page.tabs
-      @tab = (session[:current_tab].blank? ? @tabs.first : @tabs.select{|t| t.id == session[:current_tab].to_i}.first)
-      if @tab
-        session[:current_tab] = @tab.id
-        if @tab.template == 2
-          @mods_left  = @tab.left_resources
-          @mods_right = @tab.right_resources
-        else
-          @mods = @tab.tab_resources
-        end
-      else
-        flash[:notice] = "There are critical errors on the guide. Consider deleting this guide."
-        redirect_to  :action => 'index' and return
-      end
-    end
-  end
-
   def edit_contact
     begin
-      @page = @user.pages.find(params[:id])
+      @page = @user.pages.find params[:id]
+      @tab = @page.tabs.first
     rescue ActiveRecord::RecordNotFound
-      redirect_to :action => 'index'
+      redirect_to pages_path and return
     else
-      @resources = @user.contact_resources
-      @selected = @page.resource_id
-      @mod = @page.resource.mod if @page.resource
-      if request.post?
-        @page.resource_id = params[:contact].to_i  if params[:contact]
+      if request.put?
+        @page.update_attributes params[:page]
         if @page.save
           flash[:notice] = "The Contact Module was successfully changed."
-          redirect_to :action => 'edit_contact'
+          redirect_to @page and return
         end
+      else
+        @resources = @user.contact_resources.map { |resource| [resource.mod.label, resource.id] }
       end
     end
   end

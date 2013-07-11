@@ -9,9 +9,6 @@
           = image_tag 'icons/move.png', :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0
         %br/
         = more_help "'#{ render_tooltip mod }'", '125'
-        &nbsp;
         = link_to '', edit_content_path(mod, :type => mod.class), :class => 'icon-edit', :title => 'Edit this module'
-        &nbsp;
         = link_to '', module_path(mod, :type => mod.class), :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes'], :class => 'icon-external-link', :title => 'View this module'
-        &nbsp;
         = link_to '', remove_module_path(mod, :type => mod.class, :tab => @tab.id), :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post, :class => 'icon-trash', :title => 'Remove this module'

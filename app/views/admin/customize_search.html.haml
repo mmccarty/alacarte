@@ -1,38 +1,40 @@
-%fieldset
-  %h2 Customize Search Engines
-  = form_tag :action => 'customize_layout', :id => @local do
-    = error_messages_for 'local'
-    #share
-      %fieldset
-        %h4 Local Search
-        %label{:for => "local_site_search"} Library Site Search
-        .tip Enter the label for your library site search.
-        %br/
-        = text_field 'local', 'site_search_label'
-        .tip Enter the code snippet for your library site search.
-        %br/
-        = text_area 'local','site_search',  :size => '48x5'
-        %label{:for => "local_book_search"} Library Catalog Search
-        .tip Enter the label for your library catalog search.
-        %br/
-        = text_field 'local', 'book_search_label'
-        .tip Enter the code snippet to search your library's catalog.
-        %br/
-        = text_area 'local','book_search',  :size => '48x5'
-      %fieldset
-        %h4 Google Custom Search
-        .tip
-          Add a
-          %a{:href => "http://www.google.com/coop/cse/", :target => "_blank"} google custom search engine
-          to search ala carte guides and tutorials. See admin documentation for instructions.
-        %br/
-        %label{:for => "local_g_search"} Search Box Code
-        .tip Paste in the search box code snippet from google.
-        %br/
-        = text_area 'local','g_search',  :size => '48x5'
-        %label{:for => "local_g_results"} Search Results Code
-        .tip Paste in the search results code snippet from google.
-        %br/
-        = text_area 'local','g_results',  :size => '48x5'
-    = submit_tag 'Customize Search', :class => "submit"
-  = link_to 'Cancel', :action => 'tools'
+%h1 Customize Search Engines
+
+= form_tag :action => 'customize_layout', :id => @local do
+  = error_messages_for 'local'
+
+  %fieldset
+    %legend Local Search
+    %label{:for => "local_site_search"} Library Site Search
+    .tip Enter the label for your library site search.
+    %br/
+    = text_field 'local', 'site_search_label'
+    .tip Enter the code snippet for your library site search.
+    %br/
+    = text_area 'local','site_search', class: 'span12',  :size => '48x5'
+    %label{:for => "local_book_search"} Library Catalog Search
+    .tip Enter the label for your library catalog search.
+    %br/
+    = text_field 'local', 'book_search_label'
+    .tip Enter the code snippet to search your library's catalog.
+    %br/
+    = text_area 'local','book_search', class: 'span12',  :size => '48x5'
+
+  %fieldset
+    %legend Google Custom Search
+    .tip
+      Add a
+      %a{:href => "http://www.google.com/coop/cse/", :target => "_blank"} google custom search engine
+      to search ala carte guides and tutorials. See admin documentation for instructions.
+    %br/
+    %label{:for => "local_g_search"} Search Box Code
+    .tip Paste in the search box code snippet from google.
+    %br/
+    = text_area 'local','g_search', class: 'span12',  :size => '48x5'
+    %label{:for => "local_g_results"} Search Results Code
+    .tip Paste in the search results code snippet from google.
+    %br/
+    = text_area 'local','g_results', class: 'span12',  :size => '48x5'
+
+  = submit_tag 'Customize Search', class: 'btn btn-primary'
+  = link_to 'Cancel', tools_path, class: 'btn btn-cancel'

@@ -2,24 +2,24 @@
 
   %thead
     %tr
-      %th= sort_link_helper "Shared?", "shared"
-      %th= sort_link_helper "In Use?", "used"
-      %th= sort_link_helper "Label", "name"
+      %th Shared?
+      %th In Use?
+      %th Label
       %th
-      %th= sort_link_helper "Last Update", "date"
-      %th= sort_link_helper "Content Type", "type"
-      %th= sort_link_helper "Global?", "global"
-      %th= sort_link_helper "Published?", "publish"
+      %th Last Update
+      %th Content Type
+      %th Global?
+      %th Published?
 
   .tbody
     - @mods.each do |mod|
       - row_id = "row#{mod.id}#{mod.class}"
       %tr
         %td
-          - unless mod.shared?
-            = link_to image_tag("icons/user_add.png", :title => 'Click to Share this Module', :alt => 'Share', :border => 0), :controller => 'module', :action => 'share',  :id => mod, :type => mod.class
-          - else
+          - if mod.shared?
             = link_to image_tag("icons/users.png", :title => 'This module has been shared. Click to Share with others.', :alt => 'Share', :border => 0), :controller => 'module',  :action => 'share',  :id => mod, :type => mod.class
+          - else
+            = link_to image_tag("icons/user_add.png", :title => 'Click to Share this Module', :alt => 'Share', :border => 0), :controller => 'module', :action => 'share',  :id => mod, :type => mod.class
         %td
           - if mod.used?
             %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('#{render_used_tooltip(mod)}', this, event, '325px');"}
@@ -37,3 +37,5 @@
         %td= mod.content_type
         %td= render :partial => "/module/global" ,:locals => {:mod => mod, :page => @page, :sort => @sort , :all => @all}
         %td= render :partial => "/module/publish" ,:locals => {:mod => mod, :page => @page, :sort => @sort , :all => @all}
+
+= will_paginate @mods

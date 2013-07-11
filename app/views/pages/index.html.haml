@@ -1,0 +1,13 @@
+.row
+  .span12= flash_notice
+
+.row
+  .span12
+    = link_to new_page_path, class: 'btn btn-primary' do
+      %i.icon-plus
+      Create New Course Page
+
+.row
+  .span12
+    - if ! @pages.empty?
+      = render 'pages_list'

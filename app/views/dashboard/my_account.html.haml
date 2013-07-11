@@ -1,25 +1,40 @@
 = error_messages_for 'user'
+
 - if flash[:error]
   #error_wrapper
     #list_error= flash[:error]
+
 - if flash[:notice]
   #error_wrapper
     #list_error= flash[:notice]
+
+%h1 My Account
 %fieldset
-  %h3 My Account
-  #share
-    %fieldset
-      %h4 Edit Your Account Information
-      = form_tag :action => 'my_account' do
-        %label{:for => "user_password"} Full Name
-        = text_field "user", "name", :size => 54
-        %label{:for => "user_password"} Email
-        = text_field "user", "email", :size => 54
-        %label{:for => "user_password"} Password
-        = password_field "user", "password", :size => 54
-        %label{:for => "user_password_confirmation"} Confirm Password
-        = password_field "user", "password_confirmation", :size => 54, :value=>""
-        #submit_button
-          = submit_tag "Change Account", :class => "submit"
-    %p
-      %b= link_to 'Cancel', :action => 'index'
+  %legend Edit Your Account Information
+  = form_for @user, :action => 'my_account', html: { class: 'form-horizontal' } do |f|
+
+    .control-group
+      %label.control-label{:for => "user_password"} Full Name
+      .controls
+        = f.text_field "name", :size => 54
+
+    .control-group
+      %label.control-label{:for => "user_password"} Email
+      .controls
+        = f.text_field "email", :size => 54
+
+    .control-group
+      %label.control-label{:for => "user_password"} Password
+      .controls
+        = f.password_field "password", :size => 54
+
+    .control-group
+      %label.control-label{:for => "user_password_confirmation"} Confirm Password
+      .controls
+        = f.password_field "password_confirmation", :size => 54, :value=>""
+
+    .control-group
+      %label.control-label
+      .controls
+        = f.submit "Change Account", class: 'btn btn-primary'
+        = link_to 'Cancel', dashboard_path, class: 'btn btn-cancel'

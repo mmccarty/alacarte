@@ -1,0 +1,15 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th Shared?
+      %th Title
+      %th
+        %span.tip edit | view | copy | delete
+      %th Last Update
+      %th Published?
+      %th Archived?
+  %tbody
+    - @pages.each do |page|
+      %tr= render partial: 'index_row', locals: { page: page }
+
+= will_paginate @pages

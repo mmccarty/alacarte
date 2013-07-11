@@ -1,107 +1,122 @@
-%fieldset
-  %h2 Customize Public Templates
-  = form_tag :action => 'customize_layout', :id => @local do
-    = error_messages_for 'local'
-    #share
-      %h3 Layout
-      %fieldset
-        %div
-          %h4 Header
-          %label{:for => "local_banner_url"} Banner URL
-          .tip The banner is an image slice for the top of the templates.
-          = text_field 'local', 'banner_url', :size => '63'
-          %label{:for => "local_logo_url"} Logo URL
-          .tip The logo is an image that sits on top of the banner.
-          = text_field 'local', 'logo_url' , :size => '63'
-          %label{:for => "local"} Logo Width and Height
-          .tip Enter the width and height of the logo image to set the header height and the image map hot spot.
-          = text_field 'local','logo_width',  :size => '3'
-          = text_field 'local','logo_height',  :size => '3'
-          %label{:for => "local"} Image Map URL
-          .tip Enter the Url you want the logo to link to. This is often your universities' home page.
-          = text_field 'local','image_map',  :size => '63'
-        #v-space
-          %h4 Footer
-          %label{:for => "local"} Footer Text
-          .tip Enter text for a custom footer. (HTML OK)
-          = text_area_tag 'local','footer',:class => "tinymce"
-        #v-space
-          %h4 Sidebars
-          %label{:for => "local"} Portal Right-Hand Box
-          .tip
-            Add information into the right-hand side box of the portal templates (HTML|embed|object|param tags OK).
-            = succeed "This" do
-              %br/
-            is displayed in the right side of the portals.
-          = text_area_tag 'local','right_box', :class => "tinymce"
-          %label{:for => "local"} Portal Left-Hand Box
-          .tip
-            Add information into the left-hand side box of the portal templates (HTML|embed|object|param tags OK).
-            = succeed "This" do
-              %br/
-            is displayed on the left side of the portals.
-          = text_area_tag 'local', 'left_box',:class => "tinymce"
-          %label{:for => "local"} Guide Left-Hand Box
-          .tip
-            Add information into the left-hand side box of the guide and page templates (HTML|embed|object|param tags OK).
-            = succeed "This" do
-              %br/
-            is displayed at the top of the left side of the guides.
-          = text_area_tag 'local', 'guide_box',:class => "tinymce"
-          = tinymce
-      %h3 Names &amp; Links
-      %fieldset
-        %label{:for => "local_logo_url"} Portal Title : Course Guides
-        .tip
-          The page title for the #{link_to "course guide's portal", :controller => 'ica', :action => 'published_pages'}
-        = text_field 'local', 'ica_page_title' , :size => '63'
-        %label{:for => "local_logo_url"} Portal Title : Subject Guides
-        .tip
-          The page title for the #{link_to "subject guide's portal", :controller => 'srg', :action => 'published_guides'}.
-        = text_field 'local', 'guide_page_title' , :size => '63'
-        %label{:for => "local_logo_url"} Portal Title : Tutorials
-        .tip
-          The page title for the #{link_to "tutorial's portal", :controller => 'ort', :action => 'published_tutorial'}.
-        = text_field 'local', 'tutorial_page_title' , :size => '63'
-        %label{:for => "local_logo_url"} Library Name &amp; URL
-        .tip
-          Add your library name (i.e: OSU Libraries, Penn libraries) and home page URL.
-          = succeed "This" do
-            %br/
-          is displayed in the header as links and in the metadata tags.
-        %p
-          Name: #{text_field 'local', 'lib_name'} URL: #{text_field 'local', 'lib_url'}
-        %label{:for => "local_logo_url"} University Name &amp; URL
-        .tip
-          Add your university name (i.e: OSU, Penn State) and home page URL.
-          = succeed "This" do
-            %br/
-          is displayed in the header as links and in the metadata tags.
-        %p
-          Name: #{text_field 'local', 'univ_name'} URL: #{text_field 'local', 'univ_url'}
-      %h3 Local Styles & Settings
-      %fieldset
-        %label{:for => "user_email"} CSS Stylesheet URL
-        .tip Enter the url to a custom CSS stylesheet.
-        = text_field 'local', 'styles' , :size => '63'
-        %label{:for => "user_email"} Custom Javascript URL
-        .tip Enter the url to a custom javascript file. Note: prototype is included in the head of all the templates.
-        = text_field 'local', 'js_link' , :size => '63'
-        %label{:for => "user_email"} Analytics Snippet
-        .tip
-          Enter a javascript snippet to track page views.
-          = succeed "Note:" do
-            %br/
-          The snippet will be included at the bottom of all the public tempates.
-        = text_area 'local', 'tracking' , :size => '63x10'
-        %label{:for => "user_email"} Metadata
-        .tip
-          Enter any custom HTML to the head tag of all public templates.
-          %br/
-          Note: This is only for advanced admins. Errors added here could bring down the whole system.
-        = text_area 'local', 'meta' , :size => '63x10'
-        %label{:for => "user_email"} Database Proxy
-        .tip Enter your proxy URL. Note: A proxy URL is required only if you have enabled the database module.
-        = text_field 'local', 'proxy' , :size => '63'
-    = submit_tag 'Customize Layout', :class => "submit"
-  = link_to 'Cancel', :action => 'tools'
+%h1 Customize Public Templates
+
+= form_tag :action => 'customize_layout', :id => @local do
+  = error_messages_for :local
+
+  %fieldset
+    %legend Layout
+
+    %label{:for => "local_banner_url"} Banner URL
+    .tip The banner is an image slice for the top of the templates.
+    = text_field :local, 'banner_url', :size => '63'
+
+    %label{:for => "local_logo_url"} Logo URL
+    .tip The logo is an image that sits on top of the banner.
+    = text_field :local, 'logo_url' , :size => '63'
+
+    %label{:for => "local"} Logo Width and Height
+    .tip Enter the width and height of the logo image to set the header height and the image map hot spot.
+    = text_field :local,'logo_width',  :size => '3'
+    = text_field :local,'logo_height',  :size => '3'
+
+    %label{:for => "local"} Image Map URL
+    .tip Enter the Url you want the logo to link to. This is often your universities' home page.
+    = text_field :local,'image_map',  :size => '63'
+
+    %label{:for => "local"} Footer Text
+    .tip Enter text for a custom footer. (HTML OK)
+    = text_area :local,'footer',:class => "tinymce"
+
+    %label{:for => "local"} Portal Right-Hand Box
+    .tip
+      Add information into the right-hand side box of the portal templates (HTML|embed|object|param tags OK).
+      = succeed "This" do
+        %br/
+      is displayed in the right side of the portals.
+    = text_area :local, 'right_box', :class => "tinymce"
+
+    %label{:for => "local"} Portal Left-Hand Box
+    .tip
+      Add information into the left-hand side box of the portal templates (HTML|embed|object|param tags OK).
+      = succeed "This" do
+        %br/
+      is displayed on the left side of the portals.
+    = text_area :local, 'left_box',:class => "tinymce"
+
+    %label{:for => "local"} Guide Left-Hand Box
+    .tip
+      Add information into the left-hand side box of the guide and page templates (HTML|embed|object|param tags OK).
+      = succeed "This" do
+        %br/
+      is displayed at the top of the left side of the guides.
+    = text_area :local, 'guide_box',:class => "tinymce"
+    = tinymce
+
+  %fieldset
+    %legend Names &amp; Links
+
+    %label{:for => "local_logo_url"} Portal Title : Course Guides
+    .tip
+      The page title for the #{link_to "course guide's portal", :controller => 'ica', :action => 'published_pages'}
+    = text_field :local, 'ica_page_title' , :size => '63'
+
+    %label{:for => "local_logo_url"} Portal Title : Subject Guides
+    .tip
+      The page title for the #{link_to "subject guide's portal", :controller => 'srg', :action => 'published_guides'}.
+    = text_field :local, 'guide_page_title' , :size => '63'
+
+    %label{:for => "local_logo_url"} Portal Title : Tutorials
+    .tip
+      The page title for the #{link_to "tutorial's portal", :controller => 'ort', :action => 'published_tutorial'}.
+    = text_field :local, 'tutorial_page_title' , :size => '63'
+
+    %label{:for => "local_logo_url"} Library Name &amp; URL
+    .tip
+      Add your library name (i.e: OSU Libraries, Penn libraries) and home page URL.
+      = succeed "This" do
+        %br/
+      is displayed in the header as links and in the metadata tags.
+    %p
+      Name: #{text_field :local, 'lib_name'} URL: #{text_field :local, 'lib_url'}
+
+    %label{:for => "local_logo_url"} University Name &amp; URL
+    .tip
+      Add your university name (i.e: OSU, Penn State) and home page URL.
+      = succeed "This" do
+        %br/
+      is displayed in the header as links and in the metadata tags.
+    %p
+      Name: #{text_field :local, 'univ_name'} URL: #{text_field :local, 'univ_url'}
+
+  %fieldset
+    %legend Local Styles & Settings
+
+    %label{:for => "user_email"} CSS Stylesheet URL
+    .tip Enter the url to a custom CSS stylesheet.
+    = text_field :local, 'styles' , :size => '63'
+
+    %label{:for => "user_email"} Custom Javascript URL
+    .tip Enter the url to a custom javascript file. Note: prototype is included in the head of all the templates.
+    = text_field :local, 'js_link' , :size => '63'
+
+    %label{:for => "user_email"} Analytics Snippet
+    .tip
+      Enter a javascript snippet to track page views.
+      = succeed "Note:" do
+        %br/
+      The snippet will be included at the bottom of all the public tempates.
+    = text_area :local, 'tracking', class: 'span12', :size => '63x10'
+
+    %label{:for => "user_email"} Metadata
+    .tip
+      Enter any custom HTML to the head tag of all public templates.
+      %br/
+      Note: This is only for advanced admins. Errors added here could bring down the whole system.
+    = text_area :local, 'meta', class: 'span12', :size => '63x10'
+
+    %label{:for => "user_email"} Database Proxy
+    .tip Enter your proxy URL. Note: A proxy URL is required only if you have enabled the database module.
+    = text_field :local, 'proxy' , :size => '63'
+
+  = submit_tag 'Customize Layout', :class => 'btn btn-primary'
+  = link_to 'Cancel', tools_path, class: 'btn btn-cancel'

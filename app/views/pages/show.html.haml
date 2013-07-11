@@ -1,0 +1,32 @@
+.row
+  .span12= render 'title_actions'
+
+.row
+  .span2= render 'side_bar'
+
+  .span10
+    %ul.nav.nav-tabs
+      - @tabs.each do |tab|
+        - if tab.id == @tab.id
+          %li.active
+            %span
+              = tab.tab_name
+              = link_to icon_tag('remove', 'Delete tab'), {:controller =>'tab', :action => 'delete', :id => tab }, :confirm => 'This will delete the tab and all modules on this tab from the page. Are you sure you want to delete this tab from the page?', :method => :post
+        - else
+          %li{ :id => "item_#{ tab.id }" }
+            %span.tabs= link_to tab.tab_name, { :remote => true, :update => 'tab_content', :url => { :controller => 'tab', :action => 'show', :id => tab.id } }, { :title => 'Edit This Tab', :href => url_for({ :controller => 'tab', :action => 'show', :id => tab.id }) }
+            %span.hand= image_tag 'icons/move.png', :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0
+      %li= link_to '', new_tab_path, :class => 'icon-plus', :title => 'Add New Tab'
+
+    #mock_content.clear_left
+      #tab_actions
+        = link_to image_tag("icons/add.png", :title => 'Add Modules', :alt => 'add modules', :border => 0)+'Add Modules', add_modules_tab_path(@tab)
+        |
+        = link_to 'Toggle Columns',:controller => 'tab',  :action => 'toggle_columns'
+
+      #mock_left.left_bar
+        %ul.no_indent
+          %li.list-item= link_to image_tag("icons/edit.png", :title => 'Edit this Module', :alt => 'Edit', :border => 0)+ ' Contact Module', edit_contact_page_path(@page)
+          %li.list-item= link_to image_tag("icons/edit.png", :title => 'Edit Related pages', :alt => 'Edit', :border => 0)+ ' Related pages', edit_relateds_page_path(@page)
+
+      = render "tabs/#{ @mods ? 'one' : 'two' }_column_tab"

@@ -1,0 +1,22 @@
+.row
+  .span2= render 'side_bar'
+
+  .span10
+    = render 'title_actions'
+
+    %h2
+      = link_to 'Edit Guide', @guide
+      >> Related Subject Guides
+
+    = flash_notice
+
+    = form_for @guide, url: edit_relateds_guide_path(@guide) do |f|
+      %label
+        Add Related Guides
+        = more_help 'AUTO_RELATED_MSSG', '125'
+      = select_tag :relateds, options_from_collection_for_select(@guides, :id, :guide_name, @relateds), multiple: true, size: 8
+      .tip (Click CTRL or Command to select multiple guides)
+
+      %br/
+      = f.submit 'Update Relateds', class: 'btn btn-primary'
+      = link_to 'Cancel', @guide, class: 'btn btn-cancel'
