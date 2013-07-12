@@ -181,7 +181,7 @@ class User < ActiveRecord::Base
   end
 
   def sort_mods(sort_by, list_by = nil)
-    sort,reverse = mod_sort_by_values(sort_by)
+    sort, reverse = 'label', 'false'
     case list_by
     when "global" then (mods =  Resource.global_modules(sort, reverse))
     else  (mods = modules(sort, reverse))
@@ -193,190 +193,43 @@ class User < ActiveRecord::Base
     s = (s.nil? ? "label" : s)
     mods = (list == nil ? resources.collect {|a| a.mod if a and a.mod}.compact : list)
 
-    if s == "label"  || s == "content_type" || s == "created_by"
-      mods =  mods.sort!{|a,b| a.send(s).downcase <=> b.send(s).downcase }
-    elsif s == "published"
-      mods =  mods.sort_by {|a|[a.published? ? 0 : 1,a.label]}
-    elsif s == "global"
-      mods =  mods.sort_by {|a|[a.global? ? 0 : 1,a.label]}
-    elsif s == "used"
-      mods =  mods.sort_by {|a|[a.used? ? 0 : 1,a.label]}
-    elsif s == "shared"
-      mods =  mods.sort_by {|a|[a.shared? ? 0 : 1,a.label]}
-    else
-      mods = mods.sort!{|a,b| b.send(s) <=> a.send(s)}.reverse
-    end
-
-    mods = mods.reverse if rev == 'true'
-    mods.uniq
-  end
-
-  def mod_sort_by_values(sort_by)
-    case sort_by
-    when "name"  then  (sort = "label")  and (reverse = "false")
-    when "date"   then (sort =  "updated_at")  and (reverse = "true")
-    when "type" then (sort =  "content_type")  and (reverse = "false")
-    when "author"  then (sort =  "created_by")  and (reverse = "false")
-    when "publish"  then (sort =  "published")  and (reverse = "false")
-    when "shared"  then (sort =  "shared")  and (reverse = "false")
-    when "used"  then (sort =  "used")  and (reverse = "false")
-    when "global"  then (sort =  "global")  and (reverse = "false")
-    when "name_reverse"  then (sort =  "label") and (reverse = "true")
-    when "date_reverse"   then (sort =  "updated_at") and (reverse = "false")
-    when "type_reverse" then (sort =  "content_type") and (reverse = "true")
-    when "author_reverse"  then (sort =  "created_by") and (reverse = "true")
-    when "publish_reverse"  then (sort =  "published") and (reverse = "true")
-    when "global_reverse"  then (sort =  "global") and (reverse = "true")
-    when "shared_reverse"  then (sort =  "shared")  and (reverse = "true")
-    when "used_reverse"  then (sort =  "used")  and (reverse = "true")
-    else (sort = "label")  and (reverse = "false")
-    end
-    return sort,reverse
+    mods.sort {|a,b| a.send(s).downcase <=> b.send(s).downcase }.uniq
   end
 
   def sort_search_guides(sort_by,search_results)
-    sort,reverse = guide_sort_by_values(sort_by)
-    return sorted_guides(sort,reverse,search_results)
+    sorted_guides guides
   end
 
   def sort_guides(sort_by)
-    sort,reverse = guide_sort_by_values(sort_by)
-    return sorted_guides(sort,reverse,guides)
+    sorted_guides guides
   end
 
   def sorted_guides(sort, reverse, list)
-    if sort == "guide_name"
-      guides = list.sort!{|a,b| a.send(sort).downcase <=> b.send(sort).downcase }
-    elsif sort == "published"
-      guides = list.sort_by {|a|[a.published? ? 0 : 1,a.guide_name]}
-    elsif sort == "shared"
-      guides = list.sort_by {|a|[a.shared? ? 0 : 1,a.guide_name]}
-    else
-      guides = list.sort!{|a,b| b.send(sort) <=> a.send(sort)}.reverse
-    end
-    guides = guides.reverse if reverse == 'true'
-    return guides.uniq
+    list.sort {|a,b| a.send(sort).downcase <=> b.send(sort).downcase }.uniq
   end
 
-  def guide_sort_by_values(sort_by)
-    case sort_by
-    when "name"  then  (sort = "guide_name")  and (reverse = "false")
-    when "date"   then (sort =  "updated_at")  and (reverse = "true")
-    when "publish"   then (sort =  "published")  and (reverse = "false")
-    when "shared"  then (sort =  "shared")  and (reverse = "false")
-    when "name_reverse"  then (sort =  "guide_name") and (reverse = "true")
-    when "date_reverse"   then (sort =  "updated_at") and (reverse = "false")
-    when "publish_reverse"   then (sort =  "published")  and (reverse = "true")
-    when "shared_reverse"  then (sort =  "shared")  and (reverse = "true")
-    else (sort = "guide_name")  and (reverse = "false")
-    end
-    return sort,reverse
-  end
-
-  def sort_search_pages(sort_by,search_results)
-    sort,reverse = page_sort_by_values(sort_by)
-    return sorted_pages(sort,reverse,search_results)
+  def sort_search_pages(sort_by, search_results)
+    sorted_pages pages
   end
 
   def sort_pages(sort_by)
-    sort,reverse = page_sort_by_values(sort_by)
-    return sorted_pages(sort,reverse,pages)
+    sorted_pages pages
   end
 
   def sorted_pages(sort, reverse, list)
-    if sort == "course_name"  #not a date so we need to downcase to normalize data
-      pages = list.sort!{|a,b| a.send(sort).downcase <=> b.send(sort).downcase }
-    elsif sort == "published"
-      pages = list.sort_by {|a|[a.published? ? 0 : 1,a.course_name]}#sorts by the boolean value in published then by the course name
-    elsif  sort == "archived"
-      pages = list.sort_by {|a|[a.archived? ? 0 : 1,a.course_name]}
-    elsif  sort == "shared"
-      pages = list.sort_by {|a|[a.shared? ? 0 : 1,a.course_name]}
-    else #sort by date DESC
-      pages = list.sort!{|a,b| b.send(sort) <=> a.send(sort)}.reverse
-    end
-    pages = pages.reverse if reverse == 'true'
-    return pages.uniq
-  end
-
-  def page_sort_by_values(sort_by)
-    case sort_by
-    when "name"  then  (sort = "course_name")  and (reverse = "false")
-    when "date"   then (sort =  "updated_at")  and (reverse = "true")
-    when "publish"   then (sort =  "published")  and (reverse = "false")
-    when "archive"   then (sort =  "archived")  and (reverse = "false")
-    when "shared"  then (sort =  "shared")  and (reverse = "false")
-    when "name_reverse"  then (sort =  "course_name") and (reverse = "true")
-    when "date_reverse"   then (sort =  "updated_at") and (reverse = "false")
-    when "shared_reverse"  then (sort =  "shared")  and (reverse = "true")
-    when "publish_reverse"   then (sort =  "published")  and (reverse = "true")
-    when "archive_reverse"   then (sort =  "archived")  and (reverse = "true")
-    else (sort = "course_name")  and (reverse = "false")
-    end
-    return sort,reverse
+    list.sort {|a,b| a.send(sort).downcase <=> b.send(sort).downcase }.uniq
   end
 
   def sort_search_tutorials(sort_by, search_results)
-    sort,reverse = tutorial_sort_by_values sort_by
-    sorted_tuts sort, reverse, search_results
+    sorted_tuts my_tutorials
   end
 
   def sort_tutorials(sort_by)
-    sort,reverse = tutorial_sort_by_values sort_by
-    sorted_tuts sort, reverse, my_tutorials
+    sorted_tuts my_tutorials
   end
 
-  def sorted_tuts(sort, reverse, list)
-    if sort == "name"
-      tutorials = list.sort!{|a,b| a.send(sort).downcase <=> b.send(sort).downcase }
-    elsif sort == "published"
-      tutorials = list.sort_by {|a|[a.published? ? 0 : 1,a.name]}
-    elsif  sort == "archived"
-      tutorials = list.sort_by {|a|[a.archived? ? 0: 1,a.name]}
-    elsif  sort == "shared"
-      tutorials = list.sort_by {|a|[a.shared? ? 0: 1,a.name]}
-    else
-      tutorials = list.sort!{|a,b| b.send(sort) <=> a.send(sort)}.reverse
-    end
-    tutorials = tutorials.reverse if reverse == 'true'
-    tutorials.uniq
-  end
-
-  def tutorial_sort_by_values(sort_by)
-    case sort_by
-    when "name"            then  (sort = "name")  and (reverse = "true")
-    when "date"            then (sort =  "updated_at")  and (reverse = "false")
-    when "publish"         then (sort =  "published")  and (reverse = "true")
-    when "archive"         then (sort =  "archived")  and (reverse = "true")
-    when "shared"          then (sort =  "shared")  and (reverse = "true")
-    when "name_reverse"    then (sort =  "name") and (reverse = "false")
-    when "date_reverse"    then (sort =  "updated_at") and (reverse = "true")
-    when "publish_reverse" then (sort =  "published")  and (reverse = "false")
-    when "archive_reverse" then (sort =  "archived")  and (reverse = "false")
-    when "shared_reverse"  then (sort =  "shared")  and (reverse = "false")
-    else (sort = "name") and (reverse = "false")
-    end
-    return sort, reverse
-  end
-
-  def sort_units(sort_by)
-    sort = case sort_by
-           when "name"         then "title"
-           when "date"         then "updated_at"
-           when "name_reverse" then "title"
-           when "date_reverse" then "updated_at"
-           else "title"
-           end
-    units = my_tutorials.collect {|t| t.units if t}.flatten.uniq
-    if sort == "updated_at"
-      units = units.sort! {|a,b| b.send(sort) <=> a.send(sort)}
-    else
-      units = units.sort! {|a,b| a.send(sort).downcase <=> b.send(sort).downcase }
-    end
-    if sort_by == 'name_reverse' || sort_by =='date_reverse'
-      units = units.reverse
-    end
-    units
+  def sorted_tuts(list)
+    list.sort {|a,b| a.send(sort).downcase <=> b.send(sort).downcase }.uniq
   end
 
   def self.authenticate(email, password)
@@ -428,15 +281,15 @@ class User < ActiveRecord::Base
   end
 
   def is_admin
-    return self.role == 'admin'
+    self.role == 'admin'
   end
 
   def is_pending
-    return self.role == 'pending'
+    self.role == 'pending'
   end
 
   def generate_password
-    return User.random_string(10)
+    User.random_string(10)
   end
 
   private

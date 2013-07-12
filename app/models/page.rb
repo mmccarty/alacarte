@@ -284,16 +284,4 @@ class Page < ActiveRecord::Base
       users.collect{|user| user.add_resource(resource) unless(user.id == @user || user.resources.include?(resource) == true)}
     end
   end
-
-  def index_subjects_name
-    subjects.map{|subject| subject.subject_name}.join(", ")
-  end
-
-  def index_subjects_code
-    subjects.map{|subject| subject.subject_code}.join(", ")
-  end
-
-  def index_tab_name
-    tabs.map{|tab| tab.tab_name}.join(", ")
-  end
 end

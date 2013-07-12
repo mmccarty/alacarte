@@ -63,41 +63,6 @@ module ApplicationHelper
     tip +  "Click to manage this module."
   end
 
-  def sort_th_class_helper(param)
-    result = "sortup" if @sort == param
-    result = "sortdown" if @sort == param + "_reverse"
-    result
-  end
-
-  def sort_link_helper(text, param)
-    key = param
-    key += "_reverse" if params[:sort] == param
-    options = {
-      :update => 'table',
-      :loading => "Element.show('spinner_sort')",
-      :complete => "Element.hide('spinner_sort')",
-      :url => {:action => 'index',:params => params.merge({:sort => key, :page => nil})}
-    }
-    html_options = {
-      :title => "Sort by this field",
-      :href => url_for(:action => 'index', :params => params.merge({:sort => key, :page => nil}))
-    }
-    link_to(text, options, html_options, :remote => true)
-  end
-
-  def sort_links(sort)
-    options = {
-      :update => 'a_z_list',
-      :loading => "Element.show('spinner_sort')",
-      :complete => "Element.hide('spinner_sort')",
-      :url => {:action => 'edit_databases', :params => params.merge({:sort => sort})}
-    }
-    html_options = {
-      :title => "view databases the begin with this letter"
-    }
-    link_to(sort, options, html_options, :remote => true)
-  end
-
   def set_owner_helper(id, uid)
     options = {
       :update => 'editor-list',

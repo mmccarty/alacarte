@@ -215,12 +215,4 @@ class Tutorial < ActiveRecord::Base
     self.pass = words[rand(words.length)]
     self.save
   end
-
-  def index_unit_title
-    units.map {|unit| unit.title}.join(", ")
-  end
-
-  def index_unit_slug
-    units.map {|unit| unit.slug}.join(", ")
-  end
 end

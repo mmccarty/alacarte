@@ -57,6 +57,6 @@ class Local < ActiveRecord::Base
 
   def initialize_types
     self.guides = %w(pages guides tutorials)
-    self.types  = %w(comment miscellaneous database image inst lib quiz rss url video).map { |s| "#{ s }_resource" }
+    self.types  = %w(comment miscellaneous database inst lib quiz rss url).map { |s| "#{ s }_resource" }
   end
 end

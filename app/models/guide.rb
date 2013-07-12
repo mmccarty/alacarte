@@ -219,20 +219,4 @@ class Guide < ActiveRecord::Base
       false
     end
   end
-
-  def index_masters
-    masters.map{|master| master.value}.join(", ")
-  end
-
-  def index_subjects_name
-    subjects.map{|subject| subject.subject_name}.join(", ")
-  end
-
-  def index_subjects_code
-    subjects.map{|subject| subject.subject_code}.join(", ")
-  end
-
-  def index_tab_name
-    tabs.map{|tab| tab.tab_name}.join(", ")
-  end
 end
