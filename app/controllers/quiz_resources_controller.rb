@@ -31,6 +31,15 @@ class QuizResourcesController < ApplicationController
     end
   end
 
+  def copy
+    old_mod = QuizResource.find params[:id]
+    new_mod = old_mod.copy
+    if new_mod.save
+      create_and_add_resource @user, new_mod
+      redirect_to edit_url_resource_path(new_mod)
+    end
+  end
+
   def edit_question
     @mod = find_mod(params[:id], "QuizResource")
     @choices = [
@@ -91,49 +100,6 @@ class QuizResourcesController < ApplicationController
         page.replace_html 'answer_container'+@question.id.to_s, :partial => 'quiz/answers',  :locals => {:question => @question}
       end
     end
-  end
-
-  def copy_quiz
-    begin
-      @old_mod = find_mod(params[:id], "QuizResource")
-    rescue Exception
-      redirect_to :controller => 'module', :action => 'index', :list=> 'mine'
-    else
-      @mod = @old_mod.clone
-      @mod.global = false
-      @mod.label =  @old_mod.label+'-copy'
-      if @mod.save
-        @mod.questions << @old_mod.copy_questions
-        create_and_add_resource(@user,@mod)
-        flash[:notice] = "Saved as #{@mod.label}"
-        redirect_to  :controller => 'module', :action => "edit_content" , :id =>@mod.id, :type=> @mod.class
-      end
-    end
-  end
-
-  def sort_questions
-    @mod = find_mod(params[:id], "QuizResource")
-    if params['question_container'] then
-      sortables = params['question_container']
-      sortables.each do |id|
-        question = @mod.questions.find(id)
-        question.update_attribute(:position, sortables.index(id) + 1 )
-      end
-    end
-    render :nothing => true
-  end
-
-  def sort_answers
-    @mod = find_mod(params[:id], "QuizResource")
-    question = Question.find(params[:qid])
-    if params['answer_container'+question.id.to_s] then
-      sortables = params['answer_container'+question.id.to_s]
-      sortables.each do |id|
-        answer = question.answers.find(id)
-        answer.update_attribute(:position, sortables.index(id) + 1 )
-      end
-    end
-    render :nothing => true
   end
 
   def practice_quiz

@@ -23,22 +23,12 @@ class RssResourcesController < ApplicationController
     end
   end
 
-  def copy_feeds
-    begin
-      @old_mod = find_mod(params[:id], "RssResource")
-    rescue Exception => e
-      flash[:notice] = "The module doesn't exist. "
-      redirect_to :back
-    else
-      @mod = @old_mod.clone
-      @mod.feeds << @old_mod.feeds.collect{|f| f.clone}.flatten
-      @mod.global = false
-      @mod.label =  @old_mod.label+'-copy'
-      if @mod.save
-        create_and_add_resource(@user,@mod)
-        flash[:notice] = "Saved as #{@mod.label}"
-        redirect_to  :controller => 'module', :action => "edit_content" , :id =>@mod.id, :type=> @mod.class
-      end
+  def copy
+    old_mod = RssResource.find params[:id]
+    new_mod = old_mod.copy
+    if new_mod.save
+      create_and_add_resource @user, new_mod
+      redirect_to edit_rss_resources_path(new_mod)
     end
   end
 end

@@ -29,6 +29,12 @@ class RssResource < ActiveRecord::Base
   validates :module_title, :presence => true
   validates :label, :presence => { :on => :update }
 
+  def copy
+    mod = PolymorphicModule::copy
+    mod.feeds << feeds.map(&:clone).flatten
+    mod
+  end
+
   NUMFEEDS =  [
                ["3",       3],
                ["6",       6],

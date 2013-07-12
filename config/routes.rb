@@ -9,7 +9,6 @@ Alacarte::Application.routes.draw do
       get 'globalize'
       get 'manage'
       get 'publish'
-      get 'remove_from_user'
       get 'remove_user_from_mod'
       get 'share'
     end

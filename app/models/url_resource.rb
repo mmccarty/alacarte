@@ -27,6 +27,12 @@ class UrlResource < ActiveRecord::Base
   validates_presence_of :module_title
   validates_presence_of :label, :on => :update
 
+  def copy
+    mod = PolymorphicModule::copy
+    mod.links << links.map(&:clone)
+    mod
+  end
+
   def new_link_attributes=(link_attributes)
     logger.info "Link Attributes: #{link_attributes.inspect}"
     newattributes = []

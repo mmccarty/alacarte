@@ -6,6 +6,15 @@ class BookController < ApplicationController
   before_filter :current_tutorial, :except=>[:copy_book]
   layout 'admin'
 
+  def copy
+    old_mod = BookResource.find params[:id]
+    new_mod = old_mod.copy
+    if new_mod.save
+      create_and_add_resource @user, new_mod
+      redirect_to edit_book_resource_path(new_mod)
+    end
+  end
+
   def retrieve_results
     @mod = find_mod(params[:id], "BookResource")
     if request.xhr?
@@ -57,35 +66,5 @@ class BookController < ApplicationController
     else
       render :action => 'edit_book' , :mod => @mod
     end
-  end
-
-  def copy_book
-    begin
-      @old_mod = find_mod(params[:id], "BookResource")
-    rescue Exception
-      redirect_to :controller => 'module', :action => 'index', :list=> 'mine'
-    else
-      @mod = @old_mod.clone
-      @mod.global = false
-      if @mod.save
-        @mod.label =  @old_mod.label+'-copy'
-        @mod.books << @old_mod.books.collect{|v| v.clone if v}
-        create_and_add_resource(@user,@mod)
-        flash[:notice] = "Saved as #{@mod.label}"
-        redirect_to  :controller => 'module', :action => "edit_content" , :id =>@mod.id, :type=> @mod.class
-      end
-    end
-  end
-
-  #Sort modules function for drag and drop
-  def sort
-    if params['books'] then
-      sortables = params['books']
-      sortables.each do |id|
-        book = Book.find(id)
-        book.update_attribute(:position, sortables.index(id) + 1 )
-      end
-    end
-    render :nothing => true
   end
 end

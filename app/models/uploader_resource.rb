@@ -27,6 +27,12 @@ class UploaderResource < ActiveRecord::Base
   validates_presence_of :module_title
   validates_presence_of :label, :on => :update
 
+  def copy
+    mod = PolymorphicModule::copy
+    mod.uploadables << uploadables
+    mod
+  end
+
   def rss_content
     self.info.blank? ? "" : self.info
   end

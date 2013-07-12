@@ -27,6 +27,12 @@ class DatabaseResource < ActiveRecord::Base
   validates :module_title, :presence => true
   validates :label, :presence => { :on => :update }
 
+  def copy
+    mod = PolymorphicModule::copy
+    mod.database_dods << database_dods.map(&:clone).flatten
+    mod
+  end
+
   def proxy
     Local.first.proxy
   end

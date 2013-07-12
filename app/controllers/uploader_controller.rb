@@ -5,46 +5,30 @@ class UploaderController < ApplicationController
   before_filter :current_tutorial
   layout 'admin'
 
-  def edit_uploader
-    @ecurrent = 'current'
-    begin
-      @mod = find_mod(params[:id], "UploaderResource")
-    rescue ActiveRecord::RecordNotFound
-      redirect_to :controller => 'module', :action => 'index', :list=> 'mine'
+  def show
+    @mod = UploaderResource.find params[:id]
+  end
+
+  def edit
+    @mod = UploaderResource.find params[:id]
+  end
+
+  def update
+    @mod = UploaderResource.find params[:id]
+    @mod.update_attributes params[:mod]
+    if @mod.save
+      redirect_to @mod
     else
-      @tags = @mod.tag_list
-      session[:mod_id] = @mod.id
-      session[:mod_type] = @mod.class
+      render :edit
     end
   end
 
-  def update_uploader
-    params[:mod][:existing_uploadable_attributes] ||= {}
-    params[:mod][:new_uploadable_attributes] ||= {}
-    @mod = find_mod(params[:id], "UploaderResource")
-    if @mod.update_attributes(params[:mod])
-      @mod.add_tags(params[:tags]) if params[:tags]
-      redirect_to :controller => 'module', :action => "preview" , :id =>@mod.id, :type=> @mod.class
-    else
-      render :action => 'edit_uploader' , :mod => @mod
-    end
-  end
-
-  def copy_uploader
-    begin
-      @old_mod = find_mod(params[:id], "UploaderResource")
-    rescue Exception
-      redirect_to :controller => 'module', :action => 'index', :list=> 'mine'
-    else
-      @mod = @old_mod.clone
-      @mod.global = false
-      @mod.label =  @old_mod.label+'-copy'
-      if @mod.save
-        @mod.uploadables << @old_mod.uploadables
-        create_and_add_resource(@user,@mod)
-        flash[:notice] = "Saved as #{@mod.label}"
-        redirect_to  :controller => 'module', :action => "edit_content" , :id =>@mod.id, :type=> @mod.class
-      end
+  def copy
+    old_mod = UploaderResource.find params[:id]
+    new_mod = old_mod.copy
+    if new_mod.save
+      create_and_add_resource @user, new_mod
+      redirect_to edit_uploader_resource_path(new_mod)
     end
   end
 end

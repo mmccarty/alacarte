@@ -23,33 +23,12 @@ class UrlResourcesController < ApplicationController
     end
   end
 
-  def copy_url
-    begin
-      @old_mod = find_mod(params[:id], "UrlResource")
-    rescue Exception
-      redirect_to :controller => 'module', :action => 'index', :list=> 'mine'
-    else
-      @mod = @old_mod.clone
-      @mod.global = false
-      @mod.label =  @old_mod.label+'-copy'
-      if @mod.save
-        @mod.links << @old_mod.links.collect{|l| l.clone if l}
-        create_and_add_resource(@user,@mod)
-        flash[:notice] = "Saved as #{@mod.label}"
-        redirect_to  :controller => 'module', :action => "edit_content" , :id =>@mod.id, :type=> @mod.class
-      end
+  def copy
+    old_mod = UrlResource.find params[:id]
+    new_mod = old_mod.copy
+    if new_mod.save
+      create_and_add_resource @user, new_mod
+      redirect_to edit_url_resource_path(new_mod)
     end
-  end
-
-  #Sort modules function for drag and drop
-  def sort
-    if params['links'] then
-      sortables = params['links']
-      sortables.each do |id|
-        link = Link.find(id)
-        link.update_attribute(:position, sortables.index(id) + 1 )
-      end
-    end
-    render :nothing => true
   end
 end

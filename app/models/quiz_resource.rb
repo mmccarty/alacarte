@@ -28,6 +28,12 @@ class QuizResource < ActiveRecord::Base
 
   after_update :save_questions
 
+  def copy
+    mod = PolymorphicModule::copy
+    mod.questions << questions.map(&:clone)
+    mod
+  end
+
   def copy_questions
     question_copies = []
     questions.each do |question|

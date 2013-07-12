@@ -5,7 +5,7 @@
   #error_wrapper
     #list_error= flash[:error]
 
-= form_tag action: 'new_mod' do
+= form_tag action: :create do
   %label{ for: 'mod_type' }
     Content Type
     %span.required.more_help *

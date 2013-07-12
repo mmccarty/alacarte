@@ -1,6 +1,13 @@
 module PolymorphicModule
   extend ActiveSupport::Concern
 
+  def copy
+    mod = dup
+    mod.label  = "#{ label }-copy"
+    mod.global = false
+    mod
+  end
+
   def private_label
     unless self.label
       self.label = self.module_title

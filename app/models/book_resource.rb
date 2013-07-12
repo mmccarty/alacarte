@@ -27,6 +27,12 @@ class BookResource < ActiveRecord::Base
   validates :module_title, :presence => true
   validates :label, :presence => { :on => :update }
 
+  def copy
+    mod = PolymorphicModule::copy
+    mod.books << books.map(&:clone)
+    mod
+  end
+
   def new_book_attributes=(book_attributes)
     book_attributes.each do |attributes|
       books.build(attributes)

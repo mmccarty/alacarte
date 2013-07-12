@@ -5,7 +5,7 @@ class ModulesController < ApplicationController
   before_filter :current_page, :only=>[:edit_content, :update, :preview]
   before_filter :current_guide, :only=>[:edit_content, :update, :preview]
   before_filter :current_tutorial, :only=>[:edit_content, :update, :preview]
-  before_filter :clear_sessions, :only =>[:index, :new_mod, :new_menu]
+  before_filter :clear_sessions, :only =>[:index, :new, :new_menu]
   layout 'admin'
 
   def index
@@ -21,6 +21,40 @@ class ModulesController < ApplicationController
 
   def edit
     delegate_to :edit
+  end
+
+  def copy
+    delegate_to :copy
+  end
+
+  def new
+  end
+
+  def create
+    @mod = create_module_object params[:mod][:type]
+    @mod.update_attributes params[:mod]
+    @mod.slug = create_slug params[:mod][:module_title]
+    if @mod.save
+      create_and_add_resource @user, @mod
+      @mod.add_tags params[:tags]
+      redirect_to edit_module_path(@mod, type: @mod.class) and return
+    else
+      render :new
+    end
+  end
+
+  def destroy
+    resource = @user.find_resource params[:id], params[:type]
+    @user.update_attribute(:resource_id, nil) if @user.resource_id == resource.id
+    if resource.users.length == 1
+      @user.resources.delete resource
+      resource.delete_mods
+      resource.destroy
+    else
+      resource.mod.update_attribute(:created_by, resource.users.collect{|u| u.name}.at(1)) if resource.mod.created_by.to_s == @user.name.to_s
+      @user.resources.delete resource
+    end
+    redirect_to modules_path
   end
 
   def globalize
@@ -43,135 +77,6 @@ class ModulesController < ApplicationController
     @mod = resource.mod
     @user_list = User.order :name
     @mod_owners = resource.users.uniq
-  end
-
-
-  def create
-    unless params[:mod][:type].empty?
-      @mod = create_module_object(params[:mod][:type])
-      @mod.attributes = params[:mod]
-      @mod.slug = create_slug(params[:mod][:module_title])
-      if @mod.save
-        create_and_add_resource(@user,@mod)
-        redirect_to  :action => 'edit_content' , :id =>@mod.id, :type => @mod.class and return
-      else
-        flash[:notice] = "Could not create the module. There were problems with the following fields: #{@mod.errors.full_messages.join(", ")}"
-        flash[:mod_title] = params[:mod][:module_title]
-        flash[:mod_type] = params[:mod][:type]
-        flash[:mod_title_error] = @mod.errors[:module_title]
-        flash[:mod_type_error] = @mod.errors[:type]
-        redirect_to  :action => 'index' and return
-      end
-    else
-      flash[:notice] = "Could not create the module. There were problems with the following fields: Content Type"
-      if params[:mod][:module_title].empty?
-        flash[:notice] += " and Module Name can not be blank."
-      end
-      flash[:mod_title] = params[:mod][:module_title]
-      flash[:mod_type] = params[:mod][:type]
-      flash[:mod_title_error] = "" unless !params[:mod][:module_title].empty?
-      flash[:mod_type_error] = ""
-      redirect_to  :action => 'index' and return
-    end
-  end
-
-  def menu_new
-    @tags = ""
-    if request.post?
-      unless params[:type].empty?
-        @mod = create_module_object(params[:type])
-        @mod.module_title = params[:name]
-        @mod.slug = create_slug(params[:name])
-        if @mod.save
-          @mod.add_tags(params[:tags])
-          create_and_add_resource(@user,@mod)
-          redirect_to  :action => 'edit_content' , :id =>@mod.id, :type => @mod.class and return
-        else
-          flash[:mod_title] = params[:name]
-          flash[:mod_type] = params[:type]
-          flash[:mod_title_error] = @mod.errors[:module_title]
-          flash[:mod_type_error] = @mod.errors[:type]
-          @tags = params[:tags] if params[:tags]
-          redirect_to  :back and return
-        end
-      else
-        flash[:mod_title] = params[:name]
-        flash[:mod_type] = params[:type]
-        @tags = params[:tags] if params[:tags]
-        flash[:mod_title_error] = "" unless params[:name]
-        flash[:mod_type_error] = ""
-        redirect_to  :back and return
-      end
-    end
-  end
-
-  def new_mod
-    @selected = ''
-    @tags = ''
-
-    if request.post?
-      @mod = create_module_object params[:mod][:type] unless params[:mod][:type].empty?
-      if @mod
-        @mod.update_attributes params[:mod]
-        @mod.slug = create_slug params[:mod][:module_title]
-        if @mod.save
-          @mod.add_tags params[:tags]
-          create_and_add_resource @user, @mod
-          redirect_to edit_content_path @mod.id, type: @mod.class and return
-        end
-        @selected = params[:mod][:type]
-        @tags = params[:tags] if params[:tags]
-      end
-    end
-  end
-
-  def edit_tags
-    begin
-      @mod = find_mod(params[:id], params[:type])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to  :action => 'index' and return
-    else
-      session[:mod_id] = @mod.id
-      session[:mod_type] = @mod.class
-      @tags = @mod.tag_list
-      if request.post?
-        @mod.add_tags(params[:tags])
-        flash[:notice] = "Tags Updated"
-        redirect_to  :action => 'edit_tags' , :id =>@mod.id, :type => @mod.class and return
-      end
-    end
-  end
-
-  def copy
-    begin
-      @old_mod = find_mod(params[:id],params[:type])
-    rescue Exception => e
-      redirect_to :action => 'index', :list=> 'mine'
-    else
-      case @old_mod.class.to_s
-      when "DatabaseResource"
-        redirect_to :controller => 'database', :action => 'copy_databases', :id => @old_mod.id and return
-      when "UploaderResource"
-        redirect_to :controller => 'uploader', :action => 'copy_uploader', :id => @old_mod.id and return
-      when "RssResource"
-        redirect_to :controller => 'feed', :action => 'copy_feeds', :id => @old_mod.id and return
-      when "UrlResource"
-        redirect_to :controller => 'url', :action => 'copy_url', :id => @old_mod.id  and return
-      when "BookResource"
-        redirect_to :controller => 'book', :action => 'copy_book', :id => @old_mod.id  and return
-      when "QuizResource"
-        redirect_to :controller => 'quiz', :action => 'copy_quiz', :id => @old_mod.id  and return
-      else
-        @mod = @old_mod.clone
-        @mod.global = false
-      end
-      if @mod.save
-        @mod.label =  @old_mod.label+'-copy'
-        create_and_add_resource(@user,@mod)
-        flash[:notice] = "Saved as #{@mod.label}"
-        redirect_to :action => "edit_content", :id =>@mod.id, :type =>@mod.class and return
-      end
-    end
   end
 
   def manage
@@ -322,28 +227,6 @@ class ModulesController < ApplicationController
     @preview = true if @mod.class == QuizResource
     respond_to do |format|
       format.html {render :layout => 'popup'}
-    end
-  end
-
-  def remove_from_user
-    begin
-      resource = @user.find_resource(params[:id],params[:type] )
-      @user.update_attribute(:resource_id, nil) if @user.resource_id == resource.id
-      if resource.users.length == 1
-        @user.resources.delete(resource)
-        resource.delete_mods
-        resource.destroy
-      else
-        resource.mod.update_attribute(:created_by, resource.users.collect{|u| u.name}.at(1)) if resource.mod.created_by.to_s == @user.name.to_s
-        @user.resources.delete(resource)
-      end
-      if request.xhr?
-        render :text => ""
-      else
-        redirect_to modules_path
-      end
-    rescue Exception => e
-      redirect_to :action => 'index', :list=> 'mine'
     end
   end
 

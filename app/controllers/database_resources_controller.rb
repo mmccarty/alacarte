@@ -23,6 +23,15 @@ class DatabaseResourcesController < ApplicationController
     end
   end
 
+  def copy
+    old_mod = DatabaseResource.find params[:id]
+    new_mod = old_mod.copy
+    if new_mod.save
+      create_and_add_resource @user, new_mod
+      redirect_to edit_database_resource_path(new_mod)
+    end
+  end
+
   def add_databases
     @mod ||= find_mod(params[:id], "DatabaseResource")
     if request.xhr?
@@ -39,25 +48,6 @@ class DatabaseResourcesController < ApplicationController
       redirect_to  :action => 'edit_databases', :id =>@mod.id
     else
       redirect_to  :action => 'edit_databases', :id =>@mod.id
-    end
-  end
-
-  def copy_databases
-    begin
-      @old_mod = find_mod(params[:id], "DatabaseResource")
-    rescue ActiveRecord::RecordNotFound
-      flash[:notice] = "The module doesn't exist. "
-      redirect_to :back
-    else
-      @mod = @old_mod.clone
-      @mod.global = false
-      @mod.label =  @old_mod.label+'-copy'
-      if @mod.save
-        @mod.database_dods << @old_mod.database_dods.collect{|d| d.clone}.flatten
-        create_and_add_resource(@user,@mod)
-        flash[:notice] = "Saved as #{@mod.label}"
-        redirect_to  :controller => 'module', :action => "edit_content" , :id =>@mod.id, :type=> @mod.class
-      end
     end
   end
 end
