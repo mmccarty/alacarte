@@ -1,6 +1,29 @@
 Alacarte::Application.routes.draw do
   root to: 'login#login'
 
+  get 'login/logout' => 'login#logout', as: 'logout'
+
+  resources :modules do
+    member do
+      get 'copy'
+      get 'globalize'
+      get 'manage'
+      get 'publish'
+      get 'remove_from_user'
+      get 'remove_user_from_mod'
+      get 'share'
+    end
+  end
+
+  resources :comment_resources
+  resources :database_resources
+  resources :inst_resources
+  resources :lib_resources
+  resources :miscellaneous_resources
+  resources :quiz_resources
+  resources :rss_resources
+  resources :url_resources
+
   scope path: '/admin', controller: :admin do
     resources :dods, :masters, :subjects
     resources :users do
@@ -34,31 +57,6 @@ Alacarte::Application.routes.draw do
       get   'share'
     end
   end
-
-  get 'login/logout' => 'login#logout', as: 'logout'
-
-  resources :modules do
-    member do
-      get 'copy'
-      get 'globalize'
-      get 'manage'
-      get 'publish'
-      get 'remove_from_user'
-      get 'remove_user_from_mod'
-      get 'share'
-    end
-  end
-
-  resources :comment_resources
-  resources :database_resources
-  resources :image_resources
-  resources :inst_resources
-  resources :lib_resources
-  resources :miscellaneous_resources
-  resources :quiz_resources
-  resources :rss_resources
-  resources :url_resources
-  resources :video_resources
 
   resources :pages do
     member do

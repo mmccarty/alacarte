@@ -159,12 +159,8 @@ class ModulesController < ApplicationController
         redirect_to :controller => 'url', :action => 'copy_url', :id => @old_mod.id  and return
       when "BookResource"
         redirect_to :controller => 'book', :action => 'copy_book', :id => @old_mod.id  and return
-      when "VideoResource"
-        redirect_to :controller => 'video', :action => 'copy_video', :id => @old_mod.id  and return
       when "QuizResource"
         redirect_to :controller => 'quiz', :action => 'copy_quiz', :id => @old_mod.id  and return
-      when "ImageResource"
-        redirect_to :controller => 'image', :action => 'copy_image', :id => @old_mod.id  and return
       else
         @mod = @old_mod.clone
         @mod.global = false
@@ -370,7 +366,6 @@ class ModulesController < ApplicationController
       'BookResource'          => :book,
       'CommentResource'       => :comment_resources,
       'DatabaseResource'      => :database_resources,
-      'ImageResource'         => :image_resources,
       'InstResource'          => :inst_resources,
       'LibResource'           => :lib_resources,
       'MiscellaneousResource' => :miscellaneous_resources,
@@ -378,8 +373,7 @@ class ModulesController < ApplicationController
       'ReserveResource'       => :reserve,
       'RssResource'           => :rss_resources,
       'UploaderResource'      => :uploader,
-      'UrlResource'           => :url_resources,
-      'VideoResource'         => :video_resources
+      'UrlResource'           => :url_resources
   }
 
   def delegate_to(action)

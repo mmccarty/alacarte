@@ -14,8 +14,8 @@ describe Local do
 
   it 'should list the friendly names of all defined module types' do
     expect(Local.create.mod_types.map { |m| m[0] }.sort).to eq [
-      'Comments', 'Custom Content', 'Databases', 'Images', 'Instructor Profile', 'Librarian Profile',
-      'Quiz', 'RSS Feeds', 'Web Links', 'YouTube Videos'
+      'Comments', 'Custom Content', 'Databases', 'Instructor Profile', 'Librarian Profile',
+      'Quiz', 'RSS Feeds', 'Web Links'
     ]
   end
 end
