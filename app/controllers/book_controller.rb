@@ -4,7 +4,7 @@ class BookController < ApplicationController
   before_filter :current_page
   before_filter :current_guide
   before_filter :current_tutorial, :except=>[:copy_book]
-  layout 'tool'
+  layout 'admin'
 
   def retrieve_results
     @mod = find_mod(params[:id], "BookResource")

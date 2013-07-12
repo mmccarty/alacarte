@@ -3,7 +3,7 @@ class UrlController < ApplicationController
   before_filter :current_page
   before_filter :current_guide
   before_filter :current_tutorial
-  layout 'tool'
+  layout 'admin'
 
   def edit_url
     @ecurrent = 'current'

@@ -1,4 +1,22 @@
 module ApplicationHelper
+  def awesome_button(url, icon, text = '', style = '')
+    if style.match 'btn'
+      html = "<i class='icon-#{ icon }'></i>&nbsp; #{ text }"
+      link_to html.html_safe, url, class: style
+    else
+      link_to '', url, class: "icon-#{ icon } #{ style }", title: text
+    end
+  end
+
+  def icon_tag(name, title = '')
+    html = "<i class='icon-#{ name }' title='#{ title }'></i>"
+    html.html_safe
+  end
+
+  def new_button(text)
+    link_to text, { :action => :new }, :class => 'btn'
+  end
+
   def show_form(mod_type)
     render "module/#{ mod_type.underscore }_form"
   end
@@ -10,21 +28,12 @@ module ApplicationHelper
     end
   end
 
-  def new_button(text)
-    link_to text, { :action => :new }, :class => 'btn'
-  end
-
   def flash_notice
     render 'shared/flash_notice'
   end
 
   def more_help(msg, width)
     render :partial => 'shared/more_help', :locals => { :msg => msg, :width => width }
-  end
-
-  def icon_tag(name, title = '')
-    html = "<i class='icon-#{ name }' title='#{ title }'></i>"
-    html.html_safe
   end
 
   def related_link

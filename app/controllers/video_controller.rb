@@ -99,7 +99,7 @@ class VideoController < ApplicationController
     if ['search_preview'].include?(action_name)
       "popup"
     else
-      "tool"
+      "admin"
     end
   end
 end

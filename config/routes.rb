@@ -38,12 +38,18 @@ Alacarte::Application.routes.draw do
   get 'login/logout' => 'login#logout', as: 'logout'
 
   scope path: '/module', controller: :module do
-    get ''                 => :index,        as: 'modules'
-    get 'copy/:id'         => :copy,         as: 'copy_module'
-    get 'edit/:id'         => :edit,         as: 'edit_module'
-    get 'edit_content/:id' => :edit_content, as: 'edit_content'
-    get 'new'              => :new,          as: 'new_module'
-    get 'view/:id'         => :view,         as: 'module'
+    get  ''                         => :index,                as: 'modules'
+    get  'copy/:id'                 => :copy,                 as: 'copy_module'
+    get  'edit/:id'                 => :edit,                 as: 'edit_module'
+    get  'edit_content/:id'         => :edit_content,         as: 'edit_content'
+    get  'globalize/:id'            => :globalize,            as: 'globalize_module'
+    get  'manage/:id'               => :manage,               as: 'manage_module'
+    get  'new_mod'                  => :new_mod,              as: 'new_module'
+    get  'publish/:id'              => :publish,              as: 'publish_module'
+    get  'remove_from_user/:id'     => :remove_from_user,     as: 'remove_from_user'
+    post 'remove_user_from_mod/:id' => :remove_user_from_mod, as: 'remove_user_from_module'
+    get  'share/:id'                => :share,                as: 'share_module'
+    get  'view/:id'                 => :view,                 as: 'module'
   end
 
   resources :pages do

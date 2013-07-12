@@ -5,7 +5,7 @@ class ReserveController < ApplicationController
   before_filter :current_module, :except => [:edit_reserves]
   before_filter :current_guide
   before_filter :current_tutorial
-  layout 'tool'
+  layout 'admin'
 
   def retrieve_reserves
     if request.xhr?

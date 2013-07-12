@@ -59,7 +59,7 @@
     %label
       General Information
       %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_INFORMATION_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-    = text_area_tag 'mod', 'information',:class => "tinymce"
+    = text_area 'mod', 'information',:class => "tinymce"
     = tinymce
     #rss_feeds
       %fieldset
@@ -120,10 +120,6 @@
           = select('mod','num_feeds', RssResource::NUMFEEDS,{}, {:class => 'page'})
           #feeds
             = render :partial => 'feed', :collection => @mod.feeds
-          %label
-            = link_to_function image_tag("icons/add.png", :title => 'Click to add a feed', :alt => '', :border => 0)+" Add Feed" do |page| |
-              page.insert_html :bottom, :feeds, :partial => 'feed', :object => Feed.new                                                    |
-              end                                                                                                                          |
     #submit_button
       = submit_tag 'Save Module', :class => "submit"
       %p

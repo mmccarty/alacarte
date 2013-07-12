@@ -27,7 +27,7 @@
         %label{:for => "mod_info"}
           General Information
           %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(QUIZ_INFO_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-        = text_area_tag 'mod', 'description',:class => "tinymce"
+        = text_area 'mod', 'description',:class => "tinymce"
         = tinymce
         `
         #submit_button
@@ -37,10 +37,3 @@
             = link_to 'Cancel', :controller => 'module', :action => 'index',:id => @mod, :type =>@mod.class, :list => 'mine', :sort => 'name'
   #question_container
     = render :partial => '/quiz/questions'
-= sortable_element 'question_container',                                     |
-      :tag => 'div',                                                         |
-  :url => {:controller => 'quiz', :action => "sort_questions", :id => @mod}, |
-  :complete => visual_effect(:highlight, 'question_container'),              |
-  :handle => 'handle',                                                       |
-  :containment => ['question_container'],                                    |
-  :constraint => false                                                       |

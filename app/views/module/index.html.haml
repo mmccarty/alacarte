@@ -1,10 +1,5 @@
-- flash_notice
-
 .row
-  .span12
-    = link_to '/module/new_mod', class: 'btn btn-primary' do
-      %i.icon-plus
-      Create New Module
+  .span12= awesome_button new_module_path, 'plus', 'Create New Module', 'btn btn-primary'
 
 .row
   .span12= render "#{ @list == 'mine' ? 'mods' : 'global' }_list"

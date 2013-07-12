@@ -2,7 +2,9 @@ module PolymorphicModule
   extend ActiveSupport::Concern
 
   def private_label
-    self.label = self.module_title
+    unless self.label
+      self.label = self.module_title
+    end
   end
 
   def add_tags(tags)

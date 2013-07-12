@@ -1,7 +1,6 @@
 %section{ :id => "topic_#{ @mod.id }" }
   .page_header
-    %h1
-      = @mod.module_title
+    %h1= @mod.module_title
   .module
     = raw @mod.content
     - unless @mod.more_info.blank?
@@ -14,5 +13,4 @@
         - page << '}'
       %div{ :id => "more_#{ @mod.id }", :style => 'display:none' }
         = @mod.more_info
-      %noscript
-        = @mod.more_info
+      %noscript= @mod.more_info

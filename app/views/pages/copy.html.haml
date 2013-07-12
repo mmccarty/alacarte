@@ -34,7 +34,7 @@
           %label{:for => "page_page_description"}
             Description
             %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_DESC, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          = text_area_tag 'page', 'page_description',"class" => 'tinymce', :size => '40x2'
+          = text_area 'page', 'page_description',"class" => 'tinymce', :size => '40x2'
           .tip Enter a short description about the page.
           %label{:for => "tags"}
             Tags

@@ -9,7 +9,7 @@
     %label{:for => "reserves"}
       Reserves Information
       %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(RESERVES_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-    = text_area_tag 'mod', 'reserves', :class => "tinymce"
+    = text_area 'mod', 'reserves', :class => "tinymce"
     = tinymce
     %br/
     #returns

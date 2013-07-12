@@ -163,6 +163,7 @@ class GuidesController < ApplicationController
   def edit_relateds
     begin
       @guide = @user.guides.find params[:id]
+      @tab = @guide.tabs.first
     rescue ActiveRecord::RecordNotFound
       redirect_to guides_path and return
     end

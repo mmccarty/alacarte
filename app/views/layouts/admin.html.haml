@@ -17,18 +17,16 @@
               = link_to 'Admin Tools', tools_path
             %li{ class: current_page?(dashboard_path) && "active" }
               = link_to 'Dashboard', dashboard_path
-            - if @user.is_admin || @local.guides_list.include?('tutorials')
-              %li{ class: (controller.controller_name == 'tutorial') && "active" }
-                = link_to 'Tutorials', tutorials_path
             - if @user.is_admin || @local.guides_list.include?('guides')
               %li{ class: (controller.controller_name == 'guides') && "active" }
                 = link_to 'Guides', guides_path
             - if @user.is_admin || @local.guides_list.include?('pages')
               %li{ class: (controller.controller_name == 'pages') && "active" }
                 = link_to 'Pages', pages_path
+            - if @user.is_admin || @local.guides_list.include?('tutorials')
+              %li{ class: (controller.controller_name == 'tutorial') && "active" }
+                = link_to 'Tutorials', tutorials_path
             %li{ class: (controller.controller_name == 'module') && "active" }
               = link_to 'Modules', modules_path
-          %form.navbar-search.pull-right
-            %input.search-query.input-medium{ placeholder: 'Search' }
 
       = yield :layout

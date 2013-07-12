@@ -30,12 +30,3 @@
             :handle => 'handle',                                                                       |
             :containment => ['answer_container'+question.id.to_s],                                     |
             :constraint => false                                                                       |
-        %br/
-        = link_to_function("Hide details", nil, :id => 'more_q_link_'+question.id.to_s) do |page| |
-          page.visual_effect(:toggle_blind,"more_q_#{question.id}")                               |
-          page << "if($('more_q_#{question.id}').visible()){"                                     |
-          page.replace_html 'more_q_link_'+question.id.to_s, "Show details"                       |
-          page << '}else{'                                                                        |
-          page.replace_html 'more_q_link_'+question.id.to_s,  "Hide details"                      |
-          page << '}'                                                                             |
-          end                                                                                     |

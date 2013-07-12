@@ -6,7 +6,7 @@ class ModuleController < ApplicationController
   before_filter :current_guide, :only=>[:edit_content, :update, :preview]
   before_filter :current_tutorial, :only=>[:edit_content, :update, :preview]
   before_filter :clear_sessions, :only =>[:index, :new_mod, :new_menu]
-  layout 'tool'
+  layout 'admin'
 
   def index
     @sort = params[:sort] || 'name'
@@ -309,33 +309,15 @@ class ModuleController < ApplicationController
   end
 
   def globalize
-    begin
-      @mod = find_mod(params[:id],params[:type])
-      @mod.toggle!(:global)
-      if request.xhr?
-        render :partial => "global" ,:locals => {:mod => @mod, :page => @page, :sort => @sort , :all => @all}
-      else
-        redirect_to_index
-      end
-    rescue Exception => e
-      logger.error("Exception in globalize: #{e}" )
-      redirect_to :action => 'index' and return
-    end
+    mod = find_mod params[:id], params[:type]
+    mod.toggle! :global
+    redirect_to modules_path
   end
 
   def publish
-    begin
-      @mod = find_mod(params[:id],params[:type])
-      @mod.toggle!(:published)
-      if request.xhr?
-        render :partial => "publish" ,:locals => {:mod => @mod, :page => @page, :sort => @sort , :all => @all}
-      else
-        redirect_to_index
-      end
-    rescue Exception => e
-      logger.error("Exception in publish: #{e}" )
-      redirect_to :action => 'index' and return
-    end
+    mod = find_mod params[:id], params[:type]
+    mod.toggle! :published
+    redirect_to modules_path
   end
 
   def share
@@ -442,12 +424,6 @@ class ModuleController < ApplicationController
   end
 
   def redirect_to_index
-    if params[:search]
-      redirect_to :controller => 'search',:action => 'index' , :sort => params[:sort], :page => params[:page],  :all => params[:all],:mod => {:search => params[:search]}
-    elsif params[:tag]
-      redirect_to :controller => 'tagg',:action => 'index' , :sort => params[:sort], :page => params[:page], :all => params[:all], :tag =>params[:tag] and return
-    else
-      redirect_to :action => 'index', :sort => params[:sort], :page => params[:page],  :all => params[:all]  and return
-    end
+    redirect_to modules_path
   end
 end

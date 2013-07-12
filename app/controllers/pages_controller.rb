@@ -133,14 +133,21 @@ class PagesController < ApplicationController
   end
 
   def edit_relateds
-    @relateds = @page.related_guides
-    @guides = Guide.published_guides
-    if request.post?
-      @page.add_related_guides(params[:relateds]) if params[:relateds]
+    begin
+      @page = @user.guides.find params[:id]
+      @tab = @page.tabs.first
+    rescue ActiveRecord::RecordNotFound
+      redirect_to guides_path and return
+    end
+    if request.put?
+      @page.add_related_guides params[:relateds] if params[:relateds]
       if @page.save
-        flash[:notice] = "The Related Subject Guides was successfully changed."
-        redirect_to :action => 'edit_relateds'
+        flash[:notice] = "The guides were successfully related"
+        redirect_to @page and return
       end
+    else
+      @guides   = Guide.published_guides
+      @relateds = @page.related_guides.map &:id
     end
   end
 

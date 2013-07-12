@@ -1,7 +1,7 @@
 %label{:for => "topic"}
   Discussion Topic
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(COMMENTS_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-= text_area_tag :mod, :topic, :class => 'tinymce'
+= text_area :mod, :topic, :class => 'tinymce'
 = tinymce
 %p
   %strong Number of Comments to Display
@@ -9,15 +9,10 @@
   %select.page{:name => "mod[num_displayed]"}
     = options_for_select([3,5,8,10,20,100], @mod.num_displayed)
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(COMMENTS_NUM_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-- unless /create_module/.match(request.request_uri) || @mod.comments.empty?
+- unless @mod.comments.empty?
   %label{:for => "mod_comments"}
     Comments
     %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_COMMENTS_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-    = link_to " delete all", {:controller => :comment,             |
-      :action => :purge_comments,                                  |
-      :resource_id => @mod.id},                                    |
-      :confirm => "Are you SURE you want to delete all comments?", |
-      :method => :delete                                           |
   #comment_list
     = render :partial => "comment/comments",  |
       :locals => {:comments => @mod.comments, |

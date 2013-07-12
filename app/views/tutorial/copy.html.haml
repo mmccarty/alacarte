@@ -15,7 +15,7 @@
       %label{:for => "tutorial_tutorial_description"}
         Description
         %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(TUTORIAL_DESC_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-      = text_area_tag 'tutorial', 'description', "class" => 'tinymce', :size => '40x3'
+      = text_area 'tutorial', 'description', "class" => 'tinymce', :size => '40x3'
       = tinymce
       %label{:for => "tags"}
         Tags

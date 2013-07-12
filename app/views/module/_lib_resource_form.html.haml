@@ -5,7 +5,7 @@
 %label{:for => "librarian_photo"}
   Photo
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(LIB_IMAGE, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-= text_area_tag 'mod', 'image_info',:class => "tinymce"
+= text_area 'mod', 'image_info',:class => "tinymce"
 %label{:for => "office_location"}
   Office Location
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(LIB_LOCATE, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
@@ -25,5 +25,5 @@
 %label{:for => "chat_widget"}
   Chat Widget Snippet
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(LIB_WIDGET, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-= text_area_tag 'mod', 'chat_widget', "class" => 'tinymce', :size => '40x5'
+= text_area 'mod', 'chat_widget', "class" => 'tinymce', :size => '40x5'
 = tinymce

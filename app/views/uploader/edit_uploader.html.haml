@@ -9,7 +9,7 @@
     %label{:for => "mod_info"}
       General Information
       %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(UPLOADER_INFO_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-    = text_area_tag 'mod', 'info',:class => "tinymce"
+    = text_area 'mod', 'info',:class => "tinymce"
     = tinymce
     #uploadables
       = render :partial => '/uploader/uploadable', :collection => @mod.uploadables

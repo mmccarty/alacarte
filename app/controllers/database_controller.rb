@@ -3,7 +3,7 @@ class DatabaseController < ApplicationController
   before_filter :current_page
   before_filter :current_guide
   before_filter :current_tutorial
-  layout 'tool'
+  layout 'admin'
 
   def add_databases
     @mod ||= find_mod(params[:id], "DatabaseResource")

@@ -1,23 +1,22 @@
-%fieldset
-  #main
-    %h3.title
-      = render :partial => 'title_actions'
-    %h4
-      = link_to 'Edit Page', :controller => 'page', :action => 'edit',  :id => @page
+.row
+  .span2= render 'side_bar'
+
+  .span10
+    = render 'title_actions'
+
+    %h2
+      = link_to 'Edit Page', @page
       >> Related Subject Guides
-    - if flash[:notice]
-      #error_wrapper
-        #notice= flash[:notice]
-    %p
-      = related_link
-      %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(AUTO_RELATED_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-    #share_left
-      = form_tag :action => 'edit_relateds'  do
-        %label
-          Add Related Guides
-          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(ADD_RELATED_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-        %select#guide_id{:multiple => "multiple", :name => "relateds[]", :size => "8"}
-          = options_from_collection_for_select(@guides, 'id', 'guide_name', @relateds)
-        %br/
-        .tip (Click CTRL to select multiple guides)
-        = render 'shared/edit_relateds'
+
+    = flash_notice
+
+    = form_for @page, url: edit_relateds_page_path(@page) do |f|
+      %label
+        Add Related Guides
+        = more_help 'AUTO_RELATED_MSSG', '125'
+      = select_tag :relateds, options_from_collection_for_select(@guides, :id, :guide_name, @relateds), multiple: true, size: 8
+      .tip (Click CTRL or Command to select multiple guides)
+
+      %br/
+      = f.submit 'Update Relateds', class: 'btn btn-primary'
+      = link_to 'Cancel', @page, class: 'btn btn-cancel'

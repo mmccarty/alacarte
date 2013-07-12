@@ -1,7 +1,7 @@
 class TaggedController < ApplicationController
   include Paginating
   before_filter :module_types
-  layout 'tool'
+  layout 'admin'
 
   def index
     set_module_variables(params[:all],params[:tag],params[:sort])

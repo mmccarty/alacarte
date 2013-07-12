@@ -5,7 +5,7 @@ class QuizController < ApplicationController
   before_filter :current_page, :except =>[:grade_quiz, :practice_quiz, :retake_quiz, :save_question_answer]
   before_filter :current_guide, :except =>[:grade_quiz, :practice_quiz, :retake_quiz, :save_question_answer]
   before_filter :current_tutorial
-  layout 'tool'
+  layout 'admin'
 
   def edit_quiz
     @ecurrent = 'current'

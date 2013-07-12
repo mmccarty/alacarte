@@ -4,7 +4,7 @@ class UnitController < ApplicationController
   before_filter :current_unit , :only => [:new_module]
   before_filter :module_types, :only =>[:add_modules]
   before_filter :clear_unit, :only => 'units'
-  layout 'tool'
+  layout 'admin'
 
   def units
     @units = @tutorial.unitizations

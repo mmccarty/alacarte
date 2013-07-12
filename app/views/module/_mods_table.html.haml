@@ -1,9 +1,8 @@
 %table.table.table-striped
-
   %thead
     %tr
       %th Shared?
-      %th In Use?
+      %th Used?
       %th Label
       %th
       %th Last Update
@@ -15,27 +14,25 @@
     - @mods.each do |mod|
       - row_id = "row#{mod.id}#{mod.class}"
       %tr
+        %td= awesome_button share_module_path(mod, type: mod.class), mod.shared? ? 'star' : 'star-empty', 'Share this module'
+        %td= awesome_button manage_module_path(mod, type: mod.class), mod.used? ? 'circle' : 'circle-blank', 'Add this module to a guide, page, or tutorial'
+        %td= truncate mod.label, length: 55
         %td
-          - if mod.shared?
-            = link_to image_tag("icons/users.png", :title => 'This module has been shared. Click to Share with others.', :alt => 'Share', :border => 0), :controller => 'module',  :action => 'share',  :id => mod, :type => mod.class
-          - else
-            = link_to image_tag("icons/user_add.png", :title => 'Click to Share this Module', :alt => 'Share', :border => 0), :controller => 'module', :action => 'share',  :id => mod, :type => mod.class
-        %td
-          - if mod.used?
-            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('#{render_used_tooltip(mod)}', this, event, '325px');"}
-              = link_to image_tag("icons/star.png", :alt => 'Used', :border => 0), :controller => 'module', :action => 'manage',  :id => mod, :type => mod.class
-          - else
-            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('<strong>#{mod.module_title}</strong> is not currently being used. Click to add this module to a guide, page or tutorial', this, event, '325px');"}
-              = link_to image_tag("icons/no-star.png", :alt => 'Not Used', :border => 0), :controller => 'module', :action => 'manage',  :id => mod, :type => mod.class
-        %td= truncate(h(mod.label),:length => 55)
-        %td
-          = link_to image_tag("icons/edit.png", :title => 'Edit this Module', :alt => 'edit', :border => 0), edit_content_path(mod, :type => mod.class), :class =>'space'
-          | #{link_to image_tag("icons/document_preview.png", :title => 'Preview this Module in New Window', :alt => 'preview', :border => 0), module_path(mod, :type => mod.class), :class =>'space', :popup => ['', 'height=400,width=480,toolbar=yes, scrollbars =yes,resizable=yes']}
-          | #{link_to image_tag("icons/application_add.png", :title => 'Copy this Module', :alt => 'copy', :border => 0), copy_module_path(mod, :type => mod.class) ,:class =>'space'}
-          | #{link_to image_tag("icons/remove.png", :title => 'Delete this Module', :alt => 'delete', :border => 0), {:url => { :controller => 'module', :action => 'remove_from_user', :id => mod,  :type => mod.class, :page => @page, :sort => @sort,  :all => @all },:update => row_id , :confirm => 'Are you sure you want to delete this module from your list?'}, :href => url_for(:action => 'remove_from_user', :controller => 'module',:id => mod, :type => mod.class, :page => @page, :sort => @sort , :all => @all), :remote => true}
+          = awesome_button edit_content_path(mod, type: mod.class), 'edit', 'Edit this module'
+          = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module'
+          = awesome_button copy_module_path(mod, type: mod.class), 'copy', 'Copy this module'
+          = awesome_button remove_from_user_path(mod, type: mod.class), 'trash', 'Delete this module'
         %td= mod.updated_at.to_date
         %td= mod.content_type
-        %td= render :partial => "/module/global" ,:locals => {:mod => mod, :page => @page, :sort => @sort , :all => @all}
-        %td= render :partial => "/module/publish" ,:locals => {:mod => mod, :page => @page, :sort => @sort , :all => @all}
+        %td
+          - if mod.global == 0 || mod.global == false
+            = awesome_button globalize_module_path(mod, type: mod.class), 'group', 'Add this module to the global list'
+          - else
+            = awesome_button globalize_module_path(mod, type: mod.class), 'globe', 'Remove this module from the global list'
+        %td
+          - if mod.published == 0 || mod.published == false
+            = awesome_button publish_module_path(mod, type: mod.class), 'lock', 'Add this module to the published list'
+          - else
+            = awesome_button publish_module_path(mod, type: mod.class), 'unlock', 'Remove this module from the published list'
 
 = will_paginate @mods

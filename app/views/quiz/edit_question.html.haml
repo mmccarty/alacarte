@@ -21,7 +21,7 @@
             %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(NOT_QUIZ_GRADE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
             = hidden_field 'question','points', :value => 0
         %label{:for => "mod_label"} Question
-        = text_area_tag :question, :question, {:class => 'tinymce'}
+        = text_area :question, :question, {:class => 'tinymce'}
         = tinymce
         `
         #submit_button

@@ -2,7 +2,7 @@ class TutorialController < ApplicationController
   include Paginating
 
   before_filter :clear_sessions, :only => [:index, :new]
-  layout 'tool'
+  layout 'admin'
 
   def index
     @tcurrent = 'current'

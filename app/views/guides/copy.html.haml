@@ -47,7 +47,7 @@
           %label{:for => "guide_guide_description"}
             Description
             %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_DESC, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          = text_area_tag 'guide', 'description',"class" => 'tinymce', :size => '40x2'
+          = text_area 'guide', 'description',"class" => 'tinymce', :size => '40x2'
           .tip Enter a short description about the guide.
           %label{:for => "tags"}
             Tags
