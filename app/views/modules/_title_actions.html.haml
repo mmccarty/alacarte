@@ -1,0 +1,16 @@
+- if !@page.blank?
+  = render 'page/side_bar'
+  = render '/page/title_actions'
+- elsif !@guide.blank?
+  = render 'guide/side_bar'
+  = render 'guide/title_actions'
+- elsif !@tutorial.blank?
+  = render 'tutorial/side_bar'
+  = render 'tutorial/title_actions'
+- else
+  = render 'side_bar'
+  %span
+    = @mod.module_title
+  .actions
+    = link_to image_tag("icons/document_preview.png", :title => 'Preview this module', :alt => 'preview', :border => 0),{ :controller => "module", :action => 'view', :id => @mod, :type => @mod.class}, :popup => ['', 'height=400,width=480,toolbar=yes, scrollbars =yes,resizable=yes']
+    = link_to 'Preview', {:controller => 'module', :action => 'view',  :id => @mod, :type => @mod.class }, :popup => ['', 'height=400,width=480,toolbar=yes, scrollbars =yes,resizable=yes']

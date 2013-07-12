@@ -1,4 +1,5 @@
 module ApplicationHelper
+  # awesome button is awesome
   def awesome_button(url, icon, text = '', style = '')
     if style.match 'btn'
       html = "<i class='icon-#{ icon }'></i>&nbsp; #{ text }"
@@ -15,17 +16,6 @@ module ApplicationHelper
 
   def new_button(text)
     link_to text, { :action => :new }, :class => 'btn'
-  end
-
-  def show_form(mod_type)
-    render "module/#{ mod_type.underscore }_form"
-  end
-
-  def show_mod(mod)
-    if !mod.blank?
-      @mod = mod
-      render :partial => "shared/#{ mod.class.to_s.underscore }_module", :object => @mod
-    end
   end
 
   def flash_notice

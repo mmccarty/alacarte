@@ -37,20 +37,28 @@ Alacarte::Application.routes.draw do
 
   get 'login/logout' => 'login#logout', as: 'logout'
 
-  scope path: '/module', controller: :module do
-    get  ''                         => :index,                as: 'modules'
-    get  'copy/:id'                 => :copy,                 as: 'copy_module'
-    get  'edit/:id'                 => :edit,                 as: 'edit_module'
-    get  'edit_content/:id'         => :edit_content,         as: 'edit_content'
-    get  'globalize/:id'            => :globalize,            as: 'globalize_module'
-    get  'manage/:id'               => :manage,               as: 'manage_module'
-    get  'new_mod'                  => :new_mod,              as: 'new_module'
-    get  'publish/:id'              => :publish,              as: 'publish_module'
-    get  'remove_from_user/:id'     => :remove_from_user,     as: 'remove_from_user'
-    post 'remove_user_from_mod/:id' => :remove_user_from_mod, as: 'remove_user_from_module'
-    get  'share/:id'                => :share,                as: 'share_module'
-    get  'view/:id'                 => :view,                 as: 'module'
+  resources :modules do
+    member do
+      get 'copy'
+      get 'globalize'
+      get 'manage'
+      get 'publish'
+      get 'remove_from_user'
+      get 'remove_user_from_mod'
+      get 'share'
+    end
   end
+
+  resources :comment_resources
+  resources :database_resources
+  resources :image_resources
+  resources :inst_resources
+  resources :lib_resources
+  resources :miscellaneous_resources
+  resources :quiz_resources
+  resources :rss_resources
+  resources :url_resources
+  resources :video_resources
 
   resources :pages do
     member do

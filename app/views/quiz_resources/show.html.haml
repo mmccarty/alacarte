@@ -1,0 +1,9 @@
+%h2= h @mod.module_title
+.module
+  - unless @mod.description.blank?
+    = @mod.description
+  #quiz
+    - if @mod.graded == true and !@preview and !@tabs
+      = render 'grade_quiz.html.erb'
+    - else
+      = render 'practice_quiz.html.erb'
