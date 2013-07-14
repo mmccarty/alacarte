@@ -33,9 +33,13 @@
         = raw @tutorial.description
       %p
         - if !@student && @tutorial.graded?
-         = link_to 'Login', :controller => 'student', :action => 'login', :id => @tutorial
+          = link_to({ :controller => 'student' }, :action => 'login', :id => @tutorial, :class => 'btn') do
+            Login &nbsp;
+            %i.icon-signin
         - else
-         = link_to 'Start', :controller => 'ort', :action => 'start', :id => @tutorial
+          = link_to({ :controller => 'ort' }, :action => 'start', :id => @tutorial, :class => 'btn btn-primary') do
+            Start &nbsp;
+            %i.icon-play
 
     - unless @tutorial.unitizations.blank?
       %hr.muted
