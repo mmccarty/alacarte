@@ -1,5 +1,5 @@
-.row
-  .span12= awesome_button new_module_path, 'plus', 'Create New Module', 'btn btn-primary'
+.container
+  = awesome_button new_module_path, 'plus', 'Create new module', 'btn btn-primary'
 
-.row
-  .span12= render "#{ @list == 'mine' ? 'mods' : 'global' }_list"
+.container
+  = render "#{ @list == 'mine' ? 'mods' : 'global' }_list"

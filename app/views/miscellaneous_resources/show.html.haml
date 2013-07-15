@@ -1,16 +1,1 @@
-%section{ :id => "topic_#{ @mod.id }" }
-  .page_header
-    %h1= @mod.module_title
-  .module
-    = raw @mod.content
-    - unless @mod.more_info.blank?
-      = link_to_function 'Read more', nil, :id => "more_link_#{ @mod.id }" do |page|
-        - page.visual_effect(:toggle_blind,"more_#{@mod.id}")
-        - page << "if($('more_#{@mod.id}').visible()){"
-        - page.replace_html 'more_link_'+@mod.id.to_s, "Read more"
-        - page << '}else{'
-        - page.replace_html 'more_link_'+@mod.id.to_s,  "Read less"
-        - page << '}'
-      %div{ :id => "more_#{ @mod.id }", :style => 'display:none' }
-        = @mod.more_info
-      %noscript= @mod.more_info
+= render :partial => 'show'

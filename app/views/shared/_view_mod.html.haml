@@ -1,6 +1,2 @@
-#boxes
-  .item
-    .item2
-      = show_mod(@mod)
-      .bot
-        %div
+.well.well-small
+  = render :partial => @mod.class.to_s.underscore + 's/show'

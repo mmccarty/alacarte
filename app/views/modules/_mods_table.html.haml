@@ -16,11 +16,14 @@
       %tr
         %td= awesome_button share_module_path(mod, type: mod.class), mod.shared? ? 'star' : 'star-empty', 'Share this module'
         %td= awesome_button manage_module_path(mod, type: mod.class), mod.used? ? 'circle' : 'circle-blank', 'Add this module to a guide, page, or tutorial'
-        %td= truncate mod.label, length: 55
+        %td= truncate mod.label.html_safe, length: 55
         %td
           = awesome_button edit_module_path(mod, type: mod.class), 'edit', 'Edit this module'
+          &nbsp;
           = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module'
+          &nbsp;
           = awesome_button copy_module_path(mod, type: mod.class), 'copy', 'Copy this module'
+          &nbsp;
           = link_to '', module_path(mod, type: mod.class), method: :delete, class: 'icon-trash', title: 'Delete this module', confirm: 'Are you sure?'
         %td= mod.updated_at.to_date
         %td= mod.content_type
