@@ -1,20 +1,22 @@
-%html
+!!!
+%html{ :lang => "en", "xml:lang" => "en", :xmlns => "http://www.w3.org/1999/xhtml" }
   %head
-    =csrf_meta_tag
-    %title Library &agrave; la Carte Tool: Login
-    =stylesheet_link_tag 'tool', :media => 'all'
-    =javascript_include_tag 'application'
+    = csrf_meta_tag
+    %title
+      Library &agrave; la Carte Tool: Login
+    = stylesheet_link_tag 'application', 'tool', :media => 'all'
+    = javascript_include_tag 'application'
   %body
-    #wrapper
+    .container
       #header
-        =image_tag 'Logo.jpg', :title => 'Library Information made to order', :alt => 'logo'
-      #front_content
-        -if flash[:notice]
-          #notice= flash[:notice]
-        =yield :layout
-      #footer
-        %a{:href => 'http://alacarte.library.oregonstate.edu/support' } Help/FAQ
-        |
-        %a{:href => 'http://alacarte.library.oregonstate.edu/contact' } Questions
-        |
-        %a{:href => 'http://alacarte.library.oregonstate.edu/demo' } Request an Account
+        = image_tag 'Logo.jpg', :title => 'Library Information made to order', :alt => 'logo'
+      - if flash[:notice]
+        #notice
+          = flash[:notice]
+      = yield :layout
+      %hr.muted
+      %footer.footer
+        .container
+          %p
+            %a{:href => 'http://alacarte.library.oregonstate.edu/support' }
+              Help/FAQ

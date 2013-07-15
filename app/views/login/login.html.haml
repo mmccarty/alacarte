@@ -1,13 +1,14 @@
-%fieldset
-  =form_tag do
-    %h3.form Please Log In
-    %label{:for => 'email'} Email
-    =text_field_tag :email, params[:email], :size => 54
-    %label{:for => 'password'} Password
-    =password_field_tag :password, params[:password], :size => 54
-    %br/
-    %br/
-    =submit_tag 'Login', :class => 'submit'
+= form_tag do
+  %fieldset
+    %legend
+      Please Log In
+    %label{ :for => 'email' }
+      Email
+    = text_field_tag :email, params[:email], :class => 'input-xlarge'
+    %label{ :for => 'password '}
+      Password
+    = password_field_tag :password, params[:password], :class => 'input-xlarge'
+    %br
+    = submit_tag 'Login', :class => 'btn btn-primary'
     &nbsp;
-    =link_to 'Forgot My Password', :action => 'forgot_password'
-  %br/
+    = link_to 'Forgot My Password', :action => 'forgot_password'
