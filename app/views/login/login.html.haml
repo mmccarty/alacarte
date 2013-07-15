@@ -1,14 +1,20 @@
-= form_tag do
-  %fieldset
-    %legend
-      Please Log In
-    %label{ :for => 'email' }
-      Email
-    = text_field_tag :email, params[:email], :class => 'input-xlarge'
-    %label{ :for => 'password '}
-      Password
-    = password_field_tag :password, params[:password], :class => 'input-xlarge'
-    %br
-    = submit_tag 'Login', :class => 'btn btn-primary'
-    &nbsp;
-    = link_to 'Forgot My Password', :action => 'forgot_password'
+%fieldset
+  %legend
+    Please Log In
+
+  = form_tag({ }, { :class => 'form-horizontal' }) do
+    .control-group
+      %label.control-label{ :for => 'email' }
+        Email
+      .controls
+        = text_field_tag :email, params[:email], :class => 'input-xlarge'
+    .control-group
+      %label.control-label{ :for => 'password'}
+        Password
+      .controls
+        = password_field_tag :password, params[:password], :class => 'input-xlarge'
+    .control-group
+      .controls
+        = submit_tag 'Login', :class => 'btn btn-primary'
+        &nbsp;
+        = link_to 'Forgot My Password', :action => 'forgot_password'

@@ -1,4 +1,11 @@
 - if flash[:notice]
-  #error_wrapper
-    #notice
+  .alert.alert-info
+    %p
+      %i.icon-info-sign
       = flash[:notice]
+
+- if flash[:error]
+  .alert.alert-error
+    %p
+      %i.icon-warning-sign
+      = flash[:error]

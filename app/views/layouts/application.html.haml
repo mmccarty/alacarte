@@ -10,13 +10,13 @@
     .container
       #header
         = image_tag 'Logo.jpg', :title => 'Library Information made to order', :alt => 'logo'
-      - if flash[:notice]
-        #notice
-          = flash[:notice]
+
+      = flash_notice
+
       = yield :layout
-      %hr.muted
-      %footer.footer
-        .container
-          %p
-            %a{:href => 'http://alacarte.library.oregonstate.edu/support' }
-              Help/FAQ
+
+    %footer.footer
+      .container
+        %p
+          %a{:href => 'http://alacarte.library.oregonstate.edu/support' }
+            Help/FAQ
