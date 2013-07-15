@@ -1,21 +1,14 @@
-%fieldset
-  %h3 My Contact Module
-  - if flash[:notice]
-    #list_error= flash[:notice]
-  %br/
-  .tip
-    Your default contact module.
-    %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PROFILE_MOD_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-  %br/
-  #boxes
-    .item
-      .item2
-        = show_mod(@mod)
-        .bot
-          %div
-  %p
-    %b
-      = link_to 'Select New Profile', :action => 'edit_profile'
-      | #{link_to 'Edit Module', {:controller => 'module', :action => 'edit_content', :id => @mod, :type => @mod.class}}
-  %p
-    %b= link_to 'Cancel', :action => 'index'
+%h1.page-header
+  My Contact Module
+
+%p
+  = link_to 'Change module', { :controller => 'dashboard', :action => 'edit_profile', :rid => @user.resource_id }, :class => 'btn'
+  = link_to 'Edit module', edit_module_path(@mod, type: @mod.class), :class => 'btn'
+  = link_to 'Cancel', { :controller => 'dashboard', :action => 'show' }, :class => 'btn'
+  &nbsp;
+  %i.icon-question-sign{ :data => { :content => 'The contact module should contain contact information. The module must already be created before you can add it as the contact module.<br/><br/>Tip: Setting a default contact module will automatically select this module for you when you create a new page/guide, you can select a different one if needed.', :html => 'true', :trigger => 'hover' } }
+
+= render :partial => 'shared/view_mod'
+
+:javascript
+  $('.icon-question-sign').popover();
