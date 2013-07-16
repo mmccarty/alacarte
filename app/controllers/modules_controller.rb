@@ -31,14 +31,19 @@ class ModulesController < ApplicationController
   end
 
   def create
-    @mod = create_module_object params[:mod][:type]
-    @mod.update_attributes params[:mod]
-    @mod.slug = create_slug params[:mod][:module_title]
-    if @mod.save
-      create_and_add_resource @user, @mod
-      @mod.add_tags params[:tags]
-      redirect_to edit_module_path(@mod, type: @mod.class) and return
-    else
+    begin
+      @mod = create_module_object params[:mod][:type]
+      @mod.update_attributes params[:mod]
+      @mod.slug = create_slug params[:mod][:module_title]
+      if @mod.save
+        create_and_add_resource @user, @mod
+        @mod.add_tags params[:tags]
+        redirect_to edit_module_path(@mod, type: @mod.class)
+      else
+        render :new
+      end
+    rescue
+      remove_instance_variable :@mod
       render :new
     end
   end
