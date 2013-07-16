@@ -8,10 +8,10 @@
       %h2 Modules
       %p
         %i.icon-large.icon-plus-sign{ :title => 'New module', :alt => 'add' }
-        = link_to 'Create a new content module', :controller => 'modules', :action => 'new'
+        = link_to 'Create a new content module', new_module_path
       %p
         %i.icon-large.icon-folder-open{ :title => 'Browse my modules', :alt => 'browse' }
-        = link_to 'Browse content modules', :controller => 'modules', :action => 'index'
+        = link_to 'Browse content modules', modules_path
       - unless @user.resource_id.blank?
         %p
           %i.icon-large.icon-edit{ :title => 'My contact module', :alt => 'edit' }
@@ -23,7 +23,7 @@
           = link_to 'Set default contact module', :controller => 'dashboard', :action => 'edit_profile'
       %p
         %i.icon-large.icon-globe{ :title => 'Browse global modules', :alt => 'browse' }
-        = link_to 'Browse global modules', :controller => 'modules', :action => 'index', :list => 'global'
+        = link_to 'Browse global modules', modules_path(list: 'global')
 
     %hr
 
@@ -33,30 +33,30 @@
           %h2 My Pages
           %p
             %i.icon-large.icon-plus-sign{ :title => 'New page', :alt => 'add' }
-            = link_to 'Create a new course page', :controller => 'page', :action => 'new'
+            = link_to 'Create a new course page', new_page_path
           %p
             %i.icon-large.icon-folder-open{ :title => 'Browse my pages', :alt => 'browse' }
-            = link_to 'Browse course pages', :controller => 'pages', :action => 'index'
+            = link_to 'Browse course pages', pages_path
 
       - if @local.guides_list.include?('guides')
         %div.span3
           %h2 My Guides
           %p
             %i.icon-large.icon-plus-sign{ :title => 'New guide', :alt => 'add' }
-            = link_to 'Create a new subject guide', :controller => 'guides', :action => 'new'
+            = link_to 'Create a new subject guide', new_guide_path
           %p
             %i.icon-large.icon-folder-open{ :title => 'Browse my guides', :alt => 'browse' }
-            = link_to 'Browse subject guides', :controller => 'guides', :action => 'index'
+            = link_to 'Browse subject guides', guides_path
 
       - if @local.guides_list.include?('tutorials')
         %div.span3
           %h2 My Tutorials
           %p
             %i.icon-large.icon-plus-sign{ :title => 'New tutorial', :alt => 'add' }
-            = link_to 'Create a new tutorial', :controller => 'tutorials', :action => 'new'
+            = link_to 'Create a new tutorial', new_tutorial_path
           %p
             %i.icon-large.icon-folder-open{ :title => 'Browse my tutorials', :alt => 'browse' }
-            = link_to 'Browse tutorials', :controller => 'tutorials', :action => 'index'
+            = link_to 'Browse tutorials', tutorials_path
 
   .span3
 
