@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ModulesController do
+describe PagesController do
   describe 'guest access' do
     describe 'GET #index' do
       it 'requires login' do
@@ -14,8 +14,6 @@ describe ModulesController do
     before :each do
       user = create :author
       session[:user_id] = user.id
-
-      Local.create
     end
 
     describe 'GET #index' do

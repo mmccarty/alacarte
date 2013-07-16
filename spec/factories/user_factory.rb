@@ -11,6 +11,10 @@ FactoryGirl.define do
     password pass
     password_confirmation pass
 
+    factory :author do
+      role 'author'
+    end
+
     factory :admin do
       role 'admin'
     end

@@ -1,6 +1,7 @@
 Alacarte::Application.routes.draw do
   root to: 'login#login'
 
+  get 'login/login'  => 'login#login',  as: 'login'
   get 'login/logout' => 'login#logout', as: 'logout'
 
   resources :modules do

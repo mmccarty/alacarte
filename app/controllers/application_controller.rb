@@ -15,9 +15,11 @@ class ApplicationController < ActionController::Base
     if user
       @user = user
     else
-      session[:original_uri] = request.request_uri
+      if request.respond_to? :request_uri then
+        session[:original_uri] = request.request_uri
+      end
       flash[:notice]= "Please log in"
-      redirect_to login_path and return
+      redirect_to login_path
     end
   end
 
@@ -25,7 +27,7 @@ class ApplicationController < ActionController::Base
     student = Student.find_by_id_and_tutorial_id(session[:student],session[:tutorial])
     unless student
       session[:tut_uri] = request.request_uri
-      redirect_to(:controller=> "student", :action => "login", :id => session[:tutorial]) and return
+      redirect_to(:controller=> "student", :action => "login", :id => session[:tutorial])
     else
       @student = student
     end
@@ -38,10 +40,10 @@ class ApplicationController < ActionController::Base
       session[:original_uri] = request.request_uri
       flash[:notice]= "Please log in"
       redirect_to(:controller=> "login", :action => "login")
-      return false
+      false
     else
       @admin = user
-      return true
+      true
     end
   end
 

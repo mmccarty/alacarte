@@ -190,38 +190,36 @@ class User < ActiveRecord::Base
   end
 
   def modules(s = nil, rev = nil,list = nil)
-    s = (s.nil? ? "label" : s)
     mods = (list == nil ? resources.collect {|a| a.mod if a and a.mod}.compact : list)
-
-    mods.sort {|a,b| a.send(s).downcase <=> b.send(s).downcase }.uniq
+    mods.sort_by { |a| a.label.downcase }.uniq
   end
 
   def sort_search_guides(sort_by,search_results)
-    sorted_guides guides
+    sort_guides sort_by
   end
 
   def sort_guides(sort_by)
-    sorted_guides guides
+    sorted_guides sort_by, nil, guides
   end
 
   def sorted_guides(sort, reverse, list)
-    list.sort {|a,b| a.send(sort).downcase <=> b.send(sort).downcase }.uniq
+    list.sort_by { |a| a.guide_name.downcase }.uniq
   end
 
   def sort_search_pages(sort_by, search_results)
-    sorted_pages pages
+    sort_pages sort_by
   end
 
   def sort_pages(sort_by)
-    sorted_pages pages
+    sorted_pages sort_by, nil, pages
   end
 
   def sorted_pages(sort, reverse, list)
-    list.sort {|a,b| a.send(sort).downcase <=> b.send(sort).downcase }.uniq
+    list.sort_by { |a| a.course_name.downcase }.uniq
   end
 
   def sort_search_tutorials(sort_by, search_results)
-    sorted_tuts my_tutorials
+    sort_tuts sort_by
   end
 
   def sort_tutorials(sort_by)
@@ -229,7 +227,7 @@ class User < ActiveRecord::Base
   end
 
   def sorted_tuts(list)
-    list.sort {|a,b| a.send(sort).downcase <=> b.send(sort).downcase }.uniq
+    list.sort_by { |a| a.name.downcase }.uniq
   end
 
   def self.authenticate(email, password)
