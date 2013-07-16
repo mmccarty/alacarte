@@ -1,26 +1,18 @@
-%h1 Edit Module
+%legend Edit Module
 
 = form_for @mod do |f|
   = error_messages_for :mod
 
-  %label{ for: 'mod_label' }
-    Private Label
-    %span.required *
-  = f.text_field :label, size: 55
+  = render 'modules/mod_title'
 
-  %label{ for: 'mod_title' }
-    Module Title
-    %span.required *
-  = f.text_field :module_title, size: 55
+  %p
+    &nbsp;
 
-  %label{ for: 'mod_tag_list' } Tags
-  = f.text_field :tag_list, size: 55
-  .tip example: WR101, Databases, Writing
-
-  %label{ for: 'mod_content' } Content
   = f.text_area :content, class: 'tinymce'
   = tinymce
-  %br/
 
-  = f.submit class: 'btn btn-primary'
-  = link_to 'Cancel', modules_path, class: 'btn btn-cancel'
+  %br
+  .control-group
+    .controls
+      = f.submit 'Save', class: 'btn btn-primary'
+      = link_to 'Cancel', modules_path, class: 'btn btn-cancel'
