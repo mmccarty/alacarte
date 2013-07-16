@@ -28,16 +28,6 @@
     %hr
 
     .row
-      - if @local.guides_list.include?('pages')
-        %div.span3
-          %h2 My Pages
-          %p
-            %i.icon-large.icon-plus-sign{ :title => 'New page', :alt => 'add' }
-            = link_to 'Create a new course page', new_page_path
-          %p
-            %i.icon-large.icon-folder-open{ :title => 'Browse my pages', :alt => 'browse' }
-            = link_to 'Browse course pages', pages_path
-
       - if @local.guides_list.include?('guides')
         %div.span3
           %h2 My Guides
@@ -47,6 +37,16 @@
           %p
             %i.icon-large.icon-folder-open{ :title => 'Browse my guides', :alt => 'browse' }
             = link_to 'Browse subject guides', guides_path
+
+      - if @local.guides_list.include?('pages')
+        %div.span3
+          %h2 My Pages
+          %p
+            %i.icon-large.icon-plus-sign{ :title => 'New page', :alt => 'add' }
+            = link_to 'Create a new course page', :controller => 'pages', :action => 'new'
+          %p
+            %i.icon-large.icon-folder-open{ :title => 'Browse my pages', :alt => 'browse' }
+            = link_to 'Browse course pages', :controller => 'pages', :action => 'index'
 
       - if @local.guides_list.include?('tutorials')
         %div.span3
