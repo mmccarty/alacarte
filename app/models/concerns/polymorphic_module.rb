@@ -9,12 +9,10 @@ module PolymorphicModule
   end
 
   def private_label
-    unless self.label
-      self.label = self.module_title
-    end
+    self.label ||= self.module_title
   end
 
-  def add_tags(tags)
+  def add_tags tags
     self.tag_list = tags
     self.save
   end
@@ -30,20 +28,20 @@ module PolymorphicModule
   end
 
   def get_guides
-    get_resource_uses { |r| r.tabs.collect { |t| t.guide } }
+    get_resource_uses { |r| r.tabs.map &:guide }
   end
 
   def get_pages
-    get_resource_uses { |r| r.tabs.collect { |t| t.page } }
+    get_resource_uses { |r| r.tabs.map &:page }
   end
 
   def get_tutorials
-    get_resource_uses { |r| r.units.collect { |t| t.tutorials } }
+    get_resource_uses { |r| r.units.map &:tutorials }
   end
 
   private
 
   def get_resource_uses(&block)
-    resources.collect(&block).flatten.uniq.delete_if { |r| r.blank? }
+    resources.map(&block).flatten.uniq.delete_if &:blank?
   end
 end

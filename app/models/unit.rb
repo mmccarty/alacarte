@@ -22,75 +22,74 @@ class Unit < ActiveRecord::Base
   validates_length_of :slug, :maximum=>15, :message=>"less than {{count}}", :on => :update
   before_create :create_slug
 
-  def add_tags(tags)
+  def add_tags tags
     self.tag_list = tags
     self.save
   end
 
-  def add_resource(resource)
+  def add_resource resource
     resources << resource
   end
 
-  def update_resources(resrs)
+  def update_resources resrs
     resrs.each do |value|
       id = value.gsub(/[^0-9]/, '')
       type = value.gsub(/[^A-Za-z]/, '')
-      resource = Resource.find_by_mod_id_and_mod_type(id,type)
+      resource = Resource.find_by_mod_id_and_mod_type(id, type)
       resource.create_slug if resource.mod.slug.blank?
       resources << resource
     end
   end
 
-  def create_slug(trunc = 15, truncate_string = "...")
+  def create_slug trunc = 15, truncate_string = "..."
     text = self.title
     l = trunc - truncate_string.mb_chars.length
     chars = text.mb_chars
     self.slug = (chars.length > trunc ? chars[0...l] + truncate_string : text).to_s
   end
 
-  def add_module(id, type)
-    resource = Resource.find_by_mod_id_and_mod_type(id,type)
-    resources << resource if resource
+  def add_module id, type
+    resource = Resource.find_by_mod_id_and_mod_type id, type
+    add_resource resource if resource
   end
 
-  def find_resource(id, type)
-    resources.find_by_mod_id_and_mod_type(id, type)
+  def find_resource id, type
+    resources.find_by_mod_id_and_mod_type id, type
   end
 
   def modules
-    resources.collect {|a| a.mod}
+    resources.map &:mod
   end
 
   def recent_modules
-    sortable = "updated_at"
-    resources.collect{ |a| a.mod}.sort! {|a,b|  a.send(sortable) <=> b.send(sortable)}
+    modules.sort_by &:updated_at
   end
 
   def sorted_resources
-    resourceables.collect{|t| t.resource}
+    resourceables.map &:resource
   end
 
   def first_module
     res = sorted_resources.first
-    (res.blank? ? false : res.mod)
+    res.blank? ? nil :  res.mod
   end
 
   def last_module
     res = sorted_resources.last
-    (res.blank? ? false : res.mod)
+    res.blank? ? nil :  res.mod
   end
 
-  def next_module(id, type)
-    res = find_resource(id, type)
-    resable = resourceables.select{|r| r.resource.id == res.id}.first
+  def next_module id, type
+    res = find_resource id, type
+    resable = resourceables.select { |r| r.resource.id == res.id }.first
     next_resable = resable.lower_item
-    (next_resable.blank? ? false : next_resable.resource.mod)
+    next_resable.blank? ? nil : next_resable.resource.mod
   end
 
-  def prev_module(id, type)
-    res = find_resource(id, type)
-    resable = resourceables.select{|r| r.resource.id == res.id}.first
+  def prev_module id, type
+    res = find_resource id, type
+    resable = resourceables.select { |r| r.resource.id == res.id }.first
     prev_resable = resable.higher_item
-    (prev_resable.blank? ? false : prev_resable.resource.mod)
+    prev_resable.blank? ? nil : prev_resable.resource.mod
   end
 end

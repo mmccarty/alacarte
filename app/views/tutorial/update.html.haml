@@ -7,5 +7,5 @@
   #share
     = form_tag({:action => 'update', :id => @tutorial.id}, {:multipart => true}) do
       = render :partial => 'form'
-  %p= link_to 'Cancel', :action => 'index'
+      = link_to 'Cancel', tutorials_path, class: 'btn btn-cancel'
 = render :partial => 'side_bar'

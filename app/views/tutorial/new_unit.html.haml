@@ -1,12 +1,11 @@
 %fieldset
-  %h3.title
-    = render :partial => '/tutorial/title_actions'
+  %h3.title= render 'title_actions'
   %h4 Add Units
   - if flash[:error]
     #error_wrapper
       #list_error= flash[:error]
 
-  = form_tag create_unit_path do
+  = form_tag create_unit_path(@tutorial) do
     = error_messages_for 'unit'
     #vertical_inputs.index
       %h5 New Unit
@@ -19,5 +18,5 @@
       = text_field 'unit', 'title', "size" => 45 , :value => flash[:unit_title]
       %span
         %label &nbsp;
-        = submit_tag 'Create Unit'
+        = submit_tag 'Create Unit', class: 'btn'
       %br/

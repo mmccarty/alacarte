@@ -1,76 +1,10 @@
-class UnitController < ApplicationController
+class UnitsController < ApplicationController
   include Paginating
   before_filter :current_tutorial
   before_filter :current_unit , :only => [:new_module]
   before_filter :module_types, :only =>[:add_modules]
   before_filter :clear_unit, :only => 'units'
   layout 'admin'
-
-  def units
-    @units = @tutorial.unitizations
-    session[:unit] = nil
-  end
-
-  def new
-  end
-
-  def create
-    if request.post?
-      @unit = Unit.new params[:unit]
-      @unit.created_by = @user.id
-      if @unit.save
-        @tutorial.units << @unit
-        session[:unit] = @unit.id
-        redirect_to  :action => 'update', :id => @unit
-      else
-        flash[:error] = "Could not create the unit. There were problems with the following fields:
-                           #{@unit.errors.full_messages.join(", ")}"
-        flash[:unit_name] = params[:unit][:unit_name]
-        flash[:unit_name_error] = ""
-        redirect_to :action => 'add' and return
-      end
-    end
-  end
-
-  def add
-    @sort = params[:sort] || 'name'
-    session[:added] ||= []
-    @units = @user.sort_units(@sort)
-    @units = paginate_list(@units, params[:page] ||= 1, @sort)
-    if request.xhr?
-      render :partial => "unit/unit_list", :layout => false
-    elsif request.post? and !session[:added].nil?
-      @tutorial.add_units(session[:added])
-      session[:added] = nil
-      redirect_to :action => "units"  and return
-    end
-  end
-
-  def add_to_list
-    unless session[:added].include?(params[:uid])
-      session[:added] << params[:uid]
-    end
-    render :nothing => true
-  end
-
-  def update
-    @unit = @tutorial.units.find(params[:id])
-    session[:unit] = @unit.id
-    @tag_list = @unit.tag_list
-    @mods = @unit.resourceables
-    if request.post?
-      @unit.attributes = params[:unit]
-      @unit.add_tags(params[:tags])
-      if @unit.save
-        case params[:commit]
-        when "Save"
-          redirect_to :action => 'units'
-        when "Save & Add Modules"
-          redirect_to  :action => 'add_modules', :id =>@unit and return
-        end
-      end
-    end
-  end
 
   def remove_unit
     unit = @tutorial.units.find(params[:id])
@@ -81,7 +15,7 @@ class UnitController < ApplicationController
   end
 
   def sort
-    if params['full'] then
+    if params['full']
       sortables = params['full']
       sortables.each do |id|
         unitz = @tutorial.unitizations.find(id)
@@ -122,25 +56,6 @@ class UnitController < ApplicationController
     render :nothing => true
   end
 
-  def add_modules
-    setSessionGuideId
-    @unit ||= Unit.find(params[:id])
-    session[:unit] = @unit.id
-    @sort = params[:sort] || 'label'
-    session[:add_mods] ||= []
-    @mods = @user.sort_mods(@sort)
-    @mods = paginate_mods(@mods, params[:page] ||= 1, @sort)
-    @search_value = "Search My Modules"
-    if request.xhr?
-      render :partial => "shared/add_modules_list", :layout => false
-    elsif request.post? and !session[:add_mods].nil?
-      @unit.update_resources(session[:add_mods])
-      @tutorial.update_users if @tutorial.shared?
-      session[:add_mods] = nil
-      redirect_to :action => "update", :id => @unit
-    end
-  end
-
   def new_module
     unless params[:mod][:type].empty?
       @mod = create_module_object(params[:mod][:type])
@@ -169,13 +84,5 @@ class UnitController < ApplicationController
       flash[:mod_type_error] = ""
       redirect_to  :back
     end
-  end
-
-  private
-
-  def setSessionGuideId
-    session[:tutorial_id] = @tutorial.id
-    session[:guide_id] = nil
-    session[:page_id] = nil
   end
 end

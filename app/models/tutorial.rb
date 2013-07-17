@@ -53,15 +53,35 @@ class Tutorial < ActiveRecord::Base
 
   attr_protected :id
 
+  def self.get_published_tutorials
+    self.where("published = ? AND (internal = 't' OR internal IS NULL)", true).order 'name'
+  end
+
+  def self.published_tutorials
+    self.where("published = ? AND (internal = 't' OR internal IS NULL)", true).order('name').select 'id, name, description'
+  end
+
+  def self.get_archived_tutorials
+    self.where("archived = ? AND (internal = 't' OR internal IS NULL)", true).order('name').select 'id, name, description'
+  end
+
+  def self.get_internal_tutorials
+    self.where(:published => true, :internal => true).order 'name'
+  end
+
+  def self.get_subjects tuts
+    tuts.map(&:subject).flatten.uniq
+  end
+
+  def self.authenticate u, p
+    find_by_id_and_pass [ "id = '%d'", u ], ["pass = '%s'", p]
+  end
+
   def to_param
-    "#{id}-#{full_name.gsub(/[^a-z0-9]+/i, '-')}"
+    "#{id}-#{ full_name.gsub /[^a-z0-9]+/i, '-' }"
   end
 
-  def self.authenticate(u,p)
-    find_by_id_and_pass( [ "id = '%d'", u ], ["pass = '%s'", p] )
-  end
-
-  def add_tags(tags)
+  def add_tags tags
     self.tag_list = tags
     self.save
   end
@@ -76,26 +96,6 @@ class Tutorial < ActiveRecord::Base
 
   def sections
     section_num.split ','
-  end
-
-  def self.get_published_tutorials
-    self.where("published = ? AND (internal = 't' OR internal IS NULL)", true).order('name')
-  end
-
-  def self.published_tutorials
-    self.where("published = ? AND (internal = 't' OR internal IS NULL)", true).order('name').select('id, name, description' )
-  end
-
-  def self.get_archived_tutorials
-    self.where("archived = ? AND (internal = 't' OR internal IS NULL)", true).order('name').select('id, name, description')
-  end
-
-  def self.get_internal_tutorials
-    self.where(:published => true, :internal => true).order('name')
-  end
-
-  def self.get_subjects(tuts)
-    tuts.collect {|t| t.subject}.flatten.uniq
   end
 
   def share(role, user, copy)
@@ -147,7 +147,7 @@ class Tutorial < ActiveRecord::Base
   end
 
   def any_editors?
-    users.map {|u| u.rights = 1}.length > 1
+    users.map { |u| u.rights = 1 }.length > 1
   end
 
   def creator
@@ -159,43 +159,38 @@ class Tutorial < ActiveRecord::Base
   end
 
   def update_users
-    resources =  units.collect{|t| t.resources}.compact
+    resources =  units.map { |t| t.resources }.compact
     resources.each do |resource|
-      users.collect{|user| user.add_resource(resource) unless (user.id == @user || user.resources.include?(resource) == true)}
+      users.map { |user| user.add_resource(resource) unless (user.id == @user || user.resources.include?(resource) == true) }
     end
   end
 
-  def add_units(uids)
-    uids.each do |uid|
-      u = Unit.find(uid)
-      units << u
-    end
+  def add_units uids
+    uids.each { |uid| units << Unit.find(uid) }
   end
 
-  def next_unit(current_id)
-    uts= unitizations.select{|uz| uz.unit.id == current_id}.first
+  def next_unit current_id
+    uts = unitizations.select { |uz| uz.unit.id == current_id }.first
     next_uz = uts.lower_item
-    ! next_uz.blank? && next_uz.unit
+    next_uz.blank? ? nil : next_uz.unit
   end
 
-  def prev_unit(current_id)
-    uts= unitizations.select {|uz| uz.unit.id == current_id}.first
+  def prev_unit current_id
+    uts = unitizations.select { |uz| uz.unit.id == current_id }.first
     prev_uz = uts.higher_item
-    ! prev_uz.blank? && prev_uz.unit
+    prev_uz.blank? ? nil : prev_uz.unit
   end
 
   def quizzes
-    resources = units.collect{|u| u.resources}.flatten
-    mods = resources.collect{|a| a.mod if a.mod.class== QuizResource}.flatten.compact
-    mods.uniq
+    units.map(&:resources).flatten.map { |a| a.mod if a.mod.instance_of? QuizResource }.compact.uniq
   end
 
-  def get_students(section=nil)
-    section ? students.select{|s| s.sect_num == section} : students
+  def get_students section = nil
+    section ? students.select { |s| s.sect_num == section } : students
   end
 
-  def clear_grades(section=nil)
-    studs = section ? students.select{|s| s.sect_num == section} : students
+  def clear_grades section = nil
+    studs = section ? students.select { |s| s.sect_num == section } : students
     studs.each do |student|
       student.destroy
     end
@@ -203,11 +198,11 @@ class Tutorial < ActiveRecord::Base
   end
 
   def possible_score
-    scores=[]
+    scores = []
     quizzes.each do |q|
       scores << q.possible_points
     end
-    scores.inject(0) {|sum,item| sum + item}
+    scores.inject(0) { |sum,item| sum + item }
   end
 
   def password_protect

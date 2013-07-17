@@ -1,10 +1,10 @@
 %fieldset
-  %h3.title= render :partial => 'tutorial/title_actions'
+  %h3.title= render 'title_actions'
   %h4 Units
   #share
     %fieldset
       %h4
-        = link_to image_tag("icons/add.png", :title => 'Add Units', :alt => 'Add', :border => 0)+'Add Units', {:controller => 'unit', :action => 'add'}
+        = link_to image_tag("icons/add.png", :title => 'Add Units', :alt => 'Add', :border => 0)+'Add Units', add_units_path(@tutorial)
       - unless @units.blank?
         %ul#full
           - @units.each do |uz|
@@ -52,4 +52,4 @@
       - else
         %p This tutorial does not have any units.
 
-= render 'tutorial/side_bar'
+= render 'side_bar'

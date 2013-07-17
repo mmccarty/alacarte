@@ -7,8 +7,8 @@ class TutorialController < ApplicationController
   def index
     @tcurrent = 'current'
     @sort = params[:sort] || 'name'
-    @tutorials = @user.sort_tutorials(@sort)
-    @tutorials = paginate_list(@tutorials,(params[:page] ||= 1),@sort)
+    @tutorials = @user.sort_tutorials @sort
+    @tutorials = paginate_list @tutorials, (params[:page] ||= 1), @sort
     @search_value = "Search My Tutorials"
     if request.xhr?
       render :partial => "tutorials_list", :layout => false
@@ -18,8 +18,99 @@ class TutorialController < ApplicationController
   def index_all
     @all = 'all'
     @sort = params[:sort]
-    @tutorials = @user.sort_tutorials(@sort)
+    @tutorials = @user.sort_tutorials @sort
     render :partial => "tutorials_list", :layout => false
+  end
+
+  def units
+    @tutorial = @user.tutorials.find params[:id]
+    @units = @tutorial.unitizations
+  end
+
+  def add_units
+    @tutorial = @user.tutorials.find params[:id]
+    @sort = params[:sort] || 'name'
+    session[:added] ||= []
+    @units = @user.sort_units @sort
+    @units = paginate_list @units, params[:page] ||= 1, @sort
+    if request.post? and !session[:added].nil?
+      @tutorial.add_units session[:added]
+      session[:added] = nil
+      redirect_to units_path(@tutorial)
+    end
+  end
+
+  def add_to_list
+    session[:added] ||= []
+    session[:added] << params[:uid] unless session[:added].include? params[:uid]
+    render nothing: true
+  end
+
+  def new_unit
+    @tutorial = @user.tutorials.find params[:id]
+  end
+
+  def create_unit
+    @tutorial = @user.tutorials.find params[:id]
+    if request.post?
+      @unit = Unit.new params[:unit]
+      @unit.created_by = @user.id
+      if @unit.save
+        @tutorial.units << @unit
+        session[:unit] = @unit.id
+        redirect_to edit_unit_path(@tutorial, unit: @unit)
+      else
+        flash[:error] = "Could not create the unit. There were problems with the following fields:
+                           #{@unit.errors.full_messages.join(", ")}"
+        flash[:unit_name] = params[:unit][:unit_name]
+        flash[:unit_name_error] = ""
+        redirect_to :action => 'add' and return
+      end
+    end
+  end
+
+  def edit_unit
+    @tutorial = @user.tutorials.find params[:id]
+    begin
+      @unit = @tutorial.units.find params[:unit]
+    rescue
+      @unit = @tutorial.units.find params[:unit][:id]
+    end
+    session[:unit] = @unit.id
+    @tag_list = @unit.tag_list
+    @mods = @unit.resourceables
+    if request.post?
+      @unit.update_attributes params[:unit]
+      @unit.add_tags params[:tags]
+      if @unit.save
+        case params[:commit]
+          when "Save"
+            redirect_to units_path(@tutorial)
+          when "Save & Add Modules"
+            redirect_to action: 'add_modules', id: @tutorial, unit: @unit
+        end
+      end
+    end
+  end
+
+  def add_modules
+    @tutorial = @user.tutorials.find params[:id]
+    setSessionGuideId
+    @unit ||= Unit.find(params[:unit])
+    session[:unit] = @unit.id
+    @sort = params[:sort] || 'label'
+    session[:add_mods] ||= []
+    @mods = @user.sort_mods(@sort)
+    @mods = paginate_mods(@mods, params[:page] ||= 1, @sort)
+    @search_value = "Search My Modules"
+    if request.xhr?
+      render :partial => "shared/add_modules_list", :layout => false
+    elsif request.post? and !session[:add_mods].nil?
+      @unit.update_resources(session[:add_mods])
+      @tutorial.update_users if @tutorial.shared?
+      session[:add_mods] = nil
+      redirect_to :action => "update", :id => @unit
+    end
   end
 
   def new
@@ -304,5 +395,13 @@ class TutorialController < ApplicationController
       flash[:notice] = "User(s) successfully removed."
       redirect_to :action => 'share', :id => @tutorial
     end
+  end
+
+  private
+
+  def setSessionGuideId
+    session[:tutorial_id] = @tutorial.id
+    session[:guide_id] = nil
+    session[:page_id] = nil
   end
 end
