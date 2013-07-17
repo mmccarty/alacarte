@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def alacarte_documentation(link_text)
+    link_to link_text, 'http://alacarte.library.oregonstate.edu/support', { :target => '_blank' }
+  end
+
   # awesome button is awesome
   def awesome_button(url, icon, text = '', style = '')
     if style.match 'btn'

@@ -13,7 +13,7 @@
       Select the module types authors can create. Admins will be able to create all module types.
       %br/
       Note: Some modules must be configured before they will be functional, see
-      %a{:href => "http://alacarte.library.oregonstate.edu/support/enable_mods"} this documentation
+      = alacarte_documentation 'this documentation'
       before enabling any new modules.
     = select_tag 'local[types][]', options_for_select(@types, @selected), {:multiple=>true, :class=>"share"}
 

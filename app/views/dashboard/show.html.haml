@@ -62,21 +62,26 @@
 
     .well.well-small
       %h3 Overview
-      %p
-        You have #{@cnum} published course pages, #{@acnum} archived course pages, #{@gnum} published subject guides, #{@tnum} published tutorials, #{@atnum} archived tutorials, and #{@mnum} modules.
-      %p
-        %i.icon-large.icon-user{ :title => 'My account', :alt => 'account' }
-        = link_to 'Edit my account', :controller => 'dashboard', :action => 'my_account'
-        %br/
-        %span.muted
-          Edit user name, email or password.
-      %p
-        %i.icon-large.icon-question-sign{ :title => 'Help/FAQ', :alt => 'help' }
-        %a{:href => 'http://alacarte.library.oregonstate.edu/support', :target => '_blank'}
-          Get Help
-        %br/
-        %span.muted
-          Get help and read about new features.
+      %dl.dl-horizontal
+        %dt modules
+        %dd #{@mnum}
+        %dt published subj guides
+        %dd #{@gnum}
+        %dt published course pages
+        %dd #{@cnum}
+        %dt archived course pages
+        %dd #{@acnum}
+        %dt published tutorials
+        %dd #{@tnum}
+        %dt archived tutorials
+        %dd #{@atnum}
+      %ul.unstyled
+        %li
+          %i.icon-user{ :title => 'My account', :alt => 'account' }
+          = link_to 'Edit my account', :controller => 'dashboard', :action => 'my_account'
+        %li
+          %i.icon-question-sign{ :title => 'Help/FAQ', :alt => 'help' }
+          = alacarte_documentation 'Get help & discover new features'
 
     .well.well-small
       %h3 Recent Activity
