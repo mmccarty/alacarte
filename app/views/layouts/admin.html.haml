@@ -30,6 +30,8 @@
               %li{ class: (controller.controller_name == 'tutorial') && "active" }
                 = link_to 'Tutorials', tutorials_path
 
+      = flash_notice
+
       = yield :layout
 
     %footer.footer

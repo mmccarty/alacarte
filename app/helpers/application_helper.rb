@@ -63,6 +63,10 @@ module ApplicationHelper
     tip +  "Click to manage this module."
   end
 
+  def report_errors(obj)
+    render :partial => 'shared/report_errors', :locals => { :object => obj }
+  end
+
   def set_owner_helper(id, uid)
     options = {
       :update => 'editor-list',

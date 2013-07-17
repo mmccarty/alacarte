@@ -1,0 +1,8 @@
+- if object.errors.any?
+  .alert.alert-error
+    %p
+      Please correct the following errors and retry:
+    %ul
+      - object.errors.full_messages.each do |msg|
+        %li
+          = msg
