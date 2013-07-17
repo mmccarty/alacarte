@@ -2,18 +2,18 @@
   %thead
     %tr
       %th Label
-      %th.center
-        %span.tip Copy | View
+      %th
       %th Last Update
       %th Content Type
       %th Author
   %tbody
     - @mods.each do |mod|
       %tr
-        %td= truncate(h(mod.label),:length => 55)
-        %td.center
-          = link_to image_tag("icons/application_add.png", :title => 'Copy this Module', :alt => 'Copy', :border => 0),{:action => 'copy', :id => mod, :type => mod.class},:class =>'space'
-          | #{link_to image_tag("icons/document_preview.png", :title => 'View this Module in a new window', :alt => 'View', :border => 0),{ :action => 'view', :id => mod, :type => mod.class} , :class =>'space', :popup => ['', 'height=500,width=400,toolbar=no, scrollbars =yes,resizable=yes']}
+        %td= truncate(raw(mod.label),:length => 55)
+        %td
+          = awesome_button copy_module_path(mod, type: mod.class), 'copy', 'Copy this module'
+          &nbsp;
+          = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module'
         %td= mod.updated_at.to_date
         %td= mod.content_type
         %td= mod.created_by
