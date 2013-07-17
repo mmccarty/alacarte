@@ -85,16 +85,20 @@ Alacarte::Application.routes.draw do
   end
 
   scope path: '/tutorial', controller: :tutorial do
-    get  ''           => :index,  as: 'tutorials'
-    get  'copy/:id'   => :copy,   as: 'copy_tutorial'
-    get  'new'        => :new,    as: 'new_tutorial'
-    post 'update/:id' => :update, as: 'update_tutorial'
+    get  ''            => :index,   as: 'tutorials'
+    get  'archive/:id' => :archive, as: 'archive_tutorial'
+    get  'copy/:id'    => :copy,    as: 'copy_tutorial'
+    get  'edit/:id'    => :edit,    as: 'edit_tutorial'
+    get  'new'         => :new,     as: 'new_tutorial'
+    get  'publish/:id' => :publish, as: 'publish_tutorial'
+    get  'share/:id'   => :share,   as: 'share_tutorial'
+    post 'update/:id'  => :update,  as: 'update_tutorial'
   end
 
   scope path: '/tutorials', controller: :ort do
     get ''            => :published_tutorials
     get 'archived'    => :archived_tutorials
-    get ':id'         => :index
+    get ':id'         => :index, as: 'show_ort'
     get 'unit/:id'    => :unit
     get 'tagged/:id'  => :tagged
     get 'subject/:id' => :subject_list
