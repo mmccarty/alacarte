@@ -4,7 +4,7 @@
 %p
   = link_to 'Change module', { :controller => 'dashboard', :action => 'edit_profile', :rid => @user.resource_id }, :class => 'btn'
   = link_to 'Edit module', edit_module_path(@mod, type: @mod.class), :class => 'btn'
-  = link_to 'Cancel', { :controller => 'dashboard', :action => 'show' }, :class => 'btn'
+  = link_to 'Cancel', dashboard_path, :class => 'btn'
   &nbsp;
   %i.icon-question-sign{ :data => { :content => 'The contact module should contain contact information. The module must already be created before you can add it as the contact module.<br/><br/>Tip: Setting a default contact module will automatically select this module for you when you create a new page/guide, you can select a different one if needed.', :html => 'true', :trigger => 'hover' } }
 

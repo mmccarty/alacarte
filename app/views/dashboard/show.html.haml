@@ -43,10 +43,10 @@
           %h2 My Pages
           %p
             %i.icon-large.icon-plus-sign{ :title => 'New page', :alt => 'add' }
-            = link_to 'Create a new course page', :controller => 'pages', :action => 'new'
+            = link_to 'Create a new course page', new_page_path
           %p
             %i.icon-large.icon-folder-open{ :title => 'Browse my pages', :alt => 'browse' }
-            = link_to 'Browse course pages', :controller => 'pages', :action => 'index'
+            = link_to 'Browse course pages', pages_path
 
       - if @local.guides_list.include?('tutorials')
         %div.span3
@@ -66,7 +66,7 @@
         You have #{@cnum} published course pages, #{@acnum} archived course pages, #{@gnum} published subject guides, #{@tnum} published tutorials, #{@atnum} archived tutorials, and #{@mnum} modules.
       %p
         %i.icon-large.icon-user{ :title => 'My account', :alt => 'account' }
-        = link_to 'Edit my account' , :controller => 'dashboard', :action => 'my_account'
+        = link_to 'Edit my account', :controller => 'dashboard', :action => 'my_account'
         %br/
         %span.muted
           Edit user name, email or password.
