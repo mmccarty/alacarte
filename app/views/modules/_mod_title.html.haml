@@ -1,35 +1,48 @@
-%label{ for: 'mod_module_title' }
-  Private Label
-  %span.required *
-  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_LABEL_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-
-= text_field :mod, :label, :size => 55
+.control-group
+  %label.control-label{ for: 'mod_module_title' }
+    Private Label
+    %span.required *
+  .controls
+    = text_field :mod, :label, :class => 'input-xlarge'
+    &nbsp;
+    %i.icon-question-sign{ :data => { :content => 'This is a unique descriptive label for the module. This is the name the module will be listed under in the tool.', :html => 'true', :trigger => 'hover' } }
 
 - if !@tutorial.blank?
-  #vertical_inputs
-    %span
-      %label{:for => "page_course_name"}
-        Module Title
-        %span.required.more_help *
-        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_TITLE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-      = text_field :mod, :module_title, size: 55
-    %span
-      %label{:for => "page_course_name"}
-        Slug
-        %span.required.more_help *
-        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_SLUG_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-      = text_field :mod, :slug, size: 26
-  %br.clearfix/
+  .control-group
+    %label.control-label{ :for => "page_course_name" }
+      Module Title
+      %span.required *
+    .controls
+      = text_field :mod, :module_title, :class => 'input-xlarge'
+      &nbsp;
+      %i.icon-question-sign{ :data => { :content => 'This is the module\'s title that will appear to the public.<br/><br/>Shorter titles should be used in two column layouts.', :html => 'true', :trigger => 'hover' } }
+  .control-group
+    %label.control-label{:for => "page_course_name"}
+      Slug
+      %span.required *
+    .controls
+      = text_field :mod, :slug, :class => 'input-xlarge'
+      &nbsp;
+      %i.icon-question-sign{ :data => { :content => 'Enter a shorten name for the module. This name should not exceed 25 character. This name is what will appear in the navigation.', :trigger => 'hover' } }
 - else
-  %label{:for => "page_course_name"}
-    Module Title
-    %span.required.more_help *
-    %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_TITLE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-  = text_field :mod, :module_title, size: 55
+  .control-group
+    %label.control-label{ :for => "page_course_name" }
+      Module Title
+      %span.required *
+    .controls
+      = text_field :mod, :module_title, :class => 'input-xlarge'
+      &nbsp;
+      %i.icon-question-sign{ :data => { :content => 'This is the module\'s title that will appear to the public.<br/><br/> Shorter titles should be used in two column layouts.', :html => 'true', :trigger => 'hover' } }
 
-%label{:for => "tags"}
-  Tags
-  %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(MOD_TAGS, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
+.control-group
+  %label.control-label{ :for => "tags" }
+    Tags
+  .controls
+    = text_field_tag :tags, @tags, :class => 'input-xlarge'
+    &nbsp;
+    %i.icon-question-sign{ :data => { :content => 'Tags are keywords that highlight content on the module or organize the modules into a category.<br/><br/>Tips: Seperate individual tags with a comma. Only add 3-5 tags.', :html => 'true', :trigger => 'hover' } }
+    .small.muted
+      examples: WR101, Databases, Writing
 
-= text_field_tag :tags, @tags, size: 55
-.tip example: WR101, Databases, Writing
+:javascript
+  $('.icon-question-sign').popover();

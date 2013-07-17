@@ -1,17 +1,15 @@
-%h1 Create New Module
-
-= error_messages_for :mod
-- if flash[:error]
-  #error_wrapper
-    #list_error= flash[:error]
-
-= form_tag action: :create do
-  %label{ for: 'mod_type' }
-    Content Type
-    %span.required.more_help *
-  = select :mod, :type, @types, {:selected => @selected , :prompt => "Select"}, {}
-  = render 'mod_title'
-  %span
-    %label &nbsp;
-    = submit_tag 'Create Module', class: 'btn btn-primary'
-    = link_to 'Cancel', modules_path, class: 'btn btn-cancel'
+%fieldset
+  %legend
+    Create new module
+  = form_tag({ :action => :create }, { :class => 'form-horizontal' }) do
+    .control-group
+      %label.control-label{ for: 'mod_type' }
+        Content Type
+        %span.required *
+      .controls
+        = select :mod, :type, @types, { :selected => @selected , :prompt => "Select" }, { :class => 'input-xlarge' }
+    = render 'mod_title'
+    .control-group
+      .controls
+        = submit_tag 'Create Module', class: 'btn btn-primary'
+        = link_to 'Cancel', modules_path, class: 'btn btn-cancel'
