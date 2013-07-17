@@ -52,9 +52,7 @@ class GuidesController < ApplicationController
       guide.add_related_subjects params[:subjects]
       redirect_to guide
     else
-      flash[:notice] = "Could not create the guide. There were problems with the following fields: #{@guide.errors.full_messages.join(", ")}"
-      flash[:guide_title] = params[:guides][:guide_title]
-      flash[:guide_title_error] = ""
+      flash[:notice] = "Could not create the guide. There were problems with the following fields: #{guide.errors.full_messages.join(", ")}"
       redirect_to guides_path
     end
   end
