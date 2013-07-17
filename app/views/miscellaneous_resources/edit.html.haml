@@ -1,8 +1,8 @@
 %legend Edit Module
 
-= form_for @mod do |f|
-  = error_messages_for :mod
+= report_errors @mod
 
+= form_for @mod do |f|
   = render 'modules/mod_title'
 
   %p
