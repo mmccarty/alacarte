@@ -9,8 +9,9 @@
           = link_to raw(@tutorial.subject.subject_name + " " + "Tutorials"), :controller => 'ort', :action => 'subject_list', :id => @tutorial.subject.id
           %span.divider /
         %li
-          = @unit.title
-          %span.divider /
+          - if @unit
+            = @unit.title
+            %span.divider /
       %li.active
         = raw @tutorial.full_name
 

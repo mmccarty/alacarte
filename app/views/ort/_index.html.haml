@@ -10,7 +10,7 @@
               %strong
                 = pluralize @tutorial.units.length, 'unit'
               and
-              %strong>
+              %strong
                 = pluralize @tutorial.quizzes.length, 'quiz'
               \. Make sure you complete all the quiz questions. Remember, you can only take the graded quizzes once.
         - unless @tutorial.attachment_file_name.blank?
