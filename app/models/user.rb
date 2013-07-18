@@ -20,8 +20,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :guides
   has_many :authorships,  :dependent => :destroy
   has_many :tutorials, :through => :authorships, :order => 'name'
-  has_many :my_tutorials, :through => :authorships, :source => :tutorial,
-  :conditions => 'authorships.rights = 1', :order => 'name'
+  has_many :my_tutorials, :through => :authorships, :source => :tutorial, :conditions => 'authorships.rights = 1', :order => 'name'
 
   validates_presence_of  :name, :email, :password, :password_confirmation, :salt, :role
   validates_length_of :name, :within => 2..54
@@ -45,8 +44,8 @@ class User < ActiveRecord::Base
   end
 
   def self.create_new_account params
-    user = User.new name: params[:name], email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation]
-    user.role = "pending"
+    user = User.new params
+    user.role = 'pending'
     user.save
     user
   end
@@ -71,15 +70,13 @@ class User < ActiveRecord::Base
   # Associates a user with a list of modules, by way of resource objects.
   def self.create_and_add_resource id, mod_list, item = nil
     user = find id
-    mod_list.each do |mod|
-      user.create_and_add_resource mod, item
-    end
+    mod_list.each { |mod| user.create_and_add_resource mod, item }
   end
 
   # Creates a "resource" to associate the current user with the given module.
   def create_and_add_resource mod, item = nil
     mod.update_attribute :created_by, name
-    resource = Resource.create :mod => mod
+    resource = Resource.create mod: mod
     add_resource resource
     item.add_resource resource unless item.nil?
   end
@@ -100,16 +97,8 @@ class User < ActiveRecord::Base
 
   def add_guide_tabs guide
     guides << guide
-    tr = guide.tabs.map { |t| t.tab_resources }.flatten
-    res = tr.map { |t| t.resource }.flatten.compact
-    resources << res
-  end
-
-  def add_page_tabs page
-    pages << page
-    tr = page.tabs.map { |t| t.tab_resources }.flatten
-    res = tr.map { |t| t.resource }.flatten.compact
-    resources << res
+    tr = guide.tabs.map(&:tab_resources).flatten
+    resources << tr.map(&:resource).flatten
   end
 
   def delete_guide_tabs guide
@@ -119,6 +108,13 @@ class User < ActiveRecord::Base
     res.each do |r|
       resources.delete r
     end
+  end
+
+  def add_page_tabs page
+    pages << page
+    tr = page.tabs.map { |t| t.tab_resources }.flatten
+    res = tr.map { |t| t.resource }.flatten.compact
+    resources << res
   end
 
   def delete_page_tabs page
@@ -139,7 +135,7 @@ class User < ActiveRecord::Base
   end
 
   def num_modules
-    resources.map { |a| a.mod if a and a.mod }.flatten.compact.length
+    resources.map(&:mod).flatten.length
   end
 
   def pub_pages
@@ -171,39 +167,38 @@ class User < ActiveRecord::Base
   end
 
   def recent_activity
-    mods = resources.collect {|a| a.mod }.select{|m| m and m.updated_at >= 7.days.ago}
-    icaps = pages.select{|p| p and p.updated_at >= 7.days.ago}
-    srgs = guides.select{|g|g and  g.updated_at >= 7.days.ago}
-    orts = tutorials.select{|t|t and  t.updated_at >= 7.days.ago}
+    recent = lambda { |x| x.updated_at >= 7.days.ago }
+    mods = resources.map(&:mod).select &recent
+    icaps = pages.select &recent
+    srgs = guides.select &recent
+    orts = tutorials.select &recent
     recents =  mods[0..5] + icaps[0..5] + srgs[0..5] + orts[0..5]
-    recents.sort { |x,y| y.updated_at <=> x.updated_at }
+    recents.sort_by &:updated_at
   end
 
   def module_tags
     resources.map { |a| a.mod.tag_list if a.mod }.flatten.uniq
   end
 
-  def find_mods_tagged_with(tag)
+  def find_mods_tagged_with tag
     resources.map { |a| a.mod if a.mod and a.mod.tag_list.include? tag }.compact.uniq
   end
 
-  def find_resource(id, type)
-    resources.find_by_mod_id_and_mod_type(id, type)
+  def find_resource id, type
+    resources.find_by_mod_id_and_mod_type id, type
   end
 
-  def add_profile(rid)
-    update_attribute('resource_id', rid)
+  def add_profile rid
+    update_attribute :resource_id, rid
   end
 
   def get_profile
-    (Resource.exists?(resource_id) ? Resource.find(resource_id).mod : "")
+    Resource.exists?(resource_id) ? Resource.find(resource_id).mod : ''
   end
 
   def contact_resources
-    contacts =[]
-    res = resources.collect { |a| a if a.mod and a.mod.content_type == "Librarian Profile" || a.mod.content_type == "Custom Content" || a.mod.content_type == "Course Widget"  }.compact
-    contacts = res.sort! {|a,b|  a.mod.send('label').downcase <=> b.mod.send('label').downcase} unless res.empty?
-    contacts
+    contacts = resources.select { |a| a.mod and a.mod.content_type.in? ["Librarian Profile", "Custom Content", "Course Widget"] }
+    contacts.sort_by { |a| a.mod.label.downcase }
   end
 
   def sort_search_mods sort_by, search_results
@@ -266,7 +261,7 @@ class User < ActiveRecord::Base
   end
 
   def units
-    Unit.where(created_by: id)
+    Unit.where created_by: id
   end
 
   def password
@@ -275,13 +270,14 @@ class User < ActiveRecord::Base
 
   def password= pwd
     @password = pwd
-    self.salt = User.random_string(10) if !self.salt?
+    self.salt ||= User.random_string 10
     self.hashed_psswrd = User.encrypt self.password, self.salt
   end
 
   def set_new_password
-    new_pass = User.random_string 10
-    self.password = self.password_confirmation = new_pass
+    new_password = User.random_string 10
+    self.password = new_password
+    self.password_confirmation = new_password
     self.save
     Notifications.deliver_forgot_password self.email, self.password
   end
@@ -306,6 +302,6 @@ class User < ActiveRecord::Base
 
   def self.random_string len
     chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-    1.upto(len).map { chars[rand(chars.size - 1)] }
+    1.upto(len).map { chars[rand(chars.size - 1)] }.join ''
   end
 end

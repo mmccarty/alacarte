@@ -1,6 +1,11 @@
 module PolymorphicModule
   extend ActiveSupport::Concern
 
+  def add_tags tags
+    self.tag_list = tags
+    self.save
+  end
+
   def copy
     mod = dup
     mod.label  = "#{ label }-copy"
@@ -10,11 +15,6 @@ module PolymorphicModule
 
   def private_label
     self.label ||= self.module_title
-  end
-
-  def add_tags tags
-    self.tag_list = tags
-    self.save
   end
 
   def shared?

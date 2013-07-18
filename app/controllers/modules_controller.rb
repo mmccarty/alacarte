@@ -75,7 +75,7 @@ class ModulesController < ApplicationController
   end
 
   def share
-    resource = @user.find_resource(params[:id],params[:type])
+    resource = @user.find_resource params[:id], params[:type]
     unless resource
       redirect_to modules_path and return
     end
@@ -86,7 +86,7 @@ class ModulesController < ApplicationController
 
   def manage
     begin
-      @mod = find_mod(params[:id],params[:type])
+      @mod = find_mod params[:id], params[:type]
     rescue Exception => e
       redirect_to :back
     else
@@ -97,70 +97,70 @@ class ModulesController < ApplicationController
   end
 
   def add_page
-    unless session[:page_tabs].include?(params[:tid].to_s)
+    unless session[:page_tabs].include? params[:tid].to_s then
       session[:page_tabs] << params[:tid]
     end
-    render :nothing => true, :layout => false
+    render nothing: true
   end
 
   def add_guide
-    unless session[:tabs].include?(params[:tid].to_s)
+    unless session[:tabs].include? params[:tid].to_s then
       session[:tabs] << params[:tid]
     end
-    render :nothing => true, :layout => false
+    render nothing: true
   end
 
   def add_tutorial
-    unless session[:units].include?(params[:tid].to_s)
+    unless session[:units].include? params[:tid].to_s then
       session[:units] << params[:tid]
     end
-    render :nothing => true, :layout => false
+    render nothing: true
   end
 
   def add_to_guide
     session[:tabs] ||= []
     begin
-      @mod = find_mod(params[:id],params[:type])
+      @mod = find_mod params[:id], params[:type]
     rescue ActiveRecord::RecordNotFound
       redirect_to  :action => 'index', :list=> 'mine' and return
     else
       @sort = params[:sort] ||= 'name'
-      @guides = @user.sort_guides(@sort)
-      @guides = paginate_guides(@guides,(params[:page] ||= 1), @sort)
+      @guides = @user.sort_guides @sort
+      @guides = paginate_guides @guides, (params[:page] ||= 1), @sort
     end
     if request.xhr?
       render :partial => "add_guide_list", :layout => false
     elsif request.post?
       session[:tabs].each do |tid|
-        tab = Tab.find(tid)
-        tab.add_module(params[:id],params[:type])
+        tab = Tab.find tid
+        tab.add_module params[:id], params[:type]
       end
-      session[:tabs]=nil
+      session[:tabs] = nil
       flash[:message] = "#{@mod.module_title} successfully added to these guides."
-      redirect_to :action => "manage", :id =>@mod.id, :type=> @mod.class
+      redirect_to :action => "manage", :id => @mod.id, :type=> @mod.class
     end
   end
 
   def add_to_page
     session[:page_tabs] ||= []
     begin
-      @mod = find_mod(params[:id],params[:type])
+      @mod = find_mod params[:id], params[:type]
     rescue ActiveRecord::RecordNotFound
       redirect_to  :action => 'index', :list=> 'mine' and return
     else
       @sort = params[:sort] ||= 'name'
-      @pages = @user.sort_pages(@sort)
-      @pages = paginate_pages(@pages,(params[:page] ||= 1), @sort)
+      @pages = @user.sort_pages @sort
+      @pages = paginate_pages @pages, (params[:page] ||= 1), @sort
       if request.xhr?
         render :partial => "add_page_list", :layout => false
       elsif request.post?
         session[:page_tabs].each do |tid|
-          tab = Tab.find(tid)
-          tab.add_module(params[:id],params[:type])
+          tab = Tab.find tid
+          tab.add_module params[:id], params[:type]
         end
-        session[:page_tabs]=nil
+        session[:page_tabs] = nil
         flash[:message] = "#{@mod.module_title} successfully added these pages."
-        redirect_to :action => "manage", :id =>@mod.id, :type=> @mod.class
+        redirect_to :action => "manage", :id => @mod.id, :type=> @mod.class
       end
     end
   end
@@ -173,24 +173,24 @@ class ModulesController < ApplicationController
       redirect_to  :action => 'index', :list=> 'mine' and return
     else
       @sort = params[:sort] ||= 'name'
-      @tutorials =  @user.sort_tutorials(@sort)
-      @tutorials = paginate_list(@tutorials,(params[:page] ||= 1), @sort)
+      @tutorials =  @user.sort_tutorials @sort
+      @tutorials = paginate_list @tutorials, (params[:page] ||= 1), @sort
       if request.xhr?
         render :partial => "add_tutorial_list", :layout => false
       elsif request.post?
         session[:units].each do |tid|
-          unit = Unit.find(tid)
-          unit.add_module(params[:id],params[:type])
+          unit = Unit.find tid
+          unit.add_module params[:id], params[:type]
         end
-        session[:units]=nil
+        session[:units] = nil
         flash[:message] = "#{@mod.module_title} successfully added these tutorials."
-        redirect_to :action => "manage", :id =>@mod.id, :type=> @mod.class
+        redirect_to :action => "manage", :id => @mod.id, :type=> @mod.class
       end
     end
   end
 
   def share_update
-    resource = @user.find_resource(params[:id],params[:type])
+    resource = @user.find_resource params[:id], params[:type]
     to_users = []
     if params[:users] != nil
       params[:users].each do |p|
@@ -201,18 +201,18 @@ class ModulesController < ApplicationController
         end
       end
       flash[:notice] = "User(s) successfully added and email notification sent."
-      send_notices(to_users, resource.mod.label)
+      send_notices to_users, resource.mod.label
     else
       flash[:notice] = "Please select at least one user to share with."
     end
-    redirect_to :action => 'share',:id =>resource.mod.id, :type=> resource.mod.class and return
+    redirect_to :action => 'share',:id => resource.mod.id, :type => resource.mod.class
   end
 
-  def send_notices(users,mod_title)
+  def send_notices users, mod_title
     users.each do |p|
-      new_user = User.find(p)
+      new_user = User.find p
       begin
-        Notifications.deliver_share_module(new_user.email, @user.email,mod_title,@user.name)
+        Notifications.deliver_share_module new_user.email, @user.email, mod_title, @user.name
       rescue Exception => e
         flash[:notice] = "User(s) successfully added. Could not send email"
       else
@@ -225,7 +225,7 @@ class ModulesController < ApplicationController
     @class ='thumbnail'
     @style ='width:255px; height:220px;'
     begin
-      @mod = find_mod(params[:id],params[:type] )
+      @mod = find_mod params[:id], params[:type]
     rescue Exception => e
       redirect_to :back
     end
@@ -237,14 +237,14 @@ class ModulesController < ApplicationController
 
   def remove_user_from_mod
     begin
-      resource = @user.find_resource(params[:id],params[:type] )
+      resource = @user.find_resource params[:id], params[:type]
     rescue Exception => e
       redirect_to :action => 'index', :list=> 'mine'
     else
-      user = User.find(params[:user])
-      user.resources.delete(resource)
+      user = User.find params[:user]
+      user.resources.delete resource
       flash[:notice] = "User(s) successfully removed from editor list."
-      redirect_to :action => 'share', :id => resource.mod.id, :type =>resource.mod.class
+      redirect_to :action => 'share', :id => resource.mod.id, :type => resource.mod.class
     end
   end
 
@@ -264,7 +264,7 @@ class ModulesController < ApplicationController
       'UrlResource'           => :url_resources
   }
 
-  def delegate_to(action)
+  def delegate_to action
     redirect_to controller: RESOURCE_CONTROLLER[params[:type]], action: action, id: params[:id]
   end
 end

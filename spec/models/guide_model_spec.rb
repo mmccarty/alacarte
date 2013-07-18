@@ -5,116 +5,186 @@ describe Guide do
     expect(build :guide).to be_valid
   end
 
-  it 'should require a name' do
+  it 'requires a name' do
     expect(build :guide, guide_name: nil).to have(1).errors_on :guide_name
   end
 
-  it 'should generate predictable url parameters' do
+  it 'generates predictable url parameters' do
     guide = create(:guide, guide_name: 'My First Guide')
     expect(guide.to_param).to eq "#{ guide.id }-My-First-Guide"
   end
 
-  it 'should by default not be shared' do
-    expect(create :guide).to_not be_shared
-  end
-
-  it 'should by default not be published (1)' do
+  it 'is by default not published (1)' do
     guide = create :guide
     expect(guide.published).to be false
   end
 
-  it 'should by default not be published (2)' do
+  it 'is by default not published (2)' do
     expect(Guide.published_guides).to be_empty
   end
 
-  it 'should generate a list of related guides' do
-    master = create :master
-    guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master; guide }
-    guide  = guides[1]
-    guides.delete guide
-    expect(guide.get_related_guides.sort).to eq(guides.map { |guide| guide.id }.sort)
+  describe 'has modules' do
+    it 'lists modules through its tabs' do
+      guide = create :guide
+      tab = build :tab
+      guide.add_tab tab
+      user = create :author
+
+      mods = 1.upto(5).map { create :miscellaneous_resource }
+      mods.each { |mod| user.create_and_add_resource mod; tab.add_module mod.id, mod.class }
+
+      expect(guide.modules).to eq mods
+    end
   end
 
-  it 'should not permit duplicates in the list of related guides' do
-    master1 = create :master
-    master2 = create :master
-    guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master1 << master2; guide }
-    guide  = guides[1]
-    guides.delete guide
-    expect(guide.get_related_guides.sort).to eq(guides.map { |guide| guide.id }.sort)
+  describe 'has tabs' do
+    it 'can construct a default tab' do
+      guide = create :guide
+      guide.create_home_tab
+      expect(guide.tabs.length).to eq 1
+    end
+
+    it 'allows tabs to be added' do
+      guide = create :guide
+      guide.add_tab(build :tab)
+      expect(guide.tabs.length).to eq 1
+    end
+
+    it 'limits the total number of tabs' do
+      guide = create :guide
+      7.times { guide.add_tab(build :tab) }
+      expect(guide).to be_reached_limit
+    end
   end
 
-  it 'should allow setting of master subjects by id' do
-    masters = 1.upto(3).map { create :master }
-    guide = create :guide
-    guide.add_master_type(masters.map { |master| master.id })
-    expect(guide.masters).to eq masters
+  describe 'has users' do
+    it 'is by default not shared' do
+      expect(create :guide).to_not be_shared
+    end
+
+    it 'can be shared' do
+      guide = create :guide
+      user1 = create :author
+      user2 = create :author
+
+      guide.users << user1
+      expect(guide).to_not be_shared
+
+      guide.share user2.id, false
+      expect(guide).to be_shared
+    end
+
+    it 'will share all required modules' do
+      guide = create :guide
+      tab = build :tab
+      guide.add_tab tab
+      user1 = create :author
+      user2 = create :author
+
+      mods = 1.upto(5).map { create :miscellaneous_resource }
+      mods.each { |mod| user1.create_and_add_resource mod; tab.add_module mod.id, mod.class }
+
+      guide.share user2.id, false
+      user2.reload
+      expect(user2.resources.length).to eq 5
+    end
+
+    it 'ensures all users share newly added modules' do
+      guide = create :guide
+      tab = build :tab
+      guide.add_tab tab
+      user1 = create :author
+      user2 = create :author
+
+      guide.share user2.id, false
+
+      mods = 1.upto(5).map { create :miscellaneous_resource }
+      mods.each { |mod| user1.create_and_add_resource mod; tab.add_module mod.id, mod.class }
+      guide.update_users
+
+      user2.reload
+      expect(user2.resources.length).to eq 5
+    end
   end
 
-  it 'should allow explicit definition of related guides' do
-    guide1 = create :published_guide
-    guide2 = create :published_guide
-    guide1.add_related_guides [guide2.id]
-    guide1.save
-    expect(guide1.related_guides).to eq [guide2]
+  describe 'is taggable' do
+    it 'can be tagged' do
+      guide = create :guide
+      guide.add_tags 'this, that, the other'
+      expect(guide.tags.map(&:name).sort).to eq ['that', 'the other', 'this']
+    end
+
+    it 'can be found by tag' do
+      guide = create :guide
+      guide.add_tags 'this, that, the other'
+      expect(Guide.tagged_with('this').first).to eq guide
+    end
   end
 
-  it 'should not expect relatedness to be reciprocal' do
-    guide1 = create :published_guide
-    guide2 = create :published_guide
-    guide1.add_related_guides [guide2.id]
-    guide1.save
-    expect(guide2.related_guides).to be_empty
-  end
+  describe 'related guides' do
+    it 'generates a list of related guides' do
+      master = create :master
+      guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master; guide }
+      guide  = guides[1]
+      guides.delete guide
+      expect(guide.get_related_guides.sort).to eq(guides.map(&:id).sort)
+    end
 
-  it 'should suggest related guides' do
-    master = create :master
-    guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master; guide }
-    guide  = guides[0]
-    guides.delete guide
-    expect(guide.suggested_relateds.map { |guide| guide.id }.sort).to eq(guides.map { |guide| guide.id }.sort)
-  end
+    it 'does not permit duplicates in the list of related guides' do
+      master1 = create :master
+      master2 = create :master
+      guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master1 << master2; guide }
+      guide  = guides[1]
+      guides.delete guide
+      expect(guide.get_related_guides.sort).to eq(guides.map(&:id).sort)
+    end
 
-  it 'should default to the suggested relateds on creation' do
-    master = create :master
-    guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master; guide }
-    guide = create :guide, masters: [master]
-    expect(guide.related_guides).to eq(guides.sort_by { |guide| guide.guide_name })
-  end
+    it 'allows setting of master subjects by id' do
+      masters = 1.upto(3).map { create :master }
+      guide = create :guide
+      guide.add_master_type(masters.map &:id)
+      expect(guide.masters).to eq masters
+    end
 
-  it 'should remove unpublished guides from the list of related' do
-    master = create :master
-    guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master; guide }
-    guide  = guides[1]
-    guides.delete guide
-    guide.suggested_relateds
-    guides.each { |guide| guide.published = false; guide.save }
-    expect(guide.related_guides).to be_empty
-  end
+    it 'allows explicit definition of related guides' do
+      guide1 = create :published_guide
+      guide2 = create :published_guide
+      guide1.add_related_guides [guide2.id]
+      guide1.save
+      expect(guide1.related_guides).to eq [guide2]
+    end
 
-  it 'should support adding tags' do
-    guide = create :guide
-    guide.add_tags 'this, that'
-    expect(guide.tags.map { |tag| tag.name }.sort).to eq ['that', 'this']
-  end
+    it 'does not expect relatedness to be reciprocal' do
+      guide1 = create :published_guide
+      guide2 = create :published_guide
+      guide1.add_related_guides [guide2.id]
+      guide1.save
+      expect(guide2.related_guides).to be_empty
+    end
 
-  it 'should support finding by tag' do
-    guide = create :guide
-    guide.add_tags 'this, that'
-    expect(Guide.tagged_with('this').first).to eq guide
-  end
+    it 'suggests related guides' do
+      master = create :master
+      guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master; guide }
+      guide  = guides[0]
+      guides.delete guide
+      expect(guide.suggested_relateds.map(&:id).sort).to eq(guides.map(&:id).sort)
+    end
 
-  it 'should create a default tab' do
-    guide = create :guide
-    guide.create_home_tab
-    expect(guide.tabs.length).to eq 1
-  end
+    it 'defaults to the suggested relateds on creation' do
+      master = create :master
+      guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master; guide }
+      guide = create :guide, masters: [master]
+      expect(guide.related_guides).to eq(guides.sort_by &:guide_name)
+    end
 
-  it 'should allow tabs to be added' do
-    guide = create :guide
-    tab = build :tab
-    guide.add_tab tab
-    expect(guide.tabs.length).to eq 1
+    it 'removes unpublished guides from the list of related' do
+      master = create :master
+      guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master; guide }
+      guide  = guides[1]
+      guides.delete guide
+      guide.suggested_relateds
+      guides.each { |guide| guide.published = false; guide.save }
+      expect(guide.related_guides).to be_empty
+    end
   end
 end
-

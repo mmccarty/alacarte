@@ -11,6 +11,8 @@
 #
 
 class Unit < ActiveRecord::Base
+  include HasModules
+
   acts_as_taggable
   has_many :unitizations, :dependent => :destroy
   has_many :tutorials, :through => :unitizations
@@ -22,23 +24,8 @@ class Unit < ActiveRecord::Base
   validates_length_of :slug, :maximum=>15, :message=>"less than {{count}}", :on => :update
   before_create :create_slug
 
-  def add_tags tags
-    self.tag_list = tags
-    self.save
-  end
-
-  def add_resource resource
-    resources << resource
-  end
-
-  def update_resources resrs
-    resrs.each do |value|
-      id = value.gsub(/[^0-9]/, '')
-      type = value.gsub(/[^A-Za-z]/, '')
-      resource = Resource.find_by_mod_id_and_mod_type(id, type)
-      resource.create_slug if resource.mod.slug.blank?
-      resources << resource
-    end
+  # Required by HasModules concern.
+  def update_users
   end
 
   def create_slug trunc = 15, truncate_string = "..."
@@ -48,35 +35,18 @@ class Unit < ActiveRecord::Base
     self.slug = (chars.length > trunc ? chars[0...l] + truncate_string : text).to_s
   end
 
-  def add_module id, type
-    resource = Resource.find_by_mod_id_and_mod_type id, type
-    add_resource resource if resource
-  end
-
-  def find_resource id, type
-    resources.find_by_mod_id_and_mod_type id, type
-  end
-
-  def modules
-    resources.map &:mod
-  end
-
-  def recent_modules
-    modules.sort_by &:updated_at
-  end
-
   def sorted_resources
     resourceables.map &:resource
   end
 
   def first_module
     res = sorted_resources.first
-    res.blank? ? nil :  res.mod
+    res.blank? ? nil : res.mod
   end
 
   def last_module
     res = sorted_resources.last
-    res.blank? ? nil :  res.mod
+    res.blank? ? nil : res.mod
   end
 
   def next_module id, type

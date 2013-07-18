@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ModulesController do
-  describe 'guest access' do
+  describe 'for guests' do
     describe 'GET #index' do
       it 'requires login' do
         get :index
@@ -15,9 +15,58 @@ describe ModulesController do
         expect(response).to redirect_to login_path
       end
     end
+
+    describe 'GET #manage' do
+      it 'requires login' do
+        get :manage
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #add_guide' do
+      it 'requires login' do
+        post :add_guide
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #add_to_guide' do
+      it 'requires login' do
+        post :add_to_guide
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #add_page' do
+      it 'requires login' do
+        post :add_page
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #add_to_page' do
+      it 'requires login' do
+        post :add_to_page
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #add_tutorial' do
+      it 'requires login' do
+        post :add_tutorial
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #add_to_tutorial' do
+      it 'requires login' do
+        post :add_to_tutorial
+        expect(response).to redirect_to login_path
+      end
+    end
   end
 
-  describe 'author access' do
+  describe 'for authors' do
     before :each do
       user = create :author
       session[:user_id] = user.id
@@ -40,10 +89,44 @@ describe ModulesController do
     end
 
     describe 'POST #create' do
-      it 'renders the new module form when no module type is specified' do
+      it 'requires the user to specify the module type' do
         post :create, mod: { type: '' }
         expect(response).to render_template :new
       end
+    end
+
+    describe 'GET #manage' do
+      it 'renders the module management page'
+    end
+
+    describe 'POST #add_guide' do
+      it 'adds the guide to the session'
+      it 'renders nothing'
+    end
+
+    describe 'POST #add_to_guide' do
+      it 'adds guides from the session to the module'
+      it 'redirects to the module management page'
+    end
+
+    describe 'POST #add_page' do
+      it 'adds the page to the session'
+      it 'renders nothing'
+    end
+
+    describe 'POST #add_to_page' do
+      it 'adds pages from the session to the module'
+      it 'redirects to the module management page'
+    end
+
+    describe 'POST #add_tutorial' do
+      it 'adds the tutorial to the session'
+      it 'renders nothing'
+    end
+
+    describe 'POST #add_to_tutorial' do
+      it 'adds tutorials from the session to the module'
+      it 'redirects to the module management page'
     end
   end
 end

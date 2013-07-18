@@ -70,7 +70,7 @@ class Tutorial < ActiveRecord::Base
   end
 
   def self.get_subjects tuts
-    tuts.map(&:subject).flatten.uniq
+    tuts.flat_map(&:subject).uniq
   end
 
   def self.authenticate u, p
@@ -78,7 +78,7 @@ class Tutorial < ActiveRecord::Base
   end
 
   def to_param
-    "#{id}-#{ full_name.gsub /[^a-z0-9]+/i, '-' }"
+    "#{ id }-#{ full_name.gsub /[^a-z0-9]+/i, '-' }"
   end
 
   def add_tags tags
@@ -98,48 +98,42 @@ class Tutorial < ActiveRecord::Base
     section_num.split ','
   end
 
-  def share(role, user, copy)
-    if copy  == "1"
+  def share role, user, copy
+    if copy == "1"
       tutorial_copy = clone
       tutorial_copy.name = name + '-copy'
       tutorial_copy.created_by = user.id
       tutorial_copy.published = false
       tutorial_copy.save
-      copy(tutorial_copy,user)
+      copy tutorial_copy, user
     else
       users << user
-      mods = units.collect{|u| u.resources}
-      mods.each do |resource|
-        user.add_resource(resource)
-      end
+      units.map(&:resource).each { |resource| user.add_resource resource }
     end
   end
 
-  def copy(tut_copy, user)
+  def copy tut_copy, user
     tut_copy.users << user
     unitizations.each do |uz|
       unit = uz.unit
-      mod_copies = unit.resourceables.collect{|r| r.resource.copy_mod(unit.title)}.flatten
+      mod_copies = unit.resourceables.flat_map { |r| r.resource.copy_mod(unit.title) }
       unit_copy = unit.clone
       tut_copy.units << unit_copy
       if unit_copy.save
         mod_copies.each do |mod|
-          mod.update_attribute(:created_by, user.name)
-          resource = Resource.create(:mod => mod)
-          user.add_resource(resource)
-          unit_copy.add_resource(resource)
+          mod.update_attribute :created_by, user.name
+          resource = Resource.create mod: mod
+          user.add_resource resource
+          unit_copy.add_resource resource
         end
       end
     end
   end
 
-  def remove_from_shared(user)
+  def remove_from_shared user
     update_attribute(:created_by, users.at(1).id) if created_by.to_s == user.id.to_s
-    users.delete(user)
-    mods = units.collect{|u| u.resources}
-    mods.each do |r|
-      user.resources.delete(r)
-    end
+    users.delete user
+    units.map(&:resources).each { |r| user.resources.delete r }
   end
 
   def shared?
@@ -182,7 +176,7 @@ class Tutorial < ActiveRecord::Base
   end
 
   def quizzes
-    units.map(&:resources).flatten.map { |a| a.mod if a.mod.instance_of? QuizResource }.compact.uniq
+    units.flat_map(&:resources).map { |a| a.mod if a.mod.instance_of? QuizResource }.compact.uniq
   end
 
   def get_students section = nil
