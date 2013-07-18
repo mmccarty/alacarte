@@ -2,19 +2,21 @@
   .span2= render 'side_bar'
 
   .span10
-    = render 'title_actions'
+    %fieldset
+      %legend
+        Update contact module for
+        %strong
+          = @guide.guide_name
+      = form_for @guide, url: edit_contact_guide_path(@guide) do |f|
+        .control-group
+          %label.control-label
+            Contact Module
+          .controls
+            = f.select :resource_id, @resources
+            %i.icon-question-sign{ :data => { :content => 'The contact module should contain contact information for the person or cluster available to answer questions about the guide\'s content and subject area.', :html => 'true', :trigger => 'hover' } }
+        .control-group
+          = f.submit 'Save', class: 'btn btn-primary'
+          = link_to 'Cancel', @guide, class: 'btn btn-cancel'
 
-    %h2
-      = link_to 'Edit Guide', @guide
-      >> Contact Module
-
-    = flash_notice
-
-    = form_for @guide, url: edit_contact_guide_path(@guide) do |f|
-      %label
-        Contact Module
-        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(CONTACT_MOD_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-      = f.select :resource_id, @resources
-      %br/
-      = f.submit 'Update Contact', class: 'btn btn-primary'
-      = link_to 'Cancel', @guide, class: 'btn btn-cancel'
+:javascript
+  $('.icon-question-sign').popover();

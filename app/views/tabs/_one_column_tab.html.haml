@@ -1,14 +1,15 @@
-#mock_full
-  %ul#full
-    - @mods.each do |pr|
-      - mod = pr.resource.mod
-      %li.list-item{ :id => "item_#{ pr.id }" }
-        %span.list-title
-          = truncate mod.label, :length => 40
-        %span.handle
-          = image_tag 'icons/move.png', :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0
-        %br/
-        = more_help "'#{ render_tooltip mod }'", '125'
-        = link_to '', edit_content_path(mod, :type => mod.class), :class => 'icon-edit', :title => 'Edit this module'
-        = link_to '', module_path(mod, :type => mod.class), :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes'], :class => 'icon-external-link', :title => 'View this module'
-        = link_to '', remove_module_tab_path(@tab, :mod => mod.id, :type => mod.class), :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post, :class => 'icon-trash', :title => 'Remove this module'
+%ul.unstyled
+  - @mods.each do |pr|
+    - mod = pr.resource.mod
+    %li{ :id => "item_#{ pr.id }" }
+      %i.icon-move
+      = truncate mod.label, :length => 40
+      &nbsp;
+      &nbsp;
+      %i.icon-question-sign{ :data => { :content => "#{ render_tooltip mod }", :html => 'true', :trigger => 'hover' } }
+      = link_to '', edit_module_path(mod, :type => mod.class), :class => 'icon-edit', :title => 'Edit this module'
+      = link_to '', module_path(mod, :type => mod.class), :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes'], :class => 'icon-external-link', :title => 'View this module'
+      = link_to '', remove_module_tab_path(@tab, :mod => mod.id, :type => mod.class), :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post, :class => 'icon-trash', :title => 'Remove this module'
+
+:javascript
+  $('.icon-question-sign').popover();

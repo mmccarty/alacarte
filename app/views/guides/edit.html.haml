@@ -1,7 +1,3 @@
-%h1 Edit Guide
--if flash[:error]
-  #error_wrapper
-    #list_error
-      =flash[:error]
+%h1.page-header Edit Guide
 
 = render partial: 'form', locals: { guide: @guide }
