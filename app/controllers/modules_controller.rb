@@ -87,33 +87,29 @@ class ModulesController < ApplicationController
   def manage
     begin
       @mod = find_mod params[:id], params[:type]
-    rescue Exception => e
-      redirect_to :back
-    else
       @course_pages = @mod.get_pages if @local.guides_list.include?('pages')
       @guides = @mod.get_guides if @local.guides_list.include?('guides')
       @tutorials = @mod.get_tutorials if @local.guides_list.include?('tutorials')
+    rescue
+      redirect_to :back
     end
-  end
-
-  def add_page
-    unless session[:page_tabs].include? params[:tid].to_s then
-      session[:page_tabs] << params[:tid]
-    end
-    render nothing: true
   end
 
   def add_guide
-    unless session[:tabs].include? params[:tid].to_s then
-      session[:tabs] << params[:tid]
-    end
+    session[:tabs] ||= []
+    session[:tabs] << params[:tid] unless session[:tabs].include? params[:tid]
+    render nothing: true
+  end
+
+  def add_page
+    session[:page_tabs] ||= []
+    session[:page_tabs] << params[:tid] unless session[:page_tabs].include? params[:tid]
     render nothing: true
   end
 
   def add_tutorial
-    unless session[:units].include? params[:tid].to_s then
-      session[:units] << params[:tid]
-    end
+    session[:units] ||= []
+    session[:units] << params[:tid] unless session[:units].include? params[:tid]
     render nothing: true
   end
 
@@ -137,7 +133,7 @@ class ModulesController < ApplicationController
       end
       session[:tabs] = nil
       flash[:message] = "#{@mod.module_title} successfully added to these guides."
-      redirect_to :action => "manage", :id => @mod.id, :type=> @mod.class
+      redirect_to manage_module_path(@mod, type: @mod.class)
     end
   end
 
@@ -160,7 +156,7 @@ class ModulesController < ApplicationController
         end
         session[:page_tabs] = nil
         flash[:message] = "#{@mod.module_title} successfully added these pages."
-        redirect_to :action => "manage", :id => @mod.id, :type=> @mod.class
+        redirect_to manage_module_path(@mod, type: @mod.class)
       end
     end
   end
@@ -184,7 +180,7 @@ class ModulesController < ApplicationController
         end
         session[:units] = nil
         flash[:message] = "#{@mod.module_title} successfully added these tutorials."
-        redirect_to :action => "manage", :id => @mod.id, :type=> @mod.class
+        redirect_to manage_module_path(@mod, type: @mod.class)
       end
     end
   end

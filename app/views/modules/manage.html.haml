@@ -1,5 +1,4 @@
-%h3.title
-  = render :partial => 'title_actions'
+%h3.title= render 'title_actions'
 %h4
   Add To/Used On
 %p This page shows where the module is used at. You can also add the module to multiple pages, guides or tutorials at one time.
@@ -7,10 +6,10 @@
   - if @course_pages
     #page_header
       Used on #{@course_pages.length} Pages
-      = link_to image_tag("icons/add.png", :title => 'Add to Pages', :alt => 'add', :border => 0)+'Add to Pages', {:controller => 'module', :action => 'add_to_page',  :id => @mod.id,:type => @mod.class }
+      = link_to image_tag("icons/add.png", :title => 'Add to Pages', :alt => 'add', :border => 0)+'Add to Pages', add_to_page_module_path(@mod, :type => @mod.class)
     %table#hide_page{:style => "display:none"}
       - @course_pages.each do |page|
-        %tr{:class => cycle('list-line-odd', 'list-line-even')}
+        %tr
           %td
             %b= h page.header_title
           %td{:width => "5%"}
@@ -20,10 +19,10 @@
   - if @guides
     #guide_header
       Used on #{@guides.length} Guides
-      = link_to image_tag("icons/add.png", :title => 'Add to Guides', :alt => 'add', :border => 0)+'Add to Guides', {:controller => 'module', :action => 'add_to_guide',  :id => @mod.id,:type => @mod.class }
+      = link_to image_tag("icons/add.png", :title => 'Add to Guides', :alt => 'add', :border => 0)+'Add to Guides', add_to_guide_module_path(@mod, :type => @mod.class)
     %table#hide_guide{:style => "display:none"}
       - @guides.each do |guide|
-        %tr{:class => cycle('list-line-odd', 'list-line-even')}
+        %tr
           %td
             %b= h guide.guide_name
           %td{:width => "5%"}
@@ -32,10 +31,10 @@
   - if @tutorials
     #tut_header
       Used on #{@tutorials.length} Tutorials
-      = link_to image_tag("icons/add.png", :title => 'Add to Tutorials', :alt => 'add', :border => 0)+'Add to Tutorials', {:controller => 'module', :action => 'add_to_tutorial',  :id => @mod.id,:type => @mod.class }
+      = link_to image_tag("icons/add.png", :title => 'Add to Tutorials', :alt => 'add', :border => 0)+'Add to Tutorials', add_to_tutorial_module_path(@mod, :type => @mod.class)
     %table#hide_tutorial{:style => "display:none"}
       - @tutorials.each do |tutorial|
-        %tr{:class => cycle('list-line-odd', 'list-line-even')}
+        %tr
           %td
             %b= h tutorial.full_name
           %td{:width => "5%"}

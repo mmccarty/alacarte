@@ -68,8 +68,8 @@ describe ModulesController do
 
   describe 'for authors' do
     before :each do
-      user = create :author
-      session[:user_id] = user.id
+      @user = create :author
+      session[:user_id] = @user.id
 
       Local.create
     end
@@ -96,37 +96,153 @@ describe ModulesController do
     end
 
     describe 'GET #manage' do
-      it 'renders the module management page'
+      it 'renders the module management page' do
+        request.env['HTTP_REFERER'] = '/'
+        mod = create :miscellaneous_resource
+        get :manage, id: mod.id, type: mod.class.name
+        expect(response).to render_template :manage
+      end
     end
 
     describe 'POST #add_guide' do
-      it 'adds the guide to the session'
-      it 'renders nothing'
+      it 'adds the guide to the session' do
+        post :add_guide, tid: 1
+        expect(session[:tabs]).to eq ['1']
+      end
+
+      it 'can add multiple guides' do
+        post :add_guide, tid: 1
+        post :add_guide, tid: 2
+        expect(session[:tabs]).to eq ['1', '2']
+      end
+
+      it 'will not add the same guide multiple times' do
+        post :add_guide, tid: 1
+        post :add_guide, tid: 1
+        expect(session[:tabs]).to eq ['1']
+      end
+
+      it 'renders nothing' do
+        post :add_guide, tid: 1
+        expect(response.body).to be_blank
+      end
+    end
+
+    describe 'GET #add_to_guide' do
+      it 'renders the :add_to_guide view' do
+        mod = create :miscellaneous_resource
+        get :add_to_guide, id: mod.id, type: mod.class.name
+        expect(response).to render_template :add_to_guide
+      end
     end
 
     describe 'POST #add_to_guide' do
-      it 'adds guides from the session to the module'
-      it 'redirects to the module management page'
+      before :each do
+        @mod = create :miscellaneous_resource
+        @user.create_and_add_resource @mod
+
+        @tab = build :tab
+        guide = create :guide
+        guide.add_tab @tab
+
+        session[:tabs] = [@tab.id.to_s]
+      end
+
+      it 'adds the module to guides from the session' do
+        post :add_to_guide, id: @mod.id, type: @mod.class.name
+        expect(@tab.modules).to eq [@mod]
+      end
+
+      it 'redirects to the module management page' do
+        post :add_to_guide, id: @mod.id, type: @mod.class.name
+        expect(response).to redirect_to manage_module_path(@mod, type: @mod.class)
+      end
     end
 
     describe 'POST #add_page' do
-      it 'adds the page to the session'
-      it 'renders nothing'
+      it 'adds the page to the session' do
+        post :add_page, tid: 1
+        expect(session[:page_tabs]).to eq ['1']
+      end
+
+      it 'renders nothing' do
+        post :add_page, tid: 1
+        expect(response.body).to be_blank
+      end
+    end
+
+    describe 'GET #add_to_page' do
+      it 'renders the :add_to_page view' do
+        mod = create :miscellaneous_resource
+        get :add_to_page, id: mod.id, type: mod.class.name
+        expect(response).to render_template :add_to_page
+      end
     end
 
     describe 'POST #add_to_page' do
-      it 'adds pages from the session to the module'
-      it 'redirects to the module management page'
+      before :each do
+        @mod = create :miscellaneous_resource
+        @user.create_and_add_resource @mod
+
+        @tab = build :tab
+        page = create :page
+        page.add_tab @tab
+
+        session[:page_tabs] = [@tab.id.to_s]
+      end
+
+      it 'adds pages from the session to the module' do
+        post :add_to_page, id: @mod.id, type: @mod.class.name
+        expect(@tab.modules).to eq [@mod]
+      end
+
+      it 'redirects to the module management page' do
+        post :add_to_page, id: @mod.id, type: @mod.class.name
+        expect(response).to redirect_to manage_module_path(@mod, type: @mod.class)
+      end
     end
 
     describe 'POST #add_tutorial' do
-      it 'adds the tutorial to the session'
-      it 'renders nothing'
+      it 'adds the tutorial to the session' do
+        post :add_tutorial, tid: 1
+        expect(session[:units]).to eq ['1']
+      end
+
+      it 'renders nothing' do
+        post :add_tutorial, tid: 1
+        expect(response.body).to be_blank
+      end
+    end
+
+    describe 'GET #add_to_tutorial' do
+      it 'renders the :add_to_tutorial view' do
+        mod = create :miscellaneous_resource
+        get :add_to_tutorial, id: mod.id, type: mod.class.name
+        expect(response).to render_template :add_to_tutorial
+      end
     end
 
     describe 'POST #add_to_tutorial' do
-      it 'adds tutorials from the session to the module'
-      it 'redirects to the module management page'
+      before :each do
+        @mod = create :miscellaneous_resource
+        @user.create_and_add_resource @mod
+
+        @unit = create :unit
+        tutorial = create :tutorial
+        tutorial.add_units [@unit.id]
+
+        session[:units] = [@unit.id.to_s]
+      end
+
+      it 'adds tutorials from the session to the module' do
+        post :add_to_tutorial, id: @mod.id, type: @mod.class.name
+        expect(@unit.modules).to eq [@mod]
+      end
+
+      it 'redirects to the module management page' do
+        post :add_to_tutorial, id: @mod.id, type: @mod.class.name
+        expect(response).to redirect_to manage_module_path(@mod, type: @mod.class)
+      end
     end
   end
 end
