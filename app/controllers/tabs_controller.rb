@@ -8,22 +8,21 @@ class TabsController < ApplicationController
   in_place_edit_for :tab, :tab_name
   layout 'admin'
 
-  def create
-    if Guide.exists?(@guide) and request.post?
+  def new
+    if @guide
       if @guide.reached_limit?
         flash[:error] = "Could not create the tab. This guide has reached the 6 tab limit"
-        redirect_to :controller => 'guide', :action => 'edit', :id => @guide
+        redirect_to @guide
       else
-        tab =  Tab.new
-        tab.attributes = params[:tab]
+        tab = Tab.new tab_name: 'New Tab'
         tab.position = @guide.tabs.length + 1
         @guide.tabs << tab
         session[:current_tab] = tab.id
-        redirect_to :controller => 'guide', :action => 'edit', :id => @guide
+        redirect_to @guide
       end
     else
       flash[:notice] = "Please select a Guide"
-      redirect_to :controller => 'guide', :action => 'index'
+      redirect_to guides_path
     end
   end
 

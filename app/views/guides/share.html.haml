@@ -1,6 +1,6 @@
 %fieldset
   #main
-    %h3.title= render :partial => 'title_actions'
+    %h3.title= render 'title_actions'
     %h4 Share Guide
     - if flash[:notice]
       #error_wrapper
@@ -35,5 +35,5 @@
         .tip
           Removing someone revokes their editing rights to this guide and the guide's modules. The last owner can not be deleted. #{image_tag "spinner.gif", :id => "spinner_sort", :class => 'image', :alt => "Spinner", :style => 'display:none;'}
         #editor-list
-          = render :partial => 'owners'
-= render :partial => 'side_bar'
+          = render 'owners'
+= render 'side_bar'

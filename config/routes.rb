@@ -26,7 +26,7 @@ Alacarte::Application.routes.draw do
       get   'copy'
       match 'edit_contact',  via: [:get, :put]
       match 'edit_relateds', via: [:get, :put]
-      get   'publish'
+      match 'publish',       via: [:get, :post]
       get   'share'
     end
   end
@@ -70,8 +70,8 @@ Alacarte::Application.routes.draw do
     member do
       post  'add_guide'
       post  'add_page'
-      match 'add_to_guide', via: [:get, :post]
-      match 'add_to_page', via: [:get, :post]
+      match 'add_to_guide',    via: [:get, :post]
+      match 'add_to_page',     via: [:get, :post]
       match 'add_to_tutorial', via: [:get, :post]
       post  'add_tutorial'
       get   'copy'

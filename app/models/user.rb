@@ -168,7 +168,7 @@ class User < ActiveRecord::Base
 
   def recent_activity
     recent = lambda { |x| x.updated_at >= 7.days.ago }
-    mods = resources.map(&:mod).select &recent
+    mods = resources.map(&:mod).compact.select &recent
     icaps = pages.select &recent
     srgs = guides.select &recent
     orts = tutorials.select &recent

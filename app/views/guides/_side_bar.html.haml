@@ -5,8 +5,6 @@
     = link_to 'Edit Contact Module', edit_contact_guide_path(@guide)
   %li{ :class => current_page?(guide_path @guide) && "active" }
     = link_to 'Edit Guide', guide_path(@guide)
-  %li{ :class => current_page?(add_modules_tab_path(@tab)) && "active" }
-    = link_to 'Add Modules', add_modules_tab_path(@tab)
   %li
     = link_to 'Preview Guide', show_srg_path(@guide, :tab => session[:current_tab])
   %li
