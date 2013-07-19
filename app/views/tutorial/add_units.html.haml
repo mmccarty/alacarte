@@ -1,38 +1,42 @@
-%fieldset
-  %h4 Add Units
-  = link_to new_unit_path, class: 'btn btn-primary' do
-    %i.icon-plus
-    Create New Unit
+.row
+  .span2
+    = render 'side_bar'
 
-  - unless @units.size <1
-    #product-list
-      = form_tag add_units_path(@tutorial) do
-        #table
-          #mine
-            #product-list
-              %table.my_lists
-                %thead
-                  %tr
-                    %th
-                      = image_tag "spinner.gif", :id => "spinner_sort", :class => 'image', :alt => "Spinner", :style => 'display:none;'
-                      Add
-                      %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('Check the box next to the units you want to add to this tutorial or create a new unit to add.', this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-                    %th Label
-                    %th Last Update
-                - @units.each do |unit|
-                  %tr
-                    %td.center
-                      - s = unit.id.to_s + unit.class.to_s
-                      = check_box_tag(unit.id, unit.id, session[:added].include?(s), :onclick => "$.post('/tutorial/add_to_list/#{ @tutorial.id }', { uid: #{ unit.id } });")
-                    %td= truncate(unit.title,:length => 45)
-                    %td= unit.updated_at.to_date
-          .pagination
-            - if @units and @units.total_pages > 1
-              %ul
-                %li= will_paginate @units, :params => params.merge({:sort=> @sort}).except(:authenticity_token)
-                %li= image_tag "spinner.gif", :id => "spinner_links", :class => 'image', :alt => "Spinner", :style => 'display:none;'
-        = submit_tag 'Add to Tutorial', class: 'btn'
-  - else
-    %p
-      %b You currently have no Units.
-  = render 'side_bar'
+  .span10
+    %h1.page-header
+      Add Units
+    %fieldset
+      = link_to new_unit_path, class: 'btn btn-primary' do
+        %i.icon-plus
+        Create new unit
+
+      %p
+        &nbsp;
+
+      - unless @units.size < 1
+        = form_tag add_units_path(@tutorial) do
+          %table.table.table-striped
+            %thead
+              %tr
+                %th
+                  Add
+                  %i.icon-question-sign{ :data => { :content => 'Check the box next to the units you want to add to this tutorial or create a new unit to add.', :html => 'true', :trigger => 'hover' } }
+                %th Label
+                %th Last Update
+            - @units.each do |unit|
+              %tr
+                %td.center
+                  - s = unit.id.to_s + unit.class.to_s
+                  = check_box_tag(unit.id, unit.id, session[:added].include?(s), :onclick => "$.post('/tutorial/add_to_list/#{ @tutorial.id }', { uid: #{ unit.id } });")
+                %td= truncate unit.title, length: 45
+                %td= unit.updated_at.to_date
+          - if @units and @units.total_pages > 1
+            = will_paginate @units, :params => params.merge({:sort=> @sort}).except(:authenticity_token)
+            = submit_tag 'Add', class: 'btn'
+      - else
+        %p
+          %strong
+            You currently have no units.
+
+:javascript
+  $('.icon-question-sign').popover();

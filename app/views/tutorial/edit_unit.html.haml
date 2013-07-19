@@ -1,54 +1,67 @@
-%fieldset
-  %h4
-    Edit Unit : #{@unit.title}
-  = form_tag edit_unit_path(@tutorial, unit: @unit) do
-    = error_messages_for 'unit'
-    #share
+.row
+  .span2
+    = render 'side_bar'
+
+  .span10
+    %h1.page-header
+      Edit Unit : #{@unit.title}
+
+    = report_errors @unit
+    = form_tag edit_unit_path(@tutorial, unit: @unit) do
       %fieldset
-        #vertical_inputs
-          %span
-            %label{:for => "unit_name"}
-              Title
-              %span.required.more_help *
-              %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(UNIT_NAME_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-            = text_field 'unit','title',"size" => 56
-          %span
-            %label{:for => "unit_name"}
-              Slug
-              %span.required.more_help *
-              %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(UNIT_SLUG_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-            = text_field 'unit','slug',"size" => 18
-        %br.clearer/
-        %label{:for => "unit_description"}
-          Description
-          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(UNIT_DESC_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-        = text_area 'unit', 'description', "class" => 'tinymce'
-        = tinymce
-        %label{:for => "tags"}
-          Tags
-          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(UNIT_TAG_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-        = text_field_tag 'tags', @tag_list,"size" => 62
-        .tip e.g. anthropology, insects, caves
-        %p
-          = submit_tag 'Save', :class => "submit"
-          or #{submit_tag 'Save & Add Modules', :class => "submit"}
-        %p= link_to 'Cancel', :back
+        .control-group
+          %label.control-label{ :for => 'unit_name' }
+            Title
+            %span.required *
+          .controls
+            = text_field 'unit', 'title', class: 'input-xlarge'
+            %i.icon-question-sign{ :data => { :content => 'Enter a unique name for the unit. This name is what will appear as the unit\'s full title.', :html => 'true', :trigger => 'hover' } }
+        .control-group
+          %label.control-label{ :for => 'unit_name' }
+            Slug
+            %span.required *
+          .controls
+            = text_field 'unit', 'slug', class: 'input-xlarge'
+            %i.icon-question-sign{ :data => { :content => 'Enter a shorten name for the unit. This name should not exceed 15 character. This name is what will appear in the navigation.', :html => 'true', :trigger => 'hover' } }
+        .control-group
+          %label.control-label{ :for => 'tags' }
+            Tags
+          .controls
+            = text_field_tag 'tags', @tag_list, class: 'input-xlarge'
+            %i.icon-question-sign{ :data => { :content => 'Tags are keywords that highlight content on the Unit.<br/><br/>Tips: Seperate individual tags with a comma. Only add 3-5 tags. Use the same tag on similar tutorials to help discovery.', :html => 'true', :trigger => 'hover' } }
+            %p.muted
+              examples: anthropology, insects, caves
+        .control-group
+          %label.control-label{ :for => 'unit_description' }
+            Description
+            %i.icon-question-sign{ :data => { :content => 'The unit description is a short teaser that describes the unit. Tips:  Write complete sentences. Highlight special content on the tutorial.', :html => 'true', :trigger => 'hover' } }
+          .controls
+            = text_area 'unit', 'description', "class" => 'tinymce'
+            = tinymce
+        .control-group
+          .controls
+            = submit_tag 'Save', :class => 'btn btn-primary submit'
+            = submit_tag 'Save & Add modules', :class => 'btn submit'
+            = link_to 'Cancel', :back, :class => 'btn'
   - unless @mods.blank?
     %fieldset
-      %h4 Unit Modules
-      %ul{:id => "full#{@unit.id.to_s}"}
+      %legend
+        Unit Modules
+      %ul{ :id => "full#{@unit.id.to_s}" }
         - @mods.each do |resable|
         - res = resable.resource
         - mod = res.mod
-          %li.list-item{:id => "item_#{resable.id}"}
-            %span.list-title= truncate(h(mod.label) ,:length => 40)
-            %span.handle
-              = image_tag("icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)
-            %br/
-            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('#{render_tooltip(mod)}', this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-            |
-            \#{link_to image_tag("icons/edit.png", :title => 'Edit this module', :alt => 'Edit', :border => 0), { :controller =>'module', :action => 'edit_content', :id => mod, :type => mod.class}} |
-            \#{link_to image_tag("icons/document_preview.png", :title => 'View this Module', :alt => 'View Module', :border => 0),{ :controller => 'module', :action => 'view', :id => mod, :type => mod.class}, :popup => ['', 'height=500,width=400,toolbar=yes, scrollbars =yes,resizable=yes']}|
-            \#{link_to image_tag("icons/remove.png", :title => 'Delete this module from lesson', :alt => 'Delete', :border => 0), {:controller => 'unit', :action => 'remove_module', :rid => res , :id => @unit}, :confirm => 'Are you sure you want to remove this module from the lesson?', :method => :post}
-      %span.clear
-= render 'side_bar'
+          %li{ :id => "item_#{resable.id}" }
+            %i.icon-move
+            = truncate raw(mod.label), :length => 40
+            &nbsp;
+            %i.icon-question-sign{ :data => { :content => "#{ render_tooltip(mod) }", :html => 'true', :trigger => 'hover' } }
+            &nbsp;
+            = awesome_button edit_module_path(mod, type: mod.class), 'edit', 'Edit this module'
+            &nbsp;
+            = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module'
+            &nbsp;
+            = link_to '', module_path(mod, type: mod.class), method: :delete, class: 'icon-trash', title: 'Delete this module', confirm: 'Are you sure?'
+
+:javascript
+  $('.icon-question-sign').popover();

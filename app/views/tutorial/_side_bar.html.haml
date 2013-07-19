@@ -2,7 +2,7 @@
   %li{ :class => current_page?(edit_tutorial_path @tutorial) && "active" }
     = link_to 'Title & Metadata', {:controller => 'tutorial', :action => 'update',  :id => @tutorial.id }, :class => "top " + ( @ucurrent || "")
   %li
-    = link_to 'Units', {:controller => 'unit', :action => 'units' }, :class =>@uscurrent
+    = link_to 'Units', units_path(@tutorial), :class =>@uscurrent
   %li
     = link_to 'Preview Tutorial', show_ort_path(@tutorial)
   %li

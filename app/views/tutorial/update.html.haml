@@ -1,7 +1,10 @@
-%fieldset
-  %h4 Title &amp; Metadata
-  #share
-    = form_tag({:action => 'update', :id => @tutorial.id}, {:multipart => true}) do
-      = render :partial => 'form'
+.row
+  .span2
+    = render 'side_bar'
+
+  .span10
+    %h1.page-header
+      Title &amp; Metadata
+    = form_tag(update_tutorial_path(@tutorial), { :multipart => true }) do
+      = render 'form'
       = link_to 'Cancel', tutorials_path, class: 'btn btn-cancel'
-= render :partial => 'side_bar'
