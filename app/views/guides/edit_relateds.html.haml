@@ -2,21 +2,23 @@
   .span2= render 'side_bar'
 
   .span10
-    = render 'title_actions'
+    %fieldset
+      %legend
+        Add related guides for
+        %strong
+          = @guide.guide_name
+      = form_for @guide, url: edit_relateds_guide_path(@guide) do |f|
+        .control-group
+          %label.control-label
+            Guides
+            %i.icon-question-sign{ :data => { :content => 'Click to automatically find and add related guides. The tool will find guides that have been associated with this page\'s subject and add it to the related guides list. You can also manually add or remove guides to the list.', :html => 'true', :trigger => 'hover' } }
+          .controls
+          = select_tag :relateds, options_from_collection_for_select(@guides, :id, :guide_name, @relateds), multiple: true, class: 'input-xxlarge', style: 'min-height: 250px;'
+          %p.muted
+            Click CTRL or Command to select multiple guides.
+        .control-group
+          = f.submit 'Save', class: 'btn btn-primary'
+          = link_to 'Cancel', @guide, class: 'btn btn-cancel'
 
-    %h2
-      = link_to 'Edit Guide', @guide
-      >> Related Subject Guides
-
-    = flash_notice
-
-    = form_for @guide, url: edit_relateds_guide_path(@guide) do |f|
-      %label
-        Add Related Guides
-        = more_help 'AUTO_RELATED_MSSG', '125'
-      = select_tag :relateds, options_from_collection_for_select(@guides, :id, :guide_name, @relateds), multiple: true, size: 8
-      .tip (Click CTRL or Command to select multiple guides)
-
-      %br/
-      = f.submit 'Update Relateds', class: 'btn btn-primary'
-      = link_to 'Cancel', @guide, class: 'btn btn-cancel'
+:javascript
+  $('.icon-question-sign').popover();

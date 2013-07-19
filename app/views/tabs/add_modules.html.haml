@@ -1,15 +1,10 @@
-.row
-  .span12= render 'guides/title_actions'
 
 .row
   .span2= render 'guides/side_bar'
 
   .span10
 
-    %h2 Add Modules
-    - if flash[:error]
-      #error_wrapper
-        #list_error= flash[:error]
+    %h1.page-header Add Modules
     %p
       %b On Tab: #{@tab.tab_name}
       %span.tip= link_to 'Choose a different tab.', @guide

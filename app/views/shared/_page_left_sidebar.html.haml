@@ -5,14 +5,13 @@
         %li
           %a{:href => "#topic_#{ mod.id }"}
             %i.icon-chevron-right
-            = raw mod.module_title
+            = mod.module_title.html_safe
 
   -unless @local.guide_box.blank?
     .well.well-small
       = @local.guide_box.html_safe
   - if @mod
-    .well.well-small
-      = show_mod(@mod)
+    = render :partial => 'shared/view_mod', :locals => { :mod => @mod }
   - unless index_description.blank?
     .well.well-small
       %h4

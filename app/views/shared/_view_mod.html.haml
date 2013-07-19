@@ -1,2 +1,1 @@
-.well.well-small
-  = render :partial => @mod.class.to_s.underscore + 's/show'
+= render :partial => mod.class.to_s.underscore + 's/show', :locals => { :mod => mod }

@@ -8,7 +8,7 @@
   &nbsp;
   %i.icon-question-sign{ :data => { :content => 'The contact module should contain contact information. The module must already be created before you can add it as the contact module.<br/><br/>Tip: Setting a default contact module will automatically select this module for you when you create a new page/guide, you can select a different one if needed.', :html => 'true', :trigger => 'hover' } }
 
-= render :partial => 'shared/view_mod'
+= render :partial => 'shared/view_mod', :locals => { :mod => @mod }
 
 :javascript
   $('.icon-question-sign').popover();

@@ -1,3 +1,3 @@
 %div
   - @mods.each do |mod|
-    = show_mod mod
+    = render :partial => 'shared/view_mod', :locals => { :mod => mod }
