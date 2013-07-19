@@ -1,42 +1,32 @@
-theme_advanced_toolbar_location: top
-theme_advanced_toolbar_align: left
-theme_advanced_statusbar_location: bottom
-theme_advanced_buttons1_add:
+menubar:
+  - edit
+  - view
+  - tools
+toolbar:
+  - styleselect
   - bold
   - italic
-  - underline
-  - forecolor
-  - separator
-  - link
-  - unlink
-  - anchor
-  - separator
-  - numlist
+  - alignleft
+  - aligncenter
+  - alignright
+  - alignjustify
   - bullist
+  - numlist
   - outdent
   - indent
-  - separator
-  - image
-  - blockquote
-  - removeformat
-  - hr
-  - charmap
-theme_advanced_buttons2_add:
-  - preview
-  - fullscreen
-  - spellchecker
-  - pasteword
-  - code
-  - undo
-  - redo
-plugins:
-  - fullscreen
-  - media
-  - preview
-  - paste
-  - spellchecker
+  - link
+  - anchor
   - table
+  - image
+  - code
+plugins:
+  - hr
+  - anchor
+  - link
+  - image
   - fullscreen
   - code
-fix_list_elements: true
-height: 400
+  - spellchecker
+  - preview
+  - table
+height: 500
