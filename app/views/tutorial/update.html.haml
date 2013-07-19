@@ -1,9 +1,5 @@
 %fieldset
-  %h3.title= render :partial => 'title_actions'
   %h4 Title &amp; Metadata
-  - if flash[:error]
-    #error_wrapper
-      #list_error= flash[:error]
   #share
     = form_tag({:action => 'update', :id => @tutorial.id}, {:multipart => true}) do
       = render :partial => 'form'

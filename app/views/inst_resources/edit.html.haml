@@ -1,47 +1,61 @@
-%h1 Edit Module
+%h1.page-header Edit Module
+
+= report_errors @mod
 
 = form_for @mod do |f|
-  = error_messages_for :mod
+  .control-group
+    %label.control-label{ for: 'mod_label' }
+      Private Label
+      %span.required *
+    .controls
+    = f.text_field :label, class: 'input-xlarge'
 
-  %label{ for: 'mod_label' }
-    Private Label
-    %span.required *
-  = f.text_field :label, size: 55
+  .control-group
+    %label.control-label{ for: 'mod_title' }
+      Module Title
+      %span.required *
+    .controls
+      = f.text_field :module_title, class: 'input-xlarge'
 
-  %label{ for: 'mod_title' }
-    Module Title
-    %span.required *
-  = f.text_field :module_title, size: 55
+  .control-group
+    %label.control-label{ for: 'mod_tag_list' }
+      Tags
+    .controls
+      = f.text_field :tag_list, class: 'input-xlarge'
+      %p.muted
+        examples: WR101, Databases, Writing
 
-  %label{ for: 'mod_tag_list' } Tags
-  = f.text_field :tag_list, size: 55
-  .tip example: WR101, Databases, Writing
+  .control-group
+    %label.control-label{ :for => 'name' }
+      Instructor's Name
+    .controls
+      = f.text_field 'instructor_name', class: 'input-xlarge'
 
-  %label{:for => "name"}
-    Instructor's Name
-    %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(INST_NAME_MSSG, this, event, '300');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-  = f.text_field 'instructor_name',"size" => 54
+  .control-group
+    %label.control-label{ :for => 'email' }
+      Instructor's Email Address
+    .controls
+      = f.text_field 'email', class: 'input-xlarge'
 
-  %label{:for => "email"}
-    Email Address
-    %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(INST_EMAIL_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-  = f.text_field 'email',"size" => 54
+  .control-group
+    %label.control-label{:for => 'office_loc' }
+      Instructor's Office Location
+    .controls
+      = f.text_field 'office_location', class: 'input-xlarge'
 
-  %label{:for => "office_loc"}
-    Office Location
-    %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(INST_LOCATE_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-  = f.text_field 'office_location',"size" => 54
+  .control-group
+    %label.control-label{:for => 'office_hrs' }
+      Instructor's Office Hours
+    .controls
+      = f.text_field 'office_hours', class: 'input-xlarge'
 
-  %label{:for => "office_hrs"}
-    Office Hours
-    %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(INST_HOURS_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-  = f.text_field 'office_hours',"size" => 54
+  .control-group
+    %label.control-label{ :for => 'web' }
+      Instructor's Website URL
+    .controls
+      = f.text_field 'website', class: 'input-xlarge'
 
-  %label{:for => "web"}
-    Website URL
-    %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(INST_URL_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-  = f.text_field 'website' , "size" => 54
-  %br/
-
-  = f.submit class: 'btn btn-primary'
-  = link_to 'Cancel', modules_path, class: 'btn btn-cancel'
+  .control-group
+    .controls
+      = f.submit 'Save', class: 'btn btn-primary'
+      = link_to 'Cancel', modules_path, class: 'btn btn-cancel'

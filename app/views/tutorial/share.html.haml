@@ -1,9 +1,5 @@
 %fieldset
-  %h3.title= render :partial => 'title_actions'
   %h4 Share Tutorial
-  - if flash[:notice]
-    #error_wrapper
-      #notice= flash[:notice]
   #share
     %fieldset
       = form_tag({:action=> 'share_update',:id =>@tutorial}) do

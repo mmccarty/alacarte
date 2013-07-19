@@ -1,10 +1,5 @@
 %fieldset
-  %h3.title
-    = render :partial => '/tutorial/title_actions'
   %h4 Add Modules
-  - if flash[:error]
-    #error_wrapper
-      #list_error= flash[:error]
   %p
     %b
       On Unit: #{@unit.title}

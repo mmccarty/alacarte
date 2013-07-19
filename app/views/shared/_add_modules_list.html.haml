@@ -3,8 +3,7 @@
     %tr
       %th Add
       %th Label
-      %th.center
-        %span.tip info | preview
+      %th
       %th Last Update
       %th Content Type
   %tbody
@@ -15,9 +14,12 @@
           = check_box_tag mod.id, mod.id, session[:add_mods].include?(s) , :onclick => "$.post('#{ add_mod_tab_path @tab }', { mid1: #{ mod.id }, mid2: '#{ mod.class }' });"
         %td= truncate(mod.label, :length => 45)
         %td
-          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('#{render_tooltip(mod)}', this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          | #{link_to image_tag("icons/document_preview.png", :title => 'View this Module', :alt => 'View Module', :border => 0),{ :controller => 'module', :action => 'view', :id => mod, :type => mod.class}, :popup => ['', 'height=500,width=400,toolbar=yes, scrollbars =yes,resizable=yes']}
+          %i.icon-question-sign{ :data => { :content => "#{render_tooltip(mod)}", :html => 'true', :trigger => 'hover' } }
+          = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module'
         %td= mod.updated_at.to_date
         %td= mod.content_type
 
 = will_paginate @mods
+
+:javascript
+  $('.icon-question-sign').popover();

@@ -65,8 +65,8 @@
 
   .control-group
     .controls
-      = submit_tag 'Create Page', class: 'btn btn-primary'
-      = link_to 'Cancel', dashboard_path, class: 'btn btn-cancel'
+      = f.submit 'Save', class: 'btn btn-primary'
+      = link_to 'Cancel', pages_path, class: 'btn btn-cancel'
 
 :javascript
   $('.icon-question-sign').popover();

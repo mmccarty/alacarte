@@ -1,4 +1,6 @@
-%h2= h @tutorial.name
-.module
+%h1.page-header
+  = @tutorial.name.html_safe
+
+.container
   %p
-    = @tutorial.description
+    = @tutorial.description.html_safe

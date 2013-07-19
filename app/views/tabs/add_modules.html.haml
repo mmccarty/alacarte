@@ -1,20 +1,27 @@
+.container
+  = render 'guides/title_actions'
 
 .row
   .span2= render 'guides/side_bar'
 
   .span10
 
-    %h1.page-header Add Modules
+    %h1.page-header
+      Add Modules
+      %br
+      %small
+        On tab: #{@tab.tab_name}
     %p
-      %b On Tab: #{@tab.tab_name}
-      %span.tip= link_to 'Choose a different tab.', @guide
+      = link_to 'Change Tab', @guide, :class => 'btn'
+      = render :partial => "shared/new_module"
 
-    = render :partial => "shared/new_module"
-
-    - unless @mods.size <1
+    - unless @mods.size < 1
       = form_tag add_modules_tab_path(@tab) do
-        = render :partial => "shared/add_modules_list"
-        = submit_tag 'Add to Tab', class: 'btn btn-primary'
+        .control-group
+          = render :partial => "shared/add_modules_list"
+        .control-group
+          .controls
+            = submit_tag 'Add to Tab', class: 'btn btn-primary'
     - else
       %p
         %b You currently have no Modules. Create a new module or copy a global module to get started.

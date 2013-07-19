@@ -1,7 +1,9 @@
-%fieldset
-  %h3.title= render 'title_actions'
-  %h4 Units
-  #share
+.row
+  .span2
+    = render 'side_bar'
+  .span10
+    %h1.page-header
+      Units
     %fieldset
       %h4
         = link_to image_tag("icons/add.png", :title => 'Add Units', :alt => 'Add', :border => 0)+'Add Units', add_units_path(@tutorial)
@@ -51,5 +53,3 @@
         %span.clear
       - else
         %p This tutorial does not have any units.
-
-= render 'side_bar'

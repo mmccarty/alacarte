@@ -1,10 +1,6 @@
 %fieldset
-  %h3.title= render 'title_actions'
   %h4
     Edit Unit : #{@unit.title}
-  - if flash[:error]
-    #error_wrapper
-      #list_error= flash[:error]
   = form_tag edit_unit_path(@tutorial, unit: @unit) do
     = error_messages_for 'unit'
     #share
