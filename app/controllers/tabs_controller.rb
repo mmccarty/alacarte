@@ -154,19 +154,21 @@ class TabsController < ApplicationController
         tab_resource.update_attribute(:position, sortables.index(id) + 1 )
       end
     end
-    render :nothing => true
+    render nothing: true
   end
 
   def add_mod
+    session[:add_mods] ||= []
     s = params[:mid1] + params[:mid2]
     unless session[:add_mods].include?(s)
       session[:add_mods] << s
     end
-    render :nothing => true
+    render nothing: true
   end
 
   def add_modules
     setSessionGuideId
+    @tab = Tab.find params[:id]
     @sort = params[:sort] || 'label'
     session[:add_mods] ||= []
     @mods = @user.sort_mods(@sort)

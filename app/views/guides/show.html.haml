@@ -2,20 +2,14 @@
   .span2= render 'side_bar'
 
   .span10
-    %h1.page-header
-      = @guide.guide_name
+    %h1.page-header= @guide.guide_name
 
     %ul.nav.nav-tabs
       - @tabs.each do |tab|
         - if tab.id == @tab.id
-          %li.active
-            %a{ :href => '#tab#{ tab.id }' }
-              = tab.tab_name
+          %li.active= link_to tab.tab_name, add_modules_tab_path(tab)
         - else
-          %li
-            %a{ :href => '#tab#{ tab.id }' }
-              %span.tabs= link_to tab.tab_name, { :remote => true, :update => 'tab_content', :url => { :controller => 'tab', :action => 'show', :id => tab.id } }, { :title => 'Edit This Tab', :href => url_for({ :controller => 'tab', :action => 'show', :id => tab.id }) }
-              %span.hand= image_tag 'icons/move.png', :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0
+          %li= link_to tab.tab_name, tab
       %li
         = link_to new_tab_path, :title => 'Add new tab' do
           %i.icon-plus

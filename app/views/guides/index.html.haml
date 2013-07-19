@@ -17,7 +17,7 @@
           %td= awesome_button share_guide_path(guide), guide.shared? ? 'star' : 'star-empty', 'Share this guide'
           %td= truncate guide.guide_name.html_safe, length: 65
           %td
-            = awesome_button edit_guide_path(guide), 'edit', 'Edit this guide'
+            = awesome_button guide, 'edit', 'Edit this guide'
             &nbsp;
             = awesome_button show_srg_path(guide, :tab => session[:current_tab]), 'external-link', 'Preview this guide'
             &nbsp;

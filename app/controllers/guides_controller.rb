@@ -15,13 +15,13 @@ class GuidesController < ApplicationController
 
   def show
     begin
-      @guide = @user.guides.find(params[:id])
+      @guide = @user.guides.find params[:id]
       session[:guides] = @guide.id
       @tabs = @guide.tabs
       if session[:current_tab]
-        @tab = @tabs.select{|t| t.id == session[:current_tab].to_i}.first
+        @tab = @tabs.select { |t| t.id == session[:current_tab].to_i }.first
       end
-      if !@tab
+      unless @tab
         @tab = @tabs.first
         session[:current_tab] = @tab.id
       end
@@ -92,13 +92,13 @@ class GuidesController < ApplicationController
     session[:guides] = nil
     session[:current_tab] = nil
     begin
-      @guide = @user.guides.find(params[:id])
+      @guide = @user.guides.find params[:id]
     rescue
       redirect_to :action => 'index', :list=> 'mine'
     else
       @tag_list = @guide.tag_list
-      @selected_types = @guide.masters.collect { |m| m.id }
-      @selected_subjs = @guide.subjects.collect { |m| m.id }
+      @selected_types = @guide.masters.map &:id
+      @selected_subjs = @guide.subjects.map &:id
       if request.post?
         @new_guide = @guide.clone
         @new_guide.attributes = params[:guides]
@@ -106,16 +106,16 @@ class GuidesController < ApplicationController
         @new_guide.add_tags(params[:tags])
         if @new_guide.save
           @user.add_guide(@new_guide)
-          @new_guide.add_master_type(params[:types])
-          @new_guide.add_related_subjects(params[:subjects])
+          @new_guide.add_master_type params[:types]
+          @new_guide.add_related_subjects params[:subjects]
           if params[:options]=='copy'
-            @new_guide.copy_resources(@user.id, @guide.tabs)
+            @new_guide.copy_resources @user.id, @guide.tabs
           else
-            @new_guide.copy_tabs(@guide.tabs)
+            @new_guide.copy_tabs @guide.tabs
           end
           session[:guides] = @new_guide.id
           session[:current_tab] = @new_guide.tabs.first.id
-          redirect_to :action => "edit", :id =>@new_guide and return
+          redirect_to edit_guide_path(@new_guide) and return
         else
           flash[:error] = "Please edit the guide title. A guide with this title already exists."
         end
@@ -125,12 +125,12 @@ class GuidesController < ApplicationController
 
   def set_owner
     begin
-      @guide = @user.guides.find(params[:id])
+      @guide = @user.guides.find params[:id]
     rescue
       redirect_to :action => 'index', :list=> 'mine' and return
     end
-    @owner = User.find(params[:uid])
-    @guide.update_attribute(:created_by, @owner.name)
+    @owner = User.find params[:uid]
+    @guide.update_attribute :created_by, @owner.name
     @guide_owners = @guide.users
     if request.xhr?
       render :partial => 'owners', :layout => false

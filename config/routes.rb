@@ -95,14 +95,14 @@ Alacarte::Application.routes.draw do
   resources :rss_resources
   resources :url_resources
 
-  scope path: '/course-guides', controller: :ica do
+  scope path: '/course-guide', controller: :ica do
     get ''           => :published_pages
     get 'archived'   => :archived
     get 'tagged/:id' => :tagged
     get ':id'        => :index
   end
 
-  scope path: '/subject-guides', controller: :srg do
+  scope path: '/subject-guide', controller: :srg do
     get ''           => :published_guides
     get 'tagged/:id' => :tagged
     get ':id'        => :index, as: 'show_srg'
