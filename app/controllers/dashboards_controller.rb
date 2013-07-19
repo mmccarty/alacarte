@@ -1,4 +1,4 @@
-class DashboardController < ApplicationController
+class DashboardsController < ApplicationController
   before_filter :clear_sessions, only: [:index]
   layout 'admin'
 

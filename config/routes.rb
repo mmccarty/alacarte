@@ -19,7 +19,7 @@ Alacarte::Application.routes.draw do
     get 'tools' => :index, as: 'tools'
   end
 
-  resource :dashboard, controller: :dashboard
+  resource :dashboard
 
   resources :guides do
     member do

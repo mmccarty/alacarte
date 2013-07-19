@@ -2,7 +2,7 @@
   My Contact Module
 
 %p
-  = link_to 'Change module', { :controller => 'dashboard', :action => 'edit_profile', :rid => @user.resource_id }, :class => 'btn'
+  = link_to 'Change module', { :controller => 'dashboards', :action => 'edit_profile', :rid => @user.resource_id }, :class => 'btn'
   = link_to 'Edit module', edit_module_path(@mod, type: @mod.class), :class => 'btn'
   = link_to 'Cancel', dashboard_path, :class => 'btn'
   &nbsp;

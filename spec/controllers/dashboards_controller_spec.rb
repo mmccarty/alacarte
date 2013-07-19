@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DashboardController do
+describe DashboardsController do
   describe 'guest access' do
     describe 'GET #show' do
       it 'requires login' do
