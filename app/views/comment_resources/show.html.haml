@@ -12,17 +12,6 @@
           = @mod.ordered_comments.size
           out of #{@mod.comments.count}
         Comments |
-      = link_to_function("Read more", nil, :id => 'more_link_'+@mod.id.to_s) do |page|                                                   |
-        page.visual_effect(:toggle_blind,"less_#{@mod.id}")                                                                              |
-        page.visual_effect(:toggle_blind,"more_#{@mod.id}")                                                                              |
-        page << "if($('more_#{@mod.id}').visible()){"                                                                                    |
-        page.replace_html 'more_link_'+@mod.id.to_s, "Read more"                                                                         |
-        page.replace_html 'showing', "Showing "+ @mod.ordered_comments.size.to_s + " out of " + @mod.comments.count.to_s + " Comments |" |
-        page << '}else{'                                                                                                                 |
-        page.replace_html 'more_link_'+@mod.id.to_s,  "Read less"                                                                        |
-        page.replace_html 'showing', "Showing All Comments |"                                                                            |
-        page << '}'                                                                                                                      |
-        end                                                                                                                              |
       %span{:id => "more_#{@mod.id}", :style => "display:none"}
         = render :partial => "comment/comments.html.erb", :locals => { |
           :comments => @mod.more_comments,                             |
