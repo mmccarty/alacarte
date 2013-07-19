@@ -1,59 +1,77 @@
-%fieldset
-  #main
-    %h3
-      Save Guide As
-    - if flash[:error]
-      #list_error
-        = flash[:error]
-    #share
-      = form_tag :action => 'copy' do
-        %fieldset
-          <h4 #{%(class="required") if flash[:error]}>Title &amp; Subject
-          %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(GUIDE_NAME_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          = render  :partial => "guide_title"
-          #vertical_inputs
-            %span
-              %label{:for => "guide_type"}
-                Subject Categories
-                %span.required.more_help *
-              %select#guide_type.page{:multiple => "multiple", :name => "types[]", :size => "3"}
-                = options_from_collection_for_select(@guide_types, 'id', 'value', @selected_types)
-            %br/
-        %fieldset
-          %h4
-            Copy Options
-            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(GUIDE_COPY_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          %b
-            = radio_button_tag 'options', 'copy', :checked => true
-            Copy the Modules
-          .tip{:style => "display:inline;"} Edits to the modules will not change the original guide's modules.
-          %br/
-          %b
-            = radio_button_tag 'options', 'reuse'
-            Link the Modules
-          .tip{:style => "display:inline;"}
-            Whenever edits are made to the original modules, this guide's modules will be updated too.
-        %fieldset
-          %h4
-            Related Courses
-            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(GUIDE_CLASS_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          %label{:for => "guide_type"} Associate Course Subjects
-          %select#guide_type.page{:multiple => "multiple", :name => "subjects[]", :size => "3"}
-            = options_from_collection_for_select(@subjects, 'id', 'subject_name', @selected_subjs)
-          %br/
-          .tip (press Ctrl to select more than one item. press Ctrl to deselect an item.)
-        %fieldset
-          %h4 Guide Metadata
-          %label{:for => "guide_guide_description"}
-            Description
-            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_DESC, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          = text_area 'guide', 'description',"class" => 'tinymce', :size => '40x2'
-          .tip Enter a short description about the guide.
-          %label{:for => "tags"}
-            Tags
-            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_TAGS, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          = text_area_tag 'tags', @guide.tag_list, {"class" => 'tinymce', :size => '40x2'}
-          = tinymce
-          .tip example: anthropology, insects, caves
-        = submit_tag 'Save As', :class => "submit"
-    %p= link_to 'Cancel', :action => 'index'
+%h1.page-header
+  Save Guide as
+
+  = report_errors @guide
+
+= form_tag :action => 'copy' do
+  %fieldset
+    %legend{ :class => flash[:error] && 'required' || 'not-required'}
+      Title &amp; Subject
+    .control-group
+      %label.control-label{ :for => 'guide[guide_name]', :class => flash[:guide_title_error] && 'required' || 'not-required' }
+        Title
+        %span.required
+          *
+      .controls
+        = text_field :guides, :guide_name, :class => 'input-xlarge'
+        %i.icon-question-sign{ :data => { :content => 'Enter a unique name for the guide. If the guide is for a subject, choose the subject categories it should be listed under and related to.', :html => 'true', :trigger => 'hover' } }
+    .control-group
+      %label.control-label{:for => "guide_type"}
+        Subject Categories
+        %span.required *
+      %select#guide_type.page{:multiple => "multiple", :name => "types[]", :class => 'input-xlarge' }
+        = options_from_collection_for_select(@guide_types, 'id', 'value', @selected_types)
+  %fieldset
+    %legend
+      Copy Options
+      %i.icon-question-sign{ :data => { :content => 'Copy the modules if you want to make a distinct copy. Link the modules if you want edits to one guide to effect the other.', :html => 'true', :trigger => 'hover' } }
+    .control-group
+      %label.radio
+        Copy the Modules
+        = radio_button_tag 'options', 'copy', :checked => true
+      %p.muted
+        Edits to the modules will not change the original guide's modules.
+    .control-group
+      %label.radio
+        Link the Modules
+        = radio_button_tag 'options', 'reuse'
+      %p.muted
+        Whenever edits are made to the original modules, this guide's modules will be updated too.
+  %fieldset
+    %legend
+      Related Courses
+      %i.icon-question-sign{ :data => { :content => 'Select courses to associate this guide with. This will relate this guide to courses in the subject areas you select.', :html => 'true', :trigger => 'hover' } }
+    .control-group
+      %label.control-label{ :for => 'guide_type' }
+        Associate Course Subjects
+      .controls
+        %select#guide_type.page{ :multiple => 'multiple', :name => 'subjects[]', :class => 'input-xlarge' }
+          = options_from_collection_for_select(@subjects, 'id', 'subject_name', @selected_subjs)
+        %p.muted
+          Press Ctrl to select more than one item. Press Ctrl to deselect an item.
+  %fieldset
+    %legend
+      Guide Metadata
+    .control-group
+      %label.control-label{ :for => 'guide_guide_description' }
+        Description
+        %i.icon-question-sign{ :data => { :content => 'The page description is a short teaser that describes the guide.<br/><br/>Tips: Write complete sentences. Include slightly different word orders and keywords than what you use in the name and highlight special content on the guide.', :html => 'true', :trigger => 'hover' } }
+      %p.muted
+        Enter a short description about the guide.
+      .controls
+        = text_area 'guide', 'description', 'class' => 'tinymce'
+        = tinymce
+    .control-group
+      %label{ :for => 'tags' }
+        Tags
+      .controls
+        = text_field_tag 'tags', @guide.tag_list, { :class => 'input-xlarge' }
+        %i.icon-question-sign{ :data => { :content => 'Tags are keywords that highlight content on the guide. Tips: Seperate individual tags with a comma. Only add 3-5 tags. Use the same tag on similar guides to help discovery.', :html => 'true', :trigger => 'hover' } }
+        %p.muted
+          examples: anthropology, insects, caves
+    .control-group
+      = submit_tag 'Save As', :class => 'btn btn-primary submit'
+      = link_to 'Cancel', { :action => 'index' }, { :class => 'btn' }
+
+:javascript
+  $('.icon-question-sign').popover();
