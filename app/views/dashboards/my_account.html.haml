@@ -2,33 +2,34 @@
 
 %fieldset
   %legend Edit my account information
-  = form_for @user, :action => 'my_account', html: { class: 'form-horizontal' } do |f|
+  = form_tag my_account_dashboard_path, html: { class: 'form-horizontal' } do
+    = fields_for @user do |f|
 
-    .control-group
-      %label.control-label{ :for => 'user_password' }
-        Full Name
-      .controls
-        = f.text_field 'name'
+      .control-group
+        %label.control-label{ :for => 'user_password' }
+          Full Name
+        .controls
+          = f.text_field 'name'
 
-    .control-group
-      %label.control-label{ :for => 'user_password' }
-        Email
-      .controls
-        = f.text_field 'email'
+      .control-group
+        %label.control-label{ :for => 'user_password' }
+          Email
+        .controls
+          = f.text_field 'email'
 
-    .control-group
-      %label.control-label{ :for => 'user_password' }
-        Password
-      .controls
-        = f.password_field 'password'
+      .control-group
+        %label.control-label{ :for => 'user_password' }
+          Password
+        .controls
+          = f.password_field 'password'
 
-    .control-group
-      %label.control-label{ :for => 'user_password_confirmation' }
-        Confirm Password
-      .controls
-        = f.password_field 'password_confirmation', :value => ''
+      .control-group
+        %label.control-label{ :for => 'user_password_confirmation' }
+          Confirm Password
+        .controls
+          = f.password_field 'password_confirmation', :value => ''
 
-    .control-group
-      .controls
-        = f.submit 'Save', class: 'btn btn-primary'
-        = link_to 'Cancel', dashboard_path, class: 'btn btn-cancel'
+      .control-group
+        .controls
+          = f.submit 'Save', class: 'btn btn-primary'
+          = link_to 'Cancel', dashboard_path, class: 'btn btn-cancel'

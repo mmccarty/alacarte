@@ -159,7 +159,7 @@ class OrtController < ApplicationController
     @tutorials = @tutorials.select{|t| t.subject.blank?}
     @tags = Tutorial.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 99)
     master = Master.find_by_value("Tutorial")
-    @guides = master.pub_guides if master
+    @guides = master.published_guides if master
     @guidetags = []
     if @guides
       @guides.each {|g| @guidetags |= g.tag_counts}
@@ -182,7 +182,7 @@ class OrtController < ApplicationController
     @tags = Tutorial.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
     @tutorials = Tutorial.tagged_with(@tag)
     master = Master.find_by_value("tutorial")
-    @guides = master.pub_guides if master
+    @guides = master.published_guides if master
     if @guides
       @guidetags = []
       @guides.each {|g| @guidetags |= g.tag_counts}

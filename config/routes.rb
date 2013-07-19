@@ -19,7 +19,10 @@ Alacarte::Application.routes.draw do
     get 'tools' => :index, as: 'tools'
   end
 
-  resource :dashboard
+  resource :dashboard do
+    match 'edit_profile', via: [:get, :post]
+    match 'my_account',   via: [:get, :post]
+  end
 
   resources :guides do
     member do

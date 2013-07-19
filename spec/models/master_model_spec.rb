@@ -25,7 +25,7 @@ describe Master do
   it 'should sort published guides by name' do
     master = create :master
     guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master; guide }
-    expect(master.pub_guides).to eq(guides.sort_by &:guide_name)
+    expect(master.published_guides).to eq(guides.sort_by &:guide_name)
   end
 
   it 'should elide the current guide from the list of published guides' do
@@ -33,6 +33,6 @@ describe Master do
     guides = 1.upto(5).map { guide = create :published_guide; guide.masters << master; guide }
     guide  = guides[1]
     guides.delete guide
-    expect(master.pub_guides guide.id).to eq(guides.sort_by &:guide_name)
+    expect(master.published_guides guide.id).to eq(guides.sort_by &:guide_name)
   end
 end

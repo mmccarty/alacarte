@@ -1,5 +1,4 @@
-%h1.page-header
-  Hello #{ @user.name }
+%h1.page-header Hello #{ @user.name }
 
 .row
   .span9
@@ -12,7 +11,7 @@
       %p
         %i.icon-large.icon-folder-open{ :title => 'Browse my modules', :alt => 'browse' }
         = link_to 'Browse content modules', modules_path
-      - unless @user.resource_id.blank?
+      - if @user.resource_id.present?
         %p
           %i.icon-large.icon-edit{ :title => 'My contact module', :alt => 'edit' }
           = link_to 'Edit default contact module' , :controller => 'dashboards', :action => 'my_profile', :rid => @user.resource_id
@@ -20,7 +19,7 @@
       - else
         %p
           %i.icon-large.icon-wrench{ :title => 'Set my contact module', :alt => 'edit' }
-          = link_to 'Set default contact module', :controller => 'dashboards', :action => 'edit_profile'
+          = link_to 'Set default contact module', edit_profile_dashboard_path
       %p
         %i.icon-large.icon-globe{ :title => 'Browse global modules', :alt => 'browse' }
         = link_to 'Browse global modules', modules_path(list: 'global')
@@ -64,21 +63,21 @@
       %h3 Overview
       %dl.dl-horizontal
         %dt modules
-        %dd #{@mnum}
+        %dd #{@num_modules}
         %dt published subj guides
-        %dd #{@gnum}
+        %dd #{@num_published_guides}
         %dt published course pages
-        %dd #{@cnum}
+        %dd #{@num_published_pages}
         %dt archived course pages
-        %dd #{@acnum}
+        %dd #{@num_archived_pages}
         %dt published tutorials
-        %dd #{@tnum}
+        %dd #{@num_published_tutorials}
         %dt archived tutorials
-        %dd #{@atnum}
+        %dd #{@num_archived_tutorials}
       %ul.unstyled
         %li
           %i.icon-user{ :title => 'My account', :alt => 'account' }
-          = link_to 'Edit my account', :controller => 'dashboards', :action => 'my_account'
+          = link_to 'Edit my account', my_account_dashboard_path
         %li
           %i.icon-question-sign{ :title => 'Help/FAQ', :alt => 'help' }
           = alacarte_documentation 'Get help & discover new features'
@@ -86,7 +85,7 @@
     .well.well-small
       %h3 Recent Activity
       %ul.unstyled
-        - for item in @recents
+        - for item in @recent_activity
           %li
             %i.icon-edit{ :title => 'Edit', :alt => 'edit' }
             = activity_link(item)

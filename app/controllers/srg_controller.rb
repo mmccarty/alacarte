@@ -45,7 +45,7 @@ class SrgController < ApplicationController
     @tutorials = @tutorials.select{|t| t.subject.blank?}
     @tags = Tutorial.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
     master = Master.find_by_value("Internal")
-    @guides = master.pub_guides if master
+    @guides = master.published_guides if master
     render "ort/published_tutorials"
   end
 

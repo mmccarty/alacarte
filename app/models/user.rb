@@ -135,26 +135,18 @@ class User < ActiveRecord::Base
   end
 
   def num_modules
-    resources.map(&:mod).flatten.length
+    resources.map(&:mod).compact.length
   end
 
-  def pub_pages
+  def published_pages
     pages.select &:published
   end
 
-  def arch_pages
+  def archived_pages
     pages.select &:archived
   end
 
-  def pub_tuts
-    tutorials.select &:published
-  end
-
-  def arch_tuts
-    tutorials.select &:archived
-  end
-
-  def pub_guides
+  def published_guides
     guides.select &:published
   end
 

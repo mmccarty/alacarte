@@ -37,7 +37,7 @@ class Guide < ActiveRecord::Base
 
   # Suggest a list of related guides sharing at least one master subject.
   def get_related_guides
-    masters.flat_map { |m| m.pub_guides id }.map(&:id).uniq
+    masters.flat_map { |m| m.published_guides id }.map(&:id).uniq
   end
 
   # Define master subjects by ID.

@@ -1,24 +1,21 @@
 class DashboardsController < ApplicationController
-  before_filter :clear_sessions, only: [:index]
   layout 'admin'
 
   def show
-    @cnum    = @user.pub_pages.length
-    @acnum   = @user.arch_pages.length
-    @tnum    = @user.pub_tuts.length
-    @atnum   = @user.arch_tuts.length
-    @gnum    = @user.pub_guides.length
-    @mnum    = @user.num_modules
-    @recents = @user.recent_activity
+    @num_published_pages = @user.published_pages.length
+    @num_archived_pages = @user.archived_pages.length
+    @num_published_tutorials = @user.published_tutorials.length
+    @num_archived_tutorials = @user.archived_tutorials.length
+    @num_published_guides = @user.published_guides.length
+    @num_modules = @user.num_modules
+    @recent_activity = @user.recent_activity
   end
 
   def my_profile
     begin
-      resource = @user.resources.find params[:rid]
-    rescue Exception => e
-      redirect_to :action => 'index' and return
-    else
-      @mod = resource.mod
+      @mod = @user.resources.find(params[:rid]).mod
+    rescue
+      redirect_to dashboard_path
     end
   end
 
@@ -27,12 +24,12 @@ class DashboardsController < ApplicationController
     @selected = @user.resource_id || ""
     if request.post?
       if  params[:contact] != "Select"
-        @user.add_profile(params[:contact])
-        flash[:notice]="Profile Saved"
-        redirect_to :action => 'my_profile' , :rid =>params[:contact] and return
+        @user.add_profile params[:contact]
+        flash[:notice] = "Profile Saved"
+        redirect_to my_profile_dashboard_path(:rid => params[:contact]) and return
       else
-        flash[:notice]="Please select a module from the list."
-        redirect_to :action => 'edit_profile' and return
+        flash[:notice] = "Please select a module from the list."
+        redirect_to edit_profile_dashboard_path and return
       end
     end
   end

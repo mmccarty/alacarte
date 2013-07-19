@@ -2,7 +2,7 @@ require 'faker'
 
 FactoryGirl.define do
   factory :user do
-    pass = Faker::Lorem.characters 54
+    pass = Faker::Lorem.characters 14
 
     name  { Faker::Internet.user_name }
     email { Faker::Internet.email }
