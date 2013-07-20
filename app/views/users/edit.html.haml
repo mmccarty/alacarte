@@ -1,4 +1,2 @@
-%fieldset
-  %legend Edit Account for #{ @user.name }
-  = flash_notice
-  = render partial: 'form', locals: { user: @user }
+%h1.page-header Edit Account for #{ @user.name }
+= render partial: 'form', locals: { user: @user }

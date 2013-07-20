@@ -1,6 +1,6 @@
-= form_for user, html: { class: 'form-horizontal' } do |f|
-  = error_messages_for :user
+= report_errors @user
 
+= form_for user, html: { class: 'form-horizontal' } do |f|
   .control-group
     %label.control-label{ for: 'user_email' } Email
     .controls
@@ -34,5 +34,5 @@
   .control-group
     %label.control-label
     .controls
-      = f.submit class: 'btn btn-primary'
+      = f.submit 'Save', class: 'btn btn-primary'
       = link_to 'Cancel', users_path, class: 'btn btn-cancel'

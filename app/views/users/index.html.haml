@@ -1,9 +1,7 @@
-%h1 Listing Users
-= flash_notice
+%h1.page-header Listing Users
 
-= link_to new_user_path, class: 'btn btn-primary' do
-  %i.icon-plus
-  Add New User
+%p
+  = awesome_button new_user_path, 'plus', 'Create new user', 'btn btn-primary'
 
 %table.table.table-striped
   %thead
@@ -25,9 +23,9 @@
             |
             = link_to '', user_path(user), class: 'icon-trash', method: :delete, confirm: 'Are you sure you want to delete this user?'
           %td
-            = link_to 'Pages', :controller => :admin, :action => 'pages', :id => user
-            |
             = link_to 'Guides', :controller => :admin, :action => 'guides', :id => user
+            |
+            = link_to 'Pages', :controller => :admin, :action => 'pages', :id => user
             |
             = link_to 'Tutorials', :controller => :admin, :action => 'tutorials', :id => user
 
