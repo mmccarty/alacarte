@@ -1,6 +1,6 @@
-= form_for subject, html: { class: 'form-horizontal' } do |f|
-  = error_messages_for :subject
+= report_errors @subject
 
+= form_for subject, html: { class: 'form-horizontal' } do |f|
   .control-group
     %label.control-label{ for: 'subject_subject_code' } Subject Code
     .controls
@@ -14,5 +14,5 @@
   .control-group
     %label.control-label
     .controls
-      = f.submit class: 'btn btn-primary'
+      = f.submit 'Save',  class: 'btn btn-primary'
       = link_to 'Cancel', subjects_path, class: 'btn btn-cancel'

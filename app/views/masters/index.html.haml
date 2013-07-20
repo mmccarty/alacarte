@@ -1,9 +1,6 @@
-%h1 Listing Master Subjects
-= flash_notice
+%h1.page-header Listing Master Subjects
 
-= link_to new_master_path, class: 'btn btn-primary' do
-  %i.icon-plus
-  Create New Master Subject
+= awesome_button new_master_path, 'plus', 'Create new master subject', 'btn btn-primary'
 
 %table.table.table-striped
   %thead
@@ -15,7 +12,7 @@
       %tr
         %td= master.value
         %td
-          = link_to '', edit_master_path(master), class: 'icon-edit'
+          = awesome_button edit_master_path(master), 'edit', 'Edit master subject'
           = link_to '', master_path(master), class: 'icon-trash', :confirm => 'Are you sure you want to delete this master?', :method => :delete
 
 = will_paginate @masters

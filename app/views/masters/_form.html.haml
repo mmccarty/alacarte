@@ -1,7 +1,8 @@
-= error_messages_for 'master'
+= error_messages_for :master
 
 = form_for master, html: { class: 'form-inline' } do |f|
-  = error_messages_for :master
-  = f.text_field :value
-  = f.submit class: 'btn btn-primary'
-  = link_to 'Cancel', masters_path, class: 'btn btn-cancel'
+  .control-group
+    .controls
+      = f.text_field :value, class: 'input-xlarge'
+      = f.submit 'Save', class: 'btn btn-primary'
+      = link_to 'Cancel', masters_path, class: 'btn btn-cancel'

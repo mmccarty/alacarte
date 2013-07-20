@@ -1,4 +1,5 @@
-%fieldset
-  %legend Edit #{@subject.subject_name}
-  = flash_notice
-  = render partial: 'form', locals: { subject: @subject }
+%h1.page-header Edit #{@subject.subject_name}
+
+= report_errors @subject
+
+= render partial: 'form', locals: { subject: @subject }

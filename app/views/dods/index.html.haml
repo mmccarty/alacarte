@@ -1,9 +1,7 @@
-%h1 Listing Database of Databases
-= flash_notice
+%h1.page-header Listing Database of Databases
 
-= link_to new_dod_path, class: 'btn btn-primary' do
-  %i.icon-plus
-  Create New Database
+%p
+  = awesome_button new_dod_path, 'plus', 'Create new database', 'btn btn-primary'
 
 %table.table.table-striped
   %thead
@@ -15,7 +13,8 @@
       %tr
         %td= dod.title
         %td
-          = link_to '', edit_dod_path(dod), class: 'icon-edit'
+          = awesome_button edit_dod_path(dod), 'edit', 'Edit database', 'btn btn-primary'
+          &nbsp;
           = link_to '', dod_path(dod), class: 'icon-trash', :confirm => 'Are you sure you want to delete this Dod?', :method => :delete
 
 = will_paginate @dods
