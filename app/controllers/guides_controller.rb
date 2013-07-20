@@ -17,16 +17,15 @@ class GuidesController < ApplicationController
   end
 
   def create
-    guide = Guide.new params[:guide]
-    guide.create_home_tab
-    if guide.save
-      @user.add_guide guide
-      guide.add_master_type params[:types]
-      guide.add_related_subjects params[:subjects]
-      redirect_to guide
+    @guide = Guide.new params[:guide]
+    if @guide.save
+      @user.add_guide @guide
+      @guide.add_master_type params[:types]
+      @guide.add_related_subjects params[:subjects]
+      redirect_to @guide
     else
-      flash[:notice] = "Could not create the guide. There were problems with the following fields: #{guide.errors.full_messages.join(", ")}"
-      redirect_to guides_path
+      flash[:notice] = "Could not create the guide. There were problems with the following fields: #{@guide.errors.full_messages.join(", ")}"
+      render :new
     end
   end
 
@@ -42,20 +41,17 @@ class GuidesController < ApplicationController
   end
 
   def update
-    begin
-      guide = @user.guides.find params[:id]
-      if guide.save
-        guide.add_master_type params[:types]
-        guide.add_related_subjects params[:subjects]
-        redirect_to guide and return
-      else
-        flash[:notice] = "Could not create the guide. There were problems with the following fields: #{@guide.errors.full_messages.join(", ")}"
-        flash[:guide_title] = params[:guides][:guide_title]
-        flash[:guide_title_error] = ""
-        redirect_to guides_path and return
-      end
-    rescue ActiveRecord::RecordNotFound
-      redirect_to guides_path and return
+    @guide = @user.guides.find params[:id]
+    @guide.update_attributes params[:guide]
+    if @guide.save
+      @guide.add_master_type params[:types]
+      @guide.add_related_subjects params[:subjects]
+      redirect_to @guide and return
+    else
+      flash[:notice] = "Could not create the guide. There were problems with the following fields: #{@guide.errors.full_messages.join(", ")}"
+      flash[:guide_title] = params[:guides][:guide_title]
+      flash[:guide_title_error] = ""
+      render :edit
     end
   end
 

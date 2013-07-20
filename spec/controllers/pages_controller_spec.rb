@@ -50,15 +50,42 @@ describe PagesController do
       @user = create :author
       session[:user_id] = @user.id
 
+      @subject = create :subject
+
       Local.create
     end
 
     describe 'POST #create' do
-      it 'creates a new page'
-      it 'redirects to the :show view'
+      it 'creates a new page' do
+        expect {
+          post :create, page: attributes_for(:page), subjects: [@subject.id]
+        }.to change(Page, :count).by(1)
+      end
+
+      it 'creates a default tab for the new page' do
+        post :create, page: attributes_for(:page), subjects: [@subject.id]
+        expect(@user.pages.first.tabs).to_not be_empty
+      end
+
+      it 'sets the list of subjects for the new page' do
+        post :create, page: attributes_for(:page), subjects: [@subject.id]
+        expect(@user.pages.first.subjects).to match_array [@subject]
+      end
+
+      it 'redirects to the :show view' do
+        post :create, page: attributes_for(:page), subjects: [@subject.id]
+        expect(response).to redirect_to @user.pages.first
+      end
     end
 
     describe 'GET #index' do
+      it 'populates an array of pages' do
+        page = create :page
+        @user.add_page page
+        get :index
+        expect(assigns(:pages)).to match_array [page]
+      end
+
       it 'renders the :index template' do
         get :index
         expect(response).to render_template :index
@@ -66,6 +93,11 @@ describe PagesController do
     end
 
     describe 'GET #new' do
+      it 'assigns a new page to @page' do
+        get :new
+        expect(assigns(:page)).to be_a_new Page
+      end
+
       it 'renders the :new template' do
         get :new
         expect(response).to render_template :new
@@ -79,6 +111,11 @@ describe PagesController do
       end
 
       describe 'GET #edit' do
+        it 'assigns the requested page to @page' do
+          get :edit, id: @page.id
+          expect(assigns(:page)).to eq @page
+        end
+
         it 'renders the :edit template' do
           get :edit, id: @page.id
           expect(response).to render_template :edit
@@ -86,6 +123,16 @@ describe PagesController do
       end
 
       describe 'GET #show' do
+        it 'assigns the requested page to @page' do
+          get :show, id: @page.id
+          expect(assigns(:page)).to eq @page
+        end
+
+        it 'assigns the pages tabs to @tabs' do
+          get :show, id: @page.id
+          expect(assigns(:tabs)).to match_array @page.tabs
+        end
+
         it 'renders the :show template' do
           get :show, id: @page.id
           expect(response).to render_template :show

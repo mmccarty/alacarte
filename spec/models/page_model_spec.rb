@@ -50,21 +50,20 @@ describe Page do
   end
 
   describe 'has tabs' do
-    it 'can construct a default tab' do
+    it 'constructs a default tab' do
       page = create :page
-      page.create_home_tab
       expect(page.tabs.length).to eq 1
     end
 
     it 'allows tabs to be added' do
       page = create :page
       page.add_tab(build :tab)
-      expect(page.tabs.length).to eq 1
+      expect(page.tabs.length).to eq 2
     end
 
     it 'limits the total number of tabs' do
       page = create :page
-      7.times { page.add_tab(build :tab) }
+      6.times { page.add_tab(build :tab) }
       expect(page).to be_reached_limit
     end
   end

@@ -21,6 +21,7 @@
 
 class Page < ActiveRecord::Base
   include ItsJustAPage
+  after_create :create_home_tab
 
   acts_as_taggable
   has_and_belongs_to_many :users

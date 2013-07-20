@@ -38,21 +38,20 @@ describe Guide do
   end
 
   describe 'has tabs' do
-    it 'can construct a default tab' do
+    it 'constructs a default tab' do
       guide = create :guide
-      guide.create_home_tab
       expect(guide.tabs.length).to eq 1
     end
 
     it 'allows tabs to be added' do
       guide = create :guide
       guide.add_tab(build :tab)
-      expect(guide.tabs.length).to eq 1
+      expect(guide.tabs.length).to eq 2
     end
 
     it 'limits the total number of tabs' do
       guide = create :guide
-      7.times { guide.add_tab(build :tab) }
+      6.times { guide.add_tab(build :tab) }
       expect(guide).to be_reached_limit
     end
   end

@@ -16,12 +16,15 @@ class PagesController < ApplicationController
   end
 
   def create
-    page = Page.new params[:page]
-    page.add_subjects params[:subjects]
-    if page.save
-      @user.add_page page
-      page.create_home_tab
-      redirect_to page
+    @page = Page.new params[:page]
+    @page.add_subjects params[:subjects]
+    if @page.save
+      @user.add_page @page
+      redirect_to @page
+    else
+      @subj_list = Subject.get_subjects
+      custom_page_data
+      render :new
     end
   end
 
