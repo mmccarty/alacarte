@@ -1,60 +1,66 @@
-%h2 Users
-%ul.unstyled
-  %li= link_to 'Add User', new_user_path
-  %li= link_to 'View User Accounts', users_path
-  %li= link_to 'View Pending User Accounts', pending_users_path
-  %li= link_to "View User Emails", email_list_users_path
-  %li= link_to "Auto Archive" , { :action => 'auto_archive' }, :confirm => 'Are you sure you want to auto archive ICAPs?', :method => :post
+.row
+  .span8
+    %h2 Users
+    %ul.unstyled
+      %li= link_to 'Add User', new_user_path
+      %li= link_to 'View User Accounts', users_path
+      %li= link_to 'View Pending User Accounts', pending_users_path
+      %li= link_to "View User Emails", email_list_users_path
+      %li= link_to "Auto Archive" , { :action => 'auto_archive' }, :confirm => 'Are you sure you want to auto archive ICAPs?', :method => :post
 
-%h2 Overview
-%ul.unstyled
-  %li Number of users: #{@user_count}
-  %li Number of pages: #{@page_count}
-  %li
-    = link_to 'Published Pages', :controller => :ica , :action => 'published_pages', :title => "view portal of published pages"
-    \: #{@ppage_count}
-  %li
-    = link_to 'Archived Pages', :controller => :ica , :action => 'archived', :title => "view portal of archived pages"
-    \: #{@apage_count}
-  %li Number of guides: #{@guide_count}
-  %li
-    = link_to 'Published Guides', :controller => :srg , :action => 'published_guides', :title => "view portal of published guides"
-    \: #{@pguide_count}
-  %li Number of tutorials: #{@tutorial_count}
-  %li
-    = link_to 'Published Tutorials', :controller => :ort , :action => 'published_tutorials', :title => "view portal of published tutorials"
-    \: #{@ptutorial_count}
+    %h2 Customizations
+    %ul.unstyled
+      %li
+        = link_to "Templates" , :controller => 'admin', :action => 'customize_layout'
+        %br/
+        \&nbsp; Add your library's banner and logo, names, useful links, custom color scheme and set the footer information.
+      %li
+        = link_to "Search Engines" , :controller => 'admin', :action => 'customize_search'
+        %br/
+        \&nbsp; Add code snippets for a google CSE, catalog and site search.
+      %li
+        = link_to "Configure Content Types" , :controller => 'admin', :action => 'customize_content_types'
+        %br/
+        \&nbsp; Configure the types of guides and modules users can create.
+      %li
+        = link_to "Configure Admin Email Addresses" , :controller => 'admin', :action => 'customize_admin_email'
+        %br/
+        \&nbsp; Configure the email addresses that you want mail sent to/from.
 
-%h2 Customizations
-%ul.unstyled
-  %li
-    = link_to "Templates" , :controller => 'admin', :action => 'customize_layout'
-    %br/
-    \&nbsp; Add your library's banner and logo, names, useful links, custom color scheme and set the footer information.
-  %li
-    = link_to "Search Engines" , :controller => 'admin', :action => 'customize_search'
-    %br/
-    \&nbsp; Add code snippets for a google CSE, catalog and site search.
-  %li
-    = link_to "Configure Content Types" , :controller => 'admin', :action => 'customize_content_types'
-    %br/
-    \&nbsp; Configure the types of guides and modules users can create.
-  %li
-    = link_to "Configure Admin Email Addresses" , :controller => 'admin', :action => 'customize_admin_email'
-    %br/
-    \&nbsp; Configure the email addresses that you want mail sent to/from.
+    %h2 Database Management
+    %ul.unstyled
+      %li
+        = link_to "Customize Subjects" , subjects_path
+        %br/
+        \&nbsp; Add, Edit, or Delete Course Subjects.
+      %li
+        = link_to "Customize Master Subjects" , masters_path
+        %br/
+        \&nbsp; Add, Edit, or Delete Guide Master Subjects.
+      %li
+        = link_to "Customize Database Subscriptions" , dods_path
+        %br/
+        \&nbsp; Add, Edit, or Delete Database Subscriptions.
 
-%h2 Database Management
-%ul.unstyled
-  %li
-    = link_to "Customize Subjects" , subjects_path
-    %br/
-    \&nbsp; Add, Edit, or Delete Course Subjects.
-  %li
-    = link_to "Customize Master Subjects" , masters_path
-    %br/
-    \&nbsp; Add, Edit, or Delete Guide Master Subjects.
-  %li
-    = link_to "Customize Database Subscriptions" , dods_path
-    %br/
-    \&nbsp; Add, Edit, or Delete Database Subscriptions.
+  .span3.well.well-small
+    %dl.dl-horizontal
+      %dt Number of users
+      %dd #{@user_count}
+      %dt Number of guides
+      %dd #{@guide_count}
+      %dt
+        = link_to 'Published guides', :controller => :srg , :action => 'published_guides', :title => "view portal of published guides"
+      %dd #{@pguide_count}
+      %dt Number of pages
+      %dd #{@page_count}
+      %dt
+        = link_to 'Published pages', :controller => :ica , :action => 'published_pages', :title => "view portal of published pages"
+      %dd #{@ppage_count}
+      %dt
+        = link_to 'Archived pages', :controller => :ica , :action => 'archived', :title => "view portal of archived pages"
+      %dd #{@apage_count}
+      %dt Number of tutorials
+      %dd #{@tutorial_count}
+      %dt
+        = link_to 'Published tutorials', :controller => :ort , :action => 'published_tutorials', :title => "view portal of published tutorials"
+      %dd #{@ptutorial_count}
