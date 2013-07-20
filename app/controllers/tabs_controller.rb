@@ -5,45 +5,19 @@ class TabsController < ApplicationController
   layout 'admin'
 
   def new
-    @guide = Guide.find params[:guide_id]
-    if @guide
-      if @guide.reached_limit?
-        flash[:error] = "Could not create the tab. This guide has reached the 6 tab limit"
-        redirect_to @guide
-      else
-        tab = Tab.new tab_name: 'New Tab'
-        tab.position = @guide.tabs.length + 1
-        @guide.tabs << tab
-        session[:current_tab] = tab.id
-        redirect_to @guide
-      end
+    if @parent.reached_limit?
+      flash[:error] = "Could not create the tab. This guide has reached the 6 tab limit"
+      redirect_to @parent
     else
-      flash[:notice] = "Please select a Guide"
-      redirect_to guides_path
-    end
-  end
-
-  def page_create
-    if Page.exists?(@page) and request.post?
-      if @page.reached_limit?
-        flash[:error] = "Could not create the tab. This page has reached the tab limit"
-        redirect_to :controller => 'page', :action => 'edit', :id => @page
-      else
-        tab =  Tab.new
-        tab.attributes = params[:tab]
-        tab.position = @page.tabs.length + 1
-        @page.tabs << tab
-        session[:current_tab] = tab.id
-        redirect_to :controller => 'page', :action => 'edit', :id => @page
-      end
-    else
-      flash[:notice] = "Please select a Page"
-      redirect_to :controller => 'page', :action => 'index'
+      tab = Tab.new tab_name: 'New Tab'
+      tab.position = @parent.tabs.length + 1
+      @parent.tabs << tab
+      session[:current_tab] = tab.id
+      redirect_to @parent
     end
   end
 
   def show
-    @parent = Guide.find params[:guide_id]
     @tabs = @parent.tabs
     @tab  = @tabs.select{ |t| t.id == params[:id].to_i}.first
     session[:current_tab] = @tab.id

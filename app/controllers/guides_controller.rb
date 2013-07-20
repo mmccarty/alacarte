@@ -13,6 +13,10 @@ class GuidesController < ApplicationController
       @guide = @user.guides.find params[:id]
       session[:guides] = @guide.id
       @tabs = @guide.tabs
+      if @tabs.blank?
+        @guide.create_home_tab
+        @tabs = @guide.tabs
+      end
       if session[:current_tab]
         @tab = @tabs.select { |t| t.id == session[:current_tab].to_i }.first
       end
@@ -20,7 +24,7 @@ class GuidesController < ApplicationController
         @tab = @tabs.first
         session[:current_tab] = @tab.id
       end
-      if @tab.template ==2
+      if @tab.template == 2
         @mods_left  = @tab.left_resources
         @mods_right = @tab.right_resources
       else

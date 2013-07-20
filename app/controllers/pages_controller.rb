@@ -12,10 +12,19 @@ class PagesController < ApplicationController
 
   def show
     begin
-      @page = @user.pages.find(params[:id])
-      session[:page] = @page.id
+      @page = @user.pages.find params[:id]
       @tabs = @page.tabs
-      @tab = (session[:current_tab].blank? ? @tabs.first : @tabs.select{|t| t.id == session[:current_tab].to_i}.first)
+      if @tabs.blank?
+        @page.create_home_tab
+        @tabs = @page.tabs
+      end
+      if session[:current_tab]
+        @tab = @tabs.select { |t| t.id == session[:current_tab].to_i }.first
+      end
+      unless @tab
+        @tab = @tabs.first
+        session[:current_tab] = @tab.id
+      end
       if @tab
         session[:current_tab] = @tab.id
         if @tab.template == 2
@@ -36,6 +45,7 @@ class PagesController < ApplicationController
   def new
     @page = Page.new
     @subj_list = Subject.get_subjects
+    custom_page_data
   end
 
   def create
@@ -52,9 +62,9 @@ class PagesController < ApplicationController
     @pages = Page.all
   end
 
-  def update
+  def edit
     @subj_list = Subject.get_subjects
-    @ucurrent = 'current'
+    custom_page_data
     begin
       @page =  @user.pages.find(params[:id])
     rescue ActiveRecord::RecordNotFound
@@ -63,13 +73,16 @@ class PagesController < ApplicationController
       @selected = @page.subjects.collect{|s| s.id}
       flash[:course_term] = @page.term
     end
-    if request.post?
-      @page.attributes = params[:page]
-      @page.add_tags(params[:tags])
-      @page.add_subjects(params[:subjects])
-      if @page.save
-        redirect_to :action => 'edit', :id =>@page.id and return
-      end
+  end
+
+  def update
+    @page = @user.pages.find params[:id]
+    @page.update_attributes params[:page]
+    #@page.add_subjects params[:subjects]
+    if @page.save
+      redirect_to @page
+    else
+      render :edit
     end
   end
 

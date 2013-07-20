@@ -7,11 +7,11 @@
     %ul.nav.nav-tabs
       - @tabs.each do |tab|
         - if tab.id == @tab.id
-          %li.active= link_to tab.tab_name, add_modules_guide_tab_path(@guide, tab)
+          %li.active= link_to tab.tab_name, polymorphic_path([@guide, tab], action: :add_modules)
         - else
           %li= link_to tab.tab_name, [@guide, tab]
       %li
-        = link_to new_guide_tab_path(@guide), :title => 'Add new tab' do
+        = link_to polymorphic_path([@guide, :tab], action: :new), :title => 'Add new tab' do
           %i.icon-plus
 
     .tab-content

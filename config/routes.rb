@@ -49,6 +49,7 @@ Alacarte::Application.routes.draw do
 
   resources :pages do
     member do
+      get   'archive'
       get   'copy'
       match 'edit_contact',  via: [:get, :put]
       match 'edit_relateds', via: [:get, :put]
@@ -111,7 +112,7 @@ Alacarte::Application.routes.draw do
     get ''           => :published_pages
     get 'archived'   => :archived
     get 'tagged/:id' => :tagged
-    get ':id'        => :index
+    get ':id'        => :index, as: 'show_ica'
   end
 
   scope path: '/subject-guide', controller: :srg do
