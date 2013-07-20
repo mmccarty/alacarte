@@ -1,40 +1,46 @@
-%h1 Customize Search Engines
+%h1.page-header Customize Search Engines
 
+= report_errors @local
 = form_tag :action => 'customize_layout', :id => @local do
-  = error_messages_for 'local'
 
   %fieldset
     %legend Local Search
-    %label{:for => "local_site_search"} Library Site Search
-    .tip Enter the label for your library site search.
-    %br/
-    = text_field 'local', 'site_search_label'
-    .tip Enter the code snippet for your library site search.
-    %br/
-    = text_area 'local','site_search', class: 'span12',  :size => '48x5'
-    %label{:for => "local_book_search"} Library Catalog Search
-    .tip Enter the label for your library catalog search.
-    %br/
-    = text_field 'local', 'book_search_label'
-    .tip Enter the code snippet to search your library's catalog.
-    %br/
-    = text_area 'local','book_search', class: 'span12',  :size => '48x5'
+    .control-group
+      %label.control-label{ :for => 'local_site_search' } Library Site Search
+      .controls
+        %p.muted Enter the label for your library site search.
+        = text_field 'local', 'site_search_label', class: 'input-xlarge'
+        %p.muted Enter the code snippet for your library site search.
+        = text_area 'local','site_search', class: 'span10',  :size => '48x5'
+    .control-group
+      %label.control-label{ :for => 'local_book_search' } Library Catalog Search
+      .controls
+        %p.muted Enter the label for your library catalog search.
+        = text_field 'local', 'book_search_label', class: 'input-xlarge'
+        %p.muted Enter the code snippet to search your library's catalog.
+        = text_area 'local','book_search', class: 'span10',  :size => '48x5'
+
+  %p
+    &nbsp;
 
   %fieldset
     %legend Google Custom Search
-    .tip
+    %p.muted
       Add a
-      %a{:href => "http://www.google.com/coop/cse/", :target => "_blank"} google custom search engine
+      %a{:href => 'http://www.google.com/coop/cse/', :target => '_blank' } google custom search engine
       to search ala carte guides and tutorials. See admin documentation for instructions.
-    %br/
-    %label{:for => "local_g_search"} Search Box Code
-    .tip Paste in the search box code snippet from google.
-    %br/
-    = text_area 'local','g_search', class: 'span12',  :size => '48x5'
-    %label{:for => "local_g_results"} Search Results Code
-    .tip Paste in the search results code snippet from google.
-    %br/
-    = text_area 'local','g_results', class: 'span12',  :size => '48x5'
+    .control-group
+      %label.control-label{ :for => 'local_g_search' } Search Box Code
+      .controls
+        = text_area 'local','g_search', class: 'span10',  :size => '48x5'
+        %p.muted Paste in the search box code snippet from google.
+    .control-group
+      %label.control-label{ :for => 'local_g_results' } Search Results Code
+      .controls
+        = text_area 'local','g_results', class: 'span10',  :size => '48x5'
+        %p.muted Paste in the search results code snippet from google.
 
-  = submit_tag 'Customize Search', class: 'btn btn-primary'
-  = link_to 'Cancel', tools_path, class: 'btn btn-cancel'
+  .control-group
+    .controls
+      = submit_tag 'Customize', class: 'btn btn-primary'
+      = link_to 'Cancel', tools_path, class: 'btn btn-cancel'
