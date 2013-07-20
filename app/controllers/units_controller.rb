@@ -6,6 +6,79 @@ class UnitsController < ApplicationController
   before_filter :clear_unit, :only => 'units'
   layout 'admin'
 
+  def index
+    @tutorial = @user.tutorials.find params[:tutorial_id]
+    @units = @tutorial.unitizations
+  end
+
+  def new
+    @tutorial = @user.tutorials.find params[:tutorial_id]
+    @unit = Unit.new
+  end
+
+  def create
+    @tutorial = @user.tutorials.find params[:tutorial_id]
+    if request.post?
+      @unit = Unit.new params[:unit]
+      @unit.created_by = @user.id
+      if @unit.save
+        @tutorial.units << @unit
+        session[:unit] = @unit.id
+        redirect_to edit_tutorial_unit_path(@tutorial, @unit)
+      else
+        flash[:error] = "Could not create the unit. There were problems with the following fields:
+                           #{@unit.errors.full_messages.join(", ")}"
+        flash[:unit_name] = params[:unit][:unit_name]
+        flash[:unit_name_error] = ""
+        redirect_to :action => 'add' and return
+      end
+    end
+  end
+
+  def edit
+    @tutorial = @user.tutorials.find params[:tutorial_id]
+    @unit = @tutorial.units.find params[:id]
+    session[:unit] = @unit.id
+    @mods = @unit.resourceables
+  end
+
+  def update
+    @tutorial = @user.tutorials.find params[:tutorial_id]
+    @unit = @tutorial.units.find params[:id]
+    session[:unit] = @unit.id
+    @mods = @unit.resourceables
+    @unit.update_attributes params[:unit]
+    if @unit.save
+      case params[:commit]
+        when "Save"
+          redirect_to tutorial_units_path(@tutorial) and return
+        when "Save & Add Modules"
+          redirect_to add_modules_tutorial_unit_path(@tutorial, @unit) and return
+      end
+    end
+    render :edit
+  end
+
+  def add_modules
+    @tutorial = @user.tutorials.find params[:tutorial_id]
+    setSessionGuideId
+    @unit ||= Unit.find(params[:id])
+    session[:unit] = @unit.id
+    @sort = params[:sort] || 'label'
+    session[:add_mods] ||= []
+    @mods = @user.sort_mods(@sort)
+    @mods = paginate_mods(@mods, params[:page] ||= 1, @sort)
+    @search_value = "Search My Modules"
+    if request.xhr?
+      render :partial => "shared/add_modules_list", :layout => false
+    elsif request.post? and !session[:add_mods].nil?
+      @unit.update_resources(session[:add_mods])
+      @tutorial.update_users if @tutorial.shared?
+      session[:add_mods] = nil
+      redirect_to :action => "update", :id => @unit
+    end
+  end
+
   def remove_unit
     unit = @tutorial.units.find(params[:id])
     uz = @tutorial.unitizations.select{|u| u.unit_id == unit.id}.first
@@ -84,5 +157,13 @@ class UnitsController < ApplicationController
       flash[:mod_type_error] = ""
       redirect_to  :back
     end
+  end
+
+  private
+
+  def setSessionGuideId
+    session[:tutorial_id] = @tutorial.id
+    session[:guide_id] = nil
+    session[:page_id] = nil
   end
 end

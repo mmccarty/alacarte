@@ -5,7 +5,12 @@ Alacarte::Application.routes.draw do
   get 'login/logout' => 'login#logout', as: 'logout'
 
   scope path: '/admin', controller: :admin do
-    resources :dods, :masters, :subjects
+    get 'tools' => :index, as: 'tools'
+
+    resources :dods
+    resources :masters
+    resources :subjects
+
     resources :users do
       collection do
         get 'email_list'
@@ -16,7 +21,6 @@ Alacarte::Application.routes.draw do
         post 'deny'
       end
     end
-    get 'tools' => :index, as: 'tools'
   end
 
   resource :dashboard do
@@ -44,21 +48,20 @@ Alacarte::Application.routes.draw do
     end
   end
 
-  scope path: '/tutorial', controller: :tutorial do
-    get   ''                => :index,       as: 'tutorials'
-    post  'add_to_list/:id' => :add_to_list
-    match 'add_units/:id'   => :add_units,   as: 'add_units', via: [:get, :post]
-    get   'archive/:id'     => :archive,     as: 'archive_tutorial'
-    get   'copy/:id'        => :copy,        as: 'copy_tutorial'
-    post  'create_unit/:id' => :create_unit, as: 'create_unit'
-    get   'edit/:id'        => :edit,        as: 'edit_tutorial'
-    match 'edit_unit/:id'   => :edit_unit,   as: 'edit_unit', via: [:get, :post]
-    get   'new'             => :new,         as: 'new_tutorial'
-    get   'new_unit/:id'    => :new_unit,    as: 'new_unit'
-    get   'publish/:id'     => :publish,     as: 'publish_tutorial'
-    get   'share/:id'       => :share,       as: 'share_tutorial'
-    get   'units/:id'       => :units,       as: 'units'
-    post  'update/:id'      => :update,      as: 'update_tutorial'
+  resources :tutorials do
+    member do
+      get 'add_units'
+      get 'archive'
+      get 'copy'
+      get 'publish'
+      get 'share'
+    end
+
+    resources :units do
+      member do
+        get 'add_modules'
+      end
+    end
   end
 
   resources :tabs do
@@ -110,7 +113,7 @@ Alacarte::Application.routes.draw do
 
   get 'internal-guides/' => 'srg#internal_guides'
 
-  scope path: '/tutorials', controller: :ort do
+  scope path: '/tutorial', controller: :ort do
     get ''            => :published_tutorials
     get 'archived'    => :archived_tutorials
     get ':id'         => :index, as: 'show_ort'
@@ -119,10 +122,10 @@ Alacarte::Application.routes.draw do
     get 'subject/:id' => :subject_list
   end
 
-  get 'tutorials/my-quizzes/:id'     => 'student#quizzes'
-  get 'tutorials/login/:id'          => 'student#login'
-  get 'tutorials/create-account/:id' => 'student#create_account'
+  get 'tutorial/my-quizzes/:id'     => 'student#quizzes'
+  get 'tutorial/login/:id'          => 'student#login'
+  get 'tutorial/create-account/:id' => 'student#create_account'
 
-  get ':controller/service.wsdl' => '#wsdl'
+  get   ':controller/service.wsdl' => '#wsdl'
   match '/:controller(/:action(/:id))'
 end

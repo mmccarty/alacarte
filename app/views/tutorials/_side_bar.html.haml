@@ -1,10 +1,8 @@
 %ul.nav.nav-pills.nav-stacked
   %li{ :class => current_page?(edit_tutorial_path @tutorial) && "active" }
     = link_to 'Title & Metadata', {:controller => 'tutorial', :action => 'update',  :id => @tutorial.id }, :class => "top " + ( @ucurrent || "")
-  %li
-    = link_to 'Units', units_path(@tutorial), :class =>@uscurrent
-  %li
-    = link_to 'Preview Tutorial', show_ort_path(@tutorial)
+  %li= link_to 'Units', tutorial_units_path(@tutorial)
+  %li= link_to 'Preview Tutorial', show_ort_path(@tutorial)
   %li
     - if @tutorial.published == 0 || @tutorial.published == false
       = link_to 'Publish Tutorial', publish_tutorial_path(@tutorial), :confirm => 'Are you sure you want to publish this tutorial?', :method => :post
@@ -15,10 +13,8 @@
       = link_to 'Archive Tutorial', archive_tutorial_path(@tutorial), :confirm => 'Are you sure you want to archive this tutorial?', :method => :post
     - else
       = link_to 'Unarchive Tutorial', archive_tutorial_path(@tutorial), :confirm => 'Are you sure you want to unarchive this tutorial?', :method => :post
-  %li
-    = link_to 'Quiz Manager', {:controller => 'tutorial', :action => 'quizes',  :id => @tutorial.id}, :class =>@qcurrent
-  %li
-    = link_to 'Share Tutorial', {:controller => 'tutorial', :action => 'share',  :id => @tutorial.id }, :class =>@scurrent
+  %li= link_to 'Quiz Manager', {:controller => 'tutorial', :action => 'quizes',  :id => @tutorial.id}, :class =>@qcurrent
+  %li= link_to 'Share Tutorial', {:controller => 'tutorial', :action => 'share',  :id => @tutorial.id }, :class =>@scurrent
   %li
     - if @altered_tutorials
       %span Recently Edited

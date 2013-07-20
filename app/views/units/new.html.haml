@@ -1,22 +1,21 @@
 .row
-  .span2
-    = render 'side_bar'
+  .span= render 'tutorials/side_bar'
 
   .span10
     %h1.page-header
       Add Units
-    = form_tag create_unit_path(@tutorial) do
+    = form_for [@tutorial, @unit] do |f|
       = error_messages_for 'unit'
       .control-group
         %label.control-label{ :for => 'page_course_name', :class => flash[:unit_title_error] && 'required' || 'not-required' }
           Unit Name
           %span.required *
         .controls
-          = text_field 'unit', 'title', :class => 'input-xlarge',  :value => flash[:unit_title]
+          = f.text_field :title, :class => 'input-xlarge',  :value => flash[:unit_title]
           %i.icon-question-sign{ :data => { :content => 'This is the module\'s title that will appear to the public. Shorter titles should be used in two column layouts.', :html => 'true', :trigger => 'hover' } }
       .control-group
         .controls
-          = submit_tag 'Create Unit', class: 'btn btn-primary'
+          = f.submit 'Create Unit', class: 'btn btn-primary'
           = link_to 'Cancel', :back, class: 'btn'
 
 :javascript

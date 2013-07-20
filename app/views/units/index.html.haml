@@ -1,11 +1,11 @@
 .row
-  .span2
-    = render 'side_bar'
+  .span2= render 'tutorials/side_bar'
+
   .span10
     %h1.page-header
       Units
     %p
-      = link_to add_units_path(@tutorial), class: 'btn' do
+      = link_to new_tutorial_unit_path(@tutorial), class: 'btn' do
         %i.icon-plus
         Add units
     %p
@@ -19,7 +19,7 @@
               = truncate unit.title.html_safe, :length => 40
               &nbsp;
               &nbsp;
-              = link_to '', edit_unit_path(@tutorial), :class => 'icon-edit', :title => 'Edit this unit'
+              = link_to '', edit_tutorial_unit_path(@tutorial, unit), :class => 'icon-edit', :title => 'Edit this unit'
               = link_to '', { :controller =>'unit', :action => 'remove_unit', :id => unit }, :confirm => 'Are you sure you want to remove this Unit from the Tutorial?', :method => :post, :class => 'icon-trash'
               = link_to '', { :controller =>'unit', :action => 'add_modules', :id => unit }, { :class => 'icon-plus' }
               %p{ :id => "detail_#{unit.id}" }

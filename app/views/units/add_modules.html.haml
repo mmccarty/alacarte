@@ -1,17 +1,16 @@
 %fieldset
   %h4 Add Modules
   %p
-    %b
-      On Unit: #{@unit.title}
-    %span.tip= link_to 'Choose a different Unit.', {:controller => 'unit', :action => 'units',  :id => @unit}
+    %b On Unit: #{@unit.title}
+    %span.tip= link_to 'Choose a different Unit.', tutorial_units_path(@tutorial)
   = render :partial => "shared/new_module"
   - unless @mods.size <1
     #product-list
-      = form_tag :controller => 'unit', :action => 'add_modules', :id => @unit do
+      = form_tag add_modules_tutorial_unit_path(@tutorial, @unit) do
         #table
           = render :partial => "shared/add_modules_list"
         = submit_tag 'Add to Unit', :class=> "submit"
   - else
     %p
       %b You currently have no Modules.
-  = render :partial => 'tutorial/side_bar'
+  = render :partial => 'tutorials/side_bar'

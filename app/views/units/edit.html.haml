@@ -1,33 +1,32 @@
 .row
-  .span2
-    = render 'side_bar'
+  .span2= render 'tutorials/side_bar'
 
   .span10
     %h1.page-header
       Edit Unit : #{@unit.title}
 
     = report_errors @unit
-    = form_tag edit_unit_path(@tutorial, unit: @unit) do
+    = form_for [@tutorial, @unit] do |f|
       %fieldset
         .control-group
           %label.control-label{ :for => 'unit_name' }
             Title
             %span.required *
           .controls
-            = text_field 'unit', 'title', class: 'input-xlarge'
+            = f.text_field :title, class: 'input-xlarge'
             %i.icon-question-sign{ :data => { :content => 'Enter a unique name for the unit. This name is what will appear as the unit\'s full title.', :html => 'true', :trigger => 'hover' } }
         .control-group
           %label.control-label{ :for => 'unit_name' }
             Slug
             %span.required *
           .controls
-            = text_field 'unit', 'slug', class: 'input-xlarge'
+            = f.text_field :slug, class: 'input-xlarge'
             %i.icon-question-sign{ :data => { :content => 'Enter a shorten name for the unit. This name should not exceed 15 character. This name is what will appear in the navigation.', :html => 'true', :trigger => 'hover' } }
         .control-group
           %label.control-label{ :for => 'tags' }
             Tags
           .controls
-            = text_field_tag 'tags', @tag_list, class: 'input-xlarge'
+            = f.text_field :tag_list, class: 'input-xlarge'
             %i.icon-question-sign{ :data => { :content => 'Tags are keywords that highlight content on the Unit.<br/><br/>Tips: Seperate individual tags with a comma. Only add 3-5 tags. Use the same tag on similar tutorials to help discovery.', :html => 'true', :trigger => 'hover' } }
             %p.muted
               examples: anthropology, insects, caves
@@ -36,13 +35,13 @@
             Description
             %i.icon-question-sign{ :data => { :content => 'The unit description is a short teaser that describes the unit. Tips:  Write complete sentences. Highlight special content on the tutorial.', :html => 'true', :trigger => 'hover' } }
           .controls
-            = text_area 'unit', 'description', "class" => 'tinymce'
+            = f.text_area :description, "class" => 'tinymce'
             = tinymce
         .control-group
           .controls
-            = submit_tag 'Save', :class => 'btn btn-primary submit'
-            = submit_tag 'Save & Add modules', :class => 'btn submit'
-            = link_to 'Cancel', :back, :class => 'btn'
+            = f.submit 'Save', :class => 'btn btn-primary submit'
+            = f.submit 'Save & Add Modules', :class => 'btn submit'
+            = link_to 'Cancel', :back, :class => 'btn btn-cancel'
   - unless @mods.blank?
     %fieldset
       %legend
