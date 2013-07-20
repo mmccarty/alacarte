@@ -1,38 +1,12 @@
 class GuidesController < ApplicationController
+  include ActsPagey
   include Paginating
   layout 'admin'
 
   def index
     @sort   = params[:sort] || 'name'
-    @guides = @user.sort_guides(@sort)
-    @guides = paginate_guides(@guides,(params[:page] ||= 1), @sort)
-  end
-
-  def show
-    begin
-      @guide = @user.guides.find params[:id]
-      session[:guides] = @guide.id
-      @tabs = @guide.tabs
-      if @tabs.blank?
-        @guide.create_home_tab
-        @tabs = @guide.tabs
-      end
-      if session[:current_tab]
-        @tab = @tabs.select { |t| t.id == session[:current_tab].to_i }.first
-      end
-      unless @tab
-        @tab = @tabs.first
-        session[:current_tab] = @tab.id
-      end
-      if @tab.template == 2
-        @mods_left  = @tab.left_resources
-        @mods_right = @tab.right_resources
-      else
-        @mods = @tab.tab_resources
-      end
-    rescue ActiveRecord::RecordNotFound
-      redirect_to guides_path
-    end
+    @guides = @user.sort_guides @sort
+    @guides = paginate_guides @guides, (params[:page] ||= 1), @sort
   end
 
   def new
@@ -122,22 +96,6 @@ class GuidesController < ApplicationController
     end
   end
 
-  def set_owner
-    begin
-      @guide = @user.guides.find params[:id]
-    rescue
-      redirect_to :action => 'index', :list=> 'mine' and return
-    end
-    @owner = User.find params[:uid]
-    @guide.update_attribute :created_by, @owner.name
-    @guide_owners = @guide.users
-    if request.xhr?
-      render :partial => 'owners', :layout => false
-    else
-      redirect_to :action => 'share', :id => @guide.id
-    end
-  end
-
   def edit_contact
     begin
       @guide = @user.guides.find params[:id]
@@ -153,86 +111,6 @@ class GuidesController < ApplicationController
         end
       else
         @resources = @user.contact_resources.map { |resource| [resource.mod.label, resource.id] }
-      end
-    end
-  end
-
-  def edit_relateds
-    begin
-      @guide = @user.guides.find params[:id]
-      @tab = @guide.tabs.first
-    rescue ActiveRecord::RecordNotFound
-      redirect_to guides_path and return
-    end
-    if request.put?
-      @guide.add_related_guides params[:relateds] if params[:relateds]
-      if @guide.save
-        flash[:notice] = "The guides were successfully related"
-        redirect_to @guide and return
-      end
-    else
-      @guides   = Guide.published_guides
-      @relateds = @guide.related_guides.map &:id
-    end
-  end
-
-  def remove_related
-    @guide.delete_relateds(params[:gid]) if params[:gid]
-    flash[:notice] = "The guide was successfully removed"
-    redirect_to :action => 'edit_relateds', :id => @guide
-  end
-
-  def suggest_relateds
-    @relateds = @guide.suggested_relateds
-    @guides = Guide.published_guides
-    render :partial => "relateds", :layout => false
-  end
-
-  def share
-    begin
-      @guide = @user.guides.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      flash[:notice] = "Successfully removed from shared guide."
-      redirect_to :action => 'index'
-    else
-      session[:guides] = @guide.id
-      session[:current_tab] = @guide.tabs.first.id
-      @user_list = User.order("name")
-      @guide_owners = @guide.users
-      url = url_for :controller => 'srg', :action => 'index', :id => @guide
-      @message =
-        "I've shared #{@guide.guide_name} with you. The link to the guide is: #{url} .  -#{@user.name} "
-    end
-  end
-
-  def share_update
-    @guide = @user.guides.find(params[:id])
-    to_users = []
-    if params[:users] != nil
-      params[:users].each do |p|
-        new_user = User.find(p)
-        if new_user and !@guide.users.include?(new_user)
-          @guide.share(new_user.id,params[:copy])
-          to_users << new_user
-        end
-      end
-      flash[:notice] = "User(s) successfully added and email notification sent."
-      send_notices(to_users, params[:body]) if params[:body]
-    else
-      flash[:notice] = "Please select at least one user to share with."
-    end
-    redirect_to :action => 'share', :id => @guide.id and return
-  end
-
-  def send_notices(users, message)
-    users.each do |p|
-      user = User.find(p)
-      begin
-        Notifications.deliver_share_guide(user.email,@user.email, message)
-      rescue Exception => e
-        flash[:notice] = "User(s) successfully added. Could not send email"
-      else
-        flash[:notice] = "User(s) successfully added and email notification sent."
       end
     end
   end
@@ -271,31 +149,9 @@ class GuidesController < ApplicationController
     end
   end
 
-  def publish
-    begin
-      @guide = @user.guides.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to :action => 'index'
-    else
-      if request.xhr?
-        render :update do |page|
-          if @guide.toggle_published
-            page.replace_html "publish#{@guide.id}" , :partial => "publish" ,:locals => {:guides => @guide, :page => @page, :sort => @sort }
-          else
-            flash[:error] = "A contact module is required before you can publish the guide."
-            flash[:contact_error] = ""
-            page.redirect_to  :action => 'edit_contact', :id => @guide
-          end
-        end
-      else
-        if @guide.toggle_published
-          redirect_to :back, :sort=> params[:sort], :page => params[:page]
-        else
-          flash[:error] = "A contact module is required before you can publish the guide."
-          flash[:contact_error] = ""
-          redirect_to  :action => 'edit_contact', :id => @guide
-        end
-      end
-    end
+  private
+
+  def find_item
+    @guide = @user.guides.find params[:id]
   end
 end
