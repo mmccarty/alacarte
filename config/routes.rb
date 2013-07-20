@@ -26,6 +26,7 @@ Alacarte::Application.routes.draw do
   resource :dashboard do
     match 'edit_profile', via: [:get, :post]
     match 'my_account',   via: [:get, :post]
+    match 'my_profile',   via: [:get, :post]
   end
 
   resources :guides do

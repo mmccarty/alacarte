@@ -1,22 +1,31 @@
 .row
-  %h1= render 'title_actions'
+  .span2
+    = render 'side_bar'
 
-.row
-  .span4
-    %h2 Add Editor
-    .tip By sharing this module you are giving editing rights to the people you select.
-    = form_tag({:action=> 'share_update', :id =>@mod.id, :type=> @mod.class}) do
-      %select#users.share{:multiple => "multiple", :name => "users[]"}
-        = options_from_collection_for_select(@user_list, 'id', 'name')
-      %br/
-      .tip (press Ctrl or Command to select mutiple users)
-      %br/
-      = submit_tag "Share", class: 'btn btn-primary'
-      = link_to 'Cancel', modules_path, class: 'btn btn-cancel'
+  .span10
+    %h1.page-header
+      Share Module
+      %br
+      %small
+        = @mod.module_title.html_safe
 
-  .span8
-    %h2 Module Editors
-    .tip Removing someone revokes their editing rights. The module's owner can not be removed from the list.
+    %h2
+      Add editor(s)
+    = form_tag({ :action=> 'share_update', :id =>@mod.id, :type=> @mod.class }) do
+      .control-group
+        .controls
+          %select#users{ :multiple => 'multiple', :name => 'users[]', :class => 'input-xlarge' }
+            = options_from_collection_for_select(@user_list, 'id', 'name')
+          %p.muted
+            By sharing this module you are giving editing rights to the people you select. Press Ctrl or Command to select mutiple users.
+      .control-group
+        .controls
+          = submit_tag 'Share', class: 'btn btn-primary'
+          = link_to 'Cancel', modules_path, class: 'btn btn-cancel'
+
+    %h2 Manage editors
+    %p.muted
+      Removing someone revokes their editing rights. The module's owner can not be removed from the list.
     %table.table.table-striped
       - @mod_owners.each do |user|
         %tr

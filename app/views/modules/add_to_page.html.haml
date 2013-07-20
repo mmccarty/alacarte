@@ -1,44 +1,51 @@
-%fieldset
-  %h3.title= render 'title_actions'
-  %h4
-    = link_to "Add To/Used On", manage_module_path(@mod, :type => @mod.class)
-    >> Add to Course Pages
-  - if flash[:error]
-    #error_wrapper
-      #list_error= flash[:error]
-  %p Check the box next to the tabs on the pages you want to add the module to then click the button at the bottom of the list.
-  - unless @pages.size <1
-    = form_tag add_to_page_module_path(@mod, :type => @mod.class) do
-      #product-list
-        #table
-          %table
-            %thead
-              %tr
-                %th Title
-                %th
-                %th Last Update
-                %th Published?
-                %th Archived?
-            - for page in @pages
-              %tr
-                %td
-                  = truncate(page.search_title, :length => 45)
-                  %br/
+.row
+  .span2
+    = render 'side_bar'
+
+  .span10
+    %h1.page-header
+      = link_to "Add To/Used On", manage_module_path(@mod, :type => @mod.class)
+      %br
+      %small
+        Add to Course Pages
+    - unless @pages.size < 1
+      %p.muted
+        Check the box next to the tabs on the pages to which you want to add the module. Then click the button at the bottom of the list.
+      = form_tag add_to_page_module_path(@mod, :type => @mod.class) do
+        %table.table.table-striped
+          %thead
+            %tr
+              %th Title
+              %th
+              %th Last Update
+              %th Published?
+              %th Archived?
+          - for page in @pages
+            %tr
+              %td
+                = truncate page.search_title, length: 45
+                %label.checkbox
                   - for tab in page.tabs
                     = check_box_tag(tab.tab_name, tab.id,session[:page_tabs].include?(tab.id.to_s) , :onclick => "$.post('#{ add_page_module_path(@mod, type: @mod.class ) }', { tid: #{ tab.id });")
                     = tab.tab_name
                     %br/
-                %td= link_to image_tag("icons/document_preview.png", :title => 'Preview this Page', :alt => 'View Page', :border => 0),{ :controller => "ica", :action => 'index', :id => page}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes']
-                %td= page.updated_at.to_date
-                %td
-                  - if page.published?
-                    = image_tag("icons/Plus.png", :title => 'This page is published', :alt => 'unpublish this page', :border => 0)
-                  - else
-                    = image_tag("icons/Minus.png", :title => 'This page is not published', :alt => 'publish this page', :border => 0)
-                %td
-                  - if page.archived?
-                    = image_tag("icons/archive.png", :title => 'This page is archived', :alt => 'remove from archive', :border => 0)
-                  - else
-                    = image_tag("icons/Minus.png", :title => 'This page is not archived', :alt => 'archive this page', :border => 0)
-          .pagination
-            = will_paginate @pages
+              %td
+                = awesome_button show_ica_path(page), 'external-link', 'Preview this page'
+              %td
+                = page.updated_at.to_date
+              %td
+                - if page.published == 0 || page.published == false
+                  = awesome_button publish_page_path(page), 'lock', 'Add this module to the published list'
+                - else
+                  = awesome_button publish_page_path(page), 'unlock', 'Remove this page from the published list'
+              %td
+                - if page.archived == 0 || page.archived == false
+                  = awesome_button archive_page_path(page), 'archive', 'Archive this page'
+                - else
+                  = awesome_button archive_page_path(page), 'check-empty', 'Unarchive this page'
+      = will_paginate @pages
+    - else
+      %p
+        There are no pages available.
+      %p
+        = awesome_button new_page_path, 'plus', 'Create new page', 'btn'

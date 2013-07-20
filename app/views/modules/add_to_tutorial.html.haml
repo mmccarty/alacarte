@@ -1,38 +1,45 @@
-%fieldset
-  %h3.title= render 'title_actions'
-  %h4
-    = link_to "Add To/Used On", manage_module_path(@mod, :type => @mod.class)
-    >> Add to Tutorials
-  - if flash[:error]
-    #error_wrapper
-      #list_error= flash[:error]
-  %p Check the box next to the unit you want to add the module to.
-  - unless @tutorials.size <1
-    = form_tag add_to_tutorial_module_path(@mod, :type => @mod.class) do
-      #product-list
-        #table
-          %table
-            %thead
-              %tr
-                %th Title
-                %th
-                %th Last Update
-                %th Published?
-            - @tutorials.each do |tutorial|
-              %tr
+.row
+  .span2
+    = render 'side_bar'
+
+  .span10
+    %h1.page-header
+      = link_to "Add To/Used On", manage_module_path(@mod, :type => @mod.class)
+      %br
+      %small
+        Add to Tutorials
+    - unless @tutorials.size < 1
+      %p.muted
+        Check the box next to the unit(s) in which you wish to add the module.
+      = form_tag add_to_tutorial_module_path(@mod, :type => @mod.class) do
+        %table.table.table-striped
+          %thead
+            %tr
+              %th Title
+              %th
+              %th Last Update
+              %th Published?
+          - @tutorials.each do |tutorial|
+            %tr
+              %td
+                = truncate tutorial.full_name, length: 65
+                %label.check_box
+                  - for unit in tutorial.units
+                    = check_box_tag(unit.title, unit.id, session[:units].include?(unit.id.to_s), :onclick => "$.post('#{ add_tutorial_module_path(@mod, type: @mod.class )}', { tid: #{ unit.id });")
+                    = unit.title
+                    %br/
                 %td
-                  = truncate(tutorial.full_name, :length => 65)
-                  .check_box
-                    - for unit in tutorial.units
-                      = check_box_tag(unit.title, unit.id, session[:units].include?(unit.id.to_s) , :onclick => "$.post('#{ add_tutorial_module_path(@mod, type: @mod.class )}', { tid: #{ unit.id });")
-                      = unit.title
-                      %br/
-                %td= link_to image_tag("icons/document_preview.png", :title => 'View this tutorial', :alt => 'View tutorial', :border => 0),{ :controller => "ort", :action => 'index', :id => tutorial}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'],:class =>'right_space'
-                %td= tutorial.updated_at.to_date
+                  = awesome_button show_ort_path(tutorial), 'external-link', 'Preview this tutorial'
                 %td
-                  - if tutorial.published
-                    = image_tag("icons/Plus.png", :title => 'This tutorial is published', :alt => 'unpublished guide', :border => 0)
+                  = tutorial.updated_at.to_date
+                %td
+                  - if tutorial.published == 0 || tutorial.published == false
+                    = awesome_button publish_tutorial_path(tutorial), 'lock', 'Add this tutorial to the published list'
                   - else
-                    = image_tag("icons/Minus.png", :title => 'This tutorial is not published', :alt => 'published guide', :border => 0)
-          .pagination
-            = will_paginate @tutorials
+                    = awesome_button publish_tutorial_path(tutorial), 'unlock', 'Remove this tutorial to the published list'
+      = will_paginate @tutorials
+    - else
+      %p
+        There are no tutorials available.
+      %p
+        = awesome_button new_tutorial_path, 'plus', 'Create new tutorial', 'btn'

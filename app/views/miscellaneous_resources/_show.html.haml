@@ -3,7 +3,7 @@
     = mod.module_title
 
   - if defined? mod.content
-    = mod.content.html_safe
+    = raw mod.content
 
   - unless ! defined?(mod.more_info) || mod.more_info.blank?
     = link_to_function 'Read more', nil, :id => 'more_link_#{ mod.id }' do |page|

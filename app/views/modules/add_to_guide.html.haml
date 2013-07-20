@@ -1,38 +1,45 @@
-%fieldset
-  %h3.title= render 'title_actions'
-  %h4
-    = link_to "Add To/Used On", manage_module_path(@mod, :type => @mod.class)
-    >> Add to Subject Guides
-  - if flash[:error]
-    #error_wrapper
-      #list_error= flash[:error]
-  %p Check the box next to the guide's tab you want to add the module to.
-  - unless @guides.size <1
-    = form_tag add_to_guide_module_path(@mod, :type => @mod.class) do
-      #product-list
-        #table
-          %table
-            %thead
-              %tr
-                %th Title
-                %th
-                %th Last Update
-                %th Published?
-            - for guide in @guides
-              %tr
-                %td
-                  = truncate(guide.guide_name, :length => 65)
-                  .check_box
-                    - for tab in guide.tabs
-                      = check_box_tag(tab.tab_name, tab.id,session[:tabs].include?(tab.id.to_s) , :onclick => "$.post('#{ add_guide_module_path(@mod, type: @mod.class) }', { tid: #{ tab.id });")
-                      = tab.tab_name
-                      %br/
-                %td= link_to image_tag("icons/document_preview.png", :title => 'View this guide', :alt => 'View guide', :border => 0),{ :controller => "srg", :action => 'index', :id => guide}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'],:class =>'right_space'
-                %td= guide.updated_at.to_date
-                %td
-                  - if guide.published?
-                    = image_tag("icons/Plus.png", :title => 'This guide is published', :alt => 'unpublish this guide', :border => 0)
-                  - else
-                    = image_tag("icons/Minus.png", :title => 'This guide is not published', :alt => 'publish this guide', :border => 0)
-          .pagination
-            = will_paginate @guides
+.row
+  .span2
+    = render 'side_bar'
+
+  .span10
+    %h1.page-header
+      = link_to "Add To/Used On", manage_module_path(@mod, :type => @mod.class)
+      %br
+      %small
+        Add to Subject Guides
+    - unless @guides.size < 1
+      %p.muted
+        Check the box next to the guide's tab on which you wish to add the module.
+      = form_tag add_to_guide_module_path(@mod, :type => @mod.class) do
+        %table.table.table-striped
+          %thead
+            %tr
+              %th Title
+              %th
+              %th Last Update
+              %th Published?
+          - for guide in @guides
+            %tr
+              %td
+                = truncate guide.guide_name, length: 65
+                %label.checkbox
+                  - for tab in guide.tabs
+                    = check_box_tag(tab.tab_name, tab.id,session[:tabs].include?(tab.id.to_s), :onclick => "$.post('#{ add_guide_module_path(@mod, type: @mod.class) }', { tid: #{ tab.id });")
+                    = tab.tab_name
+                    %br/
+              %td
+                = awesome_button show_srg_path(guide, :tab => session[:current_tab]), 'external-link', 'Preview this guide'
+              %td
+                = guide.updated_at.to_date
+              %td
+                - if guide.published == 0 || guide.published == false
+                  = awesome_button publish_guide_path(guide), 'lock', 'Add this guide to the published list'
+                - else
+                  = awesome_button publish_guide_path(guide), 'unlock', 'Remove this guide from the published list'
+      = will_paginate @guides
+    - else
+      %p
+        There are no guides available.
+      %p
+        = awesome_button new_guide_path, 'plus', 'Create new guide', 'btn'

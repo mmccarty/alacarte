@@ -1,18 +1,19 @@
-%legend Edit Module
+.row
+  .span2
+    = render 'modules/side_bar'
 
-= report_errors @mod
+  .span10
+    %h1.page-header Edit Module
 
-= form_for @mod do |f|
-  = render 'modules/mod_title'
+    = report_errors @mod
 
-  %p
-    &nbsp;
-
-  = f.text_area :content, class: 'tinymce'
-  = tinymce
-
-  %br
-  .control-group
-    .controls
-      = f.submit 'Save', class: 'btn btn-primary'
-      = link_to 'Cancel', modules_path, class: 'btn btn-cancel'
+    = form_for @mod do |f|
+      = render 'modules/mod_title'
+      .control-group
+        .controls
+          = f.text_area :content, class: 'tinymce'
+          = tinymce
+      .control-group
+        .controls
+          = f.submit 'Save', class: 'btn btn-primary'
+          = link_to 'Cancel', modules_path, class: 'btn btn-cancel'
