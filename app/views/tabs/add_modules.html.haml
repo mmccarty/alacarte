@@ -1,8 +1,8 @@
 .container
-  = render 'guides/title_actions'
+  = polymorphic_partial @parent, 'title_actions'
 
 .row
-  .span2= render 'guides/side_bar'
+  .span2= polymorphic_partial @parent, 'side_bar'
 
   .span10
 
@@ -12,13 +12,13 @@
       %small
         On tab: #{@tab.tab_name}
     %p
-      = link_to 'Change Tab', @guide, :class => 'btn'
+      = link_to 'Change Tab', @parent, :class => 'btn'
       = render :partial => "shared/new_module"
 
     - unless @mods.size < 1
-      = form_tag add_modules_tab_path(@tab) do
+      = form_tag polymorphic_path([@parent, @tab], action: :add_modules) do
         .control-group
-          = render :partial => "shared/add_modules_list"
+          = render "shared/add_modules_list"
         .control-group
           .controls
             = submit_tag 'Add to Tab', class: 'btn btn-primary'

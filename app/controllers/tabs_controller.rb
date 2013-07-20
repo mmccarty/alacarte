@@ -1,14 +1,11 @@
 class TabsController < ApplicationController
   include Paginating
   before_filter :module_types, :only =>[ :add_modules, :page_add_modules]
-  before_filter :current_tab, :only => [:sort, :add_mod, :add_modules, :new_module, :remove_module, :toggle_columns, :page_add_modules]
-  before_filter :current_guide, :except => [:page_create, :page_show, :page_delete, :page_add_modules]
-  before_filter :current_page, :except => [:create, :show, :delete, :add_modules]
-
-  in_place_edit_for :tab, :tab_name
+  before_filter :find_parent
   layout 'admin'
 
   def new
+    @guide = Guide.find params[:guide_id]
     if @guide
       if @guide.reached_limit?
         flash[:error] = "Could not create the tab. This guide has reached the 6 tab limit"
@@ -46,46 +43,20 @@ class TabsController < ApplicationController
   end
 
   def show
-    if Guide.exists?(@guide)
-      @ecurrent = 'current'
-      @tabs = @guide.tabs
-      @tab  = @tabs.select{ |t| t.id == params[:id].to_i}.first
-      session[:current_tab] = @tab.id
-      if @tab and request.xhr?
-        if @tab.template ==2
-          @mods_left  = @tab.left_resources
-          @mods_right = @tab.right_resources
-        else
-          @mods = @tab.tab_resources
-        end
-        render :partial => 'guide/edit_tab', :layout => false
+    @parent = Guide.find params[:guide_id]
+    @tabs = @parent.tabs
+    @tab  = @tabs.select{ |t| t.id == params[:id].to_i}.first
+    session[:current_tab] = @tab.id
+    if @tab and request.xhr?
+      if @tab.template == 2
+        @mods_left  = @tab.left_resources
+        @mods_right = @tab.right_resources
       else
-        redirect_to @guide
+        @mods = @tab.tab_resources
       end
+      polymorphic_partial @parent, 'edit_tab'
     else
-      render :text => "Please refresh your browser.", :layout => false
-    end
-  end
-
-  def page_show
-    if Page.exists?(@page)
-      @ecurrent = 'current'
-      @tabs = @page.tabs
-      @tab  = @tabs.select{ |t| t.id == params[:id].to_i}.first
-      if @tab and request.xhr?
-        session[:current_tab] = @tab.id
-        if @tab.template ==2
-          @mods_left  = @tab.left_resources
-          @mods_right = @tab.right_resources
-        else
-          @mods = @tab.tab_resources
-        end
-        render :partial => 'page/edit_tab', :layout => false
-      else
-        redirect_to :controller => 'page', :action => 'edit', :id => @page
-      end
-    else
-      render :text => "Please refresh your browser.", :layout => false
+      redirect_to @parent
     end
   end
 
@@ -101,37 +72,15 @@ class TabsController < ApplicationController
   end
 
   def delete
-    if Guide.exists?(@guide)
-      tabs = @guide.tabs
-      unless tabs.length == 1
-        tab  = tabs.select{ |t| t.id == params[:id].to_i}.first
-        tabs.destroy(tab)
-        session[:current_tab] = nil
-      else
-        flash[:error] = "Can not delete the tab. A guide must have at least one tab."
-      end
-      redirect_to :controller => 'guide', :action => 'edit', :id => @guide
+    tabs = @parent.tabs
+    unless tabs.length == 1
+      tab  = tabs.select{ |t| t.id == params[:id].to_i}.first
+      tabs.destroy(tab)
+      session[:current_tab] = nil
     else
-      flash[:notice] = "Please select a Guide"
-      redirect_to :controller => 'guide', :action => 'index'
+      flash[:error] = "Can not delete the tab. A guide must have at least one tab."
     end
-  end
-
-  def page_delete
-    if Page.exists?(@page)
-      tabs = @page.tabs
-      unless tabs.length == 1
-        tab  = tabs.select{ |t| t.id == params[:id].to_i}.first
-        tabs.destroy(tab)
-        session[:current_tab] = nil
-      else
-        flash[:error] = "Can not delete the tab. A guide must have at least one tab."
-      end
-      redirect_to :controller => 'page', :action => 'edit', :id => @page
-    else
-      flash[:notice] = "Please select a Page"
-      redirect_to :controller => 'page', :action => 'index'
-    end
+    redirect_to polymorphic_path(@parent, action: :edit)
   end
 
   def sort
@@ -167,7 +116,6 @@ class TabsController < ApplicationController
   end
 
   def add_modules
-    setSessionGuideId
     @tab = Tab.find params[:id]
     @sort = params[:sort] || 'label'
     session[:add_mods] ||= []
@@ -175,27 +123,9 @@ class TabsController < ApplicationController
     @mods = paginate_mods(@mods, params[:page] ||= 1, @sort)
     if request.post? and !session[:add_mods].nil?
       @tab.update_resource(session[:add_mods])
-      @guide.update_users if @guide and @guide.shared?
+      @parent.update_users if @parent and @parent.shared?
       session[:add_mods] = nil
-      redirect_to @tab
-    end
-  end
-
-  def page_add_modules
-    setSessionGuideId
-    @amcurrent = 'current'
-    @sort = params[:sort] || 'label'
-    session[:add_mods] ||= []
-    @mods = @user.sort_mods(@sort)
-    @mods = paginate_mods(@mods, params[:page] ||= 1, @sort)
-    @search_term = "Search My Modules"
-    if request.xhr?
-      render :partial => "shared/add_modules_list", :layout => false
-    elsif request.post? and !session[:add_mods].nil?
-      @tab.update_resource(session[:add_mods])
-      @page.update_users if @page and @page.shared?
-      session[:add_mods] = nil
-      redirect_to :action => "page_show", :id => @tab.id
+      redirect_to [@parent, @tab]
     end
   end
 
@@ -246,17 +176,9 @@ class TabsController < ApplicationController
 
   private
 
-  def setSessionGuideId
-    if @guide
-      session[:guide_id] = @guide.id
-    else
-      session[:guide_id] = nil
-    end
-    if @page
-      session[:page_id] = @page.id
-    else
-      session[:page_id] = nil
-    end
-    session[:tutorial_id] = nil
+  def find_parent
+    @guide = Guide.find params[:guide_id] if params[:guide_id]
+    @page = Page.find params[:page_id] if params[:page_id]
+    @parent = @guide || @page
   end
 end

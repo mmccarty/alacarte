@@ -11,7 +11,7 @@
       %tr
         %td
           - s = mod.id.to_s + mod.class.to_s
-          = check_box_tag mod.id, mod.id, session[:add_mods].include?(s) , :onclick => "$.post('#{ add_mod_tab_path @tab }', { mid1: #{ mod.id }, mid2: '#{ mod.class }' });"
+          = check_box_tag mod.id, mod.id, session[:add_mods].include?(s) , :onclick => "$.post('#{ add_mod_guide_tab_path @guide, @tab }', { mid1: #{ mod.id }, mid2: '#{ mod.class }' });"
         %td= truncate(mod.label, :length => 45)
         %td
           %i.icon-question-sign{ :data => { :content => "#{render_tooltip(mod)}", :html => 'true', :trigger => 'hover' } }

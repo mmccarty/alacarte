@@ -1,11 +1,6 @@
 class PagesController < ApplicationController
   include Paginating
-  before_filter :current_page, :only => [:edit_relateds, :remove_related, :suggest_relateds, :send_url, :remove_user_from_page]
-  before_filter :custom_page_data, :only => [:index, :new, :update, :copy]
-  before_filter :clear_sessions, :only =>[:index, :new]
   layout 'admin'
-
-  in_place_edit_for :tab, :tab_name
 
   def index
     @subj_list = Subject.get_subjects

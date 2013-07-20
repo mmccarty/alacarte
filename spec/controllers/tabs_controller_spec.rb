@@ -26,8 +26,6 @@ describe TabsController do
       @guide.create_home_tab
       @user.add_guide @guide
 
-      session[:guides] = @guide.id
-
       @tab = @guide.tabs.first
 
       Local.create
@@ -43,7 +41,7 @@ describe TabsController do
 
     describe 'GET #add_modules' do
       it 'renders the :add_modules view' do
-        get :add_modules, id: @tab.id
+        get :add_modules, guide_id: @guide.id, id: @tab.id
         expect(response).to render_template :add_modules
       end
     end
@@ -53,19 +51,19 @@ describe TabsController do
         mod = create :miscellaneous_resource
         @user.create_and_add_resource mod
         session[:add_mods] = ["#{ mod.id }#{ mod.class }"]
-        post :add_modules, id: @tab.id
+        post :add_modules, guide_id: @guide.id, id: @tab.id
         expect(@tab.modules).to eq [mod]
       end
     end
 
     describe 'GET #show' do
       it 'set the active tab in the session' do
-        get :show, id: @tab.id
+        get :show, guide_id: @guide.id, id: @tab.id
         expect(session[:current_tab]).to eq @tab.id
       end
 
       it 'redirects to the guide' do
-        get :show, id: @tab.id
+        get :show, guide_id: @guide.id, id: @tab.id
         expect(response).to redirect_to @guide
       end
     end

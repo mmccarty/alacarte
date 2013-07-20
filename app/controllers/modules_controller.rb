@@ -2,10 +2,6 @@ class ModulesController < ApplicationController
   include Paginating
   skip_before_filter :authorize, :only =>[:view]
   before_filter :module_types, :except => [:view]
-  before_filter :current_page, :only=>[:edit_content, :update, :preview]
-  before_filter :current_guide, :only=>[:edit_content, :update, :preview]
-  before_filter :current_tutorial, :only=>[:edit_content, :update, :preview]
-  before_filter :clear_sessions, :only =>[:index, :new, :new_menu]
   layout 'admin'
 
   def index

@@ -1,7 +1,5 @@
 class TutorialsController < ApplicationController
   include Paginating
-
-  before_filter :clear_sessions, :only => [:index, :add_unit]
   layout 'admin'
 
   def index

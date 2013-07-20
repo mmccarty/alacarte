@@ -1,10 +1,5 @@
 class GuidesController < ApplicationController
   include Paginating
-  before_filter :current_guide, :only => [:remove_user_from_guide, :suggest_relateds, :remove_related]
-  before_filter :clear_sessions, :only =>[:index, :new]
-  before_filter :clear_page_sessions, :only =>[:edit]
-
-  in_place_edit_for :tab, :tab_name
   layout 'admin'
 
   def index

@@ -37,6 +37,14 @@ Alacarte::Application.routes.draw do
       match 'publish',       via: [:get, :post]
       get   'share'
     end
+
+    resources :tabs do
+      member do
+        post  'add_mod'
+        match 'add_modules', via: [:get, :post]
+        post  'remove_module'
+      end
+    end
   end
 
   resources :pages do
@@ -46,6 +54,14 @@ Alacarte::Application.routes.draw do
       match 'edit_relateds', via: [:get, :put]
       get   'publish'
       get   'share'
+    end
+
+    resources :tabs do
+      member do
+        post  'add_mod'
+        match 'add_modules', via: [:get, :post]
+        post  'remove_module'
+      end
     end
   end
 
@@ -62,14 +78,6 @@ Alacarte::Application.routes.draw do
       member do
         get 'add_modules'
       end
-    end
-  end
-
-  resources :tabs do
-    member do
-      post  'add_mod'
-      match 'add_modules', via: [:get, :post]
-      post  'remove_module'
     end
   end
 

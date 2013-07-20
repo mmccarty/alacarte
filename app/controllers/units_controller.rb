@@ -1,9 +1,5 @@
 class UnitsController < ApplicationController
   include Paginating
-  before_filter :current_tutorial
-  before_filter :current_unit , :only => [:new_module]
-  before_filter :module_types, :only =>[:add_modules]
-  before_filter :clear_unit, :only => 'units'
   layout 'admin'
 
   def index

@@ -87,78 +87,6 @@ class ApplicationController < ActionController::Base
     @campus = CAMPUS
   end
 
-  def current_page
-    @page = Page.find session[:page] if session[:page]
-  end
-
-  def current_guide
-    @guide = Guide.find session[:guides] if session[:guides]
-  end
-
-  def current_tab
-    @tab = Tab.find session[:current_tab] if session[:current_tab]
-  end
-
-  def current_module
-    @mod = find_mod session[:mod_id], session[:mod_type] if session[:mod_id] and session[:mod_type]
-  end
-
-  def current_tutorial
-    @tutorial = Tutorial.find session[:tutorial] if session[:tutorial]
-  end
-
-  def current_student
-    @student = Student.find_by_id_and_tutorial_id(session[:student],session[:tutorial])
-    @student ? @student : (@student = session[:student] = nil)
-  end
-
-  def current_unit
-    @unit = Unit.find(session[:unit]) if session[:unit]
-  end
-
-  def clear_tab_sessions
-    session[:current_tab] = nil if session[:current_tab]
-    session[:tab] = nil if  session[:tab]
-    session[:page_tabs] = nil if  session[:page_tabs]
-    session[:tabs] = nil if  session[:tabs]
-  end
-
-  def clear_guide_sessions
-    session[:guides] = nil if  session[:guides]
-  end
-
-  def clear_tutorial_sessions
-    session[:tutorial] = nil if  session[:tutorial]
-    session[:unit] = nil if session[:unit]
-  end
-
-  def clear_page_sessions
-    session[:page] = @page = nil if  session[:page]
-  end
-
-  def clear_module_sessions
-    session[:mod_id] = nil if session[:mod_id]
-    session[:mod_type] = nil if  session[:mod_type]
-  end
-
-  def clear_unit
-    session[:unit] = nil if session[:unit]
-  end
-
-  def clear_student
-    session[:student] = nil if session[:student]
-    session[:saved_student] = nil if session[:saved_student]
-  end
-
-  def clear_sessions
-    clear_tab_sessions
-    clear_guide_sessions
-    clear_page_sessions
-    clear_module_sessions
-    clear_tutorial_sessions
-    clear_student
-  end
-
   private
 
   def render_404(exception=nil)
@@ -171,6 +99,6 @@ class ApplicationController < ActionController::Base
   def render_500(exception)
     log_error(exception)
     notify_about_exception(exception)
-    render :template => "errors/500",  :status => :internal_server_error
+    render :template => "errors/500", :status => :internal_server_error
   end
 end

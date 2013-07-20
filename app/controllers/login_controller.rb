@@ -1,6 +1,5 @@
 class LoginController < ApplicationController
   skip_before_filter :authorize
-  before_filter :clear_sessions, :clean, :only =>['login']
 
   def login
     session[:user_id] = nil
