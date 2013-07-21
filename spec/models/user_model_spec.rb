@@ -6,23 +6,40 @@ describe User do
   end
 
   it 'requires a name' do
-    expect(build :user, name: nil).to_not be_valid
+    expect(build :user, name: nil).to have(1).errors_on :name
   end
 
   it 'requires an email address' do
-    expect(build :user, email: nil).to_not be_valid
+    expect(build :user, email: nil).to have(1).errors_on :email
+  end
+
+  it 'requires a properly formatted email address' do
+    expect(build :user, email: 'ba neep, gra weep ninibon').to have(1).errors_on :email
+  end
+
+  it 'requires a unique email address' do
+    create :user, email: 'user@example.com'
+    expect(build :user, email: 'user@example.com').to have(1).errors_on :email
+  end
+
+  it 'requires a password of sufficient length' do
+    expect(build :user, password: '', password_confirmation: '').to have(1).errors_on :password
   end
 
   it 'requires a password confirmation' do
-    expect(build :user, password_confirmation: nil).to_not be_valid
+    expect(build :user, password_confirmation: nil).to have(1).errors_on :password_confirmation
   end
 
   it 'requires the password and password confirmation to match' do
-    expect(build :user, password: 'asdf', password_confirmation: 'aoeu').to_not be_valid
+    expect(build :user, password: 'asdf', password_confirmation: 'aoeu').to have(1).errors_on :password
   end
 
   it 'defaults to the role of "author"' do
     expect(create(:user).role).to eq 'author'
+  end
+
+  it 'can only have a role of "author", "admin", or "pending"' do
+    expect(build :user, role: 'house-elf').to have(1).errors_on :role
   end
 
   describe 'admin' do

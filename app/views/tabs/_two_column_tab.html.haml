@@ -16,7 +16,7 @@
   %ul#right_mods.unstyled{ 'data-reorder' => polymorphic_path([@parent, @tab], action: :reorder_modules) }
     - @mods_right.each do |pr|
       - mod = pr.resource.mod
-      %li{ :id => "item_#{ pr.id }" }
+      %li{ :id => "item_#{ pr.resource.id }" }
         %i.icon-move
         = truncate mod.label, :length => 40
         &nbsp;

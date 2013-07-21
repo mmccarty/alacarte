@@ -15,22 +15,22 @@ require 'digest/sha1'
 require 'xmlrpc/client'
 
 class User < ActiveRecord::Base
-  has_and_belongs_to_many :resources
-  has_and_belongs_to_many :pages
   has_and_belongs_to_many :guides
+  has_and_belongs_to_many :pages
+  has_and_belongs_to_many :resources
   has_many :authorships,  :dependent => :destroy
   has_many :tutorials, :through => :authorships, :order => 'name'
   has_many :my_tutorials, :through => :authorships, :source => :tutorial, :conditions => 'authorships.rights = 1', :order => 'name'
 
-  validates_presence_of  :name, :email, :password, :password_confirmation, :salt, :role
-  validates_length_of :name, :within => 2..54
-  validates_length_of :password, :within => 5..54
-  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email"
-  validates_uniqueness_of  :email
-  attr_accessor :password_confirmation
-  validates_confirmation_of :password
-
   attr_protected :id, :salt
+  attr_accessor :password_confirmation
+
+  validates :name, length: { in: 2..54 }
+  validates :email, format: { with: /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i }, uniqueness: true
+  validates :password, length: { in: 2..54 }, confirmation: true
+  validates :password_confirmation, presence: true
+  validates :role, inclusion: { in: %w(admin author pending) }
+  validates :salt, presence: true
 
   def self.authenticate email, password
     user = self.find_by_email email
