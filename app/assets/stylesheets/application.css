@@ -5,7 +5,8 @@
  *= require_self
  *= require bootstrap_and_overrides
  *= require font-awesome
-*/
+ *= require_tree .
+ */
 
 a[class^="icon-"] {
   color: #333;

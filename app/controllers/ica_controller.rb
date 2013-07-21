@@ -3,7 +3,7 @@ class IcaController < ApplicationController
   before_filter :custom_page_data, :only => [:published_pages]
   layout 'template'
 
-  def index
+  def show
     @page = Page.includes(:users, :resource, :tags, {:tabs => :tab_resources}).find(params[:id])
     @tabs = @page.tabs
     @tab = params[:tab] ? @tabs.select{|t| t.id == params[:tab].to_i}.first : @tabs.first
@@ -25,6 +25,7 @@ class IcaController < ApplicationController
     @owner = @page.users.select{|u| u.name == @page.created_by}.first
     @updated = @page.updated_at.to_formatted_s(:long)
   end
+
   def published_pages
     @from = 'published'
     @meta_keywords = @local.ica_page_title + ", Course Guides, Research Topics, Library Help Guides"

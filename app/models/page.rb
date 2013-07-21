@@ -21,7 +21,7 @@
 
 class Page < ActiveRecord::Base
   include ItsJustAPage
-  after_create :create_home_tab
+  after_create :create_home_tab, :create_relateds
 
   acts_as_taggable
   has_and_belongs_to_many :users
@@ -30,7 +30,6 @@ class Page < ActiveRecord::Base
   belongs_to :resource
 
   serialize :relateds
-  after_create :create_relateds
 
   validates_presence_of :course_name,:course_num, :subjects
   validates_associated :subjects

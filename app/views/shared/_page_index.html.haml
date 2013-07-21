@@ -10,19 +10,15 @@
         - if tab.id == @tab.id
           %li.active
             %a{:href => "#tab-content"}
-              %span = tab.tab_name
+              %span= tab.tab_name
         - else
           %li
             %a{:href => "#{ @tab_url }"}
-              %span = tab.tab_name
+              %span= tab.tab_name
 
 - content_for :tab_content do
   .scrolled-content
-    - unless @mods
-      = render :partial => 'shared/two_column'
-    - else
-      = render :partial => 'shared/one_column'
-
+    = render "shared/#{ @mods.present? ? 'one' : 'two' }_column"
     = render :partial => 'shared/metadata', :locals => { :tag_list => index.tag_list }
 
 = render :partial => 'shared/tabbed_index', :locals => { :header_title => header_title }

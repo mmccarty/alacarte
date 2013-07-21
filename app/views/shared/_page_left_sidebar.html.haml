@@ -1,5 +1,5 @@
 .page-left-sidebar
-  - if @mods.length > 1
+  - if @mods.present?
     %ul.nav.nav-list.page-sidenav
       - @mods.each do |mod|
         %li

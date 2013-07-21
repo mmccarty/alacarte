@@ -4,8 +4,8 @@
   %head
     = csrf_meta_tag
     %title #{ params[:controller].humanize || '' } : Library &agrave; la Carte Tool
-    = stylesheet_link_tag 'application', 'tool'
-    = javascript_include_tag 'application', 'messages', 'tool'
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag 'application'
 
   %body
     .container

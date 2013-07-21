@@ -2,7 +2,7 @@ class SrgController < ApplicationController
   skip_before_filter :authorize
   layout 'template'
 
-  def index
+  def show
     @guide = Guide.includes(:users, {:masters => :guides}, :subjects, :resource, :tags).find(params[:id])
     @tabs = @guide.tabs
     @tab = params[:tab] ? @tabs.select{|t| t.id == params[:tab].to_i}.first : @tabs.first

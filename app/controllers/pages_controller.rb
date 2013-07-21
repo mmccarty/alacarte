@@ -20,6 +20,7 @@ class PagesController < ApplicationController
     @page.add_subjects params[:subjects]
     if @page.save
       @user.add_page @page
+      @page.add_subjects params[:subjects]
       redirect_to @page
     else
       @subj_list = Subject.get_subjects

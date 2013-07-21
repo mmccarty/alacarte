@@ -112,13 +112,13 @@ Alacarte::Application.routes.draw do
     get ''           => :published_pages
     get 'archived'   => :archived
     get 'tagged/:id' => :tagged
-    get ':id'        => :index, as: 'show_ica'
+    get ':id'        => :show, as: 'show_ica'
   end
 
   scope path: '/subject-guide', controller: :srg do
     get ''           => :published_guides
     get 'tagged/:id' => :tagged
-    get ':id'        => :index, as: 'show_srg'
+    get ':id'        => :show, as: 'show_srg'
   end
 
   get 'internal-guides/' => 'srg#internal_guides'

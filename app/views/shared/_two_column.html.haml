@@ -1,7 +1,7 @@
 .row
   .span4
     - @mods_left.each do |mod|
-      = show_mod mod
+      = render :partial => 'shared/view_mod', :locals => { :mod => mod }
   .span4
     - @mods_right.each do |mod|
-      = show_mod mod
+      = render :partial => 'shared/view_mod', :locals => { :mod => mod }

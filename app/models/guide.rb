@@ -14,7 +14,7 @@
 
 class Guide < ActiveRecord::Base
   include ItsJustAPage
-  after_create :create_home_tab
+  after_create :create_home_tab, :create_relateds
 
   acts_as_taggable
   has_and_belongs_to_many :users
@@ -26,7 +26,6 @@ class Guide < ActiveRecord::Base
   validates :guide_name, presence: true, uniqueness: true
 
   serialize :relateds
-  after_create :create_relateds
 
   def self.published_guides
     self.where(published: true).order(:guide_name).select 'id, guide_name, description'
