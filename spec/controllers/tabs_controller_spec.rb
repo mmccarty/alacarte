@@ -23,7 +23,6 @@ describe TabsController do
       session[:user_id] = @user.id
 
       @guide = build :guide
-      @guide.create_home_tab
       @user.add_guide @guide
 
       @tab = @guide.tabs.first
@@ -56,15 +55,49 @@ describe TabsController do
       end
     end
 
+    describe 'POST #reorder_modules' do
+      it 'rearranges modules to be in the specified order' do
+        mods = 1.upto(4).map { create :miscellaneous_resource }
+        res = mods.map { |mod| Resource.create mod: mod }
+        res.each { |resource| @tab.add_resource resource }
+        post :reorder_modules, guide_id: @guide.id, id: @tab.id, resource_ids: [res[2].id, res[0].id, res[3].id, res[1].id]
+        expect(@tab.sorted_modules).to match_array [mods[2], mods[0], mods[3], mods[1]]
+      end
+
+      it 'renders nothing' do
+        mods = 1.upto(4).map { create :miscellaneous_resource }
+        res = mods.map { |mod| Resource.create mod: mod }
+        res.each { |resource| @tab.add_resource resource }
+        post :reorder_modules, guide_id: @guide.id, id: @tab.id, resource_ids: [res[2].id, res[0].id, res[3].id, res[1].id]
+        expect(response.body).to be_blank
+      end
+
+      it 'can specify left and right columns separately' do
+        mods = 1.upto(4).map { create :miscellaneous_resource }
+        res = mods.map { |mod| Resource.create mod: mod }
+        res.each { |resource| @tab.add_resource resource }
+        post :reorder_modules, guide_id: @guide.id, id: @tab.id, left_ids: [res[1].id, res[3].id], right_ids: [res[0].id, res[2].id]
+        expect(@tab.sorted_modules).to match_array [mods[1], mods[0], mods[3], mods[2]]
+      end
+    end
+
     describe 'GET #show' do
-      it 'set the active tab in the session' do
+      it 'sets the active tab in the session' do
         get :show, guide_id: @guide.id, id: @tab.id
         expect(session[:current_tab]).to eq @tab.id
       end
 
-      it 'redirects to the guide' do
+      it 'redirects to the containing guide' do
         get :show, guide_id: @guide.id, id: @tab.id
         expect(response).to redirect_to @guide
+      end
+
+      it 'redirects to the containing page' do
+        page = build :page
+        @user.add_page page
+        tab = page.tabs.first
+        get :show, page_id: page.id, id: tab.id
+        expect(response).to redirect_to page
       end
     end
 
@@ -82,9 +115,9 @@ describe TabsController do
         expect(@tab.num_columns).to eq 2
       end
 
-      it 'renders nothing' do
+      it 'redirect to the parent page' do
         post :toggle_columns, guide_id: @guide.id, id: @tab.id
-        expect(response.body).to be_blank
+        expect(response).to redirect_to @guide
       end
     end
   end

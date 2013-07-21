@@ -18,6 +18,6 @@
       .tab-pane.active
         .btn-toolbar
           .btn-group
-            = link_to '', polymorphic_path([@guide, @tab], action: :toggle_columns), class: 'btn icon-columns', title: 'Toggle columns', onclick: "$.post('#{ polymorphic_path([@guide, @tab], action: :toggle_columns )}');"
+            = link_to '', polymorphic_path([@guide, @tab], action: :toggle_columns), method: :post, class: 'btn icon-columns', title: 'Toggle columns'
             = link_to '', { :controller => 'tab', :action => 'delete', :id => @tab.id }, :confirm => 'This will delete the tab and all modules on this tab from the guide. Are you sure you want to delete this tab from the guide?', :method => :post, class: 'btn btn-danger icon-trash', title: 'Delete this module', confirm: 'Are you sure?'
         = render "tabs/#{ @mods.present? ? 'one' : 'two' }_column_tab"

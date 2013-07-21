@@ -50,12 +50,11 @@ class Tab < ActiveRecord::Base
     tab_resources.map { |t| t.resource.mod if t and t.resource }.compact
   end
 
-  def left_resources
-    tab_resources.select { |t| t.position.odd? and t.resource and t.resource.mod }.flatten.compact
-  end
-
-  def right_resources
-    tab_resources.select{ |t| t.position.even? and t.resource and t.resource.mod }.flatten.compact
+  def reorder_modules resource_ids
+    resource_ids.each_with_index do |id, index|
+      tr = tab_resources.select { |tr| tr.resource.id == id }.first
+      tr.set_list_position index+1 if tr
+    end
   end
 
   def left_modules
@@ -64,5 +63,13 @@ class Tab < ActiveRecord::Base
 
   def right_modules
     right_resources.map { |r| r.resource.mod }
+  end
+
+  def left_resources
+    tab_resources.select { |t| t.position.odd? and t.resource and t.resource.mod }.flatten.compact
+  end
+
+  def right_resources
+    tab_resources.select{ |t| t.position.even? and t.resource and t.resource.mod }.flatten.compact
   end
 end

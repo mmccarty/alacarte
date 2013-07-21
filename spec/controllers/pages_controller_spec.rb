@@ -185,9 +185,9 @@ describe PagesController do
           expect(tab.num_columns).to eq 2
         end
 
-        it 'redirects to the edit page' do
+        it 'redirects to the page' do
           post :toggle_columns, id: @page.id
-          expect(response).to redirect_to edit_page_path(@page)
+          expect(response).to redirect_to @page
         end
       end
 

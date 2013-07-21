@@ -117,7 +117,7 @@ module ActsPagey
 
   def toggle_columns
     find_tab.toggle_columns
-    redirect_to action: :edit, id: find_item
+    redirect_to find_item
   end
 
   def find_tab

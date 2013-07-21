@@ -1,26 +1,27 @@
 #mock_left
-  %ul#left
+  %ul#left_mods.unstyled{ 'data-reorder' => polymorphic_path([@parent, @tab], action: :reorder_modules) }
     - @mods_left.each do |pr|
-    - mod = pr.resource.mod
-      %li.list-item{:id => "item_#{pr.id}"}
-        %span.list-title= truncate(mod.label, :length => 40)
-        %span.handle
-          = image_tag("icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)
-        %br/
-        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('#{render_tooltip(mod)}', this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-        = link_to image_tag("icons/edit.png", :title => 'Edit this Module', :alt => 'Edit', :border => 0), { :controller => 'module', :action => 'edit_content', :id => mod, :type => mod.class}
-        = link_to image_tag("icons/document_preview.png", :title => 'View this Module', :alt => 'View Module', :border => 0), {:controller => 'module', :action => 'view', :id => mod, :type => mod.class}, :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes']
-        = link_to image_tag("icons/remove.png", :title => 'Delete this Module from Page', :alt => 'Delete Module', :border => 0), {:controller => 'tab', :action => 'remove_module', :id => mod, :type => mod.class, :tab => @tab.id }, :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post
+      - mod = pr.resource.mod
+      %li{ :id => "item_#{ pr.resource.id }" }
+        %i.icon-move
+        = truncate mod.label, :length => 40
+        &nbsp;
+        &nbsp;
+        %i.icon-question-sign{ :data => { :content => "#{ render_tooltip mod }", :html => 'true', :trigger => 'hover' } }
+        = link_to '', edit_module_path(mod, :type => mod.class), :class => 'icon-edit', :title => 'Edit this module'
+        = link_to '', module_path(mod, :type => mod.class), :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes'], :class => 'icon-external-link', :title => 'View this module'
+        = link_to '', remove_module_guide_tab_path(@parent, @tab, :mod => mod.id, :type => mod.class), :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post, :class => 'icon-trash', :title => 'Remove this module'
+
 #mock_right
-  %ul#right{:valign => "top"}
+  %ul#right_mods.unstyled{ 'data-reorder' => polymorphic_path([@parent, @tab], action: :reorder_modules) }
     - @mods_right.each do |pr|
-    - mod = pr.resource.mod
-      %li.list-item{:id => "item_#{pr.id}"}
-        %span.list-title= truncate(mod.label, :length => 40)
-        %span.handle
-          = image_tag("icons/move.png", :title => 'Drag and Drop', :alt => 'Drag and Drop', :border => 0)
-        %br/
-        %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip('#{render_tooltip(mod)}', this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-        = link_to image_tag("icons/edit.png", :title => 'Edit this Module', :alt => 'Edit', :border => 0), :controller => 'module', :action => 'edit_content', :id => mod, :type => mod.class
-        = link_to image_tag("icons/document_preview.png", :title => 'View this Module', :alt => 'View Page', :border => 0), {:controller => 'module', :action => 'view', :id => mod, :type => mod.class}, :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes']
-        = link_to image_tag("icons/remove.png", :title => 'Delete this Module from Page', :alt => 'Delete module', :border => 0), {:controller => 'tab', :action => 'remove_module', :id => mod, :type => mod.class, :tab => @tab.id }, :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post
+      - mod = pr.resource.mod
+      %li{ :id => "item_#{ pr.id }" }
+        %i.icon-move
+        = truncate mod.label, :length => 40
+        &nbsp;
+        &nbsp;
+        %i.icon-question-sign{ :data => { :content => "#{ render_tooltip mod }", :html => 'true', :trigger => 'hover' } }
+        = link_to '', edit_module_path(mod, :type => mod.class), :class => 'icon-edit', :title => 'Edit this module'
+        = link_to '', module_path(mod, :type => mod.class), :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes'], :class => 'icon-external-link', :title => 'View this module'
+        = link_to '', remove_module_guide_tab_path(@parent, @tab, :mod => mod.id, :type => mod.class), :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post, :class => 'icon-trash', :title => 'Remove this module'

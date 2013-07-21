@@ -52,14 +52,6 @@ describe Tab do
     expect(tab.page).to eq page
   end
 
-  it 'has modules' do
-    tab = build :tab
-    mod = create :miscellaneous_resource
-    res = Resource.create mod: mod
-    tab.add_resource res
-    expect(tab.modules).to eq [mod]
-  end
-
   describe 'layouts' do
     before :each do
       @tab  = build :tab
@@ -105,6 +97,27 @@ describe Tab do
       mods.each { |mod| tab.add_resource Resource.create(mod: mod) }
       expect(tab.left_modules).to eq [mods[0], mods[2], mods[4]]
       expect(tab.right_modules).to eq [mods[1], mods[3], mods[5]]
+    end
+  end
+
+  describe 'acts as list' do
+    it 'has modules' do
+      tab = build :tab, template: 1
+      mod = create :miscellaneous_resource
+      res = Resource.create mod: mod
+      tab.add_resource res
+      expect(tab.modules).to eq [mod]
+    end
+
+    it 'can re-order modules' do
+      tab = build :tab, template: 1
+      guide = create :guide
+      guide.add_tab tab
+      mods = 1.upto(3).map { create :miscellaneous_resource }
+      res = mods.map { |mod| Resource.create mod: mod }
+      res.each { |resource| tab.add_resource resource }
+      tab.reorder_modules [res[2].id, res[0].id, res[1].id]
+      expect(tab.sorted_modules).to match_array [mods[2], mods[0], mods[1]]
     end
   end
 end

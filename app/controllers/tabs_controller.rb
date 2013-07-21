@@ -142,6 +142,23 @@ class TabsController < ApplicationController
 
   def toggle_columns
     find_tab.toggle_columns
+    redirect_to @parent
+  end
+
+  def reorder_modules
+    if params[:resource_ids]
+      resource_ids = params[:resource_ids]
+    else
+      resource_ids = []
+      left_ids = params[:left_ids] || []
+      right_ids = params[:right_ids] || []
+      max_len = [left_ids, right_ids].map(&:length).max
+      max_len.times do |i|
+        resource_ids << left_ids[i]  if i < left_ids.length
+        resource_ids << right_ids[i] if i < right_ids.length
+      end
+    end
+    find_tab.reorder_modules resource_ids.map(&:to_i)
     render nothing: true
   end
 

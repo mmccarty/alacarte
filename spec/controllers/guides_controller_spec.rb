@@ -176,9 +176,9 @@ describe GuidesController do
           expect(tab.num_columns).to eq 2
         end
 
-        it 'redirects to the edit page' do
+        it 'redirects to the guide' do
           post :toggle_columns, id: @guide.id
-          expect(response).to redirect_to edit_guide_path(@guide)
+          expect(response).to redirect_to @guide
         end
       end
 

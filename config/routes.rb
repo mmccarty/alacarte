@@ -43,6 +43,7 @@ Alacarte::Application.routes.draw do
         post  'add_mod'
         match 'add_modules', via: [:get, :post]
         post  'remove_module'
+        post  'reorder_modules'
         post  'toggle_columns'
       end
     end
@@ -63,6 +64,7 @@ Alacarte::Application.routes.draw do
         post  'add_mod'
         match 'add_modules', via: [:get, :post]
         post  'remove_module'
+        post  'reorder_modules'
         post  'toggle_columns'
       end
     end
