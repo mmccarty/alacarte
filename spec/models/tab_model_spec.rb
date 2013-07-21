@@ -60,11 +60,29 @@ describe Tab do
     expect(tab.modules).to eq [mod]
   end
 
-  it 'defaults to a two-column layout' do
-    tab = build :tab
-    guide = create :guide
-    guide.add_tab tab
-    expect(tab.template).to eq 2
+  describe 'layouts' do
+    before :each do
+      @tab  = build :tab
+      guide = create :guide
+      guide.add_tab @tab
+    end
+
+    it 'defaults to a two-column layout' do
+      expect(@tab.num_columns).to eq 2
+    end
+
+    it 'can switch from two- to one-column layouts' do
+      @tab.toggle_columns
+      expect(@tab.num_columns).to eq 1
+    end
+
+    it 'can switch from one- to two-column layouts' do
+      tab = build :tab, template: 1
+      guide = create :guide
+      guide.add_tab tab
+      tab.toggle_columns
+      expect(tab.num_columns).to eq 2
+    end
   end
 
   describe 'with a one-column layout' do

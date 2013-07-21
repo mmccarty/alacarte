@@ -18,15 +18,13 @@ class TabsController < ApplicationController
   end
 
   def show
-    @tabs = @parent.tabs
-    @tab  = @tabs.select{ |t| t.id == params[:id].to_i}.first
-    session[:current_tab] = @tab.id
+    @tab = find_tab
     if @tab and request.xhr?
-      if @tab.template == 2
+      if @tab.num_columns == 1
+        @mods = @tab.tab_resources
+      else
         @mods_left  = @tab.left_resources
         @mods_right = @tab.right_resources
-      else
-        @mods = @tab.tab_resources
       end
       polymorphic_partial @parent, 'edit_tab'
     else
@@ -90,7 +88,7 @@ class TabsController < ApplicationController
   end
 
   def add_modules
-    @tab = Tab.find params[:id]
+    @tab = find_tab
     @sort = params[:sort] || 'label'
     session[:add_mods] ||= []
     @mods = @user.sort_mods(@sort)
@@ -133,7 +131,7 @@ class TabsController < ApplicationController
 
   def remove_module
     begin
-      tab = Tab.find params[:id]
+      tab = find_tab
       resource = @tab.find_resource params[:mod], params[:type]
       tab.resources.delete resource
       redirect_to :back
@@ -143,9 +141,8 @@ class TabsController < ApplicationController
   end
 
   def toggle_columns
-    num = (@tab.template == 2 ? 1 : 2)
-    @tab.update_attribute(:template, num)
-    redirect_to :back
+    find_tab.toggle_columns
+    render nothing: true
   end
 
   private
@@ -154,5 +151,11 @@ class TabsController < ApplicationController
     @guide = Guide.find params[:guide_id] if params[:guide_id]
     @page = Page.find params[:page_id] if params[:page_id]
     @parent = @guide || @page
+  end
+
+  def find_tab
+    @tab = @parent.tabs.find params[:id]
+    session[:current_tab] = @tab.id
+    @tab
   end
 end

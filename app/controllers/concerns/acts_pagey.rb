@@ -2,24 +2,12 @@ module ActsPagey
   extend ActiveSupport::Concern
 
   def show
-    item = find_item
-    @tabs = item.tabs
-    if @tabs.blank?
-      item.create_home_tab
-      @tabs = item.tabs
-    end
-    if session[:current_tab]
-      @tab = @tabs.select { |t| t.id == session[:current_tab].to_i }.first
-    end
-    unless @tab
-      @tab = @tabs.first
-      session[:current_tab] = @tab.id
-    end
-    if @tab.template == 2
+    @tab = find_tab
+    if @tab.num_columns == 1
+      @mods = @tab.tab_resources
+    else
       @mods_left  = @tab.left_resources
       @mods_right = @tab.right_resources
-    else
-      @mods = @tab.tab_resources
     end
   end
 
@@ -128,12 +116,22 @@ module ActsPagey
   end
 
   def toggle_columns
-    item = find_item
-    if item.template == 2
-      item.update_attribute :template, 1
-    else
-      item.update_attribute :template, 2
+    find_tab.toggle_columns
+    redirect_to action: :edit, id: find_item
+  end
+
+  def find_tab
+    @parent = find_item
+    if @parent.tabs.blank?
+      @parent.create_home_tab
     end
-    redirect_to :action => "edit", :id => item
+
+    @tabs = @parent.tabs
+
+    @tab = @tabs.find session[:current_tab] if session[:current_tab]
+    @tab ||= @tabs.first
+    session[:current_tab] = @tab.id
+
+    @tab
   end
 end

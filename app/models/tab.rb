@@ -20,6 +20,7 @@ class Tab < ActiveRecord::Base
   acts_as_list scope: 'tabable_id=#{tabable_id} AND tabable_type=\'#{tabable_type}\''
 
   validates :tab_name, presence: true
+  validates :template, inclusion: { in: [1, 2] }
 
   def update_users
     if guide != "" and guide.shared?
@@ -34,7 +35,15 @@ class Tab < ActiveRecord::Base
   end
 
   def page
-    (tabable_type == "Page" && Page.exists?(tabable_id)) ? Page.find(tabable_id) : ""
+    (tabable_type == "Page"  && Page.exists?(tabable_id))  ? Page.find(tabable_id)  : ""
+  end
+
+  def num_columns
+    self.template
+  end
+
+  def toggle_columns
+    update_attribute :template, (template != 2) ? 2 : 1
   end
 
   def sorted_modules

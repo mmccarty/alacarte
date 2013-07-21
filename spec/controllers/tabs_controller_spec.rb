@@ -67,5 +67,25 @@ describe TabsController do
         expect(response).to redirect_to @guide
       end
     end
+
+    describe 'POST #toggle_columns' do
+      it 'changes a two-column layout into a one-column layout' do
+        post :toggle_columns, guide_id: @guide.id, id: @tab.id
+        @tab.reload
+        expect(@tab.num_columns).to eq 1
+      end
+
+      it 'changes a one-column layout into a two-column layout' do
+        @tab.update_attribute :template, 1
+        post :toggle_columns, guide_id: @guide.id, id: @tab.id
+        @tab.reload
+        expect(@tab.num_columns).to eq 2
+      end
+
+      it 'renders nothing' do
+        post :toggle_columns, guide_id: @guide.id, id: @tab.id
+        expect(response.body).to be_blank
+      end
+    end
   end
 end

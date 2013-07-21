@@ -128,6 +128,58 @@ describe GuidesController do
           get :show, id: @guide.id
           expect(response).to render_template :show
         end
+
+        it 'assigns the list of modules for the current tab to @mods' do
+          tab = @guide.tabs.first
+          tab.template = 1
+          tab.save
+          get :show, id: @guide.id
+          expect(assigns(:mods)).to match_array tab.sorted_modules
+        end
+
+        it 'constructs lists of modules for the left and right columns' do
+          tab = @guide.tabs.first
+          get :show, id: @guide.id
+          expect(assigns(:mods_left)).to match_array tab.left_modules
+          expect(assigns(:mods_right)).to match_array tab.right_modules
+        end
+
+        it 'does not assign @mods in two-column layouts' do
+          tab = @guide.tabs.first
+          get :show, id: @guide.id
+          expect(assigns(:mods)).to be_nil
+        end
+
+        it 'does not assign @mods_left or @mods_right in one-column layouts' do
+          tab = @guide.tabs.first
+          tab.template = 1
+          tab.save
+          get :show, id: @guide.id
+          expect(assigns(:mods_left)).to be_nil
+          expect(assigns(:mods_right)).to be_nil
+        end
+      end
+
+      describe 'POST #toggle_columns' do
+        it 'changes a two-column layout into a one-column layout' do
+          tab = @guide.tabs.first
+          post :toggle_columns, id: @guide.id
+          tab.reload
+          expect(tab.num_columns).to eq 1
+        end
+
+        it 'changes a one-column layout into a two-column layout' do
+          tab = @guide.tabs.first
+          tab.update_attribute :template, 1
+          post :toggle_columns, id: @guide.id
+          tab.reload
+          expect(tab.num_columns).to eq 2
+        end
+
+        it 'redirects to the edit page' do
+          post :toggle_columns, id: @guide.id
+          expect(response).to redirect_to edit_guide_path(@guide)
+        end
       end
 
       describe 'PUT #update' do

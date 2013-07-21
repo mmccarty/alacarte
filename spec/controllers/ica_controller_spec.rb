@@ -18,7 +18,7 @@ describe IcaController do
       expect(response).to render_template :show
     end
 
-    it 'assigns the list of modules for the current tab to @mod' do
+    it 'assigns the list of modules for the current tab to @mods' do
       tab = @page.tabs.first
       tab.template = 1
       tab.save
@@ -32,5 +32,20 @@ describe IcaController do
       expect(assigns(:mods_left)).to match_array tab.left_modules
       expect(assigns(:mods_right)).to match_array tab.right_modules
     end
+  end
+
+  it 'does not assign @mods in two-column layouts' do
+    tab = @page.tabs.first
+    get :show, id: @page.id
+    expect(assigns(:mods)).to be_nil
+  end
+
+  it 'does not assign @mods_left or @mods_right in one-column layouts' do
+    tab = @page.tabs.first
+    tab.template = 1
+    tab.save
+    get :show, id: @page.id
+    expect(assigns(:mods_left)).to be_nil
+    expect(assigns(:mods_right)).to be_nil
   end
 end

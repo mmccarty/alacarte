@@ -137,9 +137,67 @@ describe PagesController do
           get :show, id: @page.id
           expect(response).to render_template :show
         end
+
+        it 'assigns the list of modules for the current tab to @mods' do
+          tab = @page.tabs.first
+          tab.template = 1
+          tab.save
+          get :show, id: @page.id
+          expect(assigns(:mods)).to match_array tab.sorted_modules
+        end
+
+        it 'constructs lists of modules for the left and right columns' do
+          tab = @page.tabs.first
+          get :show, id: @page.id
+          expect(assigns(:mods_left)).to match_array tab.left_modules
+          expect(assigns(:mods_right)).to match_array tab.right_modules
+        end
+
+        it 'does not assign @mods in two-column layouts' do
+          tab = @page.tabs.first
+          get :show, id: @page.id
+          expect(assigns(:mods)).to be_nil
+        end
+
+        it 'does not assign @mods_left or @mods_right in one-column layouts' do
+          tab = @page.tabs.first
+          tab.template = 1
+          tab.save
+          get :show, id: @page.id
+          expect(assigns(:mods_left)).to be_nil
+          expect(assigns(:mods_right)).to be_nil
+        end
+      end
+
+      describe 'POST #toggle_columns' do
+        it 'changes a two-column layout into a one-column layout' do
+          tab = @page.tabs.first
+          post :toggle_columns, id: @page.id
+          tab.reload
+          expect(tab.num_columns).to eq 1
+        end
+
+        it 'changes a one-column layout into a two-column layout' do
+          tab = @page.tabs.first
+          tab.update_attribute :template, 1
+          post :toggle_columns, id: @page.id
+          tab.reload
+          expect(tab.num_columns).to eq 2
+        end
+
+        it 'redirects to the edit page' do
+          post :toggle_columns, id: @page.id
+          expect(response).to redirect_to edit_page_path(@page)
+        end
       end
 
       describe 'PUT #update' do
+        it 'updates attributes of the requested page' do
+          put :update, id: @page.id, page: { tag_list: 'this, that, the other' }
+          @page.reload
+          expect(@page.tags.map(&:name).sort).to match_array ['that', 'the other', 'this']
+        end
+
         it 'redirects to the :show view' do
           put :update, id: @page.id, page: { course_name: 'timmeh!' }
           expect(response).to redirect_to @page
