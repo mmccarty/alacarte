@@ -19,13 +19,14 @@ class BookResource < ActiveRecord::Base
   include PolymorphicModule
 
   acts_as_taggable
-  has_many :resources, :as => :mod,  :dependent => :destroy
-  has_many :books, :order => :position,  :dependent => :destroy
+  has_many :books, order: :position, dependent: :destroy
+  has_many :resources, as: :mod, dependent: :destroy
+
   before_create :private_label
   after_update :save_books
 
-  validates :module_title, :presence => true
-  validates :label, :presence => { :on => :update }
+  validates :module_title, presence: true
+  validates :label, presence: { on: :update }
 
   def copy
     mod = PolymorphicModule::copy
@@ -33,13 +34,13 @@ class BookResource < ActiveRecord::Base
     mod
   end
 
-  def new_book_attributes=(book_attributes)
+  def new_book_attributes= book_attributes
     book_attributes.each do |attributes|
-      books.build(attributes)
+      books.build attributes
     end
   end
 
-  def existing_book_attributes=(book_attributes)
+  def existing_book_attributes= book_attributes
     books.reject(&:new_record?).each do |book|
       attributes = book_attributes[book.id.to_s]
       if attributes

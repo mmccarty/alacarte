@@ -14,7 +14,7 @@ describe User do
   end
 
   it 'requires a properly formatted email address' do
-    expect(build :user, email: 'ba neep, gra weep ninibon').to have(1).errors_on :email
+    expect(build :user, email: 'ba neep, gra na weep ninibon').to have(1).errors_on :email
   end
 
   it 'requires a unique email address' do

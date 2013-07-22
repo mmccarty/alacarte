@@ -61,7 +61,7 @@ describe TabsController do
         res = mods.map { |mod| Resource.create mod: mod }
         res.each { |resource| @tab.add_resource resource }
         post :reorder_modules, guide_id: @guide.id, id: @tab.id, resource_ids: [res[2].id, res[0].id, res[3].id, res[1].id]
-        expect(@tab.sorted_modules).to match_array [mods[2], mods[0], mods[3], mods[1]]
+        expect(@tab.sorted_modules).to eq [mods[2], mods[0], mods[3], mods[1]]
       end
 
       it 'renders nothing' do
@@ -77,7 +77,7 @@ describe TabsController do
         res = mods.map { |mod| Resource.create mod: mod }
         res.each { |resource| @tab.add_resource resource }
         post :reorder_modules, guide_id: @guide.id, id: @tab.id, left_ids: [res[1].id, res[3].id], right_ids: [res[0].id, res[2].id]
-        expect(@tab.sorted_modules).to match_array [mods[1], mods[0], mods[3], mods[2]]
+        expect(@tab.sorted_modules).to eq [mods[1], mods[0], mods[3], mods[2]]
       end
     end
 

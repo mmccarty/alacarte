@@ -28,14 +28,14 @@ class CommentResource < ActiveRecord::Base
   validates :label, :presence => { :on => :update }
 
   def ordered_comments
-    self.comments.limit(self.num_displayed).order("created_at DESC")
+    self.comments.most_recent_first.limit self.num_displayed
   end
 
   def more_comments
-    self.comments.order("created_at DESC")
+    self.comments.most_recent_first
   end
 
   def rss_content
-    self.topic.blank? ? "" : self.topic
+    self.topic.present ? self.topic : ''
   end
 end

@@ -117,7 +117,8 @@ describe Tab do
       res = mods.map { |mod| Resource.create mod: mod }
       res.each { |resource| tab.add_resource resource }
       tab.reorder_modules [res[2].id, res[0].id, res[1].id]
-      expect(tab.sorted_modules).to match_array [mods[2], mods[0], mods[1]]
+      tab.reload
+      expect(tab.sorted_modules).to eq [mods[2], mods[0], mods[1]]
     end
   end
 end
