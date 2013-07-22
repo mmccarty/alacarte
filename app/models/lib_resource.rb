@@ -26,11 +26,12 @@ class LibResource < ActiveRecord::Base
   acts_as_taggable
   has_many :resources, :as => :mod, :dependent => :destroy
   before_create :private_label
-  validates_presence_of :module_title
-  validates_format_of :email, :allow_nil => true, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :if => Proc.new {|c| not c.email.blank?}
-  validates_presence_of :label, :on => :update
+
+  validates :module_title, :presence => true
+  validates :email, format: {with: /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, if: Proc.new {|c| not c.email.blank?}}
+  validates :label, :presence => { :on => :update }
 
   def rss_content
-    self.librarian_name.blank? ? "" : self.librarian_name
+    self.librarian_name.present? ? self.librarian_name : ''
   end
 end

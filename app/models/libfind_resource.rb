@@ -37,6 +37,6 @@ class LibfindResource < ActiveRecord::Base
   end
 
   def rss_content
-    self.information.blank? ? "" : self.information
+    self.information.present? ? self.information : ''
   end
 end

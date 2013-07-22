@@ -20,6 +20,7 @@ describe DatabaseResource do
       @dods = 1.upto(3).map { build :dod }
       @dods.each { |dod| @mod.dods << dod }
     end
+
     it 'can have many dods' do
       expect(@mod.dods.length).to eq 3
     end
