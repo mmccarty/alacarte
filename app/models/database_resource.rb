@@ -43,6 +43,6 @@ class DatabaseResource < ActiveRecord::Base
   end
 
   def rss_content
-    self.info.blank? ? "" : self.info
+    self.info.present? ? self.info : ''
   end
 end

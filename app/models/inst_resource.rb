@@ -25,12 +25,12 @@ class InstResource < ActiveRecord::Base
   has_many :resources, :as => :mod, :dependent => :destroy
   before_create :private_label
 
-  validates_presence_of :module_title
-  validates_format_of :email,:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :if => Proc.new {|c| not c.email.blank?}
-  validates_format_of :website,:with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix, :if => Proc.new {|c| not c.website.blank?}, :message => 'URL must be valid and begin with http or https.'
-  validates_presence_of :label, :on => :update
+  validates :module_title, :presence => true
+  validates :email, format: {with: /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, if: Proc.new {|c| not c.email.blank?}}
+  validates :website, format: {with: /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix, if: Proc.new {|c| not c.website.blank?}, message: 'URL must be valid and begin with http or https.'}
+  validates :label, :presence => { :on => :update }
 
   def rss_content
-    self.instructor_name.blank? ? "" : self.instructor_name
+    self.instructor_name.present? ? self.instructor_name : ''
   end
 end
