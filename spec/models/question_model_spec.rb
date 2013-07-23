@@ -23,8 +23,9 @@ describe Question do
 
   context 'has answers' do
     before :each do
-      @mod = build :question
-      @answers = 1.upto(3).map { build :answer }
+      @mod = create :question,
+                    quiz_resource: build(:quiz_resource)
+      @answers = 1.upto(3).map { build :answer, question: @mod}
       @answers.each { |a| @mod.answers << a }
     end
 
