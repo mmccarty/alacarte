@@ -12,6 +12,8 @@
 #  lastname    :string(255)      default("")
 #
 
+require 'CSV'
+
 class Student < ActiveRecord::Base
   has_many :results, :order => 'position', :dependent => :destroy
   has_many :questions, :through => :results
@@ -44,13 +46,12 @@ class Student < ActiveRecord::Base
   def to_csv
     possible = possible_score
     score = final_score
-    FasterCSV.generate_line([
-                             sect_num,
-                             onid,
-                             lastname,
-                             firstname,
-                             score,
-                             possible]).chomp
+    CSV.generate_line([sect_num,
+                       onid,
+                       lastname,
+                       firstname,
+                       score,
+                       possible]).chomp
   end
 
   def name
@@ -59,12 +60,10 @@ class Student < ActiveRecord::Base
 
   def self.authenticate(email, onid, id)
     student = self.find_by_tutorial_id_and_email(id, email)
-    if !student.blank?
+    if student.present?
       if student.onid.downcase != onid.downcase
         return nil
       end
-    else
-      false
     end
     student
   end
@@ -105,7 +104,7 @@ class Student < ActiveRecord::Base
   end
 
   #returns a 2X2 array of the quizes the student has taken and a list of the quizes left
-  def quizes(t)
+  def quizes
     tutorial_quizes = tutorial.quizzes.select{|q| q.graded?}.compact
     all_questions = tutorial_quizes.collect{|q| q.questions if q}.flatten.compact
     student_questions = questions.select{|q| q if all_questions.include?(q)}.flatten.compact
@@ -126,6 +125,7 @@ class Student < ActiveRecord::Base
   end
 
   def taken_on
+    puts results.last.updated_at.class
     results.last.updated_at
   end
 end
