@@ -32,6 +32,6 @@ class ReserveResource < ActiveRecord::Base
   end
 
   def rss_content
-    self.reserves.blank? ? "" : self.reserves
+    self.reserves.present? ? self.reserves : ''
   end
 end
