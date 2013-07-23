@@ -35,12 +35,10 @@ class RssResource < ActiveRecord::Base
     mod
   end
 
-  NUMFEEDS =  [
-               ["3",       3],
+  NUMFEEDS =  [["3",       3],
                ["6",       6],
                ["9",       9],
-               ["15",      15],
-              ]
+               ["15",      15]]
 
   def new_feed_attributes=(feed_attributes)
     feed_attributes.each do |attributes|
@@ -72,9 +70,9 @@ class RssResource < ActiveRecord::Base
   end
 
   def save_feeds
-    if !feeds.blank?
+    if feeds.present?
       feeds.each do |feed|
-        feed.save(false)
+        feed.save
       end
     end
   end

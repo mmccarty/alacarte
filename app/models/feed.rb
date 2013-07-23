@@ -9,5 +9,11 @@
 #
 
 class Feed < ActiveRecord::Base
+  validates :label, :presence => true
+  validates :url,
+            :format => {
+                :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix,
+                :message => 'URL must be valid and begin with http, https, or www.'}
+
   belongs_to :rss_resource
 end
