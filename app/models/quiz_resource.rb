@@ -46,12 +46,12 @@ class QuizResource < ActiveRecord::Base
         question_copies << question_copy
       end
     end
-    return question_copies
+    question_copies
   end
 
   def save_questions
-    questions.each do |question|
-      question.save(false)
+    questions.each do |q|
+      q.save()
     end
   end
 
@@ -65,6 +65,6 @@ class QuizResource < ActiveRecord::Base
   end
 
   def rss_content
-    self.description.blank? ? "" : self.description
+    self.description.present? ? self.description : ''
   end
 end

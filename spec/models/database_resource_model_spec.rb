@@ -24,10 +24,12 @@ describe DatabaseResource do
     it 'can have many dods' do
       expect(@mod.dods.length).to eq 3
     end
+
     it 'clones contain same dods as original' do
       copied_mod = @mod.clone
-      expect(copied_mod.dods).to eq [@dods[0], @dods[1], @dods[2]]
+      expect(copied_mod.dods).to eq @dods
     end
+
     it 'can add dod' do
       @mod.add_dod create :dod
       expect(@mod.dods.length).to eq 4

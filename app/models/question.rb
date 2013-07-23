@@ -20,7 +20,7 @@ class Question < ActiveRecord::Base
   after_update :save_answers
   acts_as_list :scope => :quiz_resource
 
-  validates :question, :presence => { :on => :update }
+  validates :question, :presence => true
 
   def quiz_type
     case q_type
@@ -122,7 +122,7 @@ class Question < ActiveRecord::Base
 
   def save_answers
     answers.each do |answer|
-      answer.save(false)
+      answer.save()
     end
   end
 
