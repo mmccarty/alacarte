@@ -31,7 +31,7 @@ Alacarte::Application.routes.draw do
 
   resources :guides do
     member do
-      get   'copy'
+      match 'copy',          via: [:get, :post]
       match 'edit_contact',  via: [:get, :put]
       match 'edit_relateds', via: [:get, :put]
       match 'publish',       via: [:get, :post]

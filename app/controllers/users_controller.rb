@@ -14,16 +14,19 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new params[:user]
+    @user.salt = User.random_string 10
     url = login_url
     if @user.save
       begin
         Notifications.deliver_add_user(@user.email, @admin.email, @user.password, url)
       rescue Exception => e
         flash[:notice] = "Could not send email"
-        redirect_to new_user_path and return
+        #render :new and return
       end
       flash[:notice] = "User successfully added."
       redirect_to users_path and return
+    else
+      render :new
     end
   end
 

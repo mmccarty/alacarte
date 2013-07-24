@@ -1,5 +1,5 @@
 .span4
-  %ul.unstyled{ 'data-reorder' => polymorphic_path([@parent, @tab], action: :reorder_modules) }
+  %ul#left_mods.unstyled{ 'data-reorder' => polymorphic_path([@parent, @tab], action: :reorder_modules) }
     - @mods_left.each do |pr|
       - mod = pr.resource.mod
       %li{ :id => "item_#{ pr.resource.id }" }
@@ -13,7 +13,7 @@
         = link_to '', remove_module_guide_tab_path(@parent, @tab, :mod => mod.id, :type => mod.class), :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post, :class => 'icon-trash', :title => 'Remove this module'
 
 .span4
-  %ul.unstyled{ 'data-reorder' => polymorphic_path([@parent, @tab], action: :reorder_modules) }
+  %ul#right_mods.unstyled{ 'data-reorder' => polymorphic_path([@parent, @tab], action: :reorder_modules) }
     - @mods_right.each do |pr|
       - mod = pr.resource.mod
       %li{ :id => "item_#{ pr.resource.id }" }

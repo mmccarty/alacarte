@@ -3,7 +3,7 @@
 
   = report_errors @guide
 
-= form_tag :action => 'copy' do
+= form_tag copy_guide_path(@guide) do
   %fieldset
     %legend{ :class => flash[:error] && 'required' || 'not-required'}
       Title &amp; Subject

@@ -52,12 +52,13 @@ module ActsPagey
   def publish
     item = find_item
     item.toggle! :published
-    item.update_attribute :archived, false
+    if item.respond_to?(:archived=) && item.published?
+      item.update_attribute :archived, false
+    end
     if request.xhr?
-      @sort = params[:sort]
-      render :partial => "index_row" ,:locals => {:id => page, :page => params[:page], :sort => @sort , :all => params[:all]}
+      render nothing: true
     else
-      redirect_to :back, :page => params[:page], :sort => params[:sort]
+      redirect_to :back, page: params[:page], sort: params[:sort]
     end
   end
 
@@ -128,7 +129,7 @@ module ActsPagey
 
     @tabs = @parent.tabs
 
-    @tab = @tabs.find session[:current_tab] if session[:current_tab]
+    @tab = @tabs.where(id: session[:current_tab]).first if session[:current_tab]
     @tab ||= @tabs.first
     session[:current_tab] = @tab.id
 

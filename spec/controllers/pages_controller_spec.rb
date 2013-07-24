@@ -30,6 +30,13 @@ describe PagesController do
       end
     end
 
+    describe 'GET #publish' do
+      it 'requires login' do
+        get :publish
+        expect(response).to redirect_to login_path
+      end
+    end
+
     describe 'GET #show' do
       it 'requires login' do
         get :show
@@ -119,6 +126,41 @@ describe PagesController do
         it 'renders the :edit template' do
           get :edit, id: @page.id
           expect(response).to render_template :edit
+        end
+      end
+
+      describe 'GET #publish' do
+        before :each do
+          request.env['HTTP_REFERER'] = '/'
+        end
+
+        it 'toggles the value of the "published" flag' do
+          @page.update_attribute :published, false
+          get :publish, id: @page.id
+          @page.reload
+          expect(@page).to be_published
+        end
+
+        it 'redirect back to whence we came' do
+          request.env['HTTP_REFERER'] = '/my/test/url'
+          get :publish, id: @page.id
+          expect(response).to redirect_to '/my/test/url'
+        end
+
+        it 'unarchives pages when they get published' do
+          @page.update_attribute :published, false
+          @page.update_attribute :archived, true
+          get :publish, id: @page.id
+          @page.reload
+          expect(@page).to_not be_archived
+        end
+
+        it 'does not unarchive pages when they get unpublished' do
+          @page.update_attribute :published, true
+          @page.update_attribute :archived, true
+          get :publish, id: @page.id
+          @page.reload
+          expect(@page).to be_archived
         end
       end
 

@@ -92,7 +92,7 @@ class Guide < ActiveRecord::Base
     user = User.find uid
     tbs.each do |tab|
       mod_copies = tab.tab_resources.flat_map { |r| r.resource.copy_mod(tab.guide.guide_name) }
-      tab_copy = tab.clone
+      tab_copy = tab.dup
       if tab_copy.save
         mod_copies.each do |mod|
           mod.update_attribute :created_by, user.name

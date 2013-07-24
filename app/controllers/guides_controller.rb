@@ -60,28 +60,30 @@ class GuidesController < ApplicationController
     @guide_types = Master.get_guide_types
     session[:guides] = nil
     session[:current_tab] = nil
+
     begin
       @guide = @user.guides.find params[:id]
-    rescue
-      redirect_to :action => 'index', :list=> 'mine'
-    else
       @tag_list = @guide.tag_list
       @selected_types = @guide.masters.map &:id
       @selected_subjs = @guide.subjects.map &:id
+
       if request.post?
-        @new_guide = @guide.clone
-        @new_guide.attributes = params[:guides]
+        @new_guide = @guide.dup
+        @new_guide.update_attributes params[:guides]
         @new_guide.published = false
-        @new_guide.add_tags(params[:tags])
+        @new_guide.add_tags params[:tags]
+
         if @new_guide.save
-          @user.add_guide(@new_guide)
+          @user.add_guide @new_guide
           @new_guide.add_master_type params[:types]
           @new_guide.add_related_subjects params[:subjects]
-          if params[:options]=='copy'
+
+          if params[:options] == 'copy'
             @new_guide.copy_resources @user.id, @guide.tabs
           else
             @new_guide.copy_tabs @guide.tabs
           end
+
           session[:guides] = @new_guide.id
           session[:current_tab] = @new_guide.tabs.first.id
           redirect_to edit_guide_path(@new_guide) and return
@@ -89,6 +91,8 @@ class GuidesController < ApplicationController
           flash[:error] = "Please edit the guide title. A guide with this title already exists."
         end
       end
+    rescue
+      redirect_to :action => 'index', :list=> 'mine'
     end
   end
 
@@ -126,22 +130,18 @@ class GuidesController < ApplicationController
 
   def destroy
     begin
-      guide = @user.guides.find(params[:id])
+      guide = @user.guides.find params[:id]
     rescue ActiveRecord::RecordNotFound
       redirect_to :action => 'index'
     else
       if guide.users.length == 1
-        @user.guides.delete(guide)
+        @user.guides.delete guide
         guide.destroy
       else
         guide.update_attribute(:created_by, guide.users.at(1).name) if guide.created_by.to_s == @user.name.to_s
-        @user.guides.delete(guide)
+        @user.guides.delete guide
       end
-      if request.xhr?
-        render :text => ""
-      else
-        redirect_to :back, :page => params[:page], :sort => params[:sort]
-      end
+      render nothing: true
     end
   end
 

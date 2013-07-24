@@ -50,7 +50,7 @@ module ItsJustAPage
 
   def copy_tabs tbs
     tbs.each do |tab|
-      tab_copy = tab.clone
+      tab_copy = tab.dup
       if tab_copy.save
         tab.tab_resources.each do |res|
           tab_copy.add_resource res.resource

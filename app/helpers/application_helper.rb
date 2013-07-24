@@ -4,12 +4,13 @@ module ApplicationHelper
   end
 
   # awesome button is awesome
-  def awesome_button(url, icon, text = '', style = '')
+  def awesome_button(url, icon, text = '', style = '', options = nil)
+    options ||= {}
     if style.match 'btn'
       html = "<i class='icon-#{ icon }'></i>&nbsp; #{ text }"
-      link_to html.html_safe, url, class: style
+      link_to html.html_safe, url, options.merge(class: style)
     else
-      link_to '', url, class: "icon-#{ icon } #{ style }", title: text
+      link_to '', url, options.merge(class: "icon-#{ icon } #{ style }", title: text)
     end
   end
 

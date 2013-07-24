@@ -2,9 +2,23 @@ require 'spec_helper'
 
 describe GuidesController do
   describe 'guest access' do
+    describe 'POST #copy' do
+      it 'requires login' do
+        post :copy
+        expect(response).to redirect_to login_path
+      end
+    end
+
     describe 'POST #create' do
       it 'requires login' do
         post :create
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #destroy' do
+      it 'requires login' do
+        post :destroy
         expect(response).to redirect_to login_path
       end
     end
@@ -26,6 +40,13 @@ describe GuidesController do
     describe 'GET #new' do
       it 'requires login' do
         get :new
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'GET #publish' do
+      it 'requires login' do
+        get :publish
         expect(response).to redirect_to login_path
       end
     end
@@ -101,6 +122,59 @@ describe GuidesController do
         @user.add_guide @guide
       end
 
+      describe 'GET #copy' do
+        it 'assigns @guide to be the original guide' do
+          get :copy, id: @guide.id
+          expect(assigns(:guide)).to eq @guide
+        end
+
+        it 'renders the :copy template' do
+          get :copy, id: @guide.id
+          expect(response).to render_template :copy
+        end
+      end
+
+      describe 'POST #copy' do
+        it 'creates a new guide' do
+          expect {
+            post :copy, id: @guide.id, guides: attributes_for(:guide)
+          }.to change(Guide, :count).by(1)
+        end
+
+        it 'redirects to the edit page for the new guide' do
+          post :copy, id: @guide.id, guides: attributes_for(:guide)
+          expect(response).to redirect_to edit_guide_path(assigns(:new_guide))
+        end
+
+        it 'makes copies of the tabs' do
+          post :copy, id: @guide.id, guides: attributes_for(:guide), options: 'copy'
+          expect(@guide.tabs).to_not be_empty
+        end
+
+        it 'makes copies of the tabs even when sharing the modules' do
+          post :copy, id: @guide.id, guides: attributes_for(:guide), options: 'reuse'
+          expect(@guide.tabs).to_not be_empty
+        end
+      end
+
+      describe 'POST #destroy' do
+        it 'deletes the guide' do
+          expect {
+            post :destroy, id: @guide.id
+          }.to change(Guide, :count).by(-1)
+        end
+
+        it 'returns success' do
+          post :destroy, id: @guide.id
+          expect(response).to be_success
+        end
+
+        it 'renders nothing' do
+          post :destroy, id: @guide.id
+          expect(response.body).to be_blank
+        end
+      end
+
       describe 'GET #edit' do
         it 'assigns the requested guide to @guide' do
           get :edit, id: @guide.id
@@ -110,6 +184,22 @@ describe GuidesController do
         it 'renders the :edit template' do
           get :edit, id: @guide.id
           expect(response).to render_template :edit
+        end
+      end
+
+      describe 'GET #publish' do
+        it 'toggles the value of the "published" flag' do
+          request.env['HTTP_REFERER'] = '/'
+          @guide.update_attribute :published, false
+          get :publish, id: @guide.id
+          @guide.reload
+          expect(@guide).to be_published
+        end
+
+        it 'redirect back to whence we came' do
+          request.env['HTTP_REFERER'] = '/my/test/url'
+          get :publish, id: @guide.id
+          expect(response).to redirect_to '/my/test/url'
         end
       end
 
@@ -157,6 +247,17 @@ describe GuidesController do
           get :show, id: @guide.id
           expect(assigns(:mods_left)).to be_nil
           expect(assigns(:mods_right)).to be_nil
+        end
+
+        it 'saves the current tab in the session' do
+          get :show, id: @guide.id
+          expect(session[:current_tab]).to eq @guide.tabs.first.id
+        end
+
+        it 'gracefully defaults to the first tab when the current tab is invalid' do
+          session[:current_tab] = @guide.tabs.first.id + 1
+          get :show, id: @guide.id
+          expect(session[:current_tab]).to eq @guide.tabs.first.id
         end
       end
 
