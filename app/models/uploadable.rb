@@ -15,9 +15,9 @@
 class Uploadable < ActiveRecord::Base
   belongs_to :uploader_resource
   has_attached_file :upload,
-  :styles => { :medium => '505x405>', :thumb => '75x75>' },
-  :url => "/uploads/:attachment/:style/:basename.:extension",
-  :path => ":rails_root/public/uploads/:attachment/:style/:basename.:extension"
+                    :styles => { :medium => '505x405>', :thumb => '75x75>' },
+                    :url => "/uploads/:attachment/:style/:basename.:extension",
+                    :path => ":rails_root/public/uploads/:attachment/:style/:basename.:extension"
 
   def logo
     if upload_content_type == 'application/pdf'
