@@ -45,6 +45,7 @@ Alacarte::Application.routes.draw do
         post  'remove_module'
         post  'reorder_modules'
         post  'toggle_columns'
+        post  'delete'
       end
     end
   end
@@ -120,7 +121,7 @@ Alacarte::Application.routes.draw do
   end
 
   scope path: '/subject-guide', controller: :srg do
-    get ''           => :published_guides
+    get ''           => :published_guides, as: 'subject_guides'
     get 'tagged/:id' => :tagged
     get ':id'        => :show, as: 'show_srg'
   end

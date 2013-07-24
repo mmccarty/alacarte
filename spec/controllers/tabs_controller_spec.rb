@@ -120,5 +120,12 @@ describe TabsController do
         expect(response).to redirect_to @guide
       end
     end
+
+    describe 'POST #delete' do
+      it 'redirect to the parent page' do
+        post :delete, guide_id: @guide.id, id: @tab.id
+        expect(response).to redirect_to @guide
+      end
+    end
   end
 end

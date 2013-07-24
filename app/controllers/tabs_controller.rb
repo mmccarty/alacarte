@@ -52,7 +52,7 @@ class TabsController < ApplicationController
     else
       flash[:error] = "Can not delete the tab. A guide must have at least one tab."
     end
-    redirect_to polymorphic_path(@parent, action: :edit)
+    redirect_to @parent
   end
 
   def sort

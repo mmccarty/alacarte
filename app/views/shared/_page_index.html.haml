@@ -6,7 +6,7 @@
   - if @tabs.length > 1
     %ul.nav.nav-tabs
       - for tab in @tabs
-        - @tab_url = url_for :controller => index_controller, :action => 'index', :id => index, :tab => tab.id
+        - @tab_url = url_for :action => 'show', :id => index, :tab => tab.id
         - if tab.id == @tab.id
           %li.active
             %a{:href => "#tab-content"}
