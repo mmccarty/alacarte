@@ -60,11 +60,11 @@ class UrlResource < ActiveRecord::Base
   def save_links
     links.each do |link|
       link.id = nil if link.new_record?
-      link.save(true)
+      link.save()
     end
   end
 
   def rss_content
-    self.information.blank? ? "" : self.information
+    self.information.present? ? self.information : ''
   end
 end

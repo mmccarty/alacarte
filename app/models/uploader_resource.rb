@@ -34,7 +34,7 @@ class UploaderResource < ActiveRecord::Base
   end
 
   def rss_content
-    self.info.blank? ? "" : self.info
+    self.info.present? ? self.info : ''
   end
 
   def new_uploadable_attributes=(uploadable_attributes)
@@ -56,7 +56,7 @@ class UploaderResource < ActiveRecord::Base
 
   def save_uploadables
     uploadables.each do |uploadable|
-      uploadable.save(false)
+      uploadable.save
     end
   end
 end
