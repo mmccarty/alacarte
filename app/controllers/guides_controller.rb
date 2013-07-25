@@ -150,5 +150,4 @@ class GuidesController < ApplicationController
   def find_item
     @guide = @user.guides.find params[:id]
   end
-
 end

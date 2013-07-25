@@ -34,7 +34,7 @@ class TabsController < ApplicationController
 
   def save_tab_name
     tab = Tab.find(params[:id])
-    tab.tab_name= params[:value]
+    tab.tab_name = params[:value]
     tab.save
     render :json => params[:value]
   end

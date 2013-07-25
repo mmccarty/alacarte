@@ -43,11 +43,11 @@ Alacarte::Application.routes.draw do
       member do
         post  'add_mod'
         match 'add_modules', via: [:get, :post]
+        post  'delete'
         post  'remove_module'
         post  'reorder_modules'
         post  'toggle_columns'
         post  'save_tab_name'
-        post  'delete'
       end
     end
   end
@@ -60,15 +60,18 @@ Alacarte::Application.routes.draw do
       match 'edit_relateds', via: [:get, :put]
       get   'publish'
       get   'share'
+      post  'sort_tabs'
     end
 
     resources :tabs do
       member do
         post  'add_mod'
         match 'add_modules', via: [:get, :post]
+        post  'delete'
         post  'remove_module'
         post  'reorder_modules'
         post  'toggle_columns'
+        post  'save_tab_name'
       end
     end
   end

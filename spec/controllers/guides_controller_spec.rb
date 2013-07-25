@@ -261,6 +261,23 @@ describe GuidesController do
         end
       end
 
+      describe 'POST #sort_tabs' do
+        it 'rearranges tabs to be in the specified order' do
+          3.times { @guide.add_tab(build :tab) }
+          tabs = @guide.tabs.clone
+          post :sort_tabs, tab_ids: [tabs[2].id, tabs[0].id, tabs[3].id, tabs[1].id]
+          @guide.reload
+          expect(@guide.tabs).to eq [tabs[2], tabs[0], tabs[3], tabs[1]]
+        end
+
+        it 'renders nothing' do
+          3.times { @guide.add_tab(build :tab) }
+          tabs = @guide.tabs.clone
+          post :sort_tabs, tab_ids: [tabs[2].id, tabs[0].id, tabs[3].id, tabs[1].id]
+          expect(response.body).to be_blank
+        end
+      end
+
       describe 'POST #toggle_columns' do
         it 'changes a two-column layout into a one-column layout' do
           tab = @guide.tabs.first

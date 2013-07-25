@@ -55,6 +55,41 @@ describe TabsController do
       end
     end
 
+    describe 'POST #delete' do
+      it 'destroys the tab' do
+        tab = build :tab
+        @guide.add_tab tab
+        expect {
+          post :delete, guide_id: @guide.id, id: tab.id
+        }.to change(Tab, :count).by(-1)
+      end
+
+      it 'removes the tab from its parent' do
+        @guide.add_tab(build :tab)
+        post :delete, guide_id: @guide.id, id: @tab.id
+        @guide.reload
+        expect(@guide.tabs).to_not include @tab
+      end
+
+      it 'will not remove the last tab from a container' do
+        post :delete, guide_id: @guide.id, id: @tab.id
+        @guide.reload
+        expect(@guide.tabs).to include @tab
+      end
+
+      it 'will report an error when attempting to remove the last tab' do
+        post :delete, guide_id: @guide.id, id: @tab.id
+        expect(flash[:error]).to be_present
+      end
+
+      it 'redirects to its parent' do
+        tab = build :tab
+        @guide.add_tab tab
+        post :delete, guide_id: @guide.id, id: @tab.id
+        expect(response).to redirect_to @guide
+      end
+    end
+
     describe 'POST #reorder_modules' do
       it 'rearranges modules to be in the specified order' do
         mods = 1.upto(4).map { create :miscellaneous_resource }
@@ -78,6 +113,19 @@ describe TabsController do
         res.each { |resource| @tab.add_resource resource }
         post :reorder_modules, guide_id: @guide.id, id: @tab.id, left_ids: [res[1].id, res[3].id], right_ids: [res[0].id, res[2].id]
         expect(@tab.sorted_modules).to eq [mods[1], mods[0], mods[3], mods[2]]
+      end
+    end
+
+    describe 'POST #save_tab_name' do
+      it 'sets the tab name' do
+        post :save_tab_name, guide_id: @guide.id, id: @tab.id, value: "I'm a tab!"
+        @tab.reload
+        expect(@tab.tab_name).to eq "I'm a tab!"
+      end
+
+      it 'renders a json response' do
+        post :save_tab_name, guide_id: @guide.id, id: @tab.id, value: "I'm a tab!"
+        expect(response.body).to eq "I'm a tab!"
       end
     end
 
