@@ -5,7 +5,7 @@
         = user.name.html_safe
       %td
         - unless @guide_owners.size == 1
-          = link_to '', { :action => 'remove_user_from_guide', :id => user.id }, :confirm => 'Are you sure you want to remove this user from the editor list?', :method => :post, :class => 'icon-remove'
+          = link_to '', polymorphic_path([@guide], action: :remove_user_from_guide, user: user.id), confirm: 'Are you sure you want to remove this user from the editor list?', method: :post, class: 'icon-remove'
       %td
         - unless @guide.created_by.to_s == user.name.to_s
           %i.icon-gear

@@ -116,16 +116,14 @@ class GuidesController < ApplicationController
   end
 
   def remove_user_from_guide
-    begin
-      user = @guide.users.find(params[:id])
-    rescue Exception => e
-      redirect_to :action => 'index', :list=> 'mine'
-    else
-      @guide.update_attribute(:created_by, @guide.users.at(1).name) if @guide.created_by.to_s == user.name.to_s
-      user.delete_guide_tabs(@guide)
-      flash[:notice] = "User(s) successfully removed."
-      redirect_to :action => 'share', :id => @guide
+    @guide = Guide.find params[:id]
+    user = @guide.users.find params[:user]
+    user.delete_guide_tabs(@guide)
+    if @guide.created_by.to_s == user.name.to_s and @guide.users.length > 0
+      @guide.update_attribute(:created_by, @guide.users.first.name)
     end
+    flash[:notice] = "User(s) successfully removed."
+    redirect_to :action => 'share', :id => @guide
   end
 
   def destroy

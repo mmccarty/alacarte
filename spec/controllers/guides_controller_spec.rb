@@ -64,6 +64,13 @@ describe GuidesController do
         expect(response).to redirect_to login_path
       end
     end
+
+    describe 'POST #remove_user_from_guide' do
+      it 'requires login' do
+        post :remove_user_from_guide
+        expect(response).to redirect_to login_path
+      end
+    end
   end
 
   describe 'author access' do
@@ -310,6 +317,21 @@ describe GuidesController do
         it 'redirects to the :show view' do
           put :update, id: @guide.id, guide: { description: 'timmeh!' }
           expect(response).to redirect_to @guide
+        end
+      end
+
+      describe 'POST #remove_user_from_guide' do
+        it 'removes the user from a guide' do
+          user = @guide.users.first
+          post :remove_user_from_guide, id: @guide.id, user: user.id
+          @guide.reload
+          expect(@guide.users.include? user ).to be_false
+        end
+
+        it 'redirects to share guide' do
+          user = @guide.users.first
+          post :remove_user_from_guide, id: @guide.id, user: user.id
+          expect(response).to redirect_to polymorphic_path([@guide], action: :share)
         end
       end
     end

@@ -37,6 +37,7 @@ Alacarte::Application.routes.draw do
       match 'publish',       via: [:get, :post]
       get   'share'
       post  'sort_tabs'
+      post  'remove_user_from_guide'
     end
 
     resources :tabs do
