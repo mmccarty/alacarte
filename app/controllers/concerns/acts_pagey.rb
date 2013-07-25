@@ -121,6 +121,17 @@ module ActsPagey
     redirect_to find_item
   end
 
+  def sort_tabs
+    if params['tab_ids'] then
+      ordered_tabs = params['tab_ids']
+      ordered_tabs.each do |id|
+        tab = Tab.find(id)
+        tab.update_attribute(:position, ordered_tabs.index(id) + 1)
+      end
+    end
+    render :nothing => true
+  end
+
   def find_tab
     @parent = find_item
     if @parent.tabs.blank?

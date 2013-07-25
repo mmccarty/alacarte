@@ -36,6 +36,7 @@ Alacarte::Application.routes.draw do
       match 'edit_relateds', via: [:get, :put]
       match 'publish',       via: [:get, :post]
       get   'share'
+      post  'sort_tabs'
     end
 
     resources :tabs do

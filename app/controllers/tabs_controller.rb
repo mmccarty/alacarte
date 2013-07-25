@@ -32,17 +32,6 @@ class TabsController < ApplicationController
     end
   end
 
-  def sort_tabs
-    if params['drag'] then
-      sortables = params['drag']
-      sortables.each do |id|
-        tab = Tab.find(id)
-        tab.update_attribute(:position, sortables.index(id) + 1 )
-      end
-    end
-    render :nothing => true
-  end
-
   def delete
     tabs = @parent.tabs
     unless tabs.length == 1

@@ -27,3 +27,10 @@ jQuery ->
   $('#right_mods').sortable
     handle: '.icon-move'
     connectWith: '#left_mods'
+
+  $('#tabs').sortable
+    handle: '.icon-move'
+    update: ->
+      sortable = $('#tabs')
+      sortable_post sortable,
+        tab_ids: sortable_item_ids sortable
