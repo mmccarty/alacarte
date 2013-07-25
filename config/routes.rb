@@ -46,6 +46,7 @@ Alacarte::Application.routes.draw do
         post  'remove_module'
         post  'reorder_modules'
         post  'toggle_columns'
+        post  'save_tab_name'
         post  'delete'
       end
     end

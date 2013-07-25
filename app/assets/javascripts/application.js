@@ -1,4 +1,5 @@
 //= require jquery
+//= require jquery.jeditable
 //= require jquery_ujs
 //= require jquery.ui.sortable
 //= require twitter/bootstrap

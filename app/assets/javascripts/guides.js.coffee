@@ -8,3 +8,8 @@ jQuery ->
       $target.removeClass('icon-lock').addClass 'icon-unlock'
     else if $target.hasClass 'icon-unlock'
       $target.removeClass('icon-unlock').addClass 'icon-lock'
+
+  $('.edit').editable($('.edit').attr('post-url'), {
+    callback : (value, settings) ->
+      console.log(value)
+  })

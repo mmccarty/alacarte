@@ -3,14 +3,13 @@
 
 .row
   .span2= polymorphic_partial @parent, 'side_bar'
-
   .span10
-
     %h1.page-header
       Add Modules
       %br
       %small
-        On tab: #{@tab.tab_name}
+        .edit{ :id => "tab_#{ @tab.id }", 'post-url' => polymorphic_path([@parent, @tab], :action => :save_tab_name) }<
+          = @tab.tab_name
     %p
       = link_to 'Change Tab', @parent, :class => 'btn'
       = render :partial => "shared/new_module"

@@ -32,6 +32,13 @@ class TabsController < ApplicationController
     end
   end
 
+  def save_tab_name
+    tab = Tab.find(params[:id])
+    tab.tab_name= params[:value]
+    tab.save
+    render :json => params[:value]
+  end
+
   def delete
     tabs = @parent.tabs
     unless tabs.length == 1
