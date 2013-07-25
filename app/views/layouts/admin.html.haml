@@ -26,9 +26,6 @@
             - if @user.is_admin || @local.guides_list.include?('pages')
               %li{ class: (controller.controller_name == 'pages') && "active" }
                 = link_to 'Pages', pages_path
-            - if @user.is_admin || @local.guides_list.include?('tutorials')
-              %li{ class: (controller.controller_name == 'tutorial') && "active" }
-                = link_to 'Tutorials', tutorials_path
 
       = flash_notice
 

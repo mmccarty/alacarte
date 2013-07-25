@@ -47,16 +47,6 @@
             %i.icon-large.icon-folder-open{ :title => 'Browse my pages', :alt => 'browse' }
             = link_to 'Browse course pages', pages_path
 
-      - if @local.guides_list.include?('tutorials')
-        %div.span3
-          %h2 My Tutorials
-          %p
-            %i.icon-large.icon-plus-sign{ :title => 'New tutorial', :alt => 'add' }
-            = link_to 'Create a new tutorial', new_tutorial_path
-          %p
-            %i.icon-large.icon-folder-open{ :title => 'Browse my tutorials', :alt => 'browse' }
-            = link_to 'Browse tutorials', tutorials_path
-
   .span3
 
     .well.well-small
@@ -70,10 +60,6 @@
         %dd #{@num_published_pages}
         %dt archived course pages
         %dd #{@num_archived_pages}
-        %dt published tutorials
-        %dd #{@num_published_tutorials}
-        %dt archived tutorials
-        %dd #{@num_archived_tutorials}
       %ul.unstyled
         %li
           %i.icon-user{ :title => 'My account', :alt => 'account' }
