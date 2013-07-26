@@ -42,58 +42,39 @@ class GuidesController < ApplicationController
 
   def update
     @guide = @user.guides.find params[:id]
-    @guide.update_attributes params[:guide]
-    if @guide.save
-      @guide.add_master_type params[:types]
-      @guide.add_related_subjects params[:subjects]
-      redirect_to @guide and return
+    if @guide.update_attributes params[:guide]
+      redirect_to @guide
     else
       flash[:notice] = "Could not create the guide. There were problems with the following fields: #{@guide.errors.full_messages.join(", ")}"
-      flash[:guide_title] = params[:guides][:guide_title]
+      flash[:guide_title] = params[:guide][:guide_title]
       flash[:guide_title_error] = ""
+      @masters = Master.get_guide_types
+      @subjects = Subject.get_subject_values
       render :edit
     end
   end
 
   def copy
-    @subjects = Subject.get_subject_values
-    @guide_types = Master.get_guide_types
-    session[:guides] = nil
-    session[:current_tab] = nil
-
-    begin
-      @guide = @user.guides.find params[:id]
-      @tag_list = @guide.tag_list
-      @selected_types = @guide.masters.map &:id
-      @selected_subjs = @guide.subjects.map &:id
-
-      if request.post?
-        @new_guide = @guide.dup
-        @new_guide.update_attributes params[:guides]
-        @new_guide.published = false
-        @new_guide.add_tags params[:tags]
-
-        if @new_guide.save
-          @user.add_guide @new_guide
-          @new_guide.add_master_type params[:types]
-          @new_guide.add_related_subjects params[:subjects]
-
-          if params[:options] == 'copy'
-            @new_guide.copy_resources @user.id, @guide.tabs
-          else
-            @new_guide.copy_tabs @guide.tabs
-          end
-
-          session[:guides] = @new_guide.id
-          session[:current_tab] = @new_guide.tabs.first.id
-          redirect_to edit_guide_path(@new_guide) and return
-        else
-          flash[:error] = "Please edit the guide title. A guide with this title already exists."
-        end
-      end
-    rescue
-      redirect_to :action => 'index', :list=> 'mine'
+    @guide = @user.guides.find params[:id]
+    if ! request.post?
+      return
     end
+
+    # TODO: Copy logic should be moved to the model.
+    @new_guide = @guide.dup
+    @new_guide.guide_name = "#{ @guide.guide_name }-copy"
+    if params[:options] == 'copy'
+      @new_guide.copy_resources @user.id, @guide.tabs
+    else
+      @new_guide.copy_tabs @guide.tabs
+    end
+    @user.add_guide @new_guide
+
+    @new_guide.add_tags @guide.tag_list
+    @new_guide.add_master_type @guide.masters.map(&:id)
+    @new_guide.add_related_subjects @guide.subjects.map(&:id)
+
+    redirect_to edit_guide_path(@new_guide)
   end
 
   def edit_contact

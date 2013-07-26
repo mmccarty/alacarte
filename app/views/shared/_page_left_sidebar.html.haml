@@ -29,7 +29,7 @@
           .accordion-inner
             %ul
               - @related_guides.each do |guide|
-                - guide_url = url_for :controller => 'srg', :action => 'index', :id => guide
+                - guide_url = url_for :controller => 'srg', :action => :show, :id => guide
                 %li
                   = link_to raw(guide.guide_name), guide_url, :title => "#{ raw guide.description }"
     - if @local.guides_list.include?('pages') and defined?(@related_pages) and @related_pages.length > 0
@@ -42,19 +42,19 @@
         .accordion-inner
           %ul
             - @related_pages.each do |page|
-              - page_url = url_for :controller => 'ica', :action => 'index', :id => page
+              - page_url = url_for :controller => 'ica', :action => :show, :id => page
               %li
                 = link_to raw(page.header_title), page_url, :title => "#{ raw page.page_description }"
     .accordion-group
       .accordion-heading
-        %a.accordion-toggle{:href => '/subject-guides/'}
+        %a.accordion-toggle{:href => subject_guides_path}
           = @local.guide_page_title.html_safe
     .accordion-group
       .accordion-heading
-        %a.accordion-toggle{:href => '/course-guides/'}
+        %a.accordion-toggle{:href => course_guides_path}
           = @local.ica_page_title.html_safe
 
-  = render :partial => 'shared/social'
+  = render 'shared/social'
 
 :javascript
   setTimeout(function () {

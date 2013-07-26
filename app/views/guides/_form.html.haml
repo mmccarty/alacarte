@@ -10,22 +10,23 @@
         %span.required *
       .controls
         = f.text_field :guide_name, :class => 'input-xlarge'
+
     .control-group
-      %label.control-label{ :for => 'type[]' } Subject Categories
+      %label.control-label{ :for => 'guide[masters]' } Subject Categories
       %p.muted
         Press Ctrl or Command to select more than one item or to deselect an item.
       .controls
-        = select_tag :masters, options_from_collection_for_select(@masters, :id, :value, @selected_masters), :multiple => true, :class => 'input-xlarge'
+        = f.collection_select :master_ids, @masters, :id, :value, {}, :multiple => true, :class => 'input-xlarge'
 
   %fieldset
     %legend Related Courses
     .control-group
-      %label.control-label{ :for => 'subject[]' }
+      %label.control-label{ :for => 'guide[subjects]' }
         Associate Course Subjects
       %p.muted
         Press Ctrl or Command to select more than one item or to deselect an item.
       .controls
-        = select_tag :subjects, options_from_collection_for_select(@subjects, :id, :subject_name, @selected_subjects), :multiple => true, :class => 'input-xlarge'
+        = f.collection_select :subject_ids, @subjects, :id, :subject_name, {}, :multiple => true, :class => 'input-xlarge'
 
   %fieldset
     %legend Guide Metadata

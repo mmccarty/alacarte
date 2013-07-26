@@ -161,6 +161,8 @@ class Page < ActiveRecord::Base
   end
 
   def create_home_tab
-    add_tab Tab.new(tab_name: 'Start')
+    if tabs.blank?
+      add_tab Tab.new(tab_name: 'Start')
+    end
   end
 end

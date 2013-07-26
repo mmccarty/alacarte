@@ -1,26 +1,8 @@
 %h1.page-header
-  Save Guide as
-
+  Copy Guide as #{ @guide.guide_name }-copy
   = report_errors @guide
 
 = form_tag copy_guide_path(@guide) do
-  %fieldset
-    %legend{ :class => flash[:error] && 'required' || 'not-required'}
-      Title &amp; Subject
-    .control-group
-      %label.control-label{ :for => 'guide[guide_name]', :class => flash[:guide_title_error] && 'required' || 'not-required' }
-        Title
-        %span.required
-          *
-      .controls
-        = text_field :guides, :guide_name, :class => 'input-xlarge'
-        %i.icon-question-sign{ :data => { :content => 'Enter a unique name for the guide. If the guide is for a subject, choose the subject categories it should be listed under and related to.', :html => 'true', :trigger => 'hover' } }
-    .control-group
-      %label.control-label{:for => "guide_type"}
-        Subject Categories
-        %span.required *
-      %select#guide_type.page{:multiple => "multiple", :name => "types[]", :class => 'input-xlarge' }
-        = options_from_collection_for_select(@guide_types, 'id', 'value', @selected_types)
   %fieldset
     %legend
       Copy Options
@@ -37,40 +19,9 @@
         = radio_button_tag 'options', 'reuse'
       %p.muted
         Whenever edits are made to the original modules, this guide's modules will be updated too.
-  %fieldset
-    %legend
-      Related Courses
-      %i.icon-question-sign{ :data => { :content => 'Select courses to associate this guide with. This will relate this guide to courses in the subject areas you select.', :html => 'true', :trigger => 'hover' } }
+
     .control-group
-      %label.control-label{ :for => 'guide_type' }
-        Associate Course Subjects
-      .controls
-        %select#guide_type.page{ :multiple => 'multiple', :name => 'subjects[]', :class => 'input-xlarge' }
-          = options_from_collection_for_select(@subjects, 'id', 'subject_name', @selected_subjs)
-        %p.muted
-          Press Ctrl to select more than one item. Press Ctrl to deselect an item.
-  %fieldset
-    %legend
-      Guide Metadata
-    .control-group
-      %label.control-label{ :for => 'guide_guide_description' }
-        Description
-        %i.icon-question-sign{ :data => { :content => 'The page description is a short teaser that describes the guide.<br/><br/>Tips: Write complete sentences. Include slightly different word orders and keywords than what you use in the name and highlight special content on the guide.', :html => 'true', :trigger => 'hover' } }
-      %p.muted
-        Enter a short description about the guide.
-      .controls
-        = text_area 'guide', 'description', 'class' => 'tinymce'
-        = tinymce
-    .control-group
-      %label{ :for => 'tags' }
-        Tags
-      .controls
-        = text_field_tag 'tags', @guide.tag_list, { :class => 'input-xlarge' }
-        %i.icon-question-sign{ :data => { :content => 'Tags are keywords that highlight content on the guide. Tips: Seperate individual tags with a comma. Only add 3-5 tags. Use the same tag on similar guides to help discovery.', :html => 'true', :trigger => 'hover' } }
-        %p.muted
-          examples: anthropology, insects, caves
-    .control-group
-      = submit_tag 'Save As', :class => 'btn btn-primary submit'
+      = submit_tag 'Copy', :class => 'btn btn-primary submit'
       = link_to 'Cancel', { :action => 'index' }, { :class => 'btn' }
 
 :javascript

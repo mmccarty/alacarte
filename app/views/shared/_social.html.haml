@@ -3,9 +3,6 @@
     %a.btn{:href => "mailto:#{ @owner.email }", :title => 'Email your comments', :data => {:toggle => 'tooltip', :placement => 'bottom'}}
       %i.icon-comments-alt.icon-large
       Comments?
-  %a.btn{:href => "#{ url_for :action => 'feed', :id => @page ? @page : @guide }", :title => 'RSS feed', :data => {:toggle => 'tooltip', :placement => 'bottom'}}
-    %i.icon-rss.icon-large
-    RSS
   %a.btn{:href => "http://www.addthis.com/bookmark.php", :onclick => "window.open('http://www.addthis.com/bookmark.php?pub=K5BL6TCHWBD1PZUI&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'addthis', 'scrollbars=yes,menubar=no,width=620,height=520,resizable=yes,toolbar=no,location=no,status=no'); return false;", :title => "Bookmark using any bookmark manager!", :data => {:toggle => 'tooltip', :placement => 'bottom'}}
     %i.icon-bookmark-empty.icon-large
     Bookmark

@@ -1,26 +1,15 @@
-%h2
-  Browse
-  = type
-  by Tag
+%h2 Browse #{ type } by Tag
 
 %p
-  = type
-  tagged with:
-  %span.label
-    = tag
+  #{ type } tagged with:
+  %span.label= tag
 
-- if defined?(pages) and pages.length > 0
-  - for page in pages
-    %dl
-      = render :partial => 'shared/list_page', :locals => { :page => page, :controller => controller }
+- if pages.present?
+  - pages.each do |page|
+    %dl= render :partial => 'shared/list_page', :locals => { :page => page }
 - else
-  %p
-    Sorry, no
-    = type
-    found.
+  %p Sorry, no #{ type } found.
 
 %p
   %i.icon-circle-arrow-left.icon-large
-  %a{:href => "/#{ type_url }/"}
-    Back to all
-    = type
+  = link_to "Back to all #{ type }", action: :published_guides

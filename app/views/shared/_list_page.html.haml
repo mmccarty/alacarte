@@ -1,21 +1,19 @@
-- page_url = url_for :controller => controller, :action => 'index', :id => page
-
 %dt
-  - if controller == 'ica'
-    - if defined?(subject_code) and defined?(campus_hash)
-      = link_to page.browse_title(subject_code, campus_hash), page_url, :title => '#{raw page.page_description}'
-    - else
-      = link_to page.search_title, page_url, :title => '#{raw page.page_description}'
-  - if controller == 'srg'
-    = link_to page.guide_name, page_url, :title => '#{raw page.description}'
-  - if controller == 'ort'
-    = link_to page.full_name.html_safe, :controller => controller, :action => 'index', :title => '#{raw page.description}', :id => page
+  - case controller.controller_name
+    - when 'ica'
+      - if defined?(subject_code) and defined?(campus_hash)
+        = link_to page.browse_title(subject_code, campus_hash), page_url, :title => '#{raw page.page_description}'
+      - else
+        = link_to page.search_title, { action: :show, id: page }, :title => '#{raw page.page_description}'
+    - when 'srg'
+      = link_to page.guide_name, { action: :show, id: page }, :title => '#{raw page.description}'
+    - when'ort'
+      = link_to page.full_name.html_safe, :controller => controller, :action => 'index', :title => '#{raw page.description}', :id => page
 %dd
-  = controller == 'ica' ? raw(page.page_description) : raw(page.description)
+  = controller.controller_name == 'ica' ? raw(page.page_description) : raw(page.description)
   %br
   %small
     - if page.tag_list.length > 0
       %strong Tags:
       - page.tag_list.each do |tag|
-        %span.label.tag
-          = link_to raw(tag), { :action => :tagged, :id => tag }
+        %span.label.tag= link_to raw(tag), { :action => :tagged, :id => tag }

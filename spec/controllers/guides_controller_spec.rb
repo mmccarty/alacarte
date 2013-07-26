@@ -144,23 +144,40 @@ describe GuidesController do
       describe 'POST #copy' do
         it 'creates a new guide' do
           expect {
-            post :copy, id: @guide.id, guides: attributes_for(:guide)
+            post :copy, id: @guide.id
           }.to change(Guide, :count).by(1)
         end
 
         it 'redirects to the edit page for the new guide' do
-          post :copy, id: @guide.id, guides: attributes_for(:guide)
+          post :copy, id: @guide.id
           expect(response).to redirect_to edit_guide_path(assigns(:new_guide))
         end
 
-        it 'makes copies of the tabs' do
-          post :copy, id: @guide.id, guides: attributes_for(:guide), options: 'copy'
+        it 'makes copies of tabs for the new guide' do
+          post :copy, id: @guide.id, options: 'copy'
+          expect(assigns(:new_guide).tabs).to_not be_empty
+        end
+
+        it 'does not remove tabs from the source guide' do
+          post :copy, id: @guide.id, options: 'copy'
+          @guide.reload
           expect(@guide.tabs).to_not be_empty
         end
 
         it 'makes copies of the tabs even when sharing the modules' do
-          post :copy, id: @guide.id, guides: attributes_for(:guide), options: 'reuse'
+          post :copy, id: @guide.id, options: 'reuse'
+          expect(assigns(:new_guide).tabs).to_not be_empty
+        end
+
+        it 'does not remove tabs from the source guide even when sharing the modules' do
+          post :copy, id: @guide.id, options: 'copy'
+          @guide.reload
           expect(@guide.tabs).to_not be_empty
+        end
+
+        it 'will not create redundant home tabs' do
+          post :copy, id: @guide.id, options: 'copy'
+          expect(assigns(:new_guide).tabs.length).to eq @guide.tabs.length
         end
       end
 

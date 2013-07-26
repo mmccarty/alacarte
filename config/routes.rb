@@ -120,7 +120,7 @@ Alacarte::Application.routes.draw do
   resources :url_resources
 
   scope path: '/course-guide', controller: :ica do
-    get ''           => :published_pages
+    get ''           => :published_pages, as: 'course_guides'
     get 'archived'   => :archived
     get 'tagged/:id' => :tagged
     get ':id'        => :show, as: 'show_ica'

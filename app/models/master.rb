@@ -19,7 +19,7 @@ class Master < ActiveRecord::Base
   end
 
   # Return the list of published guides for a master, optionally excluding the one specified guide.
-  def published_guides(gid = nil)
-    guides.select { |a| a.published? and a.id != gid }.sort_by { |guide| guide.guide_name }
+  def published_guides(gid = 0)
+    guides.where('published AND id != ?', gid).order :guide_name
   end
 end

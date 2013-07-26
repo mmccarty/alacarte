@@ -52,7 +52,9 @@ class Guide < ActiveRecord::Base
   end
 
   def create_home_tab
-    add_tab Tab.new(tab_name: 'Quick Links')
+    if tabs.blank?
+      add_tab Tab.new(tab_name: 'Quick Links')
+    end
   end
 
   def related_pages
