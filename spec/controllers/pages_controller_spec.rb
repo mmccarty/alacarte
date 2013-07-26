@@ -64,23 +64,31 @@ describe PagesController do
 
     describe 'POST #create' do
       it 'creates a new page' do
+        page = attributes_for :page
+        page[:subject_ids] = [@subject.id]
         expect {
-          post :create, page: attributes_for(:page), subjects: [@subject.id]
+          post :create, page: page
         }.to change(Page, :count).by(1)
       end
 
       it 'creates a default tab for the new page' do
-        post :create, page: attributes_for(:page), subjects: [@subject.id]
+        page = attributes_for :page
+        page[:subject_ids] = [@subject.id]
+        post :create, page: page
         expect(@user.pages.first.tabs).to_not be_empty
       end
 
       it 'sets the list of subjects for the new page' do
-        post :create, page: attributes_for(:page), subjects: [@subject.id]
+        page = attributes_for :page
+        page[:subject_ids] = [@subject.id]
+        post :create, page: page
         expect(@user.pages.first.subjects).to match_array [@subject]
       end
 
       it 'redirects to the :show view' do
-        post :create, page: attributes_for(:page), subjects: [@subject.id]
+        page = attributes_for :page
+        page[:subject_ids] = [@subject.id]
+        post :create, page: page
         expect(response).to redirect_to @user.pages.first
       end
     end

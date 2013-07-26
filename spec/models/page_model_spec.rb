@@ -32,12 +32,6 @@ describe Page do
   end
 
   describe 'has subjects' do
-    it 'requires a list of subjects' do
-      page = build :page
-      page.subjects.clear
-      expect(page).to_not be_valid
-    end
-
     it 'has subject codes' do
       page = create :page
       expect(page.subject_codes).to eq [page.subjects.first.subject_code]

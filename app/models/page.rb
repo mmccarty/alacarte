@@ -31,8 +31,8 @@ class Page < ActiveRecord::Base
 
   serialize :relateds
 
-  validates_presence_of :course_name,:course_num, :subjects
-  validates_associated :subjects
+  validates :course_name, presence: true
+  validates :course_num, presence: true
 
   validates_uniqueness_of :course_name,
     :scope => [:course_num, :term, :year,  :sect_num],
@@ -108,10 +108,10 @@ class Page < ActiveRecord::Base
     pages
   end
 
-  def add_subjects subjs
+  def add_subjects subject_ids
     subjects.clear
-    if subjs
-      subjs.each do |id|
+    if subject_ids
+      subject_ids.each do |id|
         subjects << Subject.find_by_id(id)
       end
     end

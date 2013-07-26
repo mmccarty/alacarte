@@ -20,11 +20,13 @@ class GuidesController < ApplicationController
     @guide = Guide.new params[:guide]
     if @guide.save
       @user.add_guide @guide
-      @guide.add_master_type params[:types]
-      @guide.add_related_subjects params[:subjects]
+      @guide.add_master_type params[:guide][:master_ids].select(&:present?)
+      @guide.add_related_subjects params[:guide][:subject_ids].select(&:present?)
       redirect_to @guide
     else
       flash[:notice] = "Could not create the guide. There were problems with the following fields: #{@guide.errors.full_messages.join(", ")}"
+      @masters = Master.get_guide_types
+      @subjects = Subject.get_subject_values
       render :new
     end
   end

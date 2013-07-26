@@ -81,18 +81,27 @@ describe GuidesController do
 
     describe 'POST #create' do
       it 'creates a new guide' do
+        guide = attributes_for(:guide)
+        guide[:master_ids] = []
+        guide[:subject_ids] = []
         expect {
-          post :create, guide: attributes_for(:guide)
+          post :create, guide: guide
         }.to change(Guide, :count).by(1)
       end
 
       it 'creates a default tab for the new guide' do
-        post :create, guide: attributes_for(:guide)
+        guide = attributes_for(:guide)
+        guide[:master_ids] = []
+        guide[:subject_ids] = []
+        post :create, guide: guide
         expect(@user.guides.first.tabs).to_not be_empty
       end
 
       it 'redirects to the :show view' do
-        post :create, guide: attributes_for(:guide)
+        guide = attributes_for(:guide)
+        guide[:master_ids] = []
+        guide[:subject_ids] = []
+        post :create, guide: guide
         expect(response).to redirect_to @user.guides.first
       end
     end

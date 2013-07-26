@@ -17,10 +17,9 @@ class PagesController < ApplicationController
 
   def create
     @page = Page.new params[:page]
-    @page.add_subjects params[:subjects]
     if @page.save
       @user.add_page @page
-      @page.add_subjects params[:subjects]
+      @page.add_subjects params[:page][:subject_ids].select(&:present?)
       redirect_to @page
     else
       @subj_list = Subject.get_subjects
