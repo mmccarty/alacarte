@@ -93,7 +93,7 @@ class Guide < ActiveRecord::Base
   def copy_resources uid, tbs
     # Need an id to add tabs
     save
-    remove_all_tabs
+    tabs.destroy_all
     reload
     user = User.find uid
     tbs.each do |tab|
