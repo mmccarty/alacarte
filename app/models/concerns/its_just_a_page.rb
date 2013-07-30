@@ -48,6 +48,27 @@ module ItsJustAPage
     end
   end
 
+  def copy_resources uid, tbs
+    # Need an id to add tabs
+    save
+    tabs.destroy_all
+    reload
+    user = User.find uid
+    tbs.each do |tab|
+      mod_copies = tab.tab_resources.flat_map { |r| r.resource.copy_mod(tab.page.route_title) }
+      tab_copy = tab.dup
+      if tab_copy.save
+        mod_copies.each do |mod|
+          mod.update_attribute :created_by, user.name
+          resource = Resource.create mod: mod
+          user.add_resource resource
+          tab_copy.add_resource resource
+        end
+        add_tab tab_copy
+      end
+    end
+  end
+
   def copy_tabs tbs
     # Need an id to add tabs
     save

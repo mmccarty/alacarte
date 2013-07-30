@@ -1,47 +1,29 @@
-%fieldset
-  #main
-    %h3
-      %span{:style => "margin-right: 5px;"} Save Page As
-    - if flash[:error]
-      #error_wrapper
-        #list_error= flash[:error]
-    #share
-      = form_tag :action => 'copy' do
-        %fieldset
-          / [form:page]
-          <h4 #{%(class="required") if flash[:error]}>Page Title
-          .tip
-            A course page title must be unique. Press Ctrl or Command to select or deselect multiple subjects.
-            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_TITLE_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          #vertical_inputs
-            = render  :partial => "page_title"
-        %fieldset
-          %h4
-            Copy Options
-            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(GUIDE_COPY_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          %b
-            = radio_button_tag 'options', 'copy', :checked => true
-            Copy the Modules
-          .tip{:style => "display:inline;"} Edits to the modules will not change the original page's modules.
-          %br/
-          %b
-            = radio_button_tag 'options', 'reuse'
-            Link the Modules
-          .tip{:style => "display:inline;"}
-            Whenever edits are made to the original modules, this page's modules will be updated too.
-        %fieldset
-          %h4 Page Metadata
-          %label{:for => "page_page_description"}
-            Description
-            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_DESC, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          = text_area 'page', 'page_description',"class" => 'tinymce', :size => '40x2'
-          .tip Enter a short description about the page.
-          %label{:for => "tags"}
-            Tags
-            %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(PAGE_TAGS, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-          = text_area_tag 'tags', @page.tag_list, {"class" => 'tinymce', :size => '40x2'}
-          = tinymce
-          .tip example: WR121, databases, Smith
-        / [eoform:page]
-        = submit_tag 'Copy Page', :class => "submit"
-    %p= link_to 'Cancel', :action => 'index'
+%h1.page-header
+  Copy Page as #{ @page.header_title }-copy
+  = report_errors @page
+
+= form_tag copy_page_path(@page) do
+  %fieldset
+    %legend
+      Copy Options
+      %i.icon-question-sign{ :data => { :content => 'Copy the modules if you want to make a distinct copy. Link the modules if you want edits to one page to effect the other.', :html => 'true', :trigger => 'hover' } }
+    .control-group
+      %label.radio
+        Copy the Modules
+        = radio_button_tag 'options', 'copy', :checked => true
+      %p.muted
+        Edits to the modules will not change the original pages's modules.
+    .control-group
+      %label.radio
+        Link the Modules
+        = radio_button_tag 'options', 'reuse'
+      %p.muted
+        Whenever edits are made to the original modules, this page's modules will be updated too.
+
+    .control-group
+      = submit_tag 'Copy', :class => 'btn btn-primary submit'
+      = link_to 'Cancel', { :action => 'index' }, { :class => 'btn' }
+
+:javascript
+  $('.icon-question-sign').popover();
+

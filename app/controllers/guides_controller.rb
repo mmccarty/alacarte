@@ -62,19 +62,8 @@ class GuidesController < ApplicationController
       return
     end
 
-    # TODO: Copy logic should be moved to the model.
-    @new_guide = @guide.dup
-    @new_guide.guide_name = "#{ @guide.guide_name }-copy"
-    if params[:options] == 'copy'
-      @new_guide.copy_resources @user.id, @guide.tabs
-    else
-      @new_guide.copy_tabs @guide.tabs
-    end
+    @new_guide = @guide.replicate @user, params[:options]
     @user.add_guide @new_guide
-
-    @new_guide.add_tags @guide.tag_list
-    @new_guide.add_master_type @guide.masters.map(&:id)
-    @new_guide.add_related_subjects @guide.subjects.map(&:id)
 
     redirect_to edit_guide_path(@new_guide)
   end

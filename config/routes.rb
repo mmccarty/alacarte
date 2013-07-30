@@ -56,7 +56,7 @@ Alacarte::Application.routes.draw do
   resources :pages do
     member do
       get   'archive'
-      get   'copy'
+      match 'copy',          via: [:get, :post]
       match 'edit_contact',  via: [:get, :put]
       match 'edit_relateds', via: [:get, :put]
       get   'publish'

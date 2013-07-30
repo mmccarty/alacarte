@@ -143,26 +143,23 @@ class Page < ActiveRecord::Base
     end
   end
 
-  def copy_resources uid, tbs
-    user = User.find uid
-    tbs.each do |tab|
-      mod_copies = tab.tab_resources.flat_map { |r| r.resource.copy_mod(tab.page.route_title) }
-      tab_copy = tab.clone
-      if tab_copy.save
-        mod_copies.each do |mod|
-          mod.update_attribute :created_by, user.name
-          resource = Resource.create mod: mod
-          user.add_resource resource
-          tab_copy.add_resource resource
-        end
-        add_tab tab_copy
-      end
-    end
-  end
-
   def create_home_tab
     if tabs.blank?
       add_tab Tab.new(tab_name: 'Start')
     end
+  end
+
+  def replicate user, options
+    new_page = dup
+    new_page.course_name = "#{ course_name }-copy"
+    if options == 'copy'
+      new_page.copy_resources user.id, tabs
+    else
+      new_page.copy_tabs tabs
+    end
+
+    new_page.add_tags tag_list
+    new_page.add_subjects subjects.map(&:id)
+    new_page
   end
 end

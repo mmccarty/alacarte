@@ -90,27 +90,6 @@ class Guide < ActiveRecord::Base
     end
   end
 
-  def copy_resources uid, tbs
-    # Need an id to add tabs
-    save
-    tabs.destroy_all
-    reload
-    user = User.find uid
-    tbs.each do |tab|
-      mod_copies = tab.tab_resources.flat_map { |r| r.resource.copy_mod(tab.guide.guide_name) }
-      tab_copy = tab.dup
-      if tab_copy.save
-        mod_copies.each do |mod|
-          mod.update_attribute :created_by, user.name
-          resource = Resource.create mod: mod
-          user.add_resource resource
-          tab_copy.add_resource resource
-        end
-        add_tab tab_copy
-      end
-    end
-  end
-
   def toggle_published
     if self.resource || self.published?
       self.toggle!(:published)
@@ -118,5 +97,20 @@ class Guide < ActiveRecord::Base
     else
       false
     end
+  end
+
+  def replicate user, options
+    new_guide = dup
+    new_guide.guide_name = "#{ guide_name }-copy"
+    if options == 'copy'
+      new_guide.copy_resources user.id, tabs
+    else
+      new_guide.copy_tabs tabs
+    end
+
+    new_guide.add_tags tag_list
+    new_guide.add_master_type masters.map(&:id)
+    new_guide.add_related_subjects subjects.map(&:id)
+    new_guide
   end
 end

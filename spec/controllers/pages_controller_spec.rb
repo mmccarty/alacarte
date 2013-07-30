@@ -137,6 +137,19 @@ describe PagesController do
         end
       end
 
+      describe 'GET #copy' do
+        it 'assigns a @page to be the origin page' do
+          get :copy, id: @page.id
+          expect(assigns(:page)).to eq @page
+        end
+
+        it 'renders the :copy template' do
+          get :copy, id: @page.id
+          expect(response).to render_template :copy
+        end
+
+       end
+
       describe 'GET #publish' do
         before :each do
           request.env['HTTP_REFERER'] = '/'
@@ -241,6 +254,51 @@ describe PagesController do
         end
       end
 
+      describe 'POST #copy' do
+        it 'creates a new page' do
+          expect {
+            post :copy, id: @page.id
+          }.to change(Page, :count).by(1)
+        end
+
+        it 'redirects to the edit page for the new page' do
+          post :copy, id: @page.id
+          expect(response).to redirect_to edit_page_path(assigns(:new_page))
+        end
+
+        it 'makes copies of tabs for the new page' do
+          post :copy, id: @page.id, options: 'copy'
+          expect(assigns(:new_page).tabs).to_not be_empty
+        end
+
+        it 'does not remove tabs from the source page' do
+          post :copy, id: @page.id, options: 'copy'
+          @page.reload
+          expect(@page.tabs).to_not be_empty
+        end
+
+        it 'adds the tabs to the new page instead of source page' do
+          post :copy, id: @page.id, options: 'reuse'
+          num_tabs_src = @page.tabs.length
+          @page.reload
+          expect(@page.tabs.length).to eq num_tabs_src
+        end
+
+        it 'makes copies of the tabs even when sharing the modules' do
+          post :copy, id: @page.id, options: 'reuse'
+          expect(assigns(:new_page).tabs).to_not be_empty
+        end
+        it 'does not remove tabs from the source page even when sharing the modules' do
+          post :copy, id: @page.id, options: 'copy'
+          @page.reload
+          expect(@page.tabs).to_not be_empty
+        end
+        it 'will not create redundant home tabs' do
+          post :copy, id: @page.id, options: 'copy'
+          expect(assigns(:new_page).tabs.length).to eq @page.tabs.length
+        end
+
+      end
       describe 'PUT #update' do
         it 'updates attributes of the requested page' do
           put :update, id: @page.id, page: { tag_list: 'this, that, the other' }

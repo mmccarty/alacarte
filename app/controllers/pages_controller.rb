@@ -57,38 +57,15 @@ class PagesController < ApplicationController
   end
 
   def copy
-    session[:page]= nil
-    session[:current_tab] = nil
-    @ucurrent = 'current'
-    @subj_list = Subject.get_subjects
-    begin
-      @page = @user.pages.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to  :action => 'index' and return
-    else
-      @selected = @page.subjects.collect{|s| s.id}
+    @page = @user.pages.find params[:id]
+    if ! request.post?
+      return
     end
-    if request.post?
-      @new_page = @page.clone
-      @new_page.attributes = params[:page]
-      @new_page.published = false
-      @new_page.add_subjects(params[:subjects])
-      if @new_page.save
-        session[:page] = @new_page.id
-        @user.add_page(@new_page)
-        if params[:options]=='copy'
-          logger.debug("in copy")
-          @new_page.copy_resources(@user.id, @page.tabs)
-        else
-          logger.debug("not in copy")
-          @new_page.copy_tabs(@page.tabs)
-        end
-        session[:current_tab] = @new_page.tabs.first.id
-        redirect_to  :action => 'edit'  , :id =>@new_page.id
-      else
-        flash[:error] = "Please edit the page title. A course page with this title already exists."
-      end
-    end
+
+    @new_page = @page.replicate @user, params[:options]
+    @user.add_page @new_page
+
+    redirect_to edit_page_path(@new_page)
   end
 
   def edit_contact
