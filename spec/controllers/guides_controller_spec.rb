@@ -173,6 +173,13 @@ describe GuidesController do
           expect(@guide.tabs).to_not be_empty
         end
 
+        it 'adds the tabs to the new guide instead of the source guide' do
+          post :copy, id: @guide.id, options: 'reuse'
+          num_tabs_src = @guide.tabs.length
+          @guide.reload
+          expect(@guide.tabs.length).to eq num_tabs_src
+        end
+
         it 'makes copies of the tabs even when sharing the modules' do
           post :copy, id: @guide.id, options: 'reuse'
           expect(assigns(:new_guide).tabs).to_not be_empty

@@ -10,6 +10,12 @@ module ItsJustAPage
     tabs << tab
   end
 
+  def remove_all_tabs
+    tabs.each do |tab|
+      tab.destroy
+    end
+  end
+
   def reached_limit?
     tabs.length > 6
   end
@@ -49,6 +55,10 @@ module ItsJustAPage
   end
 
   def copy_tabs tbs
+    # Need an id to add tabs
+    save
+    remove_all_tabs
+    reload
     tbs.each do |tab|
       tab_copy = tab.dup
       if tab_copy.save

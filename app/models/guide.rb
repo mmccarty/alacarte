@@ -91,6 +91,10 @@ class Guide < ActiveRecord::Base
   end
 
   def copy_resources uid, tbs
+    # Need an id to add tabs
+    save
+    remove_all_tabs
+    reload
     user = User.find uid
     tbs.each do |tab|
       mod_copies = tab.tab_resources.flat_map { |r| r.resource.copy_mod(tab.guide.guide_name) }
