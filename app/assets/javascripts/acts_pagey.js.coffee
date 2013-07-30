@@ -1,5 +1,5 @@
 jQuery ->
-  $('#guides tr').on 'ajax:success', (event) ->
+  $('#acts_pagey tr').on 'ajax:success', (event) ->
     $target = $ event.target
     if $target.hasClass 'icon-trash'
       $(event.currentTarget).remove()
@@ -9,7 +9,4 @@ jQuery ->
     else if $target.hasClass 'icon-unlock'
       $target.removeClass('icon-unlock').addClass 'icon-lock'
 
-  $('.edit').editable($('.edit').attr('post-url'), {
-    callback : (value, settings) ->
-      console.log(value)
-  })
+  $('.edit').editable($('.edit').attr('post-url'))

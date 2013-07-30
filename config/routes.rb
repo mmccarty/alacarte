@@ -59,7 +59,7 @@ Alacarte::Application.routes.draw do
       match 'copy',          via: [:get, :post]
       match 'edit_contact',  via: [:get, :put]
       match 'edit_relateds', via: [:get, :put]
-      get   'publish'
+      match 'publish',       via: [:get, :post]
       get   'share'
       post  'sort_tabs'
     end

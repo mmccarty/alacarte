@@ -1,4 +1,4 @@
-%table.table.table-striped
+%table#acts_pagey.table.table-striped
   %thead
     %tr
       %th Shared?
@@ -26,10 +26,10 @@
         %td
           = page.updated_at.to_date
         %td
-          - if page.published == 0 || page.published == false
-            = awesome_button publish_page_path(page), 'lock', 'Add this module to the published list'
+          - if page.published?
+            = awesome_button publish_page_path(page), 'lock', 'Add this module to the published list', '', method: :post, remote: true
           - else
-            = awesome_button publish_page_path(page), 'unlock', 'Remove this page from the published list'
+            = awesome_button publish_page_path(page), 'unlock', 'Remove this page from the published list', '', method: :post, remote: true
         %td
           - if page.archived == 0 || page.archived == false
             = awesome_button archive_page_path(page), 'archive', 'Archive this page'
