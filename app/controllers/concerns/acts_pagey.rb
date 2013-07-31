@@ -75,31 +75,29 @@ module ActsPagey
 
   def share
     item = find_item
-    session[:current_tab] = item.tabs.first.id
-    @user_list = User.order("name")
-    @guide_owners = item.users
-    url = url_for :controller => 'srg', :action => 'index', :id => @guide
-    @message =
-        "I've shared #{@guide.guide_name} with you. The link to the guide is: #{url} .  -#{@user.name} "
-  end
-
-  def share_update
-    item = find_item
-    to_users = []
-    if params[:users] != nil
-      params[:users].each do |p|
-        new_user = User.find(p)
-        if new_user and !item.users.include?(new_user)
-          item.share(new_user.id,params[:copy])
-          to_users << new_user
+    if request.get?
+      session[:current_tab] = item.tabs.first.id
+      @user_list = User.order("name")
+      url = url_for :controller => 'srg', :action => 'index', :id => item
+      @message =
+          "I've shared #{@item_name} with you. The link to this is here: #{url} .  -#{@user.name} "
+    elsif request.post?
+      to_users = []
+      if params[:users] != nil
+        params[:users].each do |p|
+          new_user = User.find(p)
+          if new_user and !item.users.include?(new_user)
+            item.share(new_user.id,params[:copy])
+            to_users << new_user
+          end
         end
+        flash[:notice] = "User(s) successfully added and email notification sent."
+        send_notices(to_users, params[:body]) if params[:body]
+      else
+        flash[:notice] = "Please select at least one user to share with."
       end
-      flash[:notice] = "User(s) successfully added and email notification sent."
-      send_notices(to_users, params[:body]) if params[:body]
-    else
-      flash[:notice] = "Please select at least one user to share with."
+      redirect_to :action => :share, id: item
     end
-    redirect_to :action => :share, id: item
   end
 
   def send_notices(users, message)

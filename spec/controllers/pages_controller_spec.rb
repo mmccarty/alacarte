@@ -232,6 +232,35 @@ describe PagesController do
         end
       end
 
+      describe 'GET #share' do
+        it 'renders the :share template' do
+          get :share, id: @page.id
+          expect(response).to render_template :share
+        end
+      end
+
+      describe 'POST #share' do
+        it 'redirect to GET :share' do
+          post :share, id: @page.id
+          expect(response).to redirect_to polymorphic_path([@page], action: :share)
+        end
+
+        it 'shares the page without copying' do
+          new_user = create :user
+          post :share, id: @page.id, users: [new_user.id], copy: '0'
+          @page.reload
+          expect(@page.shared?).to be_true
+        end
+
+        it 'shares the page by copying creates a new page' do
+          new_user = create :user
+          expect {
+            post :share, id: @page.id, users: [new_user.id], copy: '1'
+          }.to change(Page, :count).by(1)
+        end
+
+      end
+
       describe 'POST #toggle_columns' do
         it 'changes a two-column layout into a one-column layout' do
           tab = @page.tabs.first

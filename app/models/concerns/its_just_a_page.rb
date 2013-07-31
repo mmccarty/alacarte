@@ -41,7 +41,8 @@ module ItsJustAPage
   def share uid, copy
     user = User.find uid
     if copy == '1'
-      share_copy user
+      new_item = replicate user, 'copy'
+      new_item.users << user
     else
       users << user
       tabs.flat_map(&:resources).each { |resource| user.add_resource resource }

@@ -35,7 +35,7 @@ Alacarte::Application.routes.draw do
       match 'edit_contact',  via: [:get, :put]
       match 'edit_relateds', via: [:get, :put]
       match 'publish',       via: [:get, :post]
-      get   'share'
+      match 'share',         via: [:get, :post]
       post  'sort_tabs'
       post  'remove_user_from_guide'
     end
@@ -60,7 +60,7 @@ Alacarte::Application.routes.draw do
       match 'edit_contact',  via: [:get, :put]
       match 'edit_relateds', via: [:get, :put]
       match 'publish',       via: [:get, :post]
-      get   'share'
+      match 'share',         via: [:get, :post]
       post  'sort_tabs'
     end
 

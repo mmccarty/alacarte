@@ -119,5 +119,8 @@ class GuidesController < ApplicationController
 
   def find_item
     @guide = @user.guides.find params[:id]
+    @guide_owners = @guide.users
+    @item_name = @guide.guide_name
+    @guide
   end
 end

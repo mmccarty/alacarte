@@ -61,35 +61,6 @@ class Guide < ActiveRecord::Base
     subjects.flat_map(&:get_pages).uniq
   end
 
-  def share_copy user
-    guide_copy = clone
-    guide_copy.guide_name = guide_name + '-copy'
-    subjects.each do |subject|
-      guide_copy.subjects << subject
-    end
-    masters.each do |master|
-      guide_copy.masters << master
-    end
-    guide_copy.created_by = user.id
-    guide_copy.published = false
-    guide_copy.save
-
-    guide_copy.users << user
-
-    tabs.each do |tab|
-      mod_copies = tab.tab_resources.flat_map { |r| r.resource.copy_mod(guide_name) }
-      tab_copy = tab.clone
-      if tab_copy.save
-        mod_copies.each do |mod|
-          resource = Resource.create mod: mod
-          user.add_resource resource
-          tab_copy.add_resource resource
-        end
-        guide_copy.add_tab tab_copy
-      end
-    end
-  end
-
   def toggle_published
     if self.resource || self.published?
       self.toggle!(:published)

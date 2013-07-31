@@ -6,7 +6,7 @@
   .span10
     %h1.page-header Share Guide
     %fieldset
-      = form_tag({:action=> 'share_update',:id =>@guide}) do
+      = form_tag({:action=> 'share',:id =>@guide}) do
         = render 'shared/share_left'
         %fieldset
           %legend

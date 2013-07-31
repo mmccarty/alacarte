@@ -117,32 +117,6 @@ class Page < ActiveRecord::Base
     end
   end
 
-  def share_copy user
-    page_copy = clone
-    page_copy.course_name = course_name + '-copy'
-    subjects.each do |subject|
-      page_copy.subjects << subject
-    end
-    page_copy.created_by = user.id
-    page_copy.published = false
-    page_copy.save
-
-    page_copy.users << user
-
-    tabs.each do |tab|
-      mod_copies = tab.tab_resources.flat_map { |r| r.resource.copy_mod(route_title) }
-      tab_copy = tab.clone
-      if tab_copy.save
-        mod_copies.each do |mod|
-          resource = Resource.create mod: mod
-          user.add_resource resource
-          tab_copy.add_resource resource
-        end
-        page_copy.add_tab tab_copy
-      end
-    end
-  end
-
   def create_home_tab
     if tabs.blank?
       add_tab Tab.new(tab_name: 'Start')

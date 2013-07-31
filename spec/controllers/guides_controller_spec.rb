@@ -318,6 +318,28 @@ describe GuidesController do
         end
       end
 
+      describe 'POST #share' do
+        it 'redirect to GET :share' do
+          post :share, id: @guide.id
+          expect(response).to redirect_to polymorphic_path([@guide], action: :share)
+        end
+
+        it 'shares the guide without copying' do
+          new_user = create :user
+          post :share, id: @guide.id, users: [new_user.id], copy: '0'
+          @guide.reload
+          expect(@guide.shared?).to be_true
+        end
+
+        it 'shares the guide by copying creates a new page' do
+          new_user = create :user
+          expect {
+            post :share, id: @guide.id, users: [new_user.id], copy: '1'
+          }.to change(Guide, :count).by(1)
+        end
+
+      end
+
       describe 'POST #toggle_columns' do
         it 'changes a two-column layout into a one-column layout' do
           tab = @guide.tabs.first

@@ -147,5 +147,8 @@ Please contact me if you have any questions or suggestions.
 
   def find_item
     @page = @user.pages.find params[:id]
+    @page_owners = @page.users
+    @item_name = @page.search_title
+    @page
   end
 end
