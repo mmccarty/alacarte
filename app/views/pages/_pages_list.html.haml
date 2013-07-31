@@ -32,8 +32,8 @@
             = awesome_button publish_page_path(page), 'unlock', 'Remove this page from the published list', '', method: :post, remote: true
         %td
           - if page.archived == 0 || page.archived == false
-            = awesome_button archive_page_path(page), 'archive', 'Archive this page'
+            = awesome_button archive_page_path(page), 'check-empty', 'Archive this page', '', method: :post, remote: true
           - else
-            = awesome_button archive_page_path(page), 'check-empty', 'Unarchive this page'
+            = awesome_button archive_page_path(page), 'check', 'Unarchive this page', '', method: :post, remote: true
 
 = will_paginate @pages

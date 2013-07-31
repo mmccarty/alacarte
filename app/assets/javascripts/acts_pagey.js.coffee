@@ -9,4 +9,9 @@ jQuery ->
     else if $target.hasClass 'icon-unlock'
       $target.removeClass('icon-unlock').addClass 'icon-lock'
 
+    if $target.hasClass 'icon-check'
+      $target.removeClass('icon-check').addClass 'icon-check-empty'
+    else if $target.hasClass 'icon-check-empty'
+      $target.removeClass('icon-check-empty').addClass 'icon-check'
+
   $('.edit').editable($('.edit').attr('post-url'))

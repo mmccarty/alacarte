@@ -67,8 +67,7 @@ module ActsPagey
     item.toggle! :archived
     item.update_attribute :published, false
     if request.xhr?
-      @sort = params[:sort]
-      render :partial => "index_row" ,:locals => {:id => page, :page => params[:page], :sort => @sort , :all => params[:all]}
+      render nothing: true
     else
       redirect_to :back, :page => params[:page], :sort => params[:sort]
     end
