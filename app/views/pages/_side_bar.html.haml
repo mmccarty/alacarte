@@ -3,6 +3,13 @@
     = link_to 'Title & Metadata', edit_page_path(@page)
   %li{ :class => current_page?(page_path @page) && "active" }
     = link_to 'Edit page', page_path(@page)
+  %li
+    = link_to 'Preview Page', show_ica_path(@page, :tab => session[:current_tab])
+  %li
+    - if @page.published?
+      = link_to 'Publish Page', publish_page_path(@page), :confirm => 'Are you sure you want to publish this page?', :method => :post
+    - else
+      = link_to 'Unpublish Page', publish_page_path(@page), :confirm => 'Are you sure you want to unpublish this page?', :method => :post
   %li{ :class => current_page?(share_page_path(@page)) && "active" }
     = link_to 'Share page', share_page_path(@page)
   %li{ :class => current_page?(new_page_path) && "active" }
