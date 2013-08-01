@@ -141,7 +141,7 @@ describe GuidesController do
       describe 'GET #copy' do
         it 'assigns @guide to be the original guide' do
           get :copy, id: @guide.id
-          expect(assigns(:guide)).to eq @guide
+          expect(assigns(:item)).to eq @guide
         end
 
         it 'renders the :copy template' do
@@ -159,12 +159,12 @@ describe GuidesController do
 
         it 'redirects to the edit page for the new guide' do
           post :copy, id: @guide.id
-          expect(response).to redirect_to edit_guide_path(assigns(:new_guide))
+          expect(response).to redirect_to edit_guide_path(assigns(:new_item))
         end
 
         it 'makes copies of tabs for the new guide' do
           post :copy, id: @guide.id, options: 'copy'
-          expect(assigns(:new_guide).tabs).to_not be_empty
+          expect(assigns(:new_item).tabs).to_not be_empty
         end
 
         it 'does not remove tabs from the source guide' do
@@ -182,7 +182,7 @@ describe GuidesController do
 
         it 'makes copies of the tabs even when sharing the modules' do
           post :copy, id: @guide.id, options: 'reuse'
-          expect(assigns(:new_guide).tabs).to_not be_empty
+          expect(assigns(:new_item).tabs).to_not be_empty
         end
 
         it 'does not remove tabs from the source guide even when sharing the modules' do
@@ -193,7 +193,7 @@ describe GuidesController do
 
         it 'will not create redundant home tabs' do
           post :copy, id: @guide.id, options: 'copy'
-          expect(assigns(:new_guide).tabs.length).to eq @guide.tabs.length
+          expect(assigns(:new_item).tabs.length).to eq @guide.tabs.length
         end
       end
 

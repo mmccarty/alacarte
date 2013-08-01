@@ -140,7 +140,7 @@ describe PagesController do
       describe 'GET #copy' do
         it 'assigns a @page to be the origin page' do
           get :copy, id: @page.id
-          expect(assigns(:page)).to eq @page
+          expect(assigns(:item)).to eq @page
         end
 
         it 'renders the :copy template' do
@@ -292,12 +292,12 @@ describe PagesController do
 
         it 'redirects to the edit page for the new page' do
           post :copy, id: @page.id
-          expect(response).to redirect_to edit_page_path(assigns(:new_page))
+          expect(response).to redirect_to edit_page_path(assigns(:new_item))
         end
 
         it 'makes copies of tabs for the new page' do
           post :copy, id: @page.id, options: 'copy'
-          expect(assigns(:new_page).tabs).to_not be_empty
+          expect(assigns(:new_item).tabs).to_not be_empty
         end
 
         it 'does not remove tabs from the source page' do
@@ -315,7 +315,7 @@ describe PagesController do
 
         it 'makes copies of the tabs even when sharing the modules' do
           post :copy, id: @page.id, options: 'reuse'
-          expect(assigns(:new_page).tabs).to_not be_empty
+          expect(assigns(:new_item).tabs).to_not be_empty
         end
         it 'does not remove tabs from the source page even when sharing the modules' do
           post :copy, id: @page.id, options: 'copy'
@@ -324,7 +324,7 @@ describe PagesController do
         end
         it 'will not create redundant home tabs' do
           post :copy, id: @page.id, options: 'copy'
-          expect(assigns(:new_page).tabs.length).to eq @page.tabs.length
+          expect(assigns(:new_item).tabs.length).to eq @page.tabs.length
         end
 
       end

@@ -50,18 +50,6 @@ class PagesController < ApplicationController
     end
   end
 
-  def copy
-    @page = @user.pages.find params[:id]
-    if ! request.post?
-      return
-    end
-
-    @new_page = @page.replicate @user, params[:options]
-    @user.add_page @new_page
-
-    redirect_to edit_page_path(@new_page)
-  end
-
   def edit_contact
     begin
       @page = @user.pages.find params[:id]

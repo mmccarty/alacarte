@@ -50,18 +50,6 @@ class GuidesController < ApplicationController
     end
   end
 
-  def copy
-    @guide = @user.guides.find params[:id]
-    if ! request.post?
-      return
-    end
-
-    @new_guide = @guide.replicate @user, params[:options]
-    @user.add_guide @new_guide
-
-    redirect_to edit_guide_path(@new_guide)
-  end
-
   def edit_contact
     begin
       @guide = @user.guides.find params[:id]

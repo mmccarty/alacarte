@@ -1,0 +1,29 @@
+%h1.page-header
+  - item_type = @item.class.to_s.downcase
+  Copy #{ item_type.titlecase } as #{ @header_name }-copy
+  = report_errors @item
+
+= form_tag polymorphic_path([@item], action: :copy) do
+  %fieldset
+    %legend
+      Copy Options
+      %i.icon-question-sign{ :data => { :content => "Copy the modules if you want to make a distinct copy. Link the modules if you want edits to one #{ item_type } to effect the other.", :html => 'true', :trigger => 'hover' } }
+    .control-group
+      %label.radio
+        Copy the Modules
+        = radio_button_tag 'options', 'copy', :checked => true
+      %p.muted
+        Edits to the modules will not change the original #{ item_type }'s modules.
+    .control-group
+      %label.radio
+        Link the Modules
+        = radio_button_tag 'options', 'reuse'
+      %p.muted
+        Whenever edits are made to the original modules, this #{ item_type }'s modules will be updated too.
+
+    .control-group
+      = submit_tag 'Copy', :class => 'btn btn-primary submit'
+      = link_to 'Cancel', { :action => 'index' }, { :class => 'btn' }
+
+:javascript
+  $('.icon-question-sign').popover();

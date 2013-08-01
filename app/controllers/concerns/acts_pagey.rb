@@ -61,6 +61,20 @@ module ActsPagey
     render :partial => "relateds", :layout => false
   end
 
+  def copy
+    @item = find_item
+    @header_name = item_name
+    if ! request.post?
+      render 'shared/copy'
+      return
+    end
+
+    @new_item = @item.replicate @user, params[:options]
+    @user.send "add_#{ @new_item.class.to_s.downcase }", @new_item
+
+    redirect_to polymorphic_path([@new_item], action: :edit)
+  end
+
   def publish
     item = find_item
     item.toggle! :published
