@@ -151,4 +151,12 @@ Please contact me if you have any questions or suggestions.
     @item_name = @page.search_title
     @page
   end
+
+  def model_instance
+    @page
+  end
+
+  def model_header_name
+    @page.header_title
+  end
 end

@@ -123,4 +123,12 @@ class GuidesController < ApplicationController
     @item_name = @guide.guide_name
     @guide
   end
+
+  def model_instance
+    @guide
+  end
+
+  def model_header_name
+    @guide.guide_name
+  end
 end

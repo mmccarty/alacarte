@@ -9,6 +9,10 @@ module ActsPagey
       @mods_left  = @tab.left_resources
       @mods_right = @tab.right_resources
     end
+
+    @item = model_instance
+    @header_name = model_header_name
+    render 'shared/show'
   end
 
   def set_owner
