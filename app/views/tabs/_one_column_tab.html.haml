@@ -9,8 +9,4 @@
       %i.icon-question-sign{ :data => { :content => "#{ render_tooltip mod }", :html => 'true', :trigger => 'hover' } }
       = link_to '', edit_module_path(mod, :type => mod.class), :class => 'icon-edit', :title => 'Edit this module'
       = link_to '', module_path(mod, :type => mod.class), :popup => ['', 'height=400,width=350,toolbar=yes, scrollbars =yes,resizable=yes'], :class => 'icon-external-link', :title => 'View this module'
-
-      - if @parent.class.to_s == 'Guide'
-        = link_to '', remove_module_guide_tab_path(@parent, @tab, :mod => mod.id, :type => mod.class), :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post, :class => 'icon-trash', :title => 'Remove this module'
-      - else
-        = link_to '', remove_module_page_tab_path(@parent, @tab, :mod => mod.id, :type => mod.class), :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post, :class => 'icon-trash', :title => 'Remove this module'
+      = link_to '', polymorphic_path([@parent, @tab], :mod => mod.id, :type => mod.class), :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post, :class => 'icon-trash', :title => 'Remove this module'
