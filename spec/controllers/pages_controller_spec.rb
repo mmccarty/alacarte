@@ -98,7 +98,7 @@ describe PagesController do
         page = create :page
         @user.add_page page
         get :index
-        expect(assigns(:pages)).to match_array [page]
+        expect(assigns(:items)).to match_array [page]
       end
 
       it 'renders the :index template' do

@@ -111,7 +111,7 @@ describe GuidesController do
         guide = create :guide
         @user.add_guide guide
         get :index
-        expect(assigns(:guides)).to match_array [guide]
+        expect(assigns(:items)).to match_array [guide]
       end
 
       it 'renders the :index template' do

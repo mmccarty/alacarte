@@ -3,12 +3,6 @@ class GuidesController < ApplicationController
   include Paginating
   layout 'admin'
 
-  def index
-    @sort   = params[:sort] || 'name'
-    @guides = @user.sort_guides @sort
-    @guides = paginate_guides @guides, (params[:page] ||= 1), @sort
-  end
-
   def new
     @guide = Guide.new
     @masters = Master.get_guide_types
@@ -124,11 +118,11 @@ class GuidesController < ApplicationController
     @guide
   end
 
-  def model_instance
+  def get_item
     @guide
   end
 
-  def model_header_name
+  def item_name
     @guide.guide_name
   end
 end

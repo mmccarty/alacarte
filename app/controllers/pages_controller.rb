@@ -3,12 +3,6 @@ class PagesController < ApplicationController
   include Paginating
   layout 'admin'
 
-  def index
-    @sort  = params[:sort] || 'name'
-    @pages = @user.sort_pages @sort
-    @pages = paginate_pages @pages, params[:page] ||= 1, @sort
-  end
-
   def new
     @page = Page.new
     @subj_list = Subject.get_subjects
@@ -152,11 +146,11 @@ Please contact me if you have any questions or suggestions.
     @page
   end
 
-  def model_instance
+  def get_item
     @page
   end
 
-  def model_header_name
+  def item_name
     @page.header_title
   end
 end

@@ -4,24 +4,25 @@
     = render 'side_bar'
 
   .span10
-    %h1.page-header Share Page
+    - item_type = @item.class.to_s.downcase
+    %h1.page-header Share #{ item_type.titlecase }
     %fieldset
-      = form_tag({:action=> 'share',:id =>@page}) do
+      = form_tag({:action=> 'share',:id =>@item}) do
         = render 'shared/share_left'
         %fieldset
           %legend
             Sharing Options
-            %i.icon-question-sign{ :data => { :content => 'Share the original when you want to co-author a page. Share a template if you do not want to give editing rights. Edits to the template will not effect the original. NOTE: You will not have access to the template.', :html => 'true', :trigger => 'hover' } }
+            %i.icon-question-sign{ :data => { :content => 'Share the original when you want to co-author a #{ item_type }. Share a template if you do not want to give editing rights. Edits to the template will not effect the original. NOTE: You will not have access to the template.', :html => 'true', :trigger => 'hover' } }
           %label.radio
             = radio_button_tag('copy', 2, true)
             Share the Original
           %p.muted
-            Sharing the original gives editing rights to this page.
+            Sharing the original gives editing rights to this #{ item_type }.
           %label.radio
             = radio_button_tag('copy', 1, false)
             Share a Template
           %p.muted
-            A template is a copy and does not give editing rights to this page.
+            A template is a copy and does not give editing rights to this #{ item_type }.
         %fieldset
           %legend Email Message
           .control-group
@@ -34,7 +35,7 @@
           %fieldset
         %legend Page Editors
         %p.muted
-          Removing someone revokes their editing rights to this page and the page's modules. The last owner can not be deleted.
+          Removing someone revokes their editing rights to this #{ item_type } and the #{ item_type }'s modules. The last owner can not be deleted.
         = render 'owners'
 
 :javascript

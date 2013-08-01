@@ -1,6 +1,14 @@
 module ActsPagey
   extend ActiveSupport::Concern
 
+  def index
+    klass = self.class.to_s.underscore.split('_').first
+    @sort  = params[:sort] || 'name'
+    @items = @user.send "sort_#{ klass }", @sort
+    @items = send "paginate_#{ klass }", @items, params[:page] ||= 1, @sort
+    render 'shared/index'
+  end
+
   def show
     @tab = find_tab
     if @tab.num_columns == 1
@@ -10,8 +18,8 @@ module ActsPagey
       @mods_right = @tab.right_resources
     end
 
-    @item = model_instance
-    @header_name = model_header_name
+    @item = get_item
+    @header_name = item_name
     render 'shared/show'
   end
 
@@ -78,20 +86,21 @@ module ActsPagey
   end
 
   def share
-    item = find_item
+    @item = find_item
     if request.get?
-      session[:current_tab] = item.tabs.first.id
+      session[:current_tab] = @item.tabs.first.id
       @user_list = User.order("name")
-      url = url_for :controller => 'srg', :action => 'index', :id => item
+      url = url_for :controller => 'srg', :action => 'index', :id => @item
       @message =
           "I've shared #{@item_name} with you. The link to this is here: #{url} .  -#{@user.name} "
+      render 'shared/share'
     elsif request.post?
       to_users = []
       if params[:users] != nil
         params[:users].each do |p|
           new_user = User.find(p)
-          if new_user and !item.users.include?(new_user)
-            item.share(new_user.id,params[:copy])
+          if new_user and !@item.users.include?(new_user)
+            @item.share(new_user.id,params[:copy])
             to_users << new_user
           end
         end
@@ -100,7 +109,7 @@ module ActsPagey
       else
         flash[:notice] = "Please select at least one user to share with."
       end
-      redirect_to :action => :share, id: item
+      redirect_to :action => :share, id: @item
     end
   end
 

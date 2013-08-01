@@ -1,0 +1,55 @@
+- item_type = @items.first.class.to_s.downcase
+.container
+  = awesome_button polymorphic_path([@items.first], action: :new), 'plus', "Create new course #{ item_type }", 'btn btn-primary'
+
+.container
+  %table#acts_pagey.table.table-striped
+    %thead
+      %tr
+        %th Shared?
+        %th Title
+        %th
+        %th Last Update
+        %th Published?
+        - if item_type == 'page'
+          %th Archived?
+
+    %tbody
+      - @items.each do |item|
+        %tr
+          %td
+            = awesome_button polymorphic_path([item], action: :share), item.shared? ? 'star' : 'star-empty', "Share this #{ item_type }"
+
+          %td
+            - if item_type == 'page'
+              = truncate item.search_title.html_safe, length: 65
+            - else
+              = truncate item.guide_name.html_safe, length: 65
+          %td
+            = awesome_button item, 'edit', "Edit this #{ item_type }"
+            &nbsp;
+            - if item_type == 'page'
+              = awesome_button show_ica_path(item), 'external-link', "Preview this #{ item_type }"
+            - else
+              = awesome_button show_srg_path(item), 'external-link', "Preview this #{ item_type }"
+            &nbsp;
+            = awesome_button polymorphic_path([item], action: :copy), 'copy', "Copy this #{ item_type }"
+            &nbsp;
+            = link_to '', item, :update => "row#{item.id}" , :confirm => "Are you sure you want to delete this #{ item_type } from your list?", :class =>'icon-trash', :title => 'Delete this page', :method => :delete, :remote => true
+          %td
+            = item.updated_at.to_date
+          %td
+            - if item.published?
+              = awesome_button polymorphic_path([item], action: :publish), 'lock', 'Add this module to the published list', '', method: :post, remote: true
+            - else
+              = awesome_button polymorphic_path([item], action: :publish), 'unlock', "Remove this #{ item_type } from the published list", '', method: :post, remote: true
+          - if item_type == 'page'
+            %td
+              - if item.archived == 0 || item.archived == false
+                = awesome_button polymorphic_path([item], action: :archive), 'check-empty', "Archive this #{ item_type }", '', method: :post, remote: true
+              - else
+                = awesome_button polymorphic_path([item], action: :archive), 'check', "Unarchive this #{ item_type  }", '', method: :post, remote: true
+
+
+  - if !@items.empty?
+    = will_paginate @items
