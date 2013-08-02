@@ -55,8 +55,10 @@ module ItsJustAPage
     tabs.destroy_all
     reload
     user = User.find uid
+    klass = self.class.to_s.downcase
+    klass_name = klass == 'page' ? 'route_title' : 'guide_name'
     tbs.each do |tab|
-      mod_copies = tab.tab_resources.flat_map { |r| r.resource.copy_mod(tab.page.route_title) }
+      mod_copies = tab.tab_resources.flat_map { |r| r.resource.copy_mod(tab.send(klass).send klass_name) }
       tab_copy = tab.dup
       if tab_copy.save
         mod_copies.each do |mod|
