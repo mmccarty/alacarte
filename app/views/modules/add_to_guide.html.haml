@@ -19,13 +19,13 @@
               %th
               %th Last Update
               %th Published?
-          - for guide in @guides
+          - @guides.each do |guide|
             %tr
               %td
                 = truncate guide.guide_name, length: 65
                 %label.checkbox
-                  - for tab in guide.tabs
-                    = check_box_tag(tab.tab_name, tab.id,session[:tabs].include?(tab.id.to_s), :onclick => "$.post('#{ add_guide_module_path(@mod, type: @mod.class) }', { tid: #{ tab.id });")
+                  - guide.tabs.each do |tab|
+                    = check_box_tag(tab.tab_name, tab.id,session[:tabs].include?(tab.id.to_s), :onclick => "$.post('#{ add_guide_module_path(@mod, type: @mod.class) }', { tid: #{ tab.id } });")
                     = tab.tab_name
                     %br/
               %td
@@ -37,6 +37,9 @@
                   = awesome_button publish_guide_path(guide), 'lock', 'Add this guide to the published list'
                 - else
                   = awesome_button publish_guide_path(guide), 'unlock', 'Remove this guide from the published list'
+        .controls-group
+          .controls
+            = submit_tag 'Add to Guide Tabs', class: 'btn btn-primary'
       = will_paginate @guides
     - else
       %p

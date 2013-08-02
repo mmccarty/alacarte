@@ -1,4 +1,4 @@
-class ModulesController < ApplicationController
+  class ModulesController < ApplicationController
   include Paginating
   skip_before_filter :authorize, :only =>[:view]
   before_filter :module_types, :except => [:view]
@@ -85,7 +85,7 @@ class ModulesController < ApplicationController
       @mod = find_mod params[:id], params[:type]
       @course_pages = @mod.get_pages if @local.guides_list.include?('pages')
       @guides = @mod.get_guides if @local.guides_list.include?('guides')
-      @tutorials = @mod.get_tutorials if @local.guides_list.include?('tutorials')
+      @tutorials = nil #@mod.get_tutorials if @local.guides_list.include?('tutorials')
     rescue
       redirect_to :back
     end
@@ -147,8 +147,10 @@ class ModulesController < ApplicationController
         render :partial => "add_page_list", :layout => false
       elsif request.post?
         session[:page_tabs].each do |tid|
-          tab = Tab.find tid
-          tab.add_module params[:id], params[:type]
+          if !tid.nil?
+            tab = Tab.find tid
+            tab.add_module params[:id], params[:type]
+          end
         end
         session[:page_tabs] = nil
         flash[:message] = "#{@mod.module_title} successfully added these pages."

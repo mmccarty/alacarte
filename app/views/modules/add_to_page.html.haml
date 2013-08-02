@@ -20,13 +20,13 @@
               %th Last Update
               %th Published?
               %th Archived?
-          - for page in @pages
+          - @pages.each do |page|
             %tr
               %td
                 = truncate page.search_title, length: 45
                 %label.checkbox
-                  - for tab in page.tabs
-                    = check_box_tag(tab.tab_name, tab.id,session[:page_tabs].include?(tab.id.to_s) , :onclick => "$.post('#{ add_page_module_path(@mod, type: @mod.class ) }', { tid: #{ tab.id });")
+                  - page.tabs.each do |tab|
+                    = check_box_tag tab.tab_name, tab.id, tab.modules.include?(@mod), :onclick => "$.post('#{ add_page_module_path @mod  }', { tid: #{ tab.id }, type: '#{ @mod.class }' });"
                     = tab.tab_name
                     %br/
               %td
@@ -34,15 +34,18 @@
               %td
                 = page.updated_at.to_date
               %td
-                - if page.published == 0 || page.published == false
-                  = awesome_button publish_page_path(page), 'lock', 'Add this module to the published list'
+                - if page.published?
+                  = awesome_button publish_page_path(page), 'lock', 'Add this module to the published list', '', method: :post, remote: true
                 - else
-                  = awesome_button publish_page_path(page), 'unlock', 'Remove this page from the published list'
+                  = awesome_button publish_page_path(page), 'unlock', 'Remove this page from the published list', '', method: :post, remote: true
               %td
                 - if page.archived == 0 || page.archived == false
-                  = awesome_button archive_page_path(page), 'archive', 'Archive this page'
+                  = awesome_button archive_page_path(page), 'check-empty', 'Archive this page', '', method: :post, remote: true
                 - else
-                  = awesome_button archive_page_path(page), 'check-empty', 'Unarchive this page'
+                  = awesome_button archive_page_path(page), 'check', 'Unarchive this page', '', method: :post, remote: true
+        .controls-group
+          .controls
+            = submit_tag 'Add to Page Tabs', class: 'btn btn-primary'
       = will_paginate @pages
     - else
       %p
