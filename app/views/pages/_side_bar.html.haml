@@ -12,5 +12,7 @@
       = link_to 'Unpublish Page', publish_page_path(@page), :confirm => 'Are you sure you want to unpublish this page?', :method => :post
   %li{ :class => current_page?(share_page_path(@page)) && "active" }
     = link_to 'Share page', share_page_path(@page)
+  %li{ :class => current_page?(edit_relateds_page_path) && "active" }
+    = link_to 'Edit Related Guides', edit_relateds_page_path
   %li{ :class => current_page?(new_page_path) && "active" }
     = link_to 'Create New page', new_page_path
