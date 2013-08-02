@@ -1,4 +1,4 @@
-%ul#mods.unstyled{ 'data-reorder' => polymorphic_path([@parent, @tab], action: :reorder_modules) }
+%ul.unstyled{ 'id' => mods_id, 'data-reorder' => polymorphic_path([@parent, @tab], action: :reorder_modules) }
   - mods.each do |pr|
     - mod = pr.resource.mod
     %li{ :id => "item_#{ pr.resource.id }" }

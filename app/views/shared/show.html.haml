@@ -27,9 +27,9 @@
             = link_to '', polymorphic_path([@item, @tab], action: :toggle_columns), method: :post, class: 'btn icon-columns', title: 'Toggle columns'
             = link_to '', polymorphic_path([@item, @tab], action: :delete), method: :post, class: 'btn btn-danger icon-trash', title: 'Delete this module', confirm: 'Are you sure you want to delete this tab?'
         - if @mods
-          = render :partial => 'tabs/column', :locals => { :mods => @mods }
+          = render :partial => 'tabs/column', :locals => { :mods => @mods, :mods_id => 'mods'}
         - else
           .span4
-            = render :partial => 'tabs/column', :locals => { :mods => @mods_left }
+            = render :partial => 'tabs/column', :locals => { :mods => @mods_left, :mods_id => 'left_mods'}
           .span4
-            = render :partial => 'tabs/column', :locals => { :mods => @mods_right }
+            = render :partial => 'tabs/column', :locals => { :mods => @mods_right, :mods_id => 'right_mods'}
