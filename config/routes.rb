@@ -95,8 +95,7 @@ Alacarte::Application.routes.draw do
 
   resources :modules do
     member do
-      post  'add_guide'
-      post  'add_page'
+      post  'add_item'
       match 'add_to_guide',    via: [:get, :post]
       match 'add_to_page',     via: [:get, :post]
       match 'add_to_tutorial', via: [:get, :post]

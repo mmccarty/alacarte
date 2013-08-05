@@ -91,15 +91,9 @@
     end
   end
 
-  def add_guide
+  def add_item
     session[:tabs] ||= []
     session[:tabs] << params[:tid] unless session[:tabs].include? params[:tid]
-    render nothing: true
-  end
-
-  def add_page
-    session[:page_tabs] ||= []
-    session[:page_tabs] << params[:tid] unless session[:page_tabs].include? params[:tid]
     render nothing: true
   end
 
@@ -109,19 +103,18 @@
     render nothing: true
   end
 
-  def add_to_guide
+  def add_to_item item_type
     session[:tabs] ||= []
     begin
       @mod = find_mod params[:id], params[:type]
+      @sort = params[:sort] ||= 'name'
+      @items = @user.send "sort_#{ item_type }s", @sort
+      @items = send "paginate_#{ item_type }s", @items, (params[:page] ||= 1), @sort
     rescue ActiveRecord::RecordNotFound
       redirect_to  :action => 'index', :list=> 'mine' and return
-    else
-      @sort = params[:sort] ||= 'name'
-      @guides = @user.sort_guides @sort
-      @guides = paginate_guides @guides, (params[:page] ||= 1), @sort
     end
     if request.xhr?
-      render :partial => "add_guide_list", :layout => false
+      render :partial => "add_#{ item_type }_list", :layout => false
     elsif request.post?
       session[:tabs].each do |tid|
         tab = Tab.find tid
@@ -130,33 +123,17 @@
       session[:tabs] = nil
       flash[:message] = "#{@mod.module_title} successfully added to these guides."
       redirect_to manage_module_path(@mod, type: @mod.class)
+    else
+      render "modules/add_to_item"
     end
   end
 
+  def add_to_guide
+    add_to_item "guide"
+  end
+
   def add_to_page
-    session[:page_tabs] ||= []
-    begin
-      @mod = find_mod params[:id], params[:type]
-    rescue ActiveRecord::RecordNotFound
-      redirect_to  :action => 'index', :list=> 'mine' and return
-    else
-      @sort = params[:sort] ||= 'name'
-      @pages = @user.sort_pages @sort
-      @pages = paginate_pages @pages, (params[:page] ||= 1), @sort
-      if request.xhr?
-        render :partial => "add_page_list", :layout => false
-      elsif request.post?
-        session[:page_tabs].each do |tid|
-          if !tid.nil?
-            tab = Tab.find tid
-            tab.add_module params[:id], params[:type]
-          end
-        end
-        session[:page_tabs] = nil
-        flash[:message] = "#{@mod.module_title} successfully added these pages."
-        redirect_to manage_module_path(@mod, type: @mod.class)
-      end
-    end
+    add_to_item "page"
   end
 
   def add_to_tutorial
