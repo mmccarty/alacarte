@@ -21,10 +21,10 @@ class MiscellaneousResourcesController < ApplicationController
 
   def copy
     old_mod = MiscellaneousResource.find params[:id]
-    new_mod = old_mod.copy
-    if new_mod.save
-      create_and_add_resource @user, new_mod
-      redirect_to edit_miscellaneous_resource_path(new_mod)
+    @new_mod = old_mod.copy
+    if @new_mod.save
+      create_and_add_resource @user, @new_mod
+      redirect_to edit_miscellaneous_resource_path(@new_mod)
     end
   end
 end

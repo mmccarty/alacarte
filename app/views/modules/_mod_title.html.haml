@@ -35,10 +35,10 @@
       %i.icon-question-sign{ :data => { :content => 'This is the module\'s title that will appear to the public.<br/><br/> Shorter titles should be used in two column layouts.', :html => 'true', :trigger => 'hover' } }
 
 .control-group
-  %label.control-label{ :for => "tags" }
+  %label.control-label{ :for => "tag_list" }
     Tags
   .controls
-    = text_field_tag :tags, @tags, :class => 'input-xlarge'
+    = text_field :mod, :tag_list, :class => 'input-xlarge'
     &nbsp;
     %i.icon-question-sign{ :data => { :content => 'Tags are keywords that highlight content on the module or organize the modules into a category.<br/><br/>Tips: Seperate individual tags with a comma. Only add 3-5 tags.', :html => 'true', :trigger => 'hover' } }
     .small.muted
