@@ -26,7 +26,9 @@ class ApplicationController < ActionController::Base
   def student_authorize
     student = Student.find_by_id_and_tutorial_id(session[:student],session[:tutorial])
     unless student
-      session[:tut_uri] = request.request_uri
+      if request.respond_to? :request_uri then
+        session[:tut_uri] = request.request_uri
+      end
       redirect_to(:controller=> "student", :action => "login", :id => session[:tutorial])
     else
       @student = student
@@ -37,7 +39,9 @@ class ApplicationController < ActionController::Base
     user = User.find_by_id(session[:user_id])
 
     unless user and  user.is_admin == true
-      session[:original_uri] = request.request_uri
+      if request.respond_to? :request_uri then
+        session[:original_uri] = request.request_uri
+      end
       flash[:notice]= "Please log in"
       redirect_to(:controller=> "login", :action => "login")
       false
