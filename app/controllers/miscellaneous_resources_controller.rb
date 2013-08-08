@@ -11,8 +11,7 @@ class MiscellaneousResourcesController < ApplicationController
 
   def update
     @mod = MiscellaneousResource.find params[:id]
-    @mod.update_attributes params[:mod]
-    if @mod.save
+    if @mod.update_attributes params[:mod]
       redirect_to @mod
     else
       render :edit
