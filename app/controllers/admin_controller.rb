@@ -86,14 +86,14 @@ class AdminController < ApplicationController
         end
       end
       flash[:notice] = "User(s) successfully added and email notification sent."
-      guide_send_notices(to_users, @guide)
+      guide_send_notices(to_users)
     else
       flash[:notice] = "Please select at least one user to share with."
     end
     redirect_to :action => 'assign_guide', :id => @guide.id and return
   end
 
-  def guide_send_notices(users,guide)
+  def guide_send_notices(users)
     @guide = Guide.find(params[:id])
     users.each do |p|
       new_user = User.find(p)
@@ -111,7 +111,7 @@ class AdminController < ApplicationController
     begin
       @guide = Guide.find(params[:id])
     rescue Exception => e
-      redirect_to :action => 'tool', :list=> 'mine'
+      redirect_to :action => 'tools', :list=> 'mine'
     else
       user = @guide.users.find_by_id(params[:uid])
       @guide.update_attribute(:created_by, @guide.users.at(1).name) if @guide.created_by.to_s == user.name.to_s
@@ -195,16 +195,16 @@ class AdminController < ApplicationController
 
   def remove_user_from_page
     begin
-      page = Page.find(params[:id])
+      @page = Page.find(params[:id])
     rescue Exception => e
       logger.error("Exception in remove_from_user: #{e}" )
       redirect_to :action => 'index', :list=> 'mine'
     else
-      user = page.users.find_by_id(params[:uid])
-      page.update_attribute(:created_by, page.users.at(1).name) if page.created_by.to_s == user.name.to_s
-      user.delete_page_tabs(page)
+      user = @page.users.find_by_id(params[:uid])
+      @page.update_attribute(:created_by, @page.users.at(1).name) if @page.created_by.to_s == user.name.to_s
+      user.delete_page_tabs(@page)
       flash[:notice] = "User(s) successfully removed."
-      redirect_to :action => 'assign_page', :id => page
+      redirect_to :action => 'assign_page', :id => @page
     end
   end
 
@@ -254,7 +254,7 @@ class AdminController < ApplicationController
       params[:users].each do |p|
         new_user = User.find(p)
         if new_user and !@tutorial.users.include?(new_user)
-          @tutorial.share(1, new_user, params[:copy])
+          @tutorial.share(new_user.id, params[:copy])
           to_users << new_user
         end
       end
@@ -286,7 +286,7 @@ class AdminController < ApplicationController
     begin
       @tutorial =  Tutorial.find(params[:id])
     rescue Exception => e
-      redirect_to :action => 'tools' and return
+      redirect_to :action => 'tools', :list => 'mine' and return
     else
       user = User.find(params[:uid])
       @tutorial.update_attribute(:created_by, @tutorial.users.at(1).id) if @tutorial.created_by.to_s == @user.id.to_s

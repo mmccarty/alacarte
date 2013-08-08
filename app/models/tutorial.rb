@@ -98,7 +98,8 @@ class Tutorial < ActiveRecord::Base
     section_num.split ','
   end
 
-  def share role, user, copy
+  def share uid, copy
+    user = User.find uid
     if copy == "1"
       tutorial_copy = clone
       tutorial_copy.name = name + '-copy'
