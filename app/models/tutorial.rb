@@ -205,4 +205,8 @@ class Tutorial < ActiveRecord::Base
     self.pass = words[rand(words.length)]
     self.save
   end
+
+  def item_name
+    full_name
+  end
 end

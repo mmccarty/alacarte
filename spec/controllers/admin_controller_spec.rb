@@ -150,7 +150,7 @@ describe AdminController do
 
         it "sets @#{ thing }s to the requested user's #{ thing }" do
           get "#{ thing }s", id: @user.id
-          expect(assigns("#{ thing }s")).to eq @user.send "#{ thing }s"
+          expect(assigns(:items)).to eq @user.send "#{ thing }s"
         end
 
         it "sets #{ thing } count to @count" do
@@ -160,7 +160,7 @@ describe AdminController do
 
         it "renders the :#{ thing } template" do
           get "#{ thing }s", id: @user.id
-          expect(response).to render_template thing
+          expect(response).to render_template :items
         end
       end
 

@@ -41,9 +41,9 @@ class AdminController < ApplicationController
     define_method "#{ name }s" do
       @user = User.find params[:id]
       session[:author] = @user.id
-      items = @user.send "#{ name }s"
-      instance_variable_set "@#{ name }s", items
-      @count = items.size
+      @items = @user.send "#{ name }s"
+      @count = @items.size
+      render 'admin/items'
     end
 
     define_method "destroy_#{ name }" do
