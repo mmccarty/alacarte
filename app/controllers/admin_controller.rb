@@ -106,7 +106,7 @@ class AdminController < ApplicationController
       users.each do |p|
         new_user = User.find(p)
         begin
-          Notifications.send "deliver_share_#{ name }", new_user.email, @user.email, item.item_name
+          Notifications.send "share_#{ name }", new_user.email, @user.email, item.item_name
         rescue Exception => e
           flash[:notice] = "User(s) successfully added. Could not send email"
         else
@@ -118,7 +118,7 @@ class AdminController < ApplicationController
     define_method "remove_user_from_#{ name }" do
       begin
         item = Kernel.const_get("#{ name.titlecase }").find params[:id]
-      rescue Exception => e
+      rescue ActiveRecord::RecordNotFound
         redirect_to :action => 'tools', :list=> 'mine'
       else
         instance_variable_set "@#{ name }", item
