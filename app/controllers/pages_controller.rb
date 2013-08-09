@@ -139,6 +139,6 @@ Please contact me if you have any questions or suggestions.
   end
 
   def item_name
-    @page.header_title
+    @page.item_name
   end
 end

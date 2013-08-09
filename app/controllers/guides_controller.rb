@@ -111,6 +111,6 @@ class GuidesController < ApplicationController
   end
 
   def item_name
-    @guide.guide_name
+    @guide.item_name
   end
 end

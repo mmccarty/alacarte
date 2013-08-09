@@ -84,4 +84,8 @@ class Guide < ActiveRecord::Base
     new_guide.add_related_subjects subjects.map(&:id)
     new_guide
   end
+
+  def item_name
+    guide_name
+  end
 end

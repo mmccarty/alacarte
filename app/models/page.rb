@@ -136,4 +136,8 @@ class Page < ActiveRecord::Base
     new_page.add_subjects subjects.map(&:id)
     new_page
   end
+
+  def item_name
+    header_title
+  end
 end

@@ -36,263 +36,102 @@ class AdminController < ApplicationController
     redirect_to :back
   end
 
-  def guides
-    @user = User.find(params[:id])
-    session[:author] = @user.id
-    @guides= @user.guides
-    @count = @guides.size
-  end
+  %w(guide page tutorial).each do |name|
 
-  def destroy_guide
-    guide = Guide.find(params[:id])
-    @user = User.find(session[:author])
-    if guide.users.length == 1 # if only one owner delete the page
-      @user.guides.delete(guide)
-      guide.destroy
-    else # just delete the association
-      @user.guides.delete(guide)
+    define_method "#{ name }s" do
+      @user = User.find params[:id]
+      session[:author] = @user.id
+      items = @user.send "#{ name }s"
+      instance_variable_set "@#{ name }s", items
+      @count = items.size
     end
-    flash[:notice] = "Guide successfully deleted."
-    redirect_to :back
-  end
 
-  def archive_guide
-    guide = Guide.find(params[:id])
-    guide.update_attribute(:published, false)
-    redirect_to  :back
-  end
-
-  def assign_guide
-    begin
-      @guide = Guide.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to :action => 'tools'
-    else
-      session[:guides] = @guide.id
-      @user_list = User.order("name")
-      @guide_owners = @guide.users
+    define_method "destroy_#{ name }" do
+      item = Kernel.const_get("#{ name.titlecase }").find params[:id]
+      @user = User.find session[:author]
+      if item.users.length == 1 # if only one owner delete the page
+        @user.send("#{ name }s").delete item
+        item.destroy
+      else # just delete the association
+        @user.send("#{ name }s").delete item
+      end
+      flash[:notice] = "#{ name.titlecase } successfully deleted."
+      redirect_to :back
     end
-  end
 
-  def guide_update
-    @guide = Guide.find(params[:id])
-    to_users = []
-    if params[:users] != nil
-      params[:users].each do |p|
+    define_method "archive_#{ name }" do
+      item = Kernel.const_get("#{ name.titlecase }").find params[:id]
+      if name != 'guide'
+        item.toggle! :archived
+      end
+      item.update_attribute :published, false
+      redirect_to  :back
+    end
+
+    define_method "assign_#{ name }" do
+      begin
+        item = Kernel.const_get("#{ name.titlecase }").find params[:id]
+        instance_variable_set "@#{ name }", item
+        session["#{ name }s"] = item.id
+        @user_list = User.order :name
+        instance_variable_set "@#{ name }_owners", item.users
+      rescue ActiveRecord::RecordNotFound
+        redirect_to :action => 'tools'
+      end
+    end
+
+    define_method "#{ name }_update" do
+      item = Kernel.const_get("#{ name.titlecase }").find params[:id]
+      instance_variable_set "@#{ name }", item
+      to_users = []
+      if params[:users] != nil
+        params[:users].each do |p|
+          new_user = User.find p
+          if new_user and !item.users.include? new_user
+            item.share new_user.id, nil
+            to_users << new_user
+          end
+        end
+        flash[:notice] = "User(s) successfully added and email notification sent."
+        send "#{ name }_send_notices", to_users
+      else
+        flash[:notice] = "Please select at least one user to share with."
+      end
+      redirect_to :action => "assign_#{ name }", :id => item.id and return
+    end
+
+    define_method "#{ name }_send_notices" do |users|
+      item = Kernel.const_get("#{ name.titlecase }").find params[:id]
+      instance_variable_set "@#{ name }", item
+      users.each do |p|
         new_user = User.find(p)
-        if new_user and !@guide.users.include?(new_user)
-          @guide.share(new_user.id,nil) #add_guide_tabs(@guide)
-          to_users << new_user
+        begin
+          Notifications.send "deliver_share_#{ name }", new_user.email, @user.email, item.item_name
+        rescue Exception => e
+          flash[:notice] = "User(s) successfully added. Could not send email"
+        else
+          flash[:notice] = "User(s) successfully added and email notification sent."
         end
       end
-      flash[:notice] = "User(s) successfully added and email notification sent."
-      guide_send_notices(to_users)
-    else
-      flash[:notice] = "Please select at least one user to share with."
     end
-    redirect_to :action => 'assign_guide', :id => @guide.id and return
-  end
 
-  def guide_send_notices(users)
-    @guide = Guide.find(params[:id])
-    users.each do |p|
-      new_user = User.find(p)
+    define_method "remove_user_from_#{ name }" do
       begin
-        Notifications.deliver_share_guide(new_user.email,@user.email,@guide.guide_name) #, @user.name)
+        item = Kernel.const_get("#{ name.titlecase }").find params[:id]
       rescue Exception => e
-        flash[:notice] = "User(s) successfully added. Could not send email"
+        redirect_to :action => 'tools', :list=> 'mine'
       else
-        flash[:notice] = "User(s) successfully added and email notification sent."
-      end
-    end
-  end
-
-  def remove_user_from_guide
-    begin
-      @guide = Guide.find(params[:id])
-    rescue Exception => e
-      redirect_to :action => 'tools', :list=> 'mine'
-    else
-      user = @guide.users.find_by_id(params[:uid])
-      @guide.update_attribute(:created_by, @guide.users.at(1).name) if @guide.created_by.to_s == user.name.to_s
-      user.delete_guide_tabs(@guide)
-      flash[:notice] = "User(s) successfully removed."
-      redirect_to :action => 'assign_guide', :id => @guide
-    end
-  end
-
-  def pages
-    @user = User.find(params[:id])
-    session[:author] = @user.id
-    @pages = @user.pages
-    @count = @pages.size
-  end
-
-  def destroy_page
-    page = Page.find(params[:id])
-    @user = User.find(session[:author])
-    if page.users.length == 1 # if only one owner delete the page
-      @user.pages.delete(page)
-      page.destroy
-    else # just delete the association
-      @user.pages.delete(page)
-    end
-    flash[:notice] = "Page successfully deleted."
-    redirect_to :back
-  end
-
-  def archive_page
-    page = Page.find(params[:id])
-    page.toggle!(:archived)
-    page.update_attribute(:published, false)
-    redirect_to  :back
-  end
-
-  def assign_page
-    begin
-      @page = Page.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to :action => 'tools' and return
-    else
-      session[:page] = @page.id
-      @user_list = User.order("name")
-      @page_owners = @page.users
-    end
-  end
-
-  def page_update
-    @page = Page.find(params[:id])
-    to_users = []
-    if params[:users] != nil
-      params[:users].each do |p|
-        new_user = User.find(p)
-        if new_user and !@page.users.include?(new_user)
-          @page.share(new_user.id,nil) #user.add_page_tabs(@page)
-          to_users << new_user
+        instance_variable_set "@#{ name }", item
+        user = item.users.find_by_id params[:uid]
+        item.update_attribute(:created_by, item.users.at(1).name) if item.created_by.to_s == user.name.to_s
+        if name == 'tutorial'
+          item.remove_from_shared user
+        else
+          user.send "delete_#{ name }_tabs", item
         end
+        flash[:notice] = "User(s) successfully removed."
+        redirect_to :action => "assign_#{ name }", :id => item
       end
-      flash[:notice] = "User(s) successfully added."
-      page_send_notices(to_users, @page)
-    else
-      flash[:notice] = "Please select at least one user to share with."
-    end
-    redirect_to :action => 'assign_page', :id => @page.id and return
-  end
-
-  def page_send_notices(users, page)
-    @page = Page.find(params[:id])
-    users.each do |p|
-      new_user = User.find(p)
-      begin
-        Notifications.deliver_share_guide(new_user.email,@user.email,@page.header_title, @user.name)
-      rescue Exception => e
-        flash[:notice] = "User(s) successfully added. Could not send email"
-      else
-        flash[:notice] = "User(s) successfully added and email notification sent."
-      end
-    end
-  end
-
-  def remove_user_from_page
-    begin
-      @page = Page.find(params[:id])
-    rescue Exception => e
-      logger.error("Exception in remove_from_user: #{e}" )
-      redirect_to :action => 'index', :list=> 'mine'
-    else
-      user = @page.users.find_by_id(params[:uid])
-      @page.update_attribute(:created_by, @page.users.at(1).name) if @page.created_by.to_s == user.name.to_s
-      user.delete_page_tabs(@page)
-      flash[:notice] = "User(s) successfully removed."
-      redirect_to :action => 'assign_page', :id => @page
-    end
-  end
-
-  def tutorials
-    @user = User.find(params[:id])
-    session[:author] = @user.id
-    @tutorials = @user.tutorials
-    @count = @tutorials.size
-  end
-
-  def destroy_tutorial
-    tutorial = Tutorial.find(params[:id])
-    @user = User.find(session[:author])
-    if tutorial.users.length == 1 # if only one owner delete the tutorial
-      @user.tutorials.delete(tutorial)
-      tutorial.destroy
-    else # just delete the association
-      @user.tutorials.delete(tutorial)
-    end
-    flash[:notice] = "Tutorial successfully deleted."
-    redirect_to :back
-  end
-
-  def archive_tutorial
-    tutorial = Tutorial.find(params[:id])
-    tutorial.toggle!(:archived)
-    tutorial.update_attribute(:published, false)
-    redirect_to  :back
-  end
-
-  def assign_tutorial
-    begin
-      @tutorial = Tutorial.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to  :action => 'tools' and return
-    else
-      session[:tutorial] = @tutorial.id
-      @user_list = User.order("name")
-      @owners = @tutorial.users
-    end
-  end
-
-  def tutorial_update
-    to_users = []
-    @tutorial =  Tutorial.find(params[:id])
-    if params[:users] != nil
-      params[:users].each do |p|
-        new_user = User.find(p)
-        if new_user and !@tutorial.users.include?(new_user)
-          @tutorial.share(new_user.id, params[:copy])
-          to_users << new_user
-        end
-      end
-      flash[:notice] = "Tutorial Shared."
-      url = url_for :controller => 'ort', :action => 'index', :id => @tutorial
-      @message =
-        "I've assigned #{@tutorial.full_name} to you. The link to the tutorial is: #{url} .  - admin "
-      tutorial_send_notices(to_users,  @message) unless to_users.blank?
-    else
-      flash[:notice] = "Please select at least one user to share with."
-    end
-    redirect_to :action => 'assign_tutorial', :id => @tutorial.id and return
-  end
-
-  def tutorial_send_notices(users, message)
-    users.each do |p|
-      user =  User.find(p)
-      begin
-        Notifications.deliver_share_tutorial(user.email,@user.email, message)
-      rescue Exception => e
-        flash[:notice] = "Tutorial Shared. Could not send email"
-      else
-        flash[:notice] = "User(s) successfully added and email notification sent."
-      end
-    end
-  end
-
-  def remove_user_from_tutorial
-    begin
-      @tutorial =  Tutorial.find(params[:id])
-    rescue Exception => e
-      redirect_to :action => 'tools', :list => 'mine' and return
-    else
-      user = User.find(params[:uid])
-      @tutorial.update_attribute(:created_by, @tutorial.users.at(1).id) if @tutorial.created_by.to_s == @user.id.to_s
-      @tutorial.remove_from_shared(user)
-      flash[:notice] = "User(s) successfully removed."
-      redirect_to :action => 'assign_tutorial', :id => @tutorial
     end
   end
 
