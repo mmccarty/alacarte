@@ -38,7 +38,7 @@ class AdminController < ApplicationController
 
   %w(guide page tutorial).each do |name|
 
-    define_method "#{ name }s" do
+    define_method name.pluralize do
       @user = User.find params[:id]
       session[:author] = @user.id
       @items = @user.send "#{ name }s"
@@ -47,20 +47,20 @@ class AdminController < ApplicationController
     end
 
     define_method "destroy_#{ name }" do
-      item = Kernel.const_get("#{ name.titlecase }").find params[:id]
+      item = name.titlecase.constantize.find params[:id]
       @user = User.find session[:author]
       if item.users.length == 1 # if only one owner delete the page
-        @user.send("#{ name }s").delete item
+        @user.send(name.pluralize).delete item
         item.destroy
       else # just delete the association
-        @user.send("#{ name }s").delete item
+        @user.send(name.pluralize).delete item
       end
       flash[:notice] = "#{ name.titlecase } successfully deleted."
       redirect_to :back
     end
 
     define_method "archive_#{ name }" do
-      item = Kernel.const_get("#{ name.titlecase }").find params[:id]
+      item = name.titlecase.constantize.find params[:id]
       if name != 'guide'
         item.toggle! :archived
       end
@@ -70,9 +70,9 @@ class AdminController < ApplicationController
 
     define_method "assign_#{ name }" do
       begin
-        item = Kernel.const_get("#{ name.titlecase }").find params[:id]
+        item = name.titlecase.constantize.find params[:id]
         instance_variable_set "@#{ name }", item
-        session["#{ name }s"] = item.id
+        session[name.pluralize] = item.id
         @user_list = User.order :name
         instance_variable_set "@#{ name }_owners", item.users
       rescue ActiveRecord::RecordNotFound
@@ -81,7 +81,7 @@ class AdminController < ApplicationController
     end
 
     define_method "#{ name }_update" do
-      item = Kernel.const_get("#{ name.titlecase }").find params[:id]
+      item = name.titlecase.constantize.find params[:id]
       instance_variable_set "@#{ name }", item
       to_users = []
       if params[:users] != nil
@@ -101,11 +101,11 @@ class AdminController < ApplicationController
     end
 
     define_method "#{ name }_send_notices" do |users|
-      item = Kernel.const_get("#{ name.titlecase }").find params[:id]
+      item = name.titlecase.constantize.find params[:id]
       instance_variable_set "@#{ name }", item
       users.each do |p|
         new_user = User.find(p)
-        begin
+          begin
           Notifications.send "share_#{ name }", new_user.email, @user.email, item.item_name
         rescue Exception => e
           flash[:notice] = "User(s) successfully added. Could not send email"
@@ -117,7 +117,7 @@ class AdminController < ApplicationController
 
     define_method "remove_user_from_#{ name }" do
       begin
-        item = Kernel.const_get("#{ name.titlecase }").find params[:id]
+        item = name.titlecase.constantize.find params[:id]
       rescue ActiveRecord::RecordNotFound
         redirect_to :action => 'tools', :list=> 'mine'
       else
