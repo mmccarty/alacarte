@@ -33,7 +33,7 @@
       @mod.slug = create_slug params[:mod][:module_title]
       if @mod.save
         create_and_add_resource @user, @mod
-        @mod.add_tags params[:tags]
+        @mod.add_tags params[:mod][:tag_list]
         redirect_to edit_module_path(@mod, type: @mod.class)
       else
         render :new

@@ -82,9 +82,32 @@ describe ModulesController do
     end
 
     describe 'POST #create' do
+      before :each do
+        @attrs = attributes_for :miscellaneous_resource
+        @attrs[:type] = 'MiscellaneousResource'
+      end
+
       it 'requires the user to specify the module type' do
-        post :create, mod: { type: '' }
+        @attrs[:type] = ''
+        post :create, mod: @attrs
         expect(response).to render_template :new
+      end
+
+      it 'creates a new module' do
+        expect {
+          post :create, mod: @attrs
+        }.to change(MiscellaneousResource, :count).by(1)
+      end
+
+      it 'assigns the new module to :mod' do
+        post :create, mod: @attrs
+        expect(assigns :mod).to_not be_blank
+      end
+
+      it 'assigns tags to the new module' do
+        @attrs[:tag_list] = 'tags'
+        post :create, mod: @attrs
+        expect(assigns(:mod).tag_list).to eq ['tags']
       end
     end
 
