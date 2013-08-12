@@ -95,7 +95,7 @@ describe SubjectsController do
         expect(assigns(:subject)).to eq @mod
       end
 
-      it 'renders the :new template' do
+      it 'renders the :edit template' do
         get :edit, id: @mod.id
         expect(response).to render_template :edit
       end
