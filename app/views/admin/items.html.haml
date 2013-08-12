@@ -18,10 +18,7 @@
     - for item in @items
       %tr
         %td
-          - if item_type == 'page'
-            = link_to h(item.item_name),{ :controller => "ica", :action => 'index', :id => item}
-          - else
-            = link_to h(item.item_name),{ :controller => "srg", :action => 'index', :id => item}
+          = h item.item_name
         %td
           = h item.updated_at
         %td
@@ -30,6 +27,13 @@
           - else
             = awesome_button polymorphic_path([item], action: :publish), 'unlock', "Remove this #{ item_type } from the published list", '', method: :post, remote: true
         %td
+          = awesome_button item, 'edit', "Edit this #{ item_type }"
+          |
+          - if item_type == 'page'
+            = awesome_button show_ica_path(item), 'external-link', "Preview this #{ item_type }"
+          - else
+            = awesome_button show_srg_path(item), 'external-link', "Preview this #{ item_type }"
+          |
           = link_to '', {:controller => "admin", :action => 'assign_guide', :id => item}, class: 'icon-user'
           |
           - if item_type == 'page'
