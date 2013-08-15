@@ -28,10 +28,10 @@ class LoginController < ApplicationController
 
   def forgot_password
     if request.post?
-      user= User.find_by_email(params[:user][:email])
+      user = User.find_by_email params[:user][:email]
       if user and user.set_new_password
-        flash[:notice]  = "A new password has been sent by email."
-        redirect_to(:action => "login")
+        flash[:notice] = "A new password has been sent by email."
+        redirect_to :action => "login"
       else
         flash.now[:notice]  = "Couldn't send password"
       end

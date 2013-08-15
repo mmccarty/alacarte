@@ -271,7 +271,7 @@ class User < ActiveRecord::Base
     self.password = new_password
     self.password_confirmation = new_password
     self.save
-    Notifications.deliver_forgot_password self.email, self.password
+    UserMailer.forgot_password(self.email, self.password).deliver
   end
 
   def is_admin

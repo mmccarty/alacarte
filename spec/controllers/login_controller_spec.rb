@@ -29,6 +29,24 @@ describe LoginController do
     end
   end
 
+  describe 'POST #forgot_password' do
+    before :each do
+      @user = create :author, email: 'test@nubgames.com'
+    end
+
+    it 'redirect to login page' do
+      post :forgot_password, user: {email: @user.email}
+      expect(response).to redirect_to action: :login
+    end
+
+    it 'sets a new password' do
+      password = @user.password
+      post :forgot_password, user: {email: @user.email}
+      @user = User.find_by_email @user.email
+      expect(password).to_not eq @user.password
+    end
+  end
+
   describe 'GET #signup' do
     it 'responds successfully with an HTTP 200 status code' do
       get :signup
