@@ -6,6 +6,7 @@ module ActsPagey
     @sort  = params[:sort] || 'name'
     @items = @user.send "sort_#{ klass }", @sort
     @items = send "paginate_#{ klass }", @items, params[:page] ||= 1, @sort
+    @item_type = klass.singularize
     render 'shared/index'
   end
 
