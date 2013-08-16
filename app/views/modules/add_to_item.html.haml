@@ -61,7 +61,4 @@
       %p
         There are no pages available.
       %p
-        - if @item_type == 'page'
-          = awesome_button polymorphic_path(Page, action: :new), 'plus', 'Create new Page', 'btn'
-        - else
-          = awesome_button polymorphic_path(Guide, action: :new), 'plus', 'Create new Guide', 'btn'
+        = awesome_button polymorphic_path(@item_type.titlecase.constantize, action: :new), 'plus', "Create new #{ @item_type.titlecase }", 'btn'
