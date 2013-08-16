@@ -14,8 +14,9 @@
         .navbar-inner
           %span.brand Library &agrave; la Carte
           %ul.nav
-            %li{ class: current_page?(tools_path) && "active" }
-              = link_to 'Admin Tools', tools_path
+            - if @user.is_admin
+              %li{ class: current_page?(tools_path) && "active" }
+                = link_to 'Admin Tools', tools_path
             %li{ class: current_page?(dashboard_path) && "active" }
               = link_to 'Dashboard', dashboard_path
             %li{ class: (controller.controller_name == 'module') && "active" }
