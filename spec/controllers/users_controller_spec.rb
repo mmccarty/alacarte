@@ -45,6 +45,13 @@ describe UsersController do
         post :create, user: attributes_for(:user)
         expect(response).to redirect_to users_path
       end
+
+      it 'sets the password correctly' do
+        attrs = attributes_for(:user)
+        post :create, user: attrs
+        user = User.order('id').last
+        expect(user.hashed_psswrd).to eq User.encrypt(attrs[:password], user.salt)
+      end
     end
   end
 end

@@ -14,7 +14,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new params[:user]
-    @user.salt = User.random_string 10
     url = login_url
     if @user.save
       begin

@@ -262,7 +262,9 @@ class User < ActiveRecord::Base
 
   def password= pwd
     @password = pwd
-    self.salt ||= User.random_string 10
+    if self.salt.nil? or self.salt.empty?
+      self.salt = User.random_string 10
+    end
     self.hashed_psswrd = User.encrypt self.password, self.salt
   end
 
