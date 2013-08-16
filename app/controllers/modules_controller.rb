@@ -124,6 +124,7 @@
       flash[:message] = "#{@mod.module_title} successfully added to these guides."
       redirect_to manage_module_path(@mod, type: @mod.class)
     else
+      @item_type = item_type
       render "modules/add_to_item"
     end
   end
