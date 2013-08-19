@@ -1,11 +1,9 @@
 class Notifications < ActionMailer::Base
-  def forgot_password(to, pass, sent_at = Time.now)
-    @subject    = "Library a la Carte Message"
-    @body['pass']= pass
-    @recipients = to
-    @from       = ""
-    @date       = sent_at
-    @headers    = {}
+  default from: 'support@libraryh3lp.com'
+
+  def forgot_password to, password
+    @password = password
+    mail to: to, subject: 'Library a la Carte Message'
   end
 
   def forgot(to, onid, section,url, sent_at = Time.now)
