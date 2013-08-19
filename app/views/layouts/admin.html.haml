@@ -27,6 +27,7 @@
             - if @user.is_admin || @local.guides_list.include?('pages')
               %li{ class: (controller.controller_name == 'pages') && "active" }
                 = link_to 'Pages', pages_path
+          = awesome_button logout_path, 'signout', 'Logout', '', :style => 'color: #777777; float: right; padding: 10px 15px 10px;'
 
       = flash_notice
 
