@@ -14,6 +14,7 @@ class IcaController < ApplicationController
     elsif @tab
       @style ='width:505px; height:450px;'
       @mods = @tab.sorted_modules
+      @mods_left, @mods_right = [], []
     else
       render_404
     end

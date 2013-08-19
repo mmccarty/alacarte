@@ -12,4 +12,7 @@
 
 %p
   %i.icon-circle-arrow-left.icon-large
-  = link_to "Back to all #{ type }", action: :published_guides
+  - if type == 'Subject Guides'
+    = link_to "Back to all #{ type }", action: :published_guides
+  - else
+    = link_to "Back to all #{ type }", action: :published_pages

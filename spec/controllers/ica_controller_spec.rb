@@ -45,7 +45,7 @@ describe IcaController do
     tab.template = 1
     tab.save
     get :show, id: @page.id
-    expect(assigns(:mods_left)).to be_nil
-    expect(assigns(:mods_right)).to be_nil
+    expect(assigns(:mods_left)).to be_empty
+    expect(assigns(:mods_right)).to be_empty
   end
 end

@@ -13,6 +13,7 @@ class SrgController < ApplicationController
     elsif @tab
       @style ='width:425px; height:350px;'
       @mods = @tab.sorted_modules
+      @mods_left, @mods_right = [], []
     else
       render_404
     end
