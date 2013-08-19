@@ -159,7 +159,7 @@ class TutorialsController < ApplicationController
     users.each do |p|
       user =  User.find(p)
       begin
-        Notifications.deliver_share_tutorial(user.email,@user.email, message)
+        Notifications.share_tutorial(user.email, @user.email, message).deliver
       rescue Exception => e
         flash[:notice] = "Tutorial Shared. Could not send email"
       else

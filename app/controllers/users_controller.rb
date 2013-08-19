@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     url = login_url
     if @user.save
       begin
-        Notifications.deliver_add_user(@user.email, @admin.email, @user.password, url)
+        Notifications.add_user(@user.email, @admin.email, @user.password, url).deliver
       rescue Exception => e
         flash[:notice] = "Could not send email"
         #render :new and return
@@ -67,7 +67,7 @@ class UsersController < ApplicationController
     if @user.update_attribute('role', 'author')
       begin
         url = url_for :controller => 'login', :action => 'login'
-        Notifications.deliver_accept_nonsso_pending_user(@user.email, @local.admin_email_from, @user.password, url)
+        Notifications.accept_nonsso_pending_user(@user.email, @local.admin_email_from, @user.password, url).deliver
 
       rescue Exception => e
         logger.error("Exception in register user: #{e}}" )
@@ -85,7 +85,7 @@ class UsersController < ApplicationController
     email = @user.email
     @user.destroy
     begin
-      Notifications.deliver_reject_pending_user(email, @local.admin_email_from)
+      Notifications.reject_pending_user(email, @local.admin_email_from).deliver
     rescue Exception => e
       logger.error("Exception in register user: #{e}}" )
       flash.now[:notice] = "User was successfully deleted but email was not able to be sent"

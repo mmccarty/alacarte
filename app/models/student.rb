@@ -73,7 +73,7 @@ class Student < ActiveRecord::Base
   end
 
   def send_forgot(url)
-    Notifications.deliver_forgot(self.email, self.onid, self.sect_num, url)
+    Notifications.forgot(self.email, self.onid, self.sect_num, url).deliver
   end
 
   #returns a students total score on a quiz

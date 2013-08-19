@@ -53,8 +53,8 @@ class User < ActiveRecord::Base
   def self.send_pending_user_mail user, url
     local = Local.first
     begin
-      Notifications.deliver_add_pending_user(user.email, local.admin_email_from)
-      Notifications.deliver_notify_admin_about_pending_user(local.admin_email_to, local.admin_email_from,url)
+      Notifications.add_pending_user(user.email, local.admin_email_from).deliver
+      Notifications.notify_admin_about_pending_user(local.admin_email_to, local.admin_email_from, url).deliver
       msg = "An account was created for you.  It is now waiting for administrator approval."
     rescue Exception => e
       logger.error("Exception in register user: #{e}}" )

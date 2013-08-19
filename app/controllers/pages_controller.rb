@@ -92,7 +92,7 @@ Please contact me if you have any questions or suggestions.
     if request.post?
       if params[:email] and params[:body]
         begin
-          Notifications.deliver_send_url(params[:email],@user.email,params[:body])
+          Notifications.send_url(params[:email], @user.email, params[:body]).deliver
         rescue Exception => e
           flash[:notice] = "Could not send email"
           redirect_to  :action => "send_url" and return

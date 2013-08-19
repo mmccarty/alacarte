@@ -6,127 +6,68 @@ class Notifications < ActionMailer::Base
     mail to: to, subject: 'Library a la Carte Message'
   end
 
-  def forgot(to, onid, section,url, sent_at = Time.now)
-    @subject    = "Library Tutorial Message"
-    @body['onid']= onid
-    @body['sect']= section
-    @body['url']= url
-    @recipients = to
-    @from       = ""
-    @date       = sent_at
-    @headers    = {}
+  def forgot to, onid, section, url
+    @onid = onid
+    @section = section
+    @url = url
+    mail to: to, subject: "Library Tutorial Message"
   end
 
-  def send_url(to, from, body,  sent_at = Time.now)
-    @subject    = "Library Course Page Announcement"
-    @body['body']= body
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def send_message to, from, body, subject
+    @body = body
+    mail to: to, from: from, subject: subject
   end
 
-  def share_tutorial(to, from, body, sent_at = Time.now)
-    @subject    = "Shared Library a la Carte Tutorial"
-    @body['body']= body
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def send_url to, from, body
+    send_message to, from, body, "Library Course Page Announcement"
   end
 
-  def send_all(to, from, subject, body,  sent_at = Time.now)
-    @subject    = subject
-    @body['body']= body
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def share_tutorial to, from, body
+    send_message to, from, body, "Shared Library a la Carte Tutorial"
   end
 
-  def share_page(to, from, body, sent_at = Time.now)
-    @subject    = "Shared Library a la Carte Course Page"
-    @body['body']= body
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def send_all to, from, subject, body
+    send_message to, from, body, subject
   end
 
-  def share_guide(to, from, body, sent_at = Time.now)
-    @subject    = "Shared Library a la Carte Subject Guide"
-    @body['body']= body
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def share_page to, from, body
+    send_message to, from, body, "Shared Library a la Carte Course Page"
   end
 
-  def share_module(to, from, mod,name, sent_at = Time.now)
-    @subject    = "Shared Library a la Carte Module"
-    @body['mod']=mod
-    @body['name']=name
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def share_guide to, from, body
+    send_message to, from, body, "Shared Library a la Carte Subject Guide"
   end
 
-  def add_user(to, from, pass, url, sent_at = Time.now)
-    @subject    = "Library ala Carte Message"
-    @body['pass']=pass
-    @body['email']=to
-    @body['url']=url
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def share_module to, from, mod, name
+    @mod = mod
+    @name = name
+    mail to: to, from: from, subject: "Shared Library a la Carte Module"
   end
 
-  def add_pending_user(to, from, sent_at = Time.now)
-    @subject    = "Library ala Carte Message"
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def add_user to, from, pass, url
+    @pass = pass
+    @email = to
+    @url = url
+    mail to: to, from: from, subject: "Library a la Carte Message"
   end
 
-  def accept_pending_user(to, from, pass, url, sent_at = Time.now)
-    @subject    = "Your Library ala Carte Account has been approved"
-    @body['pass']= pass
-    @body['email']= to
-    @body['url']= url
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def add_pending_user to, from
+    mail to: to, from: from, subject: "Library ala Carte Message"
   end
 
-  def accept_nonsso_pending_user(to, from, pass, url, sent_at = Time.now)
-    @subject    = "Your Library ala Carte Account has been approved"
-    @body['pass']= pass
-    @body['email']= to
-    @body['url']= url
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def accept_nonsso_pending_user to, from, pass, url
+    @pass = pass
+    @email = to
+    @url = url
+    mail to: to, from: from, subject: "Your Library ala Carte Account has been approved"
   end
 
-  def reject_pending_user(to, from, sent_at = Time.now)
-    @subject    = "Your Library ala Carte Account has been denied"
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def reject_pending_user to, from
+    mail to: to, from: from, subject: "Your Library ala Carte Account has been denied"
   end
 
-  def notify_admin_about_pending_user(to, from, url, sent_at = Time.now)
-    @subject    = "Library ala Carte Message - Pending User Notification"
-    @body['url']= url
-    @recipients = to
-    @from       = from
-    @date       = sent_at
-    @headers    = {}
+  def notify_admin_about_pending_user to, from, url
+    @url = url
+    mail to: to, from: from, subject: "Library ala Carte Message - Pending User Notification"
   end
 end

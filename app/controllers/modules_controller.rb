@@ -183,13 +183,8 @@
   def send_notices users, mod_title
     users.each do |p|
       new_user = User.find p
-      begin
-        Notifications.deliver_share_module new_user.email, @user.email, mod_title, @user.name
-      rescue Exception => e
-        flash[:notice] = "User(s) successfully added. Could not send email"
-      else
-        flash[:notice] = "User(s) successfully added and email notification sent."
-      end
+      Notifications.share_module(new_user.email, @user.email, mod_title, @user.name).deliver
+      flash[:notice] = "User(s) successfully added and email notification sent."
     end
   end
 
