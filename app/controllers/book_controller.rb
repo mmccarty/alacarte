@@ -1,17 +1,13 @@
 class BookController < ApplicationController
   include CatalogScraper
-  before_filter :module_types
-  before_filter :current_page
-  before_filter :current_guide
-  before_filter :current_tutorial, :except=>[:copy_book]
   layout 'admin'
 
   def copy
     old_mod = BookResource.find params[:id]
-    new_mod = old_mod.copy
-    if new_mod.save
-      create_and_add_resource @user, new_mod
-      redirect_to edit_book_resource_path(new_mod)
+    @new_mod = old_mod.dup
+    if @new_mod.save
+      create_and_add_resource @user, @new_mod
+      redirect_to action: :edit_book, id: @new_mod.id
     end
   end
 
