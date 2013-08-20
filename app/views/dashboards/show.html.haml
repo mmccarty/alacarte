@@ -2,33 +2,31 @@
 
 .row
   .span8
-
-    %div
-      %h2 Modules
+    %h2 Modules
+    %p
+      %i.icon-large.icon-plus-sign{ :title => 'New module', :alt => 'add' }
+      = link_to 'Create a new content module', new_module_path
+    %p
+      %i.icon-large.icon-folder-open{ :title => 'Browse my modules', :alt => 'browse' }
+      = link_to 'Browse content modules', modules_path
+    - if @user.resource_id.present?
       %p
-        %i.icon-large.icon-plus-sign{ :title => 'New module', :alt => 'add' }
-        = link_to 'Create a new content module', new_module_path
+        %i.icon-large.icon-edit{ :title => 'My contact module', :alt => 'edit' }
+        = link_to 'Edit default contact module' , :controller => 'dashboards', :action => 'my_profile', :rid => @user.resource_id
+        %br/
+    - else
       %p
-        %i.icon-large.icon-folder-open{ :title => 'Browse my modules', :alt => 'browse' }
-        = link_to 'Browse content modules', modules_path
-      - if @user.resource_id.present?
-        %p
-          %i.icon-large.icon-edit{ :title => 'My contact module', :alt => 'edit' }
-          = link_to 'Edit default contact module' , :controller => 'dashboards', :action => 'my_profile', :rid => @user.resource_id
-          %br/
-      - else
-        %p
-          %i.icon-large.icon-wrench{ :title => 'Set my contact module', :alt => 'edit' }
-          = link_to 'Set default contact module', edit_profile_dashboard_path
-      %p
-        %i.icon-large.icon-globe{ :title => 'Browse global modules', :alt => 'browse' }
-        = link_to 'Browse global modules', modules_path(list: 'global')
+        %i.icon-large.icon-wrench{ :title => 'Set my contact module', :alt => 'edit' }
+        = link_to 'Set default contact module', edit_profile_dashboard_path
+    %p
+      %i.icon-large.icon-globe{ :title => 'Browse global modules', :alt => 'browse' }
+      = link_to 'Browse global modules', modules_path(list: 'global')
 
     %hr
 
     .row
       - if @local.guides_list.include?('guides')
-        %div.span4
+        .span4
           %h2 My Guides
           %p
             %i.icon-large.icon-plus-sign{ :title => 'New guide', :alt => 'add' }
@@ -36,9 +34,8 @@
           %p
             %i.icon-large.icon-folder-open{ :title => 'Browse my guides', :alt => 'browse' }
             = link_to 'Browse subject guides', guides_path
-
       - if @local.guides_list.include?('pages')
-        %div.span4
+        .span4
           %h2 My Pages
           %p
             %i.icon-large.icon-plus-sign{ :title => 'New page', :alt => 'add' }
@@ -51,16 +48,16 @@
     .well.well-small
       %h3 Overview
       %dl.dl-horizontal
-        %dt Modules
+        %dt modules
         %dd #{@num_modules}
         %dt
-          = link_to 'Published Guides', :controller => :srg , :action => 'published_guides'
+          = link_to 'published guides', :controller => :srg , :action => 'published_guides'
         %dd #{@num_published_guides}
         %dt
-          = link_to 'Published Pages', :controller => :ica , :action => 'published_pages'
+          = link_to 'published pages', :controller => :ica , :action => 'published_pages'
         %dd #{@num_published_pages}
         %dt
-          = link_to 'Archived Pages', :controller => :ica , :action => 'archived'
+          = link_to 'archived pages', :controller => :ica , :action => 'archived'
         %dd #{@num_archived_pages}
       %ul.unstyled
         %li

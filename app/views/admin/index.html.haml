@@ -48,18 +48,18 @@
   .span4
     .well.well-small
       %dl.dl-horizontal
-        %dt Number of Users
+        %dt users
         %dd #{@user_count}
-        %dt Number of Guides
+        %dt total guides
         %dd #{@guide_count}
         %dt
-          = link_to 'Published Guides', :controller => :srg , :action => 'published_guides'
+          = link_to 'published guides', :controller => :srg , :action => 'published_guides'
         %dd #{@pguide_count}
-        %dt Number of Pages
+        %dt total pages
         %dd #{@page_count}
         %dt
-          = link_to 'Published Pages', :controller => :ica , :action => 'published_pages'
+          = link_to 'published pages', :controller => :ica , :action => 'published_pages'
         %dd #{@ppage_count}
         %dt
-          = link_to 'Archived Pages', :controller => :ica , :action => 'archived'
+          = link_to 'archived pages', :controller => :ica , :action => 'archived'
         %dd #{@apage_count}
