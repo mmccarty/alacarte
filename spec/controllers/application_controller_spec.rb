@@ -32,8 +32,7 @@ describe ApplicationController do
 
   it 'should list all module types' do
     Local.create
-    expect(@app.module_types.map { |m| m[1] }.sort).to eq(
-      %w(comment database inst lib miscellaneous quiz rss url).map { |s| "#{ s }_resource" }
-    )
+    expect(@app.module_types.map { |m| m[1] }).to match_array \
+      %w(database inst lib miscellaneous rss url).map { |s| "#{ s }_resource" }
   end
 end

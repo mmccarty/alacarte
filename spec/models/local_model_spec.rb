@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Local do
   it 'should list all defined guide types' do
-    expect(Local.create.guides.sort).to eq %w(guides pages tutorials)
+    expect(Local.create.guides).to match_array %w(guides pages tutorials)
   end
 
   it 'should list all defined module types' do
@@ -13,9 +13,9 @@ describe Local do
   end
 
   it 'should list the friendly names of all defined module types' do
-    expect(Local.create.mod_types.map { |m| m[0] }.sort).to eq [
-      'Comments', 'Custom Content', 'Databases', 'Instructor Profile', 'Librarian Profile',
-      'Quiz', 'RSS Feeds', 'Web Links'
+    expect(Local.create.mod_types.map { |m| m[0] }).to match_array [
+      'Custom Content', 'Databases', 'Instructor Profile', 'Librarian Profile',
+      'RSS Feeds', 'Web Links'
     ]
   end
 end
