@@ -2,7 +2,6 @@
   .container
     %h1.page-header
       Admin Tools
-
   .span8
     %h2 Users
     %ul.unstyled
@@ -46,20 +45,21 @@
         %br/
         \&nbsp; Add, Edit, or Delete Database Subscriptions.
 
-  .span3.well.well-small
-    %dl.dl-horizontal
-      %dt Number of users
-      %dd #{@user_count}
-      %dt Number of guides
-      %dd #{@guide_count}
-      %dt
-        = link_to 'Published guides', :controller => :srg , :action => 'published_guides', :title => "view portal of published guides"
-      %dd #{@pguide_count}
-      %dt Number of pages
-      %dd #{@page_count}
-      %dt
-        = link_to 'Published pages', :controller => :ica , :action => 'published_pages', :title => "view portal of published pages"
-      %dd #{@ppage_count}
-      %dt
-        = link_to 'Archived pages', :controller => :ica , :action => 'archived', :title => "view portal of archived pages"
-      %dd #{@apage_count}
+  .span4
+    .well.well-small
+      %dl.dl-horizontal
+        %dt Number of Users
+        %dd #{@user_count}
+        %dt Number of Guides
+        %dd #{@guide_count}
+        %dt
+          = link_to 'Published Guides', :controller => :srg , :action => 'published_guides'
+        %dd #{@pguide_count}
+        %dt Number of Pages
+        %dd #{@page_count}
+        %dt
+          = link_to 'Published Pages', :controller => :ica , :action => 'published_pages'
+        %dd #{@ppage_count}
+        %dt
+          = link_to 'Archived Pages', :controller => :ica , :action => 'archived'
+        %dd #{@apage_count}

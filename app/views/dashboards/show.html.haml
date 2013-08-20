@@ -1,7 +1,7 @@
 %h1.page-header Hello #{ @user.name }
 
 .row
-  .span9
+  .span8
 
     %div
       %h2 Modules
@@ -28,7 +28,7 @@
 
     .row
       - if @local.guides_list.include?('guides')
-        %div.span3
+        %div.span4
           %h2 My Guides
           %p
             %i.icon-large.icon-plus-sign{ :title => 'New guide', :alt => 'add' }
@@ -38,7 +38,7 @@
             = link_to 'Browse subject guides', guides_path
 
       - if @local.guides_list.include?('pages')
-        %div.span3
+        %div.span4
           %h2 My Pages
           %p
             %i.icon-large.icon-plus-sign{ :title => 'New page', :alt => 'add' }
@@ -47,18 +47,20 @@
             %i.icon-large.icon-folder-open{ :title => 'Browse my pages', :alt => 'browse' }
             = link_to 'Browse course pages', pages_path
 
-  .span3
-
+  .span4
     .well.well-small
       %h3 Overview
       %dl.dl-horizontal
-        %dt modules
+        %dt Modules
         %dd #{@num_modules}
-        %dt published subj guides
+        %dt
+          = link_to 'Published Guides', :controller => :srg , :action => 'published_guides'
         %dd #{@num_published_guides}
-        %dt published course pages
+        %dt
+          = link_to 'Published Pages', :controller => :ica , :action => 'published_pages'
         %dd #{@num_published_pages}
-        %dt archived course pages
+        %dt
+          = link_to 'Archived Pages', :controller => :ica , :action => 'archived'
         %dd #{@num_archived_pages}
       %ul.unstyled
         %li
