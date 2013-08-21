@@ -18,5 +18,7 @@
           = mail_to mod.email, nil, :encode => 'javascript'
           %br
       - unless mod.website.blank?
-        %a{:href => "#{raw mod.website }"}
-          Instructor's Website
+        %dt Website
+        %dd
+          %a{:href => "#{raw mod.website }"}
+            = mod.website
