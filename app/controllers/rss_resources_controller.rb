@@ -1,8 +1,4 @@
 class RssResourcesController < ApplicationController
-  before_filter :module_types
-  before_filter :current_page
-  before_filter :current_guide
-  before_filter :current_tutorial
   layout 'admin'
 
   def show
@@ -15,7 +11,7 @@ class RssResourcesController < ApplicationController
 
   def update
     @mod = RssResource.find params[:id]
-    @mod.update_attributes params[:mod]
+    @mod.update_attributes params[:rss_resource]
     if @mod.save
       redirect_to @mod
     else
@@ -25,10 +21,10 @@ class RssResourcesController < ApplicationController
 
   def copy
     old_mod = RssResource.find params[:id]
-    new_mod = old_mod.copy
-    if new_mod.save
-      create_and_add_resource @user, new_mod
-      redirect_to edit_rss_resources_path(new_mod)
+    @new_mod = old_mod.dup
+    if @new_mod.save
+      create_and_add_resource @user, @new_mod
+      redirect_to edit_rss_resource_path @new_mod
     end
   end
 end

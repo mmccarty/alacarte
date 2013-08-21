@@ -24,7 +24,7 @@ class UrlResourcesController < ApplicationController
     @new_mod = old_mod.dup
     if @new_mod.save
       create_and_add_resource @user, @new_mod
-      redirect_to edit_url_resource_path(@new_mod)
+      redirect_to edit_url_resource_path @new_mod
     end
   end
 end
