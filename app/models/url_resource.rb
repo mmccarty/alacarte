@@ -24,8 +24,8 @@ class UrlResource < ActiveRecord::Base
   before_create :private_label
   before_save :save_links
 
-  validates_presence_of :module_title
-  validates_presence_of :label, :on => :update
+  validates :module_title, :presence => true
+  validates :label, :presence => {:on => :update}
 
   def copy
     mod = PolymorphicModule::copy
