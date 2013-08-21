@@ -36,6 +36,8 @@ describe RssResourcesController do
       @user = create :author
       session[:user_id] = @user.id
       @mod = create :rss_resource
+
+      Local.create
     end
 
     describe 'GET #show' do

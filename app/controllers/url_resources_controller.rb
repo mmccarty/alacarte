@@ -1,4 +1,5 @@
 class UrlResourcesController < ApplicationController
+  before_filter :module_types
   layout 'admin'
 
   def show

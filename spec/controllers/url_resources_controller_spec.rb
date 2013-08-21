@@ -36,6 +36,8 @@ describe UrlResourcesController do
       @user = create :author
       session[:user_id] = @user.id
       @mod = create :url_resource
+
+      Local.create
     end
 
     describe 'GET #show' do
