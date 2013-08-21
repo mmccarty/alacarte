@@ -81,7 +81,7 @@ describe ModulesController do
       end
     end
 
-    describe 'POST #create' do
+    describe 'POST #create MiscellaneousResource' do
       before :each do
         @attrs = attributes_for :miscellaneous_resource
         @attrs[:type] = 'MiscellaneousResource'
@@ -108,6 +108,41 @@ describe ModulesController do
         @attrs[:tag_list] = 'tags'
         post :create, mod: @attrs
         expect(assigns(:mod).tag_list).to eq ['tags']
+      end
+    end
+
+    describe 'POST #create InstResource' do
+      before :each do
+        @attrs = attributes_for :inst_resource
+        @attrs[:type] = 'InstResource'
+      end
+
+      it 'requires the user to specify the module type' do
+        @attrs[:type] = ''
+        post :create, mod: @attrs
+        expect(response).to render_template :new
+      end
+
+      it 'creates a new module' do
+        expect {
+          post :create, mod: @attrs
+        }.to change(InstResource, :count).by(1)
+      end
+
+      it 'assigns the new module to :mod' do
+        post :create, mod: @attrs
+        expect(assigns :mod).to_not be_blank
+      end
+
+      it 'assigns tags to the new module' do
+        @attrs[:tag_list] = 'tags'
+        post :create, mod: @attrs
+        expect(assigns(:mod).tag_list).to eq ['tags']
+      end
+
+      it 'redirects to edit_module_path' do
+        post :create, mod: @attrs
+        expect(response).to redirect_to edit_module_path assigns(:mod), type: assigns(:mod).class
       end
     end
 

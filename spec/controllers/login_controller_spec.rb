@@ -15,9 +15,9 @@ describe LoginController do
       expect(session[:user_id]).to be_nil
     end
 
-    it 'redirects back to the home page' do
+    it 'redirects back to the login page' do
       get :logout
-      response.should redirect_to '/'
+      response.should redirect_to login_path
     end
   end
 

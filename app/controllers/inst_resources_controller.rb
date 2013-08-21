@@ -11,7 +11,7 @@ class InstResourcesController < ApplicationController
 
   def update
     @mod = InstResource.find params[:id]
-    @mod.update_attributes params[:mod]
+    @mod.update_attributes params[:inst_resource]
     if @mod.save
       redirect_to @mod
     else

@@ -62,19 +62,36 @@ describe InstResourcesController do
       end
     end
 
+    describe 'POST #update after new' do
+      before :each do
+        @attrs = attributes_for :inst_resource
+        @attrs[:instructor_name] = 'foo'
+        @attrs[:type] = 'InstResource'
+
+        @module = InstResource.new
+        @module.update_attributes @attrs
+        @module.slug = @attrs[:module_title]
+        @module.save
+      end
+      it 'updates the resource' do
+        post :update, id: @module.id, inst_resource: @attrs
+        expect(assigns(:mod).instructor_name).to eq @attrs[:instructor_name]
+      end
+    end
+
     describe 'POST #update' do
       it 'sets the requested resource to @mod' do
-        post :update, id: @mod.id, mod: {email: 'foo@bar.com'}
+        post :update, id: @mod.id, inst_resource: {email: 'foo@bar.com'}
         expect(assigns(:mod)).to eq @mod
       end
 
       it 'renders the edit template if save fails' do
-        post :update, id: @mod.id, mod: {email: 'invalid email'}
+        post :update, id: @mod.id, inst_resource: {email: 'invalid email'}
         expect(response).to render_template :edit
       end
 
       it 'saves the resource' do
-        post :update, id: @mod.id, mod: {email: 'foo@bar.com'}
+        post :update, id: @mod.id, inst_resource: {email: 'foo@bar.com'}
         @mod.reload
         expect(@mod.email).to eq 'foo@bar.com'
       end
