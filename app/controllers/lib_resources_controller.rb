@@ -11,7 +11,7 @@ class LibResourcesController < ApplicationController
 
   def update
     @mod = LibResource.find params[:id]
-    @mod.update_attributes params[:mod]
+    @mod.update_attributes params[:lib_resource]
     if @mod.save
       redirect_to @mod
     else
