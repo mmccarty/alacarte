@@ -1,24 +1,25 @@
-%h2= raw mod.module_title
+%section{ :id => "topic_#{ mod.class.to_s.downcase }_#{ mod.id }" }
+  %h2= raw mod.module_title
 
-%p
-  %dl.dl-horizontal
-    - unless mod.instructor_name.blank?
-      %dt Name
-      %dd= raw mod.instructor_name
-    - unless mod.office_location.blank?
-      %dt Office
-      %dd= raw mod.office_location
-    - unless mod.office_hours.blank?
-      %dt Office Hours
-      %dd= raw mod.office_hours
-    - unless mod.website.blank? and mod.email.blank?
-      %dt Contact
-      %dd
-        - unless mod.email.blank?
-          = mail_to mod.email, nil, :encode => 'javascript'
-          %br
-      - unless mod.website.blank?
-        %dt Website
+  %p
+    %dl.dl-horizontal
+      - unless mod.instructor_name.blank?
+        %dt Name
+        %dd= raw mod.instructor_name
+      - unless mod.office_location.blank?
+        %dt Office
+        %dd= raw mod.office_location
+      - unless mod.office_hours.blank?
+        %dt Office Hours
+        %dd= raw mod.office_hours
+      - unless mod.website.blank? and mod.email.blank?
+        %dt Contact
         %dd
-          %a{:href => "#{raw mod.website }"}
-            = mod.website
+          - unless mod.email.blank?
+            = mail_to mod.email, nil, :encode => 'javascript'
+            %br
+        - unless mod.website.blank?
+          %dt Website
+          %dd
+            %a{:href => "#{raw mod.website }"}
+              = mod.website

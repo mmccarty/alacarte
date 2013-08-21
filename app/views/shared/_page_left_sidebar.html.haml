@@ -3,7 +3,7 @@
     %ul.nav.nav-list.page-sidenav
       - @mods.each do |mod|
         %li
-          %a{:href => "#topic_#{ mod.id }"}
+          %a{:href => "#topic_#{ mod.class.to_s.downcase }_#{ mod.id }"}
             %i.icon-chevron-right
             = mod.module_title.html_safe
 
