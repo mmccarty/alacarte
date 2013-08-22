@@ -58,11 +58,16 @@
 
 :javascript
   setTimeout(function () {
-    $('.page-left-sidebar').affix({
-      offset: {
-        top: function () { return $('#header').height(); }
-      }
-    })}, 100);
+    var sidebar = $('.page-left-sidebar'),
+        main    = $('.page-sidebar + div');
+    if (main.height() > sidebar.height()) {
+      sidebar.affix({
+        offset: {
+          top: function () { return $('#header').height(); }
+        }
+      });
+    }
+  }, 100);
 
   setTimeout(function () {
     $("[data-toggle='tooltip']").tooltip();
