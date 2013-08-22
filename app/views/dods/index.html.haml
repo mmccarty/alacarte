@@ -13,8 +13,8 @@
       %tr
         %td= dod.title
         %td
-          = awesome_button edit_dod_path(dod), 'edit', 'Edit database', 'btn btn-primary'
-          &nbsp;
+          = awesome_button edit_dod_path(dod), 'edit', 'Edit database', ''
+          |
           = link_to '', dod_path(dod), class: 'icon-trash', :confirm => 'Are you sure you want to delete this Dod?', :method => :delete
 
 = will_paginate @dods
