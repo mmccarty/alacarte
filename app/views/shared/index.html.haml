@@ -38,7 +38,7 @@
           %td
             = item.updated_at.to_date
           %td
-            - if item.published?
+            - if !item.published?
               = awesome_button polymorphic_path([item], action: :publish), 'lock', 'Add this module to the published list', '', method: :post, remote: true
             - else
               = awesome_button polymorphic_path([item], action: :publish), 'unlock', "Remove this #{ @item_type } from the published list", '', method: :post, remote: true
