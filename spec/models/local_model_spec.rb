@@ -7,8 +7,8 @@ describe Local do
 
   it 'should list all defined module types' do
     expect(Local.create.types).to eq [
-      'comment_resource', 'miscellaneous_resource', 'database_resource', 'inst_resource',
-      'lib_resource', 'quiz_resource', 'rss_resource', 'url_resource',
+      'miscellaneous_resource', 'database_resource', 'inst_resource',
+      'lib_resource', 'rss_resource', 'url_resource',
     ]
   end
 
