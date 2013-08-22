@@ -1,5 +1,6 @@
 %section{ :id => "topic_#{ mod.class.to_s.downcase }_#{ mod.id }" }
-  %h2= mod.module_title.html_safe
+  %h1.page-header
+    = mod.module_title.html_safe
 
   .container
     %dl.dl-horizontal
