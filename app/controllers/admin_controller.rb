@@ -41,7 +41,8 @@ class AdminController < ApplicationController
     define_method name.pluralize do
       @user = User.find params[:id]
       session[:author] = @user.id
-      @items = @user.send "#{ name }s"
+      @items = @user.send name.pluralize
+      @item_type = name
       @count = @items.size
       render 'admin/items'
     end

@@ -7,7 +7,7 @@
       %tr
         %th Shared?
         %th Title
-        %th
+        %th Action
         %th Last Update
         %th Published?
         - if @item_type == 'page'
@@ -17,7 +17,7 @@
       - @items.each do |item|
         %tr
           %td
-            = awesome_button polymorphic_path([item], action: :share), item.shared? ? 'star' : 'star-empty', "Share this #{ @item_type }"
+            = awesome_button polymorphic_path([item], action: :share), item.shared? ? 'share-sign' : 'share', item.shared? ? "This #{ @item_type } has been shared with at least one other user.  Click to edit shared permissions." :"Share this #{ @item_type }"
 
           %td
             - if @item_type == 'page'
