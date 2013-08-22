@@ -15,6 +15,9 @@
         = password_field_tag :password, params[:password], :class => 'input-xlarge'
     .control-group
       .controls
-        = submit_tag 'Login', :class => 'btn btn-primary'
-        &nbsp;
         = link_to 'Forgot My Password', :action => 'forgot_password'
+        |
+        = link_to 'Sign Up for an Account', :action => 'signup'
+        %br
+        %br
+        = submit_tag 'Login', :class => 'btn btn-primary'

@@ -17,6 +17,6 @@
           %td
             = link_to 'Approve', approve_user_path(user) , :confirm => 'Are you sure you want to approve this user?', :method => :post
             |
-            = link_to 'Deny', deny_user_path(author), :confirm => 'Are you sure you want to deny this user?', :method => :post
+            = link_to 'Deny', deny_user_path(user), :confirm => 'Are you sure you want to deny this user?', :method => :post
 
 = will_paginate @users

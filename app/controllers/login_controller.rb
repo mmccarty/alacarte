@@ -40,18 +40,13 @@ class LoginController < ApplicationController
 
   def signup
     if request.post?
-      if verify_recaptcha
-        url = url_for :controller => 'admin', :action => 'pending_users'
-        @user = User.create_new_account({:name => params[:user][:name],
-                                          :email => params[:user][:email],:password => params[:user][:password],
-                                          :password_confirmation => params[:user][:password_confirmation],:from_login => true})
-        if @user.errors.empty?
-          flash[:notice] = User.send_pending_user_mail(@user,url)
-          redirect_to(:action => "login")
-        end
-      else
-        @user = User.new
-        @user.errors.add(:recaptcha, "Recaptcha Values were incorrect")
+      url = url_for :controller => 'admin', :action => 'pending_users'
+      @user = User.create_new_account({:name => params[:user][:name],
+                                        :email => params[:user][:email],:password => params[:user][:password],
+                                        :password_confirmation => params[:user][:password_confirmation]})
+      if @user.errors.empty?
+        flash[:notice] = User.send_pending_user_mail(@user,url)
+        redirect_to(:action => "login")
       end
     end
   end

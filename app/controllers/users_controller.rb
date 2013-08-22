@@ -77,7 +77,7 @@ class UsersController < ApplicationController
     else
       flash[:notice] = 'User was not approved.'
     end
-    redirect_to :action => 'pending_users' and return
+    redirect_to action: :pending
   end
 
   def deny
@@ -92,6 +92,6 @@ class UsersController < ApplicationController
     end
 
     flash[:notice] = "User successfully deleted."
-    redirect_to :action => 'pending_users'
+    redirect_to action: :pending
   end
 end

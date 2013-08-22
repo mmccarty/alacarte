@@ -1,7 +1,7 @@
 %fieldset
   %legend
     Request New Account
-  = form_tag :action => 'request_account' do
+  = form_tag :action => 'signup' do
     = render :partial => 'form'
     %br
     = submit_tag 'Request new account', :class => 'btn btn-primary'
