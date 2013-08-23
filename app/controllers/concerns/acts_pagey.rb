@@ -132,7 +132,7 @@ module ActsPagey
     users.each do |p|
       user = User.find(p)
       begin
-        Notifications.send "share_#{ @item.class.to_s.downcase }", user.email, @user.email, message
+        Notifications.send("share_#{ @item.class.to_s.downcase }", user.email, @user.email, message).deliver
       rescue Exception => e
         flash[:notice] = "User(s) successfully added. Could not send email"
       else
