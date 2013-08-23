@@ -29,18 +29,13 @@ class PagesController < ApplicationController
   def edit
     @subj_list = Subject.get_subjects
     custom_page_data
-    begin
-      @page =  @user.pages.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to  :action => 'index' and return
-    else
-      @selected = @page.subjects.collect{|s| s.id}
-      flash[:course_term] = @page.term
-    end
+    @page = find_item
+    @selected = @page.subjects.collect{|s| s.id}
+    flash[:course_term] = @page.term
   end
 
   def update
-    @page = @user.pages.find params[:id]
+    @page = find_item
     @page.update_attributes params[:page]
     @page.add_subjects params[:subjects] if params[:subjects].present?
     if @page.save
@@ -52,7 +47,7 @@ class PagesController < ApplicationController
 
   def edit_contact
     begin
-      @page = @user.pages.find params[:id]
+      @page = find_item
       @tab = @page.tabs.first
     rescue ActiveRecord::RecordNotFound
       redirect_to pages_path and return
@@ -105,30 +100,33 @@ Please contact me if you have any questions or suggestions.
   end
 
   def destroy
-    begin
-      page = Page.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to :action => 'index' and return
+    page = find_item
+    if page.users.length == 1
+      @user.pages.delete(page)
+      page.destroy
     else
-      if page.users.length == 1
-        @user.pages.delete(page)
-        page.destroy
-      else
-        page.update_attribute(:created_by, page.users.at(1).name) if page.created_by.to_s == @user.name.to_s
-        @user.pages.delete(page)
-      end
-      if request.xhr?
-        render :text => ""
-      else
-        redirect_to :back, :page => params[:page], :sort => params[:sort]
-      end
+      page.update_attribute(:created_by, page.users.at(1).name) if page.created_by.to_s == @user.name.to_s
+      @user.pages.delete(page)
+    end
+    if request.xhr?
+      render :text => ""
+    else
+      redirect_to :back, :page => params[:page], :sort => params[:sort]
     end
   end
 
   private
 
   def find_item
-    @page = @user.pages.find params[:id]
+    begin
+      @page = @user.pages.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      if @user.is_admin
+        @page = Page.find params[:id]
+      else
+        redirect_to :back
+      end
+    end
     @page_owners = @page.users
     @item_name = @page.search_title
     @page

@@ -52,6 +52,246 @@ describe PagesController do
     end
   end
 
+  shared_examples 'individual page' do
+    before :each do
+      @page = create :page
+      @user.add_page @page
+    end
+
+    describe 'GET #edit' do
+      it 'assigns the requested page to @page' do
+        get :edit, id: @page.id
+        expect(assigns(:page)).to eq @page
+      end
+
+      it 'renders the :edit template' do
+        get :edit, id: @page.id
+        expect(response).to render_template :edit
+      end
+    end
+
+    describe 'GET #copy' do
+      it 'assigns a @page to be the origin page' do
+        get :copy, id: @page.id
+        expect(assigns(:item)).to eq @page
+      end
+
+      it 'renders the :copy template' do
+        get :copy, id: @page.id
+        expect(response).to render_template :copy
+      end
+
+    end
+
+    describe 'GET #publish' do
+      before :each do
+        request.env['HTTP_REFERER'] = '/'
+      end
+
+      it 'toggles the value of the "published" flag' do
+        @page.update_attribute :published, false
+        get :publish, id: @page.id
+        @page.reload
+        expect(@page).to be_published
+      end
+
+      it 'redirect back to whence we came' do
+        request.env['HTTP_REFERER'] = '/my/test/url'
+        get :publish, id: @page.id
+        expect(response).to redirect_to '/my/test/url'
+      end
+
+      it 'unarchives pages when they get published' do
+        @page.update_attribute :published, false
+        @page.update_attribute :archived, true
+        get :publish, id: @page.id
+        @page.reload
+        expect(@page).to_not be_archived
+      end
+
+      it 'does not unarchive pages when they get unpublished' do
+        @page.update_attribute :published, true
+        @page.update_attribute :archived, true
+        get :publish, id: @page.id
+        @page.reload
+        expect(@page).to be_archived
+      end
+    end
+
+    describe 'GET #show' do
+      it 'assigns the requested page to @page' do
+        get :show, id: @page.id
+        expect(assigns(:page)).to eq @page
+      end
+
+      it 'assigns the pages tabs to @tabs' do
+        get :show, id: @page.id
+        expect(assigns(:tabs)).to match_array @page.tabs
+      end
+
+      it 'renders the :show template' do
+        get :show, id: @page.id
+        expect(response).to render_template :show
+      end
+
+      it 'assigns the list of modules for the current tab to @mods' do
+        tab = @page.tabs.first
+        tab.template = 1
+        tab.save
+        get :show, id: @page.id
+        expect(assigns(:mods)).to match_array tab.sorted_modules
+      end
+
+      it 'constructs lists of modules for the left and right columns' do
+        tab = @page.tabs.first
+        get :show, id: @page.id
+        expect(assigns(:mods_left)).to match_array tab.left_modules
+        expect(assigns(:mods_right)).to match_array tab.right_modules
+      end
+
+      it 'does not assign @mods in two-column layouts' do
+        tab = @page.tabs.first
+        get :show, id: @page.id
+        expect(assigns(:mods)).to be_nil
+      end
+
+      it 'does not assign @mods_left or @mods_right in one-column layouts' do
+        tab = @page.tabs.first
+        tab.template = 1
+        tab.save
+        get :show, id: @page.id
+        expect(assigns(:mods_left)).to be_nil
+        expect(assigns(:mods_right)).to be_nil
+      end
+    end
+
+    describe 'GET #share' do
+      it 'renders the :share template' do
+        get :share, id: @page.id
+        expect(response).to render_template :share
+      end
+    end
+
+    describe 'POST #share' do
+      it 'redirect to GET :share' do
+        post :share, id: @page.id
+        expect(response).to redirect_to polymorphic_path([@page], action: :share)
+      end
+
+      it 'shares the page without copying' do
+        new_user = create :user
+        post :share, id: @page.id, users: [new_user.id], copy: '0'
+        @page.reload
+        expect(@page.shared?).to be_true
+      end
+
+      it 'shares the page by copying creates a new page' do
+        new_user = create :user
+        expect {
+          post :share, id: @page.id, users: [new_user.id], copy: '1'
+        }.to change(Page, :count).by(1)
+      end
+
+    end
+
+    describe 'POST #toggle_columns' do
+      it 'changes a two-column layout into a one-column layout' do
+        tab = @page.tabs.first
+        post :toggle_columns, id: @page.id
+        tab.reload
+        expect(tab.num_columns).to eq 1
+      end
+
+      it 'changes a one-column layout into a two-column layout' do
+        tab = @page.tabs.first
+        tab.update_attribute :template, 1
+        post :toggle_columns, id: @page.id
+        tab.reload
+        expect(tab.num_columns).to eq 2
+      end
+
+      it 'redirects to the page' do
+        post :toggle_columns, id: @page.id
+        expect(response).to redirect_to @page
+      end
+    end
+
+    describe 'POST #copy' do
+      it 'creates a new page' do
+        expect {
+          post :copy, id: @page.id
+        }.to change(Page, :count).by(1)
+      end
+
+      it 'redirects to the edit page for the new page' do
+        post :copy, id: @page.id
+        expect(response).to redirect_to edit_page_path(assigns(:new_item))
+      end
+
+      it 'makes copies of tabs for the new page' do
+        post :copy, id: @page.id, options: 'copy'
+        expect(assigns(:new_item).tabs).to_not be_empty
+      end
+
+      it 'does not remove tabs from the source page' do
+        post :copy, id: @page.id, options: 'copy'
+        @page.reload
+        expect(@page.tabs).to_not be_empty
+      end
+
+      it 'adds the tabs to the new page instead of source page' do
+        post :copy, id: @page.id, options: 'reuse'
+        num_tabs_src = @page.tabs.length
+        @page.reload
+        expect(@page.tabs.length).to eq num_tabs_src
+      end
+
+      it 'makes copies of the tabs even when sharing the modules' do
+        post :copy, id: @page.id, options: 'reuse'
+        expect(assigns(:new_item).tabs).to_not be_empty
+      end
+
+      it 'does not remove tabs from the source page even when sharing the modules' do
+        post :copy, id: @page.id, options: 'copy'
+        @page.reload
+        expect(@page.tabs).to_not be_empty
+      end
+
+      it 'will not create redundant home tabs' do
+        post :copy, id: @page.id, options: 'copy'
+        expect(assigns(:new_item).tabs.length).to eq @page.tabs.length
+      end
+    end
+
+    describe 'PUT #update' do
+      it 'updates attributes of the requested page' do
+        put :update, id: @page.id, page: { tag_list: 'this, that, the other' }
+        @page.reload
+        expect(@page.tags.map(&:name).sort).to match_array ['that', 'the other', 'this']
+      end
+
+      it 'redirects to the :show view' do
+        put :update, id: @page.id, page: { course_name: 'timmeh!' }
+        expect(response).to redirect_to @page
+      end
+    end
+  end
+
+  describe 'admin access' do
+    before :each do
+      @user = create :author
+      @admin = create :admin
+      session[:user_id] = @admin.id
+
+      @subject = create :subject
+
+      Local.create
+    end
+
+    it_behaves_like 'individual page'
+
+  end
+
   describe 'author access' do
     before :each do
       @user = create :author
@@ -61,6 +301,8 @@ describe PagesController do
 
       Local.create
     end
+
+    it_behaves_like 'individual page'
 
     describe 'POST #create' do
       it 'creates a new page' do
@@ -116,229 +358,6 @@ describe PagesController do
       it 'renders the :new template' do
         get :new
         expect(response).to render_template :new
-      end
-    end
-
-    describe 'individual page' do
-      before :each do
-        @page = create :page
-        @user.add_page @page
-      end
-
-      describe 'GET #edit' do
-        it 'assigns the requested page to @page' do
-          get :edit, id: @page.id
-          expect(assigns(:page)).to eq @page
-        end
-
-        it 'renders the :edit template' do
-          get :edit, id: @page.id
-          expect(response).to render_template :edit
-        end
-      end
-
-      describe 'GET #copy' do
-        it 'assigns a @page to be the origin page' do
-          get :copy, id: @page.id
-          expect(assigns(:item)).to eq @page
-        end
-
-        it 'renders the :copy template' do
-          get :copy, id: @page.id
-          expect(response).to render_template :copy
-        end
-
-       end
-
-      describe 'GET #publish' do
-        before :each do
-          request.env['HTTP_REFERER'] = '/'
-        end
-
-        it 'toggles the value of the "published" flag' do
-          @page.update_attribute :published, false
-          get :publish, id: @page.id
-          @page.reload
-          expect(@page).to be_published
-        end
-
-        it 'redirect back to whence we came' do
-          request.env['HTTP_REFERER'] = '/my/test/url'
-          get :publish, id: @page.id
-          expect(response).to redirect_to '/my/test/url'
-        end
-
-        it 'unarchives pages when they get published' do
-          @page.update_attribute :published, false
-          @page.update_attribute :archived, true
-          get :publish, id: @page.id
-          @page.reload
-          expect(@page).to_not be_archived
-        end
-
-        it 'does not unarchive pages when they get unpublished' do
-          @page.update_attribute :published, true
-          @page.update_attribute :archived, true
-          get :publish, id: @page.id
-          @page.reload
-          expect(@page).to be_archived
-        end
-      end
-
-      describe 'GET #show' do
-        it 'assigns the requested page to @page' do
-          get :show, id: @page.id
-          expect(assigns(:page)).to eq @page
-        end
-
-        it 'assigns the pages tabs to @tabs' do
-          get :show, id: @page.id
-          expect(assigns(:tabs)).to match_array @page.tabs
-        end
-
-        it 'renders the :show template' do
-          get :show, id: @page.id
-          expect(response).to render_template :show
-        end
-
-        it 'assigns the list of modules for the current tab to @mods' do
-          tab = @page.tabs.first
-          tab.template = 1
-          tab.save
-          get :show, id: @page.id
-          expect(assigns(:mods)).to match_array tab.sorted_modules
-        end
-
-        it 'constructs lists of modules for the left and right columns' do
-          tab = @page.tabs.first
-          get :show, id: @page.id
-          expect(assigns(:mods_left)).to match_array tab.left_modules
-          expect(assigns(:mods_right)).to match_array tab.right_modules
-        end
-
-        it 'does not assign @mods in two-column layouts' do
-          tab = @page.tabs.first
-          get :show, id: @page.id
-          expect(assigns(:mods)).to be_nil
-        end
-
-        it 'does not assign @mods_left or @mods_right in one-column layouts' do
-          tab = @page.tabs.first
-          tab.template = 1
-          tab.save
-          get :show, id: @page.id
-          expect(assigns(:mods_left)).to be_nil
-          expect(assigns(:mods_right)).to be_nil
-        end
-      end
-
-      describe 'GET #share' do
-        it 'renders the :share template' do
-          get :share, id: @page.id
-          expect(response).to render_template :share
-        end
-      end
-
-      describe 'POST #share' do
-        it 'redirect to GET :share' do
-          post :share, id: @page.id
-          expect(response).to redirect_to polymorphic_path([@page], action: :share)
-        end
-
-        it 'shares the page without copying' do
-          new_user = create :user
-          post :share, id: @page.id, users: [new_user.id], copy: '0'
-          @page.reload
-          expect(@page.shared?).to be_true
-        end
-
-        it 'shares the page by copying creates a new page' do
-          new_user = create :user
-          expect {
-            post :share, id: @page.id, users: [new_user.id], copy: '1'
-          }.to change(Page, :count).by(1)
-        end
-
-      end
-
-      describe 'POST #toggle_columns' do
-        it 'changes a two-column layout into a one-column layout' do
-          tab = @page.tabs.first
-          post :toggle_columns, id: @page.id
-          tab.reload
-          expect(tab.num_columns).to eq 1
-        end
-
-        it 'changes a one-column layout into a two-column layout' do
-          tab = @page.tabs.first
-          tab.update_attribute :template, 1
-          post :toggle_columns, id: @page.id
-          tab.reload
-          expect(tab.num_columns).to eq 2
-        end
-
-        it 'redirects to the page' do
-          post :toggle_columns, id: @page.id
-          expect(response).to redirect_to @page
-        end
-      end
-
-      describe 'POST #copy' do
-        it 'creates a new page' do
-          expect {
-            post :copy, id: @page.id
-          }.to change(Page, :count).by(1)
-        end
-
-        it 'redirects to the edit page for the new page' do
-          post :copy, id: @page.id
-          expect(response).to redirect_to edit_page_path(assigns(:new_item))
-        end
-
-        it 'makes copies of tabs for the new page' do
-          post :copy, id: @page.id, options: 'copy'
-          expect(assigns(:new_item).tabs).to_not be_empty
-        end
-
-        it 'does not remove tabs from the source page' do
-          post :copy, id: @page.id, options: 'copy'
-          @page.reload
-          expect(@page.tabs).to_not be_empty
-        end
-
-        it 'adds the tabs to the new page instead of source page' do
-          post :copy, id: @page.id, options: 'reuse'
-          num_tabs_src = @page.tabs.length
-          @page.reload
-          expect(@page.tabs.length).to eq num_tabs_src
-        end
-
-        it 'makes copies of the tabs even when sharing the modules' do
-          post :copy, id: @page.id, options: 'reuse'
-          expect(assigns(:new_item).tabs).to_not be_empty
-        end
-        it 'does not remove tabs from the source page even when sharing the modules' do
-          post :copy, id: @page.id, options: 'copy'
-          @page.reload
-          expect(@page.tabs).to_not be_empty
-        end
-        it 'will not create redundant home tabs' do
-          post :copy, id: @page.id, options: 'copy'
-          expect(assigns(:new_item).tabs.length).to eq @page.tabs.length
-        end
-
-      end
-      describe 'PUT #update' do
-        it 'updates attributes of the requested page' do
-          put :update, id: @page.id, page: { tag_list: 'this, that, the other' }
-          @page.reload
-          expect(@page.tags.map(&:name).sort).to match_array ['that', 'the other', 'this']
-        end
-
-        it 'redirects to the :show view' do
-          put :update, id: @page.id, page: { course_name: 'timmeh!' }
-          expect(response).to redirect_to @page
-        end
       end
     end
   end
