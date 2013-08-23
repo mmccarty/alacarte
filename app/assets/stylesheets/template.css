@@ -61,10 +61,13 @@
   padding: 10px;
 }
 
+dl.dl-horizontal dt {
+  width: 120px;
+}
 
 /* Side nav for module sections */
 .page-left-sidebar {
-  width: 310px;
+  width: 368px;
 }
 .page-left-sidebar.affix {
   top: 0px;
