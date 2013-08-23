@@ -8,7 +8,7 @@
   %li
     = link_to 'Preview Guide', show_srg_path(@guide, :tab => session[:current_tab])
   %li
-    - if @guide.published?
+    - if !@guide.published?
       = link_to 'Publish Guide', publish_guide_path(@guide), :confirm => 'Are you sure you want to publish this guide?', :method => :post
     - else
       = link_to 'Unpublish Guide', publish_guide_path(@guide), :confirm => 'Are you sure you want to unpublish this guide?', :method => :post
