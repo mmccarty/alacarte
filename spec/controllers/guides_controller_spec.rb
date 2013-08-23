@@ -329,25 +329,6 @@ describe GuidesController do
         expect(response).to redirect_to polymorphic_path([@guide], action: :share)
       end
     end
-  end
-
-  describe 'admin access' do
-    before :each do
-      @user = create :author
-      @admin = create :admin
-      session[:user_id] = @admin.id
-    end
-
-    it_behaves_like 'individual guide'
-  end
-
-  describe 'author access' do
-    before :each do
-      @user = create :author
-      session[:user_id] = @user.id
-    end
-
-    it_behaves_like 'individual guide'
 
     describe 'POST #create' do
       it 'creates a new guide' do
@@ -372,21 +353,7 @@ describe GuidesController do
         guide[:master_ids] = []
         guide[:subject_ids] = []
         post :create, guide: guide
-        expect(response).to redirect_to @user.guides.first
-      end
-    end
-
-    describe 'GET #index' do
-      it 'populates an array of guides' do
-        guide = create :guide
-        @user.add_guide guide
-        get :index
-        expect(assigns(:items)).to match_array [guide]
-      end
-
-      it 'renders the :index template' do
-        get :index
-        expect(response).to render_template :index
+        expect(response).to redirect_to assigns :guide
       end
     end
 
@@ -399,6 +366,39 @@ describe GuidesController do
       it 'renders the :new template' do
         get :new
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'admin access' do
+    before :each do
+      @user = create :author
+      @admin = create :admin
+      session[:user_id] = @admin.id
+    end
+
+    it_behaves_like 'individual guide'
+  end
+
+  describe 'author access' do
+    before :each do
+      @user = create :author
+      session[:user_id] = @user.id
+    end
+
+    it_behaves_like 'individual guide'
+
+    describe 'GET #index' do
+      it 'populates an array of guides' do
+        guide = create :guide
+        @user.add_guide guide
+        get :index
+        expect(assigns(:items)).to match_array [guide]
+      end
+
+      it 'renders the :index template' do
+        get :index
+        expect(response).to render_template :index
       end
     end
   end

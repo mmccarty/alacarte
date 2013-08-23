@@ -58,6 +58,18 @@ describe PagesController do
       @user.add_page @page
     end
 
+    describe 'GET #new' do
+      it 'assigns a new page to @page' do
+        get :new
+        expect(assigns(:page)).to be_a_new Page
+      end
+
+      it 'renders the :new template' do
+        get :new
+        expect(response).to render_template :new
+      end
+    end
+
     describe 'GET #edit' do
       it 'assigns the requested page to @page' do
         get :edit, id: @page.id
@@ -290,6 +302,37 @@ describe PagesController do
 
     it_behaves_like 'individual page'
 
+    describe 'POST #create' do
+      it 'creates a new page' do
+        page = attributes_for :page
+        page[:subject_ids] = [@subject.id]
+        expect {
+          post :create, page: page
+        }.to change(Page, :count).by(1)
+      end
+
+      it 'creates a default tab for the new page' do
+        page = attributes_for :page
+        page[:subject_ids] = [@subject.id]
+        post :create, page: page
+        expect(@admin.pages.first.tabs).to_not be_empty
+      end
+
+      it 'sets the list of subjects for the new page' do
+        page = attributes_for :page
+        page[:subject_ids] = [@subject.id]
+        post :create, page: page
+        expect(@admin.pages.first.subjects).to match_array [@subject]
+      end
+
+      it 'redirects to the :show view' do
+        page = attributes_for :page
+        page[:subject_ids] = [@subject.id]
+        post :create, page: page
+        expect(response).to redirect_to @admin.pages.first
+      end
+    end
+
   end
 
   describe 'author access' do
@@ -346,18 +389,6 @@ describe PagesController do
       it 'renders the :index template' do
         get :index
         expect(response).to render_template :index
-      end
-    end
-
-    describe 'GET #new' do
-      it 'assigns a new page to @page' do
-        get :new
-        expect(assigns(:page)).to be_a_new Page
-      end
-
-      it 'renders the :new template' do
-        get :new
-        expect(response).to render_template :new
       end
     end
   end
