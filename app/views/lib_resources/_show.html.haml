@@ -24,9 +24,7 @@
         - unless mod.chat_info.blank?
           %br/
           = mod.chat_info
-    - unless mod.chat_widget.blank?
-      %dt Chat
-      %dd
-        = raw mod.chat_widget
-        %noscript You must have javascript enabled
-        %noembed You must allow embedded content.
+  - unless mod.chat_widget.blank?
+    = raw mod.chat_widget
+    %noscript You must have javascript enabled
+    %noembed You must allow embedded content.
