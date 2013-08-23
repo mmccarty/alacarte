@@ -32,6 +32,8 @@
         %td
           = awesome_button polymorphic_path([item], action: :share), item.shared? ? 'share-sign' : 'share', item.shared? ? "This #{ @item_type } has been shared with at least one other user.  Click to edit shared permissions." :"Share this #{ @item_type }"
         %td
+          = awesome_button item, 'edit', "Edit this #{ @item_type }"
+          |
           - if @item_type == 'page'
             = awesome_button show_ica_path(item), 'external-link', "Preview this #{ @item_type }"
           - else

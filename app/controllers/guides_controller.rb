@@ -26,18 +26,14 @@ class GuidesController < ApplicationController
   end
 
   def edit
-    begin
-      @guide = @user.guides.find params[:id]
-      @masters = Master.get_guide_types
-      @subjects = Subject.get_subject_values
-      @resources = @user.contact_resources
-    rescue ActiveRecord::RecordNotFound
-      redirect_to guides_path
-    end
+    @guide = find_item
+    @masters = Master.get_guide_types
+    @subjects = Subject.get_subject_values
+    @resources = @user.contact_resources
   end
 
   def update
-    @guide = @user.guides.find params[:id]
+    @guide = find_item
     if @guide.update_attributes params[:guide]
       redirect_to @guide
     else
@@ -81,26 +77,30 @@ class GuidesController < ApplicationController
   end
 
   def destroy
-    begin
-      guide = @user.guides.find params[:id]
-    rescue ActiveRecord::RecordNotFound
-      redirect_to :action => 'index'
+    guide = find_item
+
+    if guide.users.length == 1
+      @user.guides.delete guide
+      guide.destroy
     else
-      if guide.users.length == 1
-        @user.guides.delete guide
-        guide.destroy
-      else
-        guide.update_attribute(:created_by, guide.users.at(1).name) if guide.created_by.to_s == @user.name.to_s
-        @user.guides.delete guide
-      end
-      render nothing: true
+      guide.update_attribute(:created_by, guide.users.at(1).name) if guide.created_by.to_s == @user.name.to_s
+      @user.guides.delete guide
     end
+    render nothing: true
   end
 
   private
 
   def find_item
-    @guide = @user.guides.find params[:id]
+    begin
+      @guide = @user.guides.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      if @user.is_admin
+        @guide = Guide.find params[:id]
+      else
+        redirect_to :back
+      end
+    end
     @guide_owners = @guide.users
     @item_name = @guide.guide_name
     @guide
