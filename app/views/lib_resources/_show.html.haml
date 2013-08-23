@@ -2,32 +2,31 @@
   %h1.page-header
     = mod.module_title.html_safe
 
-  .container
-    %dl.dl-horizontal
-      - unless mod.librarian_name.blank?
-        %dt Name
-        %dd #{h mod.librarian_name}
-      - unless mod.image_info.blank?
-        %dt Info
-        %dd
-          = raw mod.image_info
-      - unless mod.office_hours.blank?
-        %dt Office Hours
-        %dd #{h mod.office_hours}
-      - unless mod.office_location.blank?
-        %dt Office Location
-        %dd #{h mod.office_location}
-      - unless mod.chat_info.blank? and mod.email.blank?
-        %dt Contact Info
-        %dd
-          - unless mod.email.blank?
-            = mail_to mod.email, truncate(mod.email,:length => 30), :encode => "javascript"
-          - unless mod.chat_info.blank?
-            %br/
-            = mod.chat_info
-      - unless mod.chat_widget.blank?
-        %dt Chat
-        %dd
-          = raw mod.chat_widget
-          %noscript You must have javascript enabled
-          %noembed You must allow embedded content.
+  %dl.dl-horizontal
+    - unless mod.librarian_name.blank?
+      %dt Name
+      %dd #{h mod.librarian_name}
+    - unless mod.image_info.blank?
+      %dt Info
+      %dd
+        = raw mod.image_info
+    - unless mod.office_hours.blank?
+      %dt Office Hours
+      %dd #{h mod.office_hours}
+    - unless mod.office_location.blank?
+      %dt Office Location
+      %dd #{h mod.office_location}
+    - unless mod.chat_info.blank? and mod.email.blank?
+      %dt Contact Info
+      %dd
+        - unless mod.email.blank?
+          = mail_to mod.email, truncate(mod.email,:length => 30), :encode => "javascript"
+        - unless mod.chat_info.blank?
+          %br/
+          = mod.chat_info
+    - unless mod.chat_widget.blank?
+      %dt Chat
+      %dd
+        = raw mod.chat_widget
+        %noscript You must have javascript enabled
+        %noembed You must allow embedded content.
