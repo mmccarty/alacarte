@@ -36,7 +36,7 @@ describe LoginController do
 
     it 'redirect to login page' do
       post :forgot_password, user: {email: @user.email}
-      expect(response).to redirect_to action: :login
+      expect(response).to redirect_to login_path
     end
 
     it 'sets a new password' do

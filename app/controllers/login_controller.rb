@@ -31,7 +31,7 @@ class LoginController < ApplicationController
       user = User.find_by_email params[:user][:email]
       if user and user.set_new_password
         flash[:notice] = "A new password has been sent by email."
-        redirect_to :action => "login"
+        redirect_to login_path
       else
         flash.now[:notice]  = "Couldn't send password"
       end
