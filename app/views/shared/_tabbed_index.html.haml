@@ -13,12 +13,3 @@
           = yield :tab_content
 
       = yield :right_sidebar
-
-
-:javascript
-  setTimeout(function () {
-    $('#page-header').affix({
-      offset: {
-        top: function () { return $('#header').height(); }
-      }
-    })}, 100);

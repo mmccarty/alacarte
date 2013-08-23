@@ -34,7 +34,7 @@
   overflow: hidden;
 }
 
-#search + .tab-content, .dl-horizontal {
+#search + .tab-content {
   overflow: hidden;
 }
 
@@ -67,7 +67,7 @@
   width: 310px;
 }
 .page-left-sidebar.affix {
-  top: 100px;
+  top: 0px;
 }
 
 .page-sidenav {

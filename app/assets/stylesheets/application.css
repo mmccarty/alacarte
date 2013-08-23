@@ -15,3 +15,8 @@ a[class^="icon-"]:hover {
   color: #08C;
   text-decoration: none;
 }
+
+#header {
+  padding-top:    15px;
+  padding-bottom: 30px;
+}

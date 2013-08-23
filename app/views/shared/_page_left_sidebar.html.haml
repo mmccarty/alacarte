@@ -63,7 +63,7 @@
     if (main.height() > sidebar.height()) {
       sidebar.affix({
         offset: {
-          top: function () { return $('#header').height(); }
+          top: function () { return $('#header').height() + $('#page-header').height(); }
         }
       });
     }
