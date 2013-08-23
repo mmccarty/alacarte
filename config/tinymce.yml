@@ -20,13 +20,14 @@ toolbar:
   - image
   - code
 plugins:
-  - hr
   - anchor
-  - link
-  - image
-  - fullscreen
   - code
-  - spellchecker
+  - fullscreen
+  - hr
+  - image
+  - link
+  - paste
   - preview
+  - spellchecker
   - table
 height: 500
