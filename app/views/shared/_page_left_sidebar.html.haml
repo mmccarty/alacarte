@@ -1,13 +1,10 @@
 - if @mod
-  #sidebar-module.accordion
-    .accordion-group
-      .accordion-heading
-        %a.accordion-toggle{:href => "#sidebar-module-content", :data => {:toggle => 'collapse', :parent => 'sidebar-module'}}
-          %i.icon-chevron-down
-          = @mod.module_title
-      #sidebar-module-content.accordion-body.collapse
-        .accordion-inner
-          = render :partial => 'shared/view_mod', :locals => { :mod => @mod }
+  #left-sidebar-module
+    = render :partial => 'shared/view_mod', :locals => { :mod => @mod }
+
+-unless @local.guide_box.blank?
+  #left-guide-box.well.well-small
+    = @local.guide_box.html_safe
 
 .page-left-sidebar
   - if @mods.present?
@@ -18,15 +15,6 @@
             %i.icon-chevron-right
             = mod.module_title.html_safe
 
-  -unless @local.guide_box.blank?
-    .well.well-small
-      = @local.guide_box.html_safe
-  - unless index_description.blank?
-    .well.well-small
-      %h4
-        About this Guide
-      %p
-        = raw index_description
   #related-guides.accordion
     - if @local.guides_list.include?('guides') and defined?(@related_guides) and @related_guides.length > 0
       .accordion-group
@@ -67,12 +55,18 @@
 
 :javascript
   setTimeout(function () {
-    var sidebar = $('.page-left-sidebar'),
-        main    = $('.page-sidebar + div');
-    if (main.height() > sidebar.height()) {
-      sidebar.affix({
+    var box        = $('#left-guide-box').height(),
+        footer     = $('.footer').height(),
+        header     = $('#header').height(),
+        main       = $('.page-sidebar + div').height(),
+        module     = $('#left-sidebar-module').height(),
+        pageHeader = $('#page-header').height(),
+        sidebar    = $('.page-left-sidebar').height();
+    if (main > sidebar) {
+      $('.page-left-sidebar').affix({
         offset: {
-          top: function () { return $('#header').height() + $('#page-header').height(); }
+          top: header + pageHeader + box + module,
+          bottom: footer
         }
       });
     }

@@ -6,7 +6,6 @@
 }
 #page-header {
   background-color: #fff;
-  margin-left: -30px;
   padding-right: 30px;
 }
 #page-header.affix {
@@ -30,7 +29,7 @@
   min-height: 175px;
 }
 
-.tab-content .span8 {
+.span8 .tab-content {
   overflow: hidden;
 }
 
@@ -61,22 +60,23 @@
   padding: 10px;
 }
 
-dl.dl-horizontal dt {
-  width: 120px;
-}
-
 /* Side nav for module sections */
-.page-left-sidebar {
-  width: 368px;
+.page-sidebar, .page-left-sidebar {
+  width: 310px;
 }
 .page-left-sidebar.affix {
-  top: 0px;
+  top: 20px;
+}
+.page-left-sidebar.affix-bottom {
+  bottom: 0px;
+  position: absolute;
+  top: auto;
 }
 
 .page-sidenav {
   width: 100%;
-  margin: 30px 0 30px;
   padding: 0;
+  margin-bottom: 30px;
   background-color: #fff;
   -webkit-border-radius: 6px;
      -moz-border-radius: 6px;

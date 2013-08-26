@@ -1,7 +1,9 @@
 .container
-  .container#page-header
-    %h1.page-header
+  #page-header.page-header
+    %h1
       = header_title
+    %p.small
+      = yield :about
 
   .container
     .row

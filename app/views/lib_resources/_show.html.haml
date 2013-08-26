@@ -1,42 +1,34 @@
 %section{ :id => "topic_#{ mod.class.to_s.downcase }_#{ mod.id }" }
-  %h1.page-header
-    = mod.module_title.html_safe
+  - unless mod.librarian_name.blank?
+    %h2.text-center
+      = mod.module_title.html_safe
 
-  - unless mod.chat_widget.blank?
-    %ul.nav.nav-tabs
-      %li.active
-        %a{:href => '#contact-info-overview', :data => { :toggle => 'tab' }}
-          Info
-      %li
-        %a{:href => '#chat-with-me', :data => { :toggle => 'tab' }}
-          Chat with me
+    - unless mod.image_info.blank?
+      .thumbnail.pagination-centered
+        = raw mod.image_info
 
-  .tab-content
-    #contact-info-overview.tab-pane.active
-      %dl.dl-horizontal
-        - unless mod.librarian_name.blank?
-          %dt Name
-          %dd #{h mod.librarian_name}
-        - unless mod.image_info.blank?
-          %dt Info
-          %dd
-            = raw mod.image_info
-        - unless mod.office_hours.blank?
-          %dt Office Hours
-          %dd #{h mod.office_hours}
-        - unless mod.office_location.blank?
-          %dt Office Location
-          %dd #{h mod.office_location}
-        - unless mod.chat_info.blank? and mod.email.blank?
-          %dt Contact Info
-          %dd
+    %table
+      - unless mod.office_hours.blank?
+        %tr
+          %td
+            %strong Office Hours
+          %td #{h mod.office_hours}
+      - unless mod.office_location.blank?
+        %tr
+          %td{ :style => 'padding-right: 8px' }
+            %strong Office Location
+          %td #{h mod.office_location}
+      - unless mod.chat_info.blank? and mod.email.blank?
+        %tr
+          %td
+            %strong Contact Info
+          %td
             - unless mod.email.blank?
               = mail_to mod.email, truncate(mod.email,:length => 30), :encode => "javascript"
             - unless mod.chat_info.blank?
               %br/
               = mod.chat_info
-    #chat-with-me.tab-pane
-      - unless mod.chat_widget.blank?
-        = raw mod.chat_widget
-        %noscript You must have javascript enabled
-        %noembed You must allow embedded content.
+    - unless mod.chat_widget.blank?
+      = raw mod.chat_widget
+      %noscript You must have javascript enabled
+      %noembed You must allow embedded content.

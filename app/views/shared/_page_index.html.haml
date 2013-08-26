@@ -1,6 +1,9 @@
+- content_for :about do
+  = index_description.html_safe
+
 - content_for :left_sidebar do
   .span4.page-sidebar
-    = render :partial => 'shared/page_left_sidebar', :locals => { :index_description => index_description }
+    = render 'shared/page_left_sidebar'
 
 - content_for :tab_headings do
   - if @tabs.length > 1
