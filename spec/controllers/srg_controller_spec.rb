@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SrgController do
   before :each do
-    @guide = create :guide
+    @guide = create :guide, tag_list: 'test'
     Local.create
   end
 
@@ -46,6 +46,30 @@ describe SrgController do
       get :show, id: @guide.id
       expect(assigns(:mods_left)).to be_empty
       expect(assigns(:mods_right)).to be_empty
+    end
+  end
+
+  describe 'GET #published_guides' do
+    before :each do
+      @guide.published = true
+      @guide.save
+    end
+
+    it 'responds successfully with an HTTP 200 status code' do
+      get :published_guides
+      expect(response).to be_success
+      expect(response.status).to eq 200
+    end
+
+    it 'assigns published guides to @guide' do
+      get :published_guides
+      expect(assigns(:guides)).to eq [@guide]
+    end
+
+    it 'assigns tags and counts to @tags' do
+      get :published_guides
+      expect(assigns(:tags)).to_not be_nil
+      expect(assigns(:tags).empty?).to be_false
     end
   end
 end

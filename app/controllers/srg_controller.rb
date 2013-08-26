@@ -33,7 +33,7 @@ class SrgController < ApplicationController
     @title = @local.guide_page_title
     @guides = Guide.published_guides
     @masters = Master.where("value <> ? AND value <> ?", "Tutorial", "Internal").order("value").includes(:guides)
-    @tags = Guide.where(:published => true).tag_counts_on(:order => 'taggings.created_at desc', :limit => 100)
+    @tags = Guide.where(:published => true).tag_counts_on(:tags).limit(100)
   end
 
   def internal_guides
