@@ -18,26 +18,6 @@ class Notifications < ActionMailer::Base
     mail to: to, from: from, subject: subject
   end
 
-  def send_url to, from, body
-    send_message to, from, body, "Library Course Page Announcement"
-  end
-
-  def share_tutorial to, from, body
-    send_message to, from, body, "Shared Library a la Carte Tutorial"
-  end
-
-  def send_all to, from, subject, body
-    send_message to, from, body, subject
-  end
-
-  def share_page to, from, body
-    send_message to, from, body, "Shared Library a la Carte Course Page"
-  end
-
-  def share_guide to, from, body
-    send_message to, from, body, "Shared Library a la Carte Subject Guide"
-  end
-
   def share_module to, from, mod, name
     @mod = mod
     @name = name

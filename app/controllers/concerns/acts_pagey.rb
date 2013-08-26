@@ -132,7 +132,10 @@ module ActsPagey
     users.each do |p|
       user = User.find(p)
       begin
-        Notifications.send("share_#{ @item.class.to_s.downcase }", user.email, @user.email, message).deliver
+        Notifications.send_message(user.email,
+                                   @user.email,
+                                   message,
+                                   "Shared Library a la Carte #{ @item.class.to_s}").deliver
       rescue Exception => e
         flash[:notice] = "User(s) successfully added. Could not send email"
       else
