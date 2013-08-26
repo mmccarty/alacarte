@@ -72,7 +72,8 @@ class Guide < ActiveRecord::Base
 
   def replicate user, options
     new_guide = dup
-    new_guide.guide_name = "#{ guide_name }-copy"
+    num_guides = Guide.where('guide_name like :prefix', prefix: "#{ guide_name}%").count
+    new_guide.guide_name = "#{ guide_name }-#{ num_guides + 1}"
     if options == 'copy'
       new_guide.copy_resources user.id, tabs
     else

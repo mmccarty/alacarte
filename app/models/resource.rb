@@ -34,7 +34,7 @@ class Resource < ActiveRecord::Base
 
   def copy_mod(name)
     old_mod = mod
-    new_mod = old_mod.clone
+    new_mod = old_mod.dup
     case old_mod.class.to_s
     when "DatabaseResource"
       new_mod.database_dods << old_mod.database_dods.map {|d| d.clone}.flatten

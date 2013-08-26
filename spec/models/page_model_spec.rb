@@ -118,6 +118,21 @@ describe Page do
       expect(user2.resources.length).to eq 5
     end
 
+    it 'will share and copy all modules' do
+      page = create :page
+      tab = build :tab
+      page.add_tab tab
+      user1 = create :author
+      user2 = create :author
+
+      mods = 1.upto(5).map { create :miscellaneous_resource }
+      mods.each { |mod| user1.create_and_add_resource mod; tab.add_module mod.id, mod.class }
+
+      expect {
+        page.share user2.id, '1'
+      }.to change(MiscellaneousResource, :count).by(5)
+    end
+
     it 'ensures all users share newly added modules' do
       page = create :page
       tab = build :tab

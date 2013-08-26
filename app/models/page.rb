@@ -125,7 +125,8 @@ class Page < ActiveRecord::Base
 
   def replicate user, options
     new_page = dup
-    new_page.course_name = "#{ course_name }-copy"
+    num_pages = Page.where('course_name like :prefix', prefix: "#{ course_name}%").count
+    new_page.course_name = "#{ course_name }-#{ num_pages + 1}"
     if options == 'copy'
       new_page.copy_resources user.id, tabs
     else

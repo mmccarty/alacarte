@@ -88,6 +88,21 @@ describe Guide do
       expect(user2.resources.length).to eq 5
     end
 
+    it 'will share and copy all modules' do
+      guide = create :guide
+      tab = build :tab
+      guide.add_tab tab
+      user1 = create :author
+      user2 = create :author
+
+      mods = 1.upto(5).map { create :miscellaneous_resource }
+      mods.each { |mod| user1.create_and_add_resource mod; tab.add_module mod.id, mod.class }
+
+      expect {
+        guide.share user2.id, '1'
+      }.to change(MiscellaneousResource, :count).by(5)
+    end
+
     it 'ensures all users share newly added modules' do
       guide = create :guide
       tab = build :tab
@@ -104,6 +119,8 @@ describe Guide do
       user2.reload
       expect(user2.resources.length).to eq 5
     end
+
+
   end
 
   describe 'is taggable' do
