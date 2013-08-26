@@ -55,6 +55,37 @@ describe TabsController do
       end
     end
 
+    describe 'POST #remove_module' do
+      before :each do
+        @mod = create :miscellaneous_resource
+        @user.create_and_add_resource @mod
+        session[:add_mods] = ["#{ @mod.id }#{ @mod.class }"]
+        post :add_modules, guide_id: @guide.id, id: @tab.id
+
+        request.env['HTTP_REFERER'] = '/'
+      end
+
+      it 'removes the module from the tab' do
+        post :remove_module, id: @tab.id, mod: @mod.id, type: @mod.class.to_s
+        @tab.reload
+        expect(@tab.modules.include? @mod).to be_false
+      end
+
+      it 'redirects :back' do
+        post :remove_module, id: @tab.id, mod: @mod.id, type: @mod.class.to_s
+        expect(response).to redirect_to '/'
+      end
+
+      it 'only removes one module when it has been added multiple times' do
+        session[:add_mods] = ["#{ @mod.id }#{ @mod.class }"]
+        post :add_modules, guide_id: @guide.id, id: @tab.id
+
+        post :remove_module, id: @tab.id, mod: @mod.id, type: @mod.class.to_s
+        @tab.reload
+        expect(@tab.modules.include? @mod).to be_true
+      end
+    end
+
     describe 'POST #delete' do
       it 'destroys the tab' do
         tab = build :tab

@@ -128,8 +128,8 @@ class TabsController < ApplicationController
   def remove_module
     begin
       tab = find_tab
-      resource = @tab.find_resource params[:mod], params[:type]
-      tab.resources.delete resource
+      resource = tab.find_resource params[:mod], params[:type]
+      tab.tab_resources.where("resource_id = :resource_id", {resource_id: resource.id}).first.delete
       redirect_to :back
     rescue ActiveRecord::RecordNotFound
       redirect_to :back and return
