@@ -21,6 +21,8 @@
   = f.text_area :info, class: 'tinymce'
   = tinymce
   %br/
-
+  = link_to 'Add Databases', polymorphic_path([@mod], action: :add_databases)
+  %br/
+  %br/
   = f.submit class: 'btn btn-primary'
   = link_to 'Cancel', modules_path, class: 'btn btn-cancel'

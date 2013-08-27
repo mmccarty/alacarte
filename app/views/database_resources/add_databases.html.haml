@@ -1,0 +1,12 @@
+%h3
+  Add Databases
+%p Select the databases you want to add to this module and then click the button to add them.
+
+= form_tag polymorphic_path([@mod], action: :add_databases) , {:multipart => true} do
+  %ul.unstyled
+    - @dods.each do |db|
+      %li
+        = check_box_tag db.id, db.id, session[:selected].include?(db.id.to_s) || @mod.dods.include?(db), :onclick => "$.post('#{ add_databases_database_resource_path @mod }', {cid: #{ db.id } });"
+        = db.title
+  = submit_tag 'Add Databases', class: 'btn btn-primary'
+  = link_to 'Cancel', edit_database_resource_path(@mod), class: 'btn btn-cancel'

@@ -110,7 +110,11 @@ Alacarte::Application.routes.draw do
   end
 
   resources :comment_resources
-  resources :database_resources
+  resources :database_resources do
+    member do
+      match 'add_databases', via: [:get, :post]
+    end
+  end
   resources :inst_resources
   resources :lib_resources
   resources :miscellaneous_resources

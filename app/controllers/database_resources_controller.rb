@@ -12,7 +12,7 @@ class DatabaseResourcesController < ApplicationController
 
   def update
     @mod = DatabaseResource.find params[:id]
-    @mod.update_attributes params[:mod]
+    @mod.update_attributes params[:database_resource]
     if @mod.save
       redirect_to @mod
     else
@@ -36,15 +36,19 @@ class DatabaseResourcesController < ApplicationController
         session[:selected] << params[:cid]
       end
       render :nothing => true, :layout => false
+    elsif request.get?
+      session[:selected] = []
+      @dods = Dod.all
+      render :add_databases
     elsif request.post? and !session[:selected].blank?
       session[:selected].each do |db|
         dod = Dod.find(db)
         @mod.add_dod(dod)
       end
       session[:selected] = nil if session[:selected]
-      redirect_to  :action => 'edit_databases', :id =>@mod.id
+      redirect_to polymorphic_path @mod, action: :edit
     else
-      redirect_to  :action => 'edit_databases', :id =>@mod.id
+      redirect_to polymorphic_path @mod, action: :edit
     end
   end
 end

@@ -15,7 +15,7 @@
               %a{:href => dod.url}= dod.title
               = image_tag("icons/lock_off.png", :title => 'Open access', :alt => 'open database')
             %br/
-            = db.description
+            = raw db.description
             %br/
             - unless dod.coverage_label.blank?
               Coverage Dates: #{dod.coverage_label}
