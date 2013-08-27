@@ -84,7 +84,7 @@ describe LinksController do
       it 'redirects to link path' do
         put :create, url_resource_id: @url_resource.id, link: {description: 'test link',
                                                                url: 'http://foo.com'}
-        expect(response).to redirect_to url_resource_path @link.url_resource
+        expect(response).to redirect_to edit_url_resource_path @link.url_resource
       end
     end
 
@@ -96,7 +96,7 @@ describe LinksController do
       end
       it 'redirects to the link path' do
         post :update, url_resource_id: @url_resource.id, id: @link.id, link: {description: 'mod test dod'}
-        expect(response).to redirect_to url_resource_path @link.url_resource
+        expect(response).to redirect_to edit_url_resource_path @link.url_resource
       end
     end
 
@@ -108,7 +108,7 @@ describe LinksController do
       end
       it 'redirects to the url_resource' do
         delete :destroy, url_resource_id: @url_resource.id, id: @link.id
-        expect(response).to redirect_to url_resource_path @link.url_resource
+        expect(response).to redirect_to edit_url_resource_path @link.url_resource
       end
     end
   end

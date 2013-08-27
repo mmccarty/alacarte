@@ -117,7 +117,11 @@ Alacarte::Application.routes.draw do
   resources :quiz_resources
   resources :rss_resources
   resources :url_resources do
-    resources :links
+    resources :links do
+      member do
+        post 'delete' => :destroy
+      end
+    end
   end
 
   scope path: '/course-guide', controller: :ica do

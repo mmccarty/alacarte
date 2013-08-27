@@ -1,4 +1,6 @@
-= fields_for link do |f|
+= form_for [@url_resource, link] do |f|
+  = report_errors link
+
   %fieldset
     %h5
       Web Link
@@ -16,3 +18,7 @@
       Link Description
     = f.text_area :description, {:class => 'tinymce', :size => '40x2'}
     = tinymce
+
+    %br/
+    = f.submit class: 'btn btn-primary'
+    = link_to 'Cancel', modules_path, class: 'btn btn-cancel'

@@ -22,5 +22,20 @@
   = tinymce
   %br/
 
+  %h3 Links
+  %hr
+    .container
+      = awesome_button polymorphic_path([@mod, Link], action: :new), 'plus', "Create new link", 'btn btn-primary'
+    %br/
+    %ul
+      - @mod.links.each do |link|
+        %li{ :id => "item_#{ link.id }" }
+          = truncate link.label, :length => 40
+          &nbsp;
+          &nbsp;
+          = link_to '', polymorphic_path([@mod, link], action: :edit), :class => 'icon-edit', :title => 'Edit this link'
+          = link_to '', polymorphic_path([@mod, link], action: :delete), :confirm => 'Are you sure you want to remove this link?', :method => :post, :class => 'icon-trash', :title => 'Remove this link'
+  %br/
+
   = f.submit class: 'btn btn-primary'
   = link_to 'Cancel', modules_path, class: 'btn btn-cancel'

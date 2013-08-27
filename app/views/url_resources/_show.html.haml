@@ -7,10 +7,11 @@
       - mod.links.each do |link|
         %li
           - if link.target == true
-            %a.external{:href => link.url, :rel => "external", :title => "Link opens in a new window."}
+            %a.external{:href => "#{raw link.url}", :rel => "external", :title => "Link opens in a new window."}
+              = link.label.blank? ? h(link.url) : h(link.label)
           - else
-            %a{:href => link.url}
-          = link.label.blank? ? h(link.url) : h(link.label)
+            %a{:href => "#{raw link.url}"}
+              = link.label.blank? ? h(link.url) : h(link.label)
           - unless link.description.blank?
             %br/
-            = h(link.description)
+            = h(raw link.description)

@@ -8,9 +8,14 @@ class LinksController < ApplicationController
   end
 
   def create
-    link = Link.create params[:link]
-    @url_resource.links << link
-    redirect_to url_resource_path link.url_resource
+    @link = Link.create params[:link]
+    if @link.save
+      @url_resource.links << @link
+      redirect_to edit_url_resource_path @link.url_resource
+    else
+      render :new
+    end
+
   end
 
   def edit
@@ -18,16 +23,20 @@ class LinksController < ApplicationController
   end
 
   def update
-    link = Link.find params[:id]
-    link.update_attributes params[:link]
-    redirect_to url_resource_path link.url_resource
+    @link = Link.find params[:id]
+    @link.update_attributes params[:link]
+    if @link
+      redirect_to edit_url_resource_path @link.url_resource
+    else
+      render :edit, id: @link.id
+    end
   end
 
   def destroy
     link = Link.find params[:id]
     link.destroy
     flash[:notice] = "Link successfully deleted."
-    redirect_to url_resource_path link.url_resource
+    redirect_to edit_url_resource_path link.url_resource
   end
 
   def find_url_resource
