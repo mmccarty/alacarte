@@ -116,7 +116,9 @@ Alacarte::Application.routes.draw do
   resources :miscellaneous_resources
   resources :quiz_resources
   resources :rss_resources
-  resources :url_resources
+  resources :url_resources do
+    resources :links
+  end
 
   scope path: '/course-guide', controller: :ica do
     get ''           => :published_pages, as: 'course_guides'

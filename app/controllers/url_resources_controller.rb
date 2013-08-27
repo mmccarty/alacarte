@@ -8,6 +8,7 @@ class UrlResourcesController < ApplicationController
 
   def edit
     @mod = UrlResource.find params[:id]
+    @link = Link.new
   end
 
   def update

@@ -29,24 +29,5 @@ describe UrlResource do
       copied_mod = @mod.clone
       expect(copied_mod.links).to eq @links
     end
-
-    it 'can build new link attributes' do
-      @mod.new_link_attributes= {'1' => {url: 'www.boo.com', label: 'foo'}}
-      expect(@mod.links.last.url).to eq 'www.boo.com'
-    end
-
-    it 'can modify existing link attributes' do
-      attrs = @links.map{ |l| [l.id.to_s, {label: 'gone', url: l.url }] }
-      @mod.existing_link_attributes= Hash[*attrs.flatten]
-      expect(@mod.links.map { |l| l.label }).to eq ['gone', 'gone', 'gone']
-    end
-
-    it 'can save all links' do
-      @mod.links.each do |l|
-        l.label = 'gone'
-      end
-      @mod.save_links
-      expect(@mod.links.map { |l| l.label }).to eq ['gone', 'gone', 'gone']
-    end
   end
 end

@@ -1,0 +1,18 @@
+= fields_for link do |f|
+  %fieldset
+    %h5
+      Web Link
+    %label{:for => "link_link_info"}
+      Open link in a new window?
+      Yes #{f.radio_button :target, true} No #{f.radio_button :target, false}
+    %label{:for => "link_label"}
+      Link Text
+    = f.text_field :label
+    %label{:for => "link_label"}
+      Link URL
+      %span.required *
+    = f.text_field :url, :value => link.url || "http://", :onfocus => ("if(value=='http://'){value=''}")
+    %label{:for => "link_link_description"}
+      Link Description
+    = f.text_area :description, {:class => 'tinymce', :size => '40x2'}
+    = tinymce
