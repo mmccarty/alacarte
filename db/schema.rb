@@ -491,10 +491,10 @@ ActiveRecord::Schema.define(:version => 20130618210711) do
     t.integer  "tag_id"
     t.integer  "taggable_id"
     t.string   "taggable_type"
+    t.datetime "created_at"
     t.integer  "tagger_id"
     t.string   "tagger_type"
-    t.string   "context",       :limit => 128
-    t.datetime "created_at"
+    t.string   "context",       :limit => 120
   end
 
   add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
