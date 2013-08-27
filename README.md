@@ -49,7 +49,7 @@ efforts will focus on version 4 using Rails 4.
 | 1.5      | 2.3.5  | 1.8.7 | AGPL    |
 | 1.6      | 2.3.5  | 1.8.7 | GPL3    |
 | 2.0      | 2.3.18 | 1.8.7 | AGPL    |
-| 3.0      | 3.2.13 | 1.9.3 | AGPL    |
+| 3.0      | 3.2.14 | 1.9.3 | AGPL    |
 | 4.0      | 4.0    | 2.0   | AGPL    |
 
 

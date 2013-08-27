@@ -1,7 +1,8 @@
 .#*
 \#*
-.idea
 .bundle
+.idea
+.ruby-version
 config/database.yml
 console/
 db/*.sqlite3
