@@ -64,14 +64,6 @@
 .page-sidebar, .page-left-sidebar {
   width: 310px;
 }
-.page-left-sidebar.affix {
-  top: 20px;
-}
-.page-left-sidebar.affix-bottom {
-  bottom: 0px;
-  position: absolute;
-  top: auto;
-}
 
 .page-sidenav {
   width: 100%;

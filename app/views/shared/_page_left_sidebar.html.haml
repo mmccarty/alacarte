@@ -1,10 +1,8 @@
 - if @mod
-  #left-sidebar-module
-    = render :partial => 'shared/view_mod', :locals => { :mod => @mod }
+  #left-sidebar-module= render partial: 'shared/view_mod', locals: { mod: @mod }
 
 -unless @local.guide_box.blank?
-  #left-guide-box.well.well-small
-    = @local.guide_box.html_safe
+  #left-guide-box.well.well-small= @local.guide_box.html_safe
 
 .page-left-sidebar
   - if @mods.present?
@@ -27,8 +25,7 @@
             %ul
               - @related_guides.each do |guide|
                 - guide_url = url_for :controller => 'srg', :action => :show, :id => guide
-                %li
-                  = link_to raw(guide.guide_name), guide_url, :title => "#{ raw guide.description }"
+                %li= link_to raw(guide.guide_name), guide_url, :title => "#{ raw guide.description }"
     - if @local.guides_list.include?('pages') and defined?(@related_pages) and @related_pages.length > 0
       .accordion-group
         .accordion-heading
@@ -40,8 +37,7 @@
           %ul
             - @related_pages.each do |page|
               - page_url = url_for :controller => 'ica', :action => :show, :id => page
-              %li
-                = link_to raw(page.header_title), page_url, :title => "#{ raw page.page_description }"
+              %li= link_to raw(page.header_title), page_url, title: "#{ raw page.page_description }"
     .accordion-group
       .accordion-heading
         %a.accordion-toggle{:href => subject_guides_path}
@@ -54,24 +50,42 @@
   = render 'shared/social'
 
 :javascript
-  setTimeout(function () {
-    var box        = $('#left-guide-box').height(),
-        footer     = $('.footer').height(),
-        header     = $('#header').height(),
-        main       = $('.page-sidebar + div').height(),
-        module     = $('#left-sidebar-module').height(),
-        pageHeader = $('#page-header').height(),
-        sidebar    = $('.page-left-sidebar').height();
-    if (main > sidebar) {
-      $('.page-left-sidebar').affix({
-        offset: {
-          top: header + pageHeader + box + module,
-          bottom: footer
-        }
-      });
-    }
-  }, 100);
+  (function($) {
+    'use strict';
 
-  setTimeout(function () {
-    $("[data-toggle='tooltip']").tooltip();
-  });
+    var $element = $('.page-left-sidebar');
+
+    function checkPosition() {
+      var offsetTop = $('#header').outerHeight(true) +
+        $('#page-header').outerHeight(true) +
+        $('#left-sidebar-module').outerHeight(true) +
+        $('#left-guide-box').outerHeight(true);
+      var offsetBottom = $('.footer').outerHeight(true);
+      var position = $element.offset();
+      var scrollHeight = $(document).height();
+      var scrollTop = $(window).scrollTop();
+
+      var top = position.top;
+      if (scrollTop >= offsetTop) {
+        top = scrollTop + 15;
+      } else if ($element.prev()) {
+        top = $element.prev().offset().top + $element.prev().outerHeight(true) + 15;
+      }
+
+      if (top + $element.outerHeight(true) >= scrollHeight - offsetBottom) {
+        top = scrollHeight - offsetBottom - $element.outerHeight(true);
+      }
+
+      if (top) {
+        $element.css({ position: 'absolute', top: top });
+      } else {
+        $element.css({ position: '', top: '' });
+      }
+    }
+
+    $(window).on('scroll', checkPosition);
+
+    setTimeout(function () {
+      $("[data-toggle='tooltip']").tooltip();
+    }, 0);
+  })(window.jQuery);
