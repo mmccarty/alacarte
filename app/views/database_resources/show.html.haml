@@ -2,7 +2,7 @@
   %h2= h @mod.module_title
   .module
     - unless @mod.info.blank?
-      = @mod.info
+      = raw @mod.info
     %ul.undeco
       - for db in @mod.database_dods
         - dod = db.dod
