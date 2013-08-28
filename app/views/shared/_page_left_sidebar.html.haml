@@ -67,6 +67,7 @@
 
       var pos = Math.max(offsetTop, scrollTop) + 15;
       var top = Math.min(pos, scrollHeight - $element.outerHeight(true) - offsetBottom);
+      top = Math.max(top, offsetTop);
       $element.css({ position: 'absolute', top: top });
     }
 
