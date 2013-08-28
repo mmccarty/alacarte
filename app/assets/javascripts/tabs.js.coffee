@@ -34,3 +34,10 @@ jQuery ->
       sortable = $('#tabs')
       sortable_post sortable,
         tab_ids: sortable_item_ids sortable
+
+  $('#links').sortable
+    handle: '.icon-move'
+    update: ->
+      sortable = $('#links')
+      sortable_post sortable,
+        link_ids: sortable_item_ids sortable

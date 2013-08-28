@@ -95,5 +95,22 @@ describe UrlResourcesController do
 
       end
     end
+
+    describe 'POST #sort_links' do
+      it 'rearranges links to be in the specified order' do
+        3.times { @mod.links << build(:link) }
+        links = @mod.links.clone
+        post :reorder_links, link_ids: [links[2].id, links[0].id, links[1].id]
+        @mod.reload
+        expect(@mod.links).to eq [links[2], links[0], links[1]]
+      end
+
+      it 'renders nothing' do
+        3.times { @mod.links << build(:link) }
+        links = @mod.links.clone
+        post :reorder_links, link_ids: [links[2].id, links[0].id, links[1].id]
+        expect(response.body).to be_blank
+      end
+    end
   end
 end

@@ -122,6 +122,10 @@ Alacarte::Application.routes.draw do
   resources :quiz_resources
   resources :rss_resources
   resources :url_resources do
+    member do
+      post 'reorder_links'
+    end
+
     resources :links do
       member do
         post 'delete' => :destroy

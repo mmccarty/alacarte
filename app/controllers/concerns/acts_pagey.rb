@@ -150,10 +150,10 @@ module ActsPagey
   end
 
   def sort_tabs
-    if params['tab_ids'] then
+    if params['tab_ids']
       ordered_tabs = params['tab_ids']
       ordered_tabs.each do |id|
-        tab = Tab.find(id)
+        tab = Tab.find id
         tab.update_attribute(:position, ordered_tabs.index(id) + 1)
       end
     end

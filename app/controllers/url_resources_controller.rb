@@ -29,4 +29,15 @@ class UrlResourcesController < ApplicationController
       redirect_to edit_url_resource_path @new_mod
     end
   end
+
+  def reorder_links
+    if params['link_ids']
+      ordered_links = params['link_ids']
+      ordered_links.each do |id|
+        link = Link.find id
+        link.update_attribute(:position, ordered_links.index(id) + 1)
+      end
+    end
+    render :nothing => true
+  end
 end
