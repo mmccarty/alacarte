@@ -33,7 +33,8 @@
           = truncate link.label, :length => 40
           &nbsp;
           &nbsp;
-          = link_to '', polymorphic_path([@mod, link], action: :edit), :class => 'icon-edit', :title => 'Edit this link'
+          = awesome_button polymorphic_path([@mod, link], action: :edit), 'edit', 'Edit this link', ''
+          |
           = link_to '', polymorphic_path([@mod, link], action: :delete), :confirm => 'Are you sure you want to remove this link?', :method => :post, :class => 'icon-trash', :title => 'Remove this link'
   %br/
 

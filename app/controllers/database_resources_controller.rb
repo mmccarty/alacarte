@@ -30,7 +30,7 @@ class DatabaseResourcesController < ApplicationController
   end
 
   def add_databases
-    @mod ||= find_mod(params[:id], "DatabaseResource")
+    @mod ||= find_mod params[:id], 'DatabaseResource'
     if request.xhr?
       unless session[:selected].include?(params[:cid].to_s)
         session[:selected] << params[:cid]
@@ -42,13 +42,24 @@ class DatabaseResourcesController < ApplicationController
       render :add_databases
     elsif request.post? and !session[:selected].blank?
       session[:selected].each do |db|
-        dod = Dod.find(db)
-        @mod.add_dod(dod)
+        dod = Dod.find db
+        @mod.add_dod dod
       end
       session[:selected] = nil if session[:selected]
       redirect_to polymorphic_path @mod, action: :edit
     else
       redirect_to polymorphic_path @mod, action: :edit
+    end
+  end
+
+  def remove_database
+    begin
+      @mod = find_mod params[:id], 'DatabaseResource'
+      database_dod = @mod.database_dods.find_by_dod_id params[:dod_id]
+      database_dod.destroy
+      redirect_to :back
+    rescue ActiveRecord::RecordNotFound
+      redirect_to :back and return
     end
   end
 end

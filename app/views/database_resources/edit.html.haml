@@ -21,7 +21,21 @@
   = f.text_area :info, class: 'tinymce'
   = tinymce
   %br/
-  = link_to 'Add Databases', polymorphic_path([@mod], action: :add_databases)
+  %h3 Databases
+  %hr
+    %p
+      = awesome_button polymorphic_path([@mod], action: :add_databases), 'plus', 'Add Database', 'btn btn-primary'
+    %ul
+      - @mod.database_dods.each do |db|
+        - dod = db.dod
+        - if dod
+          %li{ :id => "item_#{ dod.id }" }
+            = truncate dod.title, :length => 40
+            &nbsp;
+            &nbsp;
+            = awesome_button edit_dod_path(dod), 'edit', 'Edit this database', ''
+            |
+            = link_to '', polymorphic_path([@mod], action: :remove_database, dod_id: dod.id), :confirm => 'Are you sure you want to remove this database?', :method => :post, :class => 'icon-trash', :title => 'Remove this database'
   %br/
   %br/
   = f.submit class: 'btn btn-primary'

@@ -113,6 +113,7 @@ Alacarte::Application.routes.draw do
   resources :database_resources do
     member do
       match 'add_databases', via: [:get, :post]
+      post 'remove_database'
     end
   end
   resources :inst_resources

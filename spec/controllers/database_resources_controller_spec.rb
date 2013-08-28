@@ -141,5 +141,31 @@ describe DatabaseResourcesController do
         end
       end
     end
+
+    describe 'POST #remove_database' do
+      before :each do
+        @dod = create :dod
+        @mod.add_dod @dod
+        request.env['HTTP_REFERER'] = '/'
+      end
+
+      it 'removes the dod from the database resource' do
+        post :remove_database, id: @mod.id, dod_id: @dod.id
+        @mod.reload
+        expect(@mod.database_dods.length).to eq 0
+      end
+
+      it 'redirects back' do
+        post :remove_database, id: @mod.id, dod_id: @dod.id
+        expect(response).to redirect_to '/'
+      end
+
+      it 'only removes one dod when it has been added multiple times' do
+        @mod.add_dod @dod
+        post :remove_database, id: @mod.id, dod_id: @dod.id
+        @mod.reload
+        expect(@mod.database_dods.length).to eq 1
+      end
+    end
   end
 end
