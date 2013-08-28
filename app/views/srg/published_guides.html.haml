@@ -7,7 +7,4 @@
     = link_to 'Course', :controller => 'ica', :action => 'published_pages'
     guides.
 
-- content_for :footer do
-  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_published_guides' } , :id => 'alt-version'
-
 = render :partial => 'shared/published_pages', :locals => { :controller => 'srg', :header_title => @local.guide_page_title, :pages => @guides, :subjects => @masters, :type => 'Subject' }

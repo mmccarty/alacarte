@@ -4,7 +4,4 @@
 - content_for :search_results do
   = render :partial => 'shared/browse_by_tag', :locals => { :controller => 'srg', :type => 'Subject Guides', :tag => @tag, :pages => @guides }
 
-- content_for :footer do
-  = link_to 'Screenreader, print & mobile version' , { :action => 'mobile_tagged' } , :id => 'alt-version'
-
 = render :partial => 'shared/published_page_results', :locals => { :header_title => @local.guide_page_title }
