@@ -56,31 +56,18 @@
     var $element = $('.page-left-sidebar');
 
     function checkPosition() {
-      var offsetTop = $('#header').outerHeight(true) +
+      var offsetTop =
+        $('#header').outerHeight(true) +
         $('#page-header').outerHeight(true) +
         $('#left-sidebar-module').outerHeight(true) +
         $('#left-guide-box').outerHeight(true);
       var offsetBottom = $('.footer').outerHeight(true);
-      var position = $element.offset();
-      var scrollHeight = $(document).height();
       var scrollTop = $(window).scrollTop();
+      var scrollHeight = $(document).height();
 
-      var top = position.top;
-      if (scrollTop >= offsetTop) {
-        top = scrollTop + 15;
-      } else if ($element.prev()) {
-        top = $element.prev().offset().top + $element.prev().outerHeight(true) + 15;
-      }
-
-      if (top + $element.outerHeight(true) >= scrollHeight - offsetBottom) {
-        top = scrollHeight - offsetBottom - $element.outerHeight(true);
-      }
-
-      if (top) {
-        $element.css({ position: 'absolute', top: top });
-      } else {
-        $element.css({ position: '', top: '' });
-      }
+      var pos = Math.max(offsetTop, scrollTop) + 15;
+      var top = Math.min(pos, scrollHeight - $element.outerHeight(true) - offsetBottom);
+      $element.css({ position: 'absolute', top: top });
     }
 
     $(window).on('scroll', checkPosition);
