@@ -33,11 +33,11 @@ class IcaController < ApplicationController
     @meta_description = @local.ica_page_title + ". Library Help Guides for Course Assignments. "
     @title = @local.ica_page_title
     @pages = Page.get_published_pages
-    @subjects = Subject.get_page_subjects(@pages)
+    @subjects = Subject.get_page_subjects @pages
 
     @campushash = Hash[*@campus.map{|a| a[0], a[1] = a[1], a[0]}.flatten]
     @campus.map{|a| a[0], a[1] = a[1], a[0]}
-    @tags = Page.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Page.where(:published => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
   end
 
   def archived
@@ -46,13 +46,13 @@ class IcaController < ApplicationController
     @title = @local.ica_page_title + " | Archived  "
 
     @subjects = Subject.get_subjects
-    @pages = Page.get_archived_pages(nil)
-    @tags = Page.where(:archived => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
+    @pages = Page.get_archived_pages nil
+    @tags = Page.where(:archived => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
     if request.post?
       if params[:subject]
         @subj = params[:subject]
-        @subject = Subject.find(@subj)
-        @pages = Page.get_archived_pages(@subject)
+        @subject = Subject.find @subj
+        @pages = Page.get_archived_pages @subject
       end
     end
   end
@@ -62,7 +62,7 @@ class IcaController < ApplicationController
     @meta_keywords = @local.ica_page_title + ", " + @tag
     @meta_description =   @local.ica_page_title + ". Library Course Guides Tagged with: " + @tag
     @title = @local.ica_page_title + " | Tagged with: " + @tag
-    @tags = Page.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Page.where(:published => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
     @pages = Page.tagged_with @tag
   end
 

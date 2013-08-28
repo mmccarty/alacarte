@@ -33,7 +33,7 @@ class SrgController < ApplicationController
     @title = @local.guide_page_title
     @guides = Guide.published_guides
     @masters = Master.where("value <> ? AND value <> ?", "Tutorial", "Internal").order("value").includes(:guides)
-    @tags = Guide.where(:published => true).tag_counts_on(:tags).limit(100)
+    @tags = Guide.where(:published => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
   end
 
   def internal_guides
@@ -44,7 +44,7 @@ class SrgController < ApplicationController
     @tutorials = Tutorial.get_internal_tutorials
     @subjects = @tutorials.collect{|t| t.subject}.flatten.uniq.compact
     @tutorials = @tutorials.select{|t| t.subject.blank?}
-    @tags = Tutorial.where(:published => true).tag_counts_on(:start_at => Time.now.prev_year, :order => 'taggings.created_at desc', :limit => 100)
+    @tags = Tutorial.where(:published => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
     master = Master.find_by_value("Internal")
     @guides = master.published_guides if master
     render "ort/published_tutorials"

@@ -61,6 +61,11 @@ describe SrgController do
       expect(response.status).to eq 200
     end
 
+    it 'renders the :published_pages template' do
+      get :published_guides
+      expect(response).to render_template :published_guides
+    end
+
     it 'assigns published guides to @guide' do
       get :published_guides
       expect(assigns(:guides)).to eq [@guide]
@@ -70,6 +75,56 @@ describe SrgController do
       get :published_guides
       expect(assigns(:tags)).to_not be_nil
       expect(assigns(:tags).empty?).to be_false
+    end
+  end
+
+  describe 'GET #internal_guides' do
+    before :each do
+      @guide.published = true
+      @guide.save
+
+      @tutorial = create :tutorial, published: true
+    end
+
+    it 'responds successfully with an HTTP 200 status code' do
+      get :internal_guides
+      expect(response).to be_success
+      expect(response.status).to eq 200
+    end
+
+    it 'renders the ort/published_tutorials template' do
+      get :internal_guides
+      expect(response).to render_template 'ort/published_tutorials'
+    end
+  end
+
+  describe 'GET #tagged' do
+    before :each do
+      @guide.published = true
+      @guide.save
+    end
+
+    it 'responds successfully with an HTTP 200 status code' do
+      post :tagged, id: 'test'
+      expect(response).to be_success
+      expect(response.status).to eq 200
+    end
+
+    it 'renders the :tagged template' do
+      post :tagged, id: 'test'
+      expect(response).to render_template :tagged
+    end
+
+    it 'assigns a list of published guides to @guides' do
+      post :tagged, id: 'test'
+      expect(assigns(:guides).empty?).to be_false
+    end
+  end
+
+  describe 'GET #feed' do
+    it 'assigns the guide to @guide' do
+      get :feed, id: @guide.id
+      expect(assigns(:guide)).to_not be_nil
     end
   end
 end
