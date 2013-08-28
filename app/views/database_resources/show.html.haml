@@ -10,10 +10,10 @@
           %li
             - if dod.proxy == false
               %a{:href => "#{@mod.proxy}#{dod.url}"}= dod.title
-              = image_tag("icons/lock.png", :title => 'Must login to access', :alt => 'locked database')
+              %i.icon-lock{:title => 'Must login to access', :alt => 'locked database'}
             - else
               %a{:href => dod.url}= dod.title
-              = image_tag("icons/lock_off.png", :title => 'Open access', :alt => 'open database')
+              %i.icon-unlock{:title => 'Open access', :alt => 'open database'}
             %br/
             = raw db.description
             %br/
