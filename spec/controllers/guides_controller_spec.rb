@@ -2,6 +2,13 @@ require 'spec_helper'
 
 describe GuidesController do
   describe 'guest access' do
+    describe 'GET #copy' do
+      it 'requires login' do
+        get :copy
+        expect(response).to redirect_to login_path
+      end
+    end
+
     describe 'POST #copy' do
       it 'requires login' do
         post :copy
@@ -68,6 +75,76 @@ describe GuidesController do
     describe 'POST #remove_user_from_guide' do
       it 'requires login' do
         post :remove_user_from_guide
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'GET #edit_contact' do
+      it 'requires login' do
+        get :edit_contact
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #edit_contact' do
+      it 'requires login' do
+        post :edit_contact
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'GET #set_owner' do
+      it 'requires login' do
+        get :set_owner
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'GET #edit_relateds' do
+      it 'requires login' do
+        get :edit_relateds
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'PUT #edit_relateds' do
+      it 'requires login' do
+        put :edit_relateds
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #remove_related' do
+      it 'requires login' do
+        post :remove_related
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'GET #share' do
+      it 'requires login' do
+        get :share
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #share' do
+      it 'requires login' do
+        post :share
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #toggle_columns' do
+      it 'requires login' do
+        post :toggle_columns
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #sort_tabs' do
+      it 'requires login' do
+        post :sort_tabs
         expect(response).to redirect_to login_path
       end
     end
@@ -368,6 +445,140 @@ describe GuidesController do
         expect(response).to render_template :new
       end
     end
+
+    describe 'GET #edit_contact' do
+      it 'assigns the given guide to @guide' do
+        get :edit_contact, id: @guide.id
+        expect(assigns(:guide)).to_not be_nil
+      end
+
+      it "assigns the guide's first tab to @tab" do
+        get :edit_contact, id: @guide.id
+        expect(assigns(:tab)).to_not be_nil
+      end
+
+      it 'redirects guides_paths when the record is not found' do
+        request.env['HTTP_REFERER'] = '/'
+        get :edit_contact, id: 1000
+        expect(response).to redirect_to guides_path
+      end
+
+      it 'renders :edit_contact on success' do
+        get :edit_contact, id: @guide.id
+        expect(response).to render_template :edit_contact
+      end
+    end
+
+    describe 'PUT #edit_contact' do
+      before :each do
+        @mod = create :inst_resource
+      end
+
+      it 'updates the guide' do
+        put :edit_contact, id: @guide.id, guide: {resource_id: @mod.id}
+        @guide.reload
+        expect(@guide.resource_id).to eq @mod.id
+      end
+
+      it 'redirects to show guide' do
+        put :edit_contact, id: @guide.id, guide: {resource_id: @mod.id}
+        expect(response).to redirect_to @guide
+      end
+    end
+
+    describe 'POST #set_owner' do
+      before :each do
+        @user2 = create :author
+      end
+
+      it 'assigns the given uid to @owner' do
+        post :set_owner, id: @guide.id, uid: @user2.id
+        expect(assigns(:owner)).to eq @user2
+      end
+
+      it 'sets the created by of the guide to the given owner' do
+        post :set_owner, id: @guide.id, uid: @user2.id
+        @guide.reload
+        expect(@guide.created_by).to eq @user2.name
+      end
+
+      it 'redirects to :share' do
+        post :set_owner, id: @guide.id, uid: @user2.id
+        expect(response).to redirect_to action: :share
+      end
+    end
+
+    describe 'GET #edit_relateds' do
+      it 'assigns the first tab of the guide to @tab' do
+        get :edit_relateds, id: @guide.id
+        expect(assigns(:tab)).to eq @guide.tabs.first
+      end
+
+      it 'assigns the published guides to @guides' do
+        @guide.published = true
+        @guide.save
+        get :edit_relateds, id: @guide.id
+        expect(assigns(:guides)).to eq [@guide]
+      end
+
+      it 'renders the edit_relateds template' do
+        get :edit_relateds, id: @guide.id
+        expect(response).to render_template :edit_relateds
+      end
+    end
+
+    describe 'PUT #edit_relateds' do
+      before :each do
+        @guide2 = create :guide, published: true
+      end
+
+      it 'add related guides' do
+        put :edit_relateds, id: @guide.id, relateds: [@guide2.id]
+        @guide.reload
+        expect(@guide.related_guides.include?(@guide2)).to be_true
+      end
+
+      it 'redirects to show guide' do
+        put :edit_relateds, id: @guide.id, relateds:  [@guide2.id]
+        expect(response).to redirect_to @guide
+      end
+    end
+
+    describe 'POST #remove_related' do
+      before :each do
+        @guide2 = create :guide, published: true
+        @guide.add_related_guides [@guide2.id]
+      end
+
+      it 'removes the guide from the given guides related guides' do
+        post :remove_related, id: @guide.id, gid: @guide2.id
+        @guide.reload
+        expect(@guide.related_guides.include?(@guide2)).to be_false
+      end
+
+      it 'redirects to :edit_relateds' do
+        post :remove_related, id: @guide.id, gid: @guide2.id
+        expect(response).to redirect_to action: :edit_relateds
+      end
+    end
+
+    describe 'GET #share' do
+      it 'assigns the given item to @item' do
+        get :share, id: @guide.id
+        expect(assigns(:item)).to_not be_nil
+      end
+
+      it 'assigns all the users to @user_list' do
+        get :share, id: @guide.id
+        expect(assigns(:user_list)).to_not be_nil
+      end
+
+      it 'renders the share template' do
+        get :share, id: @guide.id
+        expect(response).to render_template :share
+      end
+    end
+
   end
 
   describe 'admin access' do

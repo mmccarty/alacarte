@@ -123,11 +123,11 @@ Please contact me if you have any questions or suggestions.
   def find_item
     begin
       @page = @user.pages.find params[:id]
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound => bang
       if @user.is_admin
         @page = Page.find params[:id]
       else
-        redirect_to :back
+        raise bang
       end
     end
     @page_owners = @page.users

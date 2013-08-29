@@ -2,9 +2,30 @@ require 'spec_helper'
 
 describe PagesController do
   describe 'guest access' do
+    describe 'GET #copy' do
+      it 'requires login' do
+        get :copy
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #copy' do
+      it 'requires login' do
+        post :copy
+        expect(response).to redirect_to login_path
+      end
+    end
+
     describe 'POST #create' do
       it 'requires login' do
         post :create
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #destroy' do
+      it 'requires login' do
+        post :destroy
         expect(response).to redirect_to login_path
       end
     end
@@ -47,6 +68,83 @@ describe PagesController do
     describe 'PUT #update' do
       it 'requires login' do
         put :update
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'GET #edit_contact' do
+      it 'requires login' do
+        get :edit_contact
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #edit_contact' do
+      it 'requires login' do
+        post :edit_contact
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'GET #set_owner' do
+      it 'requires login' do
+        get :set_owner
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'GET #edit_relateds' do
+      it 'requires login' do
+        get :edit_relateds
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'PUT #edit_relateds' do
+      it 'requires login' do
+        put :edit_relateds
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #remove_related' do
+      it 'requires login' do
+        post :remove_related
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #archive' do
+      it 'requires login' do
+        post :archive
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'GET #share' do
+      it 'requires login' do
+        get :share
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #share' do
+      it 'requires login' do
+        post :share
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #toggle_columns' do
+      it 'requires login' do
+        post :toggle_columns
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'POST #sort_tabs' do
+      it 'requires login' do
+        post :sort_tabs
         expect(response).to redirect_to login_path
       end
     end
@@ -285,6 +383,163 @@ describe PagesController do
       it 'redirects to the :show view' do
         put :update, id: @page.id, page: { course_name: 'timmeh!' }
         expect(response).to redirect_to @page
+      end
+    end
+
+    describe 'GET #edit_contact' do
+      it 'assigns the given page to @page' do
+        get :edit_contact, id: @page.id
+        expect(assigns(:page)).to_not be_nil
+      end
+
+      it "assigns the page's first tab to @tab" do
+        get :edit_contact, id: @page.id
+        expect(assigns(:tab)).to_not be_nil
+      end
+
+      it 'redirects pages_paths when the record is not found' do
+        request.env['HTTP_REFERER'] = '/'
+        get :edit_contact, id: 1000
+        expect(response).to redirect_to pages_path
+      end
+
+      it 'renders :edit_contact on success' do
+        get :edit_contact, id: @page.id
+        expect(response).to render_template :edit_contact
+      end
+    end
+
+    describe 'PUT #edit_contact' do
+      before :each do
+        @mod = create :inst_resource
+      end
+
+      it 'updates the page' do
+        put :edit_contact, id: @page.id, page: {resource_id: @mod.id}
+        @page.reload
+        expect(@page.resource_id).to eq @mod.id
+      end
+
+      it 'redirects to show page' do
+        put :edit_contact, id: @page.id, guide: {resource_id: @mod.id}
+        expect(response).to redirect_to @page
+      end
+    end
+
+    describe 'POST #set_owner' do
+      before :each do
+        @user2 = create :author
+      end
+
+      it 'assigns the given uid to @owner' do
+        post :set_owner, id: @page.id, uid: @user2.id
+        expect(assigns(:owner)).to eq @user2
+      end
+
+      it 'sets the created by of the page to the given owner' do
+        post :set_owner, id: @page.id, uid: @user2.id
+        @page.reload
+        expect(@page.created_by).to eq @user2.name
+      end
+
+      it 'redirects to :share' do
+        post :set_owner, id: @page.id, uid: @user2.id
+        expect(response).to redirect_to action: :share
+      end
+    end
+
+    describe 'GET #edit_relateds' do
+      it 'assigns the first tab of the page to @tab' do
+        get :edit_relateds, id: @page.id
+        expect(assigns(:tab)).to eq @page.tabs.first
+      end
+
+      it 'assigns the published pages to @pages' do
+        @guide = create :guide, published: true
+        get :edit_relateds, id: @page.id
+        expect(assigns(:guides)).to eq [@guide]
+      end
+
+      it 'renders the edit_relateds template' do
+        get :edit_relateds, id: @page.id
+        expect(response).to render_template :edit_relateds
+      end
+    end
+
+    describe 'PUT #edit_relateds' do
+      before :each do
+        @guide = create :guide, published: true
+      end
+
+      it 'add related guides' do
+        put :edit_relateds, id: @page.id, relateds: [@guide.id]
+        @page.reload
+        expect(@page.related_guides.include?(@guide)).to be_true
+      end
+
+      it 'redirects to show page' do
+        put :edit_relateds, id: @page.id, relateds:  [@guide.id]
+        expect(response).to redirect_to @page
+      end
+    end
+
+    describe 'POST #remove_related' do
+      before :each do
+        @guide = create :guide, published: true
+        @page.add_related_guides [@guide.id]
+      end
+
+      it 'removes the guide from the given pages related guides' do
+        post :remove_related, id: @page.id, gid: @guide.id
+        @page.reload
+        expect(@page.related_guides.include?(@guide)).to be_false
+      end
+
+      it 'redirects to :edit_relateds' do
+        post :remove_related, id: @page.id, gid: @guide.id
+        expect(response).to redirect_to action: :edit_relateds
+      end
+    end
+
+    describe 'GET #share' do
+      it 'assigns the given item to @item' do
+        get :share, id: @page.id
+        expect(assigns(:item)).to_not be_nil
+      end
+
+      it 'assigns all the users to @user_list' do
+        get :share, id: @page.id
+        expect(assigns(:user_list)).to_not be_nil
+      end
+
+      it 'renders the share template' do
+        get :share, id: @page.id
+        expect(response).to render_template :share
+      end
+    end
+
+    describe 'POST #archive' do
+      before :each do
+        request.env['HTTP_REFERER'] = '/'
+        @page.published = true
+        @page.save
+      end
+
+      it 'archives the given page' do
+        post :archive, id: @page.id
+        @page.reload
+        expect(@page.archived?).to be_true
+      end
+
+      it 'unpublishes the given page' do
+        post :archive, id: @page.id
+        @page.reload
+        expect(@page.published?).to be_false
+      end
+
+      it 'redirects back' do
+        post :archive, id: @page.id
+        expect(response).to redirect_to '/'
       end
     end
   end

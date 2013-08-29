@@ -48,14 +48,13 @@ class GuidesController < ApplicationController
 
   def edit_contact
     begin
-      @guide = @user.guides.find params[:id]
+      @guide = find_item
       @tab = @guide.tabs.first
     rescue ActiveRecord::RecordNotFound
       redirect_to guides_path and return
     else
       if request.put?
-        @guide.update_attributes params[:guide]
-        if @guide.save
+        if @guide.update_attributes params[:guide]
           flash[:notice] = "The Contact Module was successfully changed."
           redirect_to @guide and return
         end
@@ -94,11 +93,11 @@ class GuidesController < ApplicationController
   def find_item
     begin
       @guide = @user.guides.find params[:id]
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound => bang
       if @user.is_admin
         @guide = Guide.find params[:id]
       else
-        redirect_to :back
+        raise bang
       end
     end
     @guide_owners = @guide.users

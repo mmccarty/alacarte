@@ -55,13 +55,6 @@ module ActsPagey
     redirect_to action: :edit_relateds
   end
 
-  def suggest_relateds
-    item = find_item
-    @relateds = item.suggested_relateds
-    @guides = Guide.published_guides
-    render :partial => "relateds", :layout => false
-  end
-
   def copy
     @item = find_item
     @header_name = item_name
