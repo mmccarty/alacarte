@@ -20,6 +20,6 @@
             %b= h guide.guide_name
           %td
             = link_to image_tag("icons/edit.png", :title => 'Edit this Guide', :alt => 'Edit', :border => 0), {:controller =>'guide', :action => 'edit',  :id => guide}, :class=>'space'
-            |	#{link_to image_tag("icons/document_preview.png", :title => 'Preview this Guide', :alt => 'View', :border => 0), { :controller => "srg", :action => 'index', :id => guide}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] , :class=>'space'}
+            |	#{link_to image_tag("icons/document_preview.png", :title => 'Preview this Guide', :alt => 'View', :border => 0), { :controller => "srg", :action => 'index', :id => guide}, :target => '_blank', :class=>'space'}
     - else
       %p This Module is not used on any Subject Guides

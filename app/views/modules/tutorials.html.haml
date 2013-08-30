@@ -20,6 +20,6 @@
             %b= h tutorial.full_name
           %td
             = link_to image_tag("icons/edit.png", :title => 'Edit this Tutorial', :alt => 'Edit', :border => 0), {:controller =>'tutorial', :action => 'update',  :id => tutorial}, :class=>'space'
-            |	#{link_to image_tag("icons/document_preview.png", :title => 'Preview this Tutorial', :alt => 'View', :border => 0), { :controller => "ort", :action => 'index', :id => tutorial}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'] , :class=>'space'}
+            |	#{link_to image_tag("icons/document_preview.png", :title => 'Preview this Tutorial', :alt => 'View', :border => 0), { :controller => "ort", :action => 'index', :id => tutorial}, :target => '_blank', :class=>'space'}
     - else
       %p This Module is not used on any Tutorials

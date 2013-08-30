@@ -1,6 +1,6 @@
 .actions
   = link_to image_tag("icons/document_preview.png", :title => 'Preview this page', :alt => 'preview', :border => 0),{ :controller => "srg", :action => 'index', :id => @page}
-  = link_to 'Preview', { :controller => "srg", :action => 'index', :id => @page, :tab => session[:current_tab]}, :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes'], :title =>"Preview "
+  = link_to 'Preview', { :controller => "srg", :action => 'index', :id => @page, :tab => session[:current_tab]}, :target => '_blank', :title => 'Preview'
   |
   - unless @page.published?
     = link_to "Publish", publish_page_path(@page), :confirm => 'Are you sure you want to publish this page?', :method => :post

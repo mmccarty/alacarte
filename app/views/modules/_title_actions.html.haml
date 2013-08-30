@@ -11,5 +11,5 @@
   = render 'side_bar'
   %span= @mod.module_title
   .actions
-    = link_to image_tag("icons/document_preview.png", :title => 'Preview this module', :alt => 'preview', :border => 0), module_path(@mod, :type => @mod.class), :popup => ['', 'height=400,width=480,toolbar=yes, scrollbars =yes,resizable=yes']
-    = link_to 'Preview', module_path(@mod, :type => @mod.class), :popup => ['', 'height=400,width=480,toolbar=yes, scrollbars =yes,resizable=yes']
+    = link_to image_tag("icons/document_preview.png", :title => 'Preview this module', :alt => 'preview', :border => 0), module_path(@mod, :type => @mod.class), :target => '_blank'
+    = link_to 'Preview', module_path(@mod, :type => @mod.class), :target => '_blank'

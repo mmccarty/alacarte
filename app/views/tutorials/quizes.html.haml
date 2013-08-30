@@ -5,7 +5,7 @@
     %h1.page-header
       Quiz Manager
     .btn-group.btn-toolbar
-      = link_to 'View Quiz Responses', { :controller => 'ort', :action => 'grades', :id => @tutorial }, :class => 'btn', :popup => ['', 'height=800,width=980,toolbar=yes, scrollbars =yes,resizable=yes']
+      = link_to 'View Quiz Responses', { :controller => 'ort', :action => 'grades', :id => @tutorial }, :class => 'btn', :target => '_blank'
       - if @sect
         = link_to 'Show All Sections', { :action => 'quizes' }, :class => 'btn'
         = link_to 'Export Grades', { :action => 'export', :id => @tutorial, :section => @sect }, :class => 'btn'

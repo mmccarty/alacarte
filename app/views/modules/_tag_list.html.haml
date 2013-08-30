@@ -26,7 +26,7 @@
         = truncate(h(mod.label),:length => 55)
       %td.center{:width => "15%"}
         = link_to image_tag("icons/edit.png", :title => 'Edit this Module', :alt => 'edit', :border => 0),{ :action => 'edit_title', :id => mod, :type => mod.class}, :class =>'space'
-        | #{link_to image_tag("icons/document_preview.png", :title => 'Preview this Module in New Window', :alt => 'preview', :border => 0),{ :action => 'view', :id => mod, :type => mod.class}, :class =>'space', :popup => ['', 'height=400,width=480,toolbar=yes, scrollbars =yes,resizable=yes']}
+        | #{link_to image_tag("icons/document_preview.png", :title => 'Preview this Module in New Window', :alt => 'preview', :border => 0),{ :action => 'view', :id => mod, :type => mod.class}, :class =>'space', :target => '_blank'}
         |  #{link_to image_tag("icons/application_add.png", :title => 'Copy this Module', :alt => 'copy', :border => 0), {:action => 'copy',  :id => mod, :type => mod.class },:class =>'space'}
         | #{link_to image_tag("icons/remove.png", :title => 'Delete this Module', :alt => 'delete', :border => 0), { :action => 'remove_from_user', :id => mod,  :type => mod.class, :page => @page, :sort => @sort,  :all => @all },:class =>'space', :confirm => 'Are you sure you want to delete this module from your list?', :method => :post}
       %td{:class => sort_th_class_helper("date"), :width => "10%"}
