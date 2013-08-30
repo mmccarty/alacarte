@@ -37,7 +37,7 @@
                         &nbsp;
                         = awesome_button edit_module_path(mod, type: mod.class), 'edit', 'Edit this module'
                         &nbsp;
-                        = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module'
+                        = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module', '', { :target => '_blank' }
                         &nbsp;
                         = link_to '', module_path(mod, type: mod.class), method: :delete, class: 'icon-trash', title: 'Delete this module', confirm: 'Are you sure?'
                   = sortable_element 'full'+unit.id.to_s, :url => {:controller => 'unit', :action => "sort_mods" }, :complete => visual_effect(:highlight, 'full'+unit.id.to_s), :handle => 'handle', :containment => ['full'+unit.id.to_s], :constraint => false

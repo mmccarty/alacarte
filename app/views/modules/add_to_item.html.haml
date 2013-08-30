@@ -36,9 +36,9 @@
               %td
                 = awesome_button item, 'edit', "Edit this #{ @item_type }"
                 - if @item_type == 'page'
-                  = awesome_button show_ica_path(item), 'external-link', "Preview this #{ @item_type }"
+                  = awesome_button show_ica_path(item), 'external-link', "Preview this #{ @item_type }", '', { :target => '_blank' }
                 - else
-                  = awesome_button show_srg_path(item), 'external-link', "Preview this #{ @item_type }"
+                  = awesome_button show_srg_path(item), 'external-link', "Preview this #{ @item_type }", '', { :target => '_blank' }
                 &nbsp;
               %td
                 = item.updated_at.to_date

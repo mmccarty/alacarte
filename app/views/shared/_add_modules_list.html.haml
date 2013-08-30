@@ -15,7 +15,7 @@
         %td= truncate(mod.label, :length => 45)
         %td
           %i.icon-question-sign{ :data => { :content => "#{render_tooltip(mod)}", :html => 'true', :trigger => 'hover' } }
-          = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module'
+          = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module', '', { :target => 'blank' }
         %td= mod.updated_at.to_date
         %td= mod.content_type
 

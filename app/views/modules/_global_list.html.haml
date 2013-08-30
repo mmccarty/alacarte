@@ -13,7 +13,7 @@
         %td
           = awesome_button copy_module_path(mod, type: mod.class), 'copy', 'Copy this module'
           &nbsp;
-          = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module'
+          = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module', '', { :target => '_blank' }
         %td= mod.updated_at.to_date
         %td= mod.content_type
         %td= mod.created_by

@@ -20,7 +20,7 @@
         %td
           = awesome_button edit_module_path(mod, type: mod.class), 'edit', 'Edit this module'
           &nbsp;
-          = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module'
+          = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module', '', { :target => 'blank' }
           &nbsp;
           = awesome_button copy_module_path(mod, type: mod.class), 'copy', 'Copy this module'
           &nbsp;
