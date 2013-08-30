@@ -61,12 +61,18 @@
         $('#page-header').outerHeight(true) +
         $('#left-sidebar-module').outerHeight(true) +
         $('#left-guide-box').outerHeight(true);
+      var elementHeight = $element.outerHeight(true);
       var offsetBottom = $('.footer').outerHeight(true);
       var scrollTop = $(window).scrollTop();
       var scrollHeight = $(document).height();
 
+      if (offsetTop + elementHeight + offsetBottom >= scrollHeight) {
+        // The sidebar is already longer than the body.
+        return;
+      }
+
       var pos = Math.max(offsetTop, scrollTop) + 15;
-      var top = Math.min(pos, scrollHeight - $element.outerHeight(true) - offsetBottom);
+      var top = Math.min(pos, scrollHeight - elementHeight - offsetBottom);
       top = Math.max(top, offsetTop);
       $element.css({ position: 'absolute', top: top });
     }
