@@ -7,13 +7,24 @@ class GuidesController < ApplicationController
     @guide = Guide.new
     @masters = Master.get_guide_types
     @subjects = Subject.get_subject_values
-    @resources = @user.contact_resources
+    if params[:user_id]
+      user = User.find params[:user_id]
+      @resources = user.contact_resources
+      session[:item_user_id] = params[:user_id]
+    else
+      @resources = @user.contact_resources
+    end
   end
 
   def create
     @guide = Guide.new params[:guide]
     if @guide.save
-      @user.add_guide @guide
+      if session[:item_user_id]
+        user = User.find session[:item_user_id]
+      else
+        user = @user
+      end
+      user.add_guide @guide
       @guide.add_master_type params[:guide][:master_ids].select(&:present?)
       @guide.add_related_subjects params[:guide][:subject_ids].select(&:present?)
       redirect_to @guide

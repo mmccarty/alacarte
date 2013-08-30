@@ -166,6 +166,11 @@ describe PagesController do
         get :new
         expect(response).to render_template :new
       end
+
+      it 'assigns the user.id to user_id when given' do
+        get :new, user_id: @user.id
+        expect(session[:item_user_id]).to eq @user.id.to_s
+      end
     end
 
     describe 'GET #edit' do
@@ -558,33 +563,30 @@ describe PagesController do
     it_behaves_like 'individual page'
 
     describe 'POST #create' do
+      before :each do
+        @page_attrs = attributes_for :page
+        @page_attrs[:subject_ids] = [@subject.id]
+        session[:item_user_id] = @user.id
+      end
       it 'creates a new page' do
-        page = attributes_for :page
-        page[:subject_ids] = [@subject.id]
         expect {
-          post :create, page: page
+          post :create, page: @page_attrs
         }.to change(Page, :count).by(1)
       end
 
       it 'creates a default tab for the new page' do
-        page = attributes_for :page
-        page[:subject_ids] = [@subject.id]
-        post :create, page: page
-        expect(@admin.pages.first.tabs).to_not be_empty
+        post :create, page: @page_attrs
+        expect(@user.pages.first.tabs).to_not be_empty
       end
 
       it 'sets the list of subjects for the new page' do
-        page = attributes_for :page
-        page[:subject_ids] = [@subject.id]
-        post :create, page: page
-        expect(@admin.pages.first.subjects).to match_array [@subject]
+        post :create, page: @page_attrs
+        expect(@user.pages.first.subjects).to match_array [@subject]
       end
 
       it 'redirects to the :show view' do
-        page = attributes_for :page
-        page[:subject_ids] = [@subject.id]
-        post :create, page: page
-        expect(response).to redirect_to @admin.pages.first
+        post :create, page: @page_attrs
+        expect(response).to redirect_to @user.pages.first
       end
     end
 

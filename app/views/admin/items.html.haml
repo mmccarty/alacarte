@@ -4,7 +4,7 @@
   #error_wrapper
     #notice= flash[:notice]
 .container
-  = awesome_button polymorphic_path(@item_type.titlecase.constantize, action: :new), 'plus', "Create new course #{ @item_type }", 'btn btn-primary'
+  = awesome_button polymorphic_path(@item_type.titlecase.constantize, action: :new, user_id: @user.id), 'plus', "Create new course #{ @item_type }", 'btn btn-primary'
 
 %p
   Total #{ @item_type.titlecase }s: #{@count}
