@@ -37,5 +37,4 @@ describe InstResource do
   it 'requires website address to be valid' do
     expect(build :inst_resource, website: 'invalid website').to have(1).errors_on :website
   end
-
 end

@@ -189,7 +189,8 @@ class User < ActiveRecord::Base
   end
 
   def contact_resources
-    contacts = resources.select { |a| a.mod and a.mod.content_type.in? ["Librarian Profile", "Custom Content", "Course Widget"] }
+    contacts = resources.select { |a| a.mod and a.mod.content_type.in? \
+      ['Librarian Profile', 'Instructor Profile', 'Custom Content', 'Course Widget'] }
     contacts.sort_by { |a| a.mod.label.downcase }
   end
 
