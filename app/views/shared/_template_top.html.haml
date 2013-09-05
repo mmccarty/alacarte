@@ -9,11 +9,12 @@
       - unless @local.image_map.blank?
         %a{:href => "#{@local.image_map}"}
 
-    .pull-right
+    %ul.nav.pull-right
       - unless @local.lib_name.blank? || @local.lib_url.blank?
-        %a{:href => "#{@local.lib_url}"}
-          = @local.lib_name
-        |
+        %li
+          %a{:href => "#{@local.lib_url}"}
+            = @local.lib_name
       - unless @local.univ_name.blank? || @local.univ_url.blank?
-        %a{:href => "#{@local.univ_url}"}
-          = @local.univ_name
+        %li
+          %a{:href => "#{@local.univ_url}"}
+            = @local.univ_name
