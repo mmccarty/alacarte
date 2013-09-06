@@ -1,5 +1,5 @@
-%section{ :id => "topic_#{ mod.class.to_s.downcase }_#{ mod.id }" }
-  %h2.page-header
+%section{ :id => "topic_#{ mod.resources.first.id }" }
+  %h1.page-header
     = mod.module_title
 
   - if defined? mod.content

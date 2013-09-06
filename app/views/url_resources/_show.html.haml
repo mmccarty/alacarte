@@ -1,4 +1,4 @@
-%section{ :id => "topic_#{ mod.class.to_s.downcase }_#{ mod.id }" }
+%section{ :id => "topic_#{ mod.resources.first.id  }" }
   %h2= h mod.module_title
   .module
     - unless mod.information.blank?
