@@ -30,6 +30,10 @@ class InstResource < ActiveRecord::Base
   validates :website, format: {with: /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix, if: Proc.new {|c| not c.website.blank?}, message: 'URL must be valid and begin with http or https.'}
   validates :label, :presence => { :on => :update }
 
+  searchable do
+    text :module_title, :label, :instructor_name
+  end
+
   def rss_content
     self.instructor_name.present? ? self.instructor_name : ''
   end

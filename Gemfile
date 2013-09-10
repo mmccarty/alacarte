@@ -20,6 +20,7 @@ gem 'rdoc'
 gem 'recaptcha'
 gem 'responds_to_parent'
 gem 'simplecov'
+gem 'sunspot_rails'
 gem 'tinymce-rails'
 gem 'twitter-bootstrap-rails'
 gem 'will_paginate'
@@ -34,10 +35,11 @@ end
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'rspec-rails', '~> 2.0'
+  gem 'sunspot_solr'
 end
 
 group :development do
-  gem 'gettext', '>= 1.9.3'
+  gem 'gettext'
   gem 'ruby_parser'
 end
 

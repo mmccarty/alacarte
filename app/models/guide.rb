@@ -27,6 +27,10 @@ class Guide < ActiveRecord::Base
 
   serialize :relateds
 
+  searchable do
+    text :guide_name, :description
+  end
+
   def self.published_guides
     self.where(published: true).order(:guide_name).select 'id, guide_name, description'
   end

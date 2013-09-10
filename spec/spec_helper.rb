@@ -11,6 +11,10 @@ require 'capybara/rspec'
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
+  config.before do
+    Sunspot.session = Sunspot::Rails::StubSessionProxy.new Sunspot.session
+  end
+
   config.include FactoryGirl::Syntax::Methods
   config.include Rails.application.routes.url_helpers
 

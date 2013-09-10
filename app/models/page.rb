@@ -47,6 +47,10 @@ class Page < ActiveRecord::Base
 
   attr_protected :id
 
+  searchable do
+    text :course_name, :page_description
+  end
+
   def validate
     errors.add _('You must specify at least one subject.') if subjects.blank?
   end

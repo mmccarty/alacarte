@@ -25,6 +25,10 @@ class MiscellaneousResource < ActiveRecord::Base
   validates :module_title, presence: true
   validates :label, presence: { on: :update }
 
+  searchable do
+    text :module_title, :label, :content, :more_info
+  end
+
   def rss_content
     self.content.blank? ? '' : self.content
   end

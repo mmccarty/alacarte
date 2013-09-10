@@ -31,6 +31,10 @@ class LibResource < ActiveRecord::Base
   validates :email, format: {with: /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, if: Proc.new {|c| not c.email.blank?}}
   validates :label, :presence => { :on => :update }
 
+  searchable do
+    text :module_title, :label, :librarian_name
+  end
+
   def rss_content
     self.librarian_name.present? ? self.librarian_name : ''
   end
