@@ -42,14 +42,14 @@ class Tutorial < ActiveRecord::Base
   validates_presence_of  :name
   validates_uniqueness_of :name,
     :scope => [:course_num, :section_num, :subject_id],
-    :message => "is already in use. Change the Tutorial title to make it unique."
+    :message => _('is already in use. Change the Tutorial title to make it unique.')
 
   validates_format_of :section_num,
     :with =>  /^\d+(,\d+)*$/,
-    :message => "must be a comma seperated list of numbers or blank"
+    :message => _('must be a comma seperated list of numbers or blank')
   validates_format_of :course_num,
     :with => /^\d+(\/\d+)?$/,
-    :message => "must be a number or number/number."
+    :message => _('must be a number or number/number.')
 
   attr_protected :id
 
@@ -189,7 +189,7 @@ class Tutorial < ActiveRecord::Base
     studs.each do |student|
       student.destroy
     end
-    studs.length > 0 ? "Tutorial grades were successfully cleared." : "There were no grades to clear."
+    studs.length > 0 ? _('Tutorial grades were successfully cleared.') : _('There were no grades to clear.')
   end
 
   def possible_score

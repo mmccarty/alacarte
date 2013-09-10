@@ -10,8 +10,8 @@ class Master < ActiveRecord::Base
   has_and_belongs_to_many :guides
 
   validates :value,
-    presence:   { message: "Master value may not be blank!"   },
-    uniqueness: { message: "({value}} is already being used!" }
+    presence:   { message: _('Master value may not be blank!')   },
+    uniqueness: { message: _('({value}} is already being used!') }
 
   # Returns the list of master subjects.
   def self.get_guide_types

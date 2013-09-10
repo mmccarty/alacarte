@@ -55,16 +55,16 @@ class User < ActiveRecord::Base
     begin
       Notifications.add_pending_user(user.email, local.admin_email_from).deliver
       Notifications.notify_admin_about_pending_user(local.admin_email_to, local.admin_email_from, url).deliver
-      msg = "An account was created for you.  It is now waiting for administrator approval."
+      msg = _ 'An account was created for you.  It is now waiting for administrator approval.'
     rescue Exception => e
       logger.error("Exception in register user: #{e}}" )
-      msg = "Could not send email"
+      msg = _' Could not send email'
     end
     return msg
   end
 
   def validate
-    errors.add("Missing password" ) if hashed_psswrd.blank?
+    errors.add(_ 'Missing password') if hashed_psswrd.blank?
   end
 
   # Associates a user with a list of modules, by way of resource objects.

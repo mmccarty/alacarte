@@ -24,12 +24,12 @@ class Dod < ActiveRecord::Base
   has_many :database_resources, :through => :database_dods
 
   validates :title,
-    :presence => { :message => "may not be blank!" },
-    :uniqueness => {  :message => "{{value}} is already being used!"}
+    :presence => { :message => _('may not be blank!') },
+    :uniqueness => {  :message => _('{{value}} is already being used!') }
 
-  validates :url, :presence => { :message => "may not be blank!" }
-  validates :provider, :presence => { :message => "may not be blank!" }
-  validates :descr, :presence => { :message => "may not be blank!" }
+  validates :url, :presence => { :message => _('may not be blank!') }
+  validates :provider, :presence => { :message => _('may not be blank!') }
+  validates :descr, :presence => { :message => _('may not be blank!') }
 
   def self.sort(sort=nil)
     unless sort==nil
@@ -40,6 +40,6 @@ class Dod < ActiveRecord::Base
   end
 
   def coverage_label
-    return startdate + " - " + enddate
+    return startdate + ' - ' + enddate
   end
 end

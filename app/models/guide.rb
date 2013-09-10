@@ -53,7 +53,7 @@ class Guide < ActiveRecord::Base
 
   def create_home_tab
     if tabs.blank?
-      add_tab Tab.new(tab_name: 'Quick Links')
+      add_tab Tab.new(tab_name: _('Quick Links'))
     end
   end
 

@@ -27,6 +27,6 @@ class CourseWidget < ActiveRecord::Base
   validates :label, :presence => { :on => :update }
 
   def rss_content
-    self.information.blank? ? "" : self.information
+    self.information.blank? ? '' : self.information
   end
 end

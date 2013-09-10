@@ -36,19 +36,19 @@ class Page < ActiveRecord::Base
 
   validates_uniqueness_of :course_name,
     :scope => [:course_num, :term, :year,  :sect_num],
-    :message => "is already in use. Change the Page Title to make a unique page."
+    :message => _('is already in use. Change the Page Title to make a unique page.')
 
   validates_format_of :sect_num,
     :with => /^\d*$/,
-    :message => "must be a number or blank"
+    :message => _('must be a number or blank')
   validates_format_of :course_num,
     :with => /^\d+(\/\d+)?$/,
-    :message => "must be a number or numbers (e.g, 121 or 121/123)."
+    :message => _('must be a number or numbers (e.g, 121 or 121/123).')
 
   attr_protected :id
 
   def validate
-    errors.add "You must specify at least one subject." if subjects.blank?
+    errors.add _('You must specify at least one subject.') if subjects.blank?
   end
 
   def to_param
@@ -119,7 +119,7 @@ class Page < ActiveRecord::Base
 
   def create_home_tab
     if tabs.blank?
-      add_tab Tab.new(tab_name: 'Start')
+      add_tab Tab.new(tab_name: _('Start'))
     end
   end
 

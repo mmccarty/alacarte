@@ -33,7 +33,7 @@ class LibfindResource < ActiveRecord::Base
   end
 
   def get_targets
-    lf_targets.collect{|a| a.value}.join(",")
+    lf_targets.collect{|a| a.value}.join ','
   end
 
   def rss_content

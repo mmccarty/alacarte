@@ -23,19 +23,19 @@ class Tab < ActiveRecord::Base
   validates :template, inclusion: { in: [1, 2] }
 
   def update_users
-    if guide != "" and guide.shared?
+    if guide.present? and guide.shared?
       guide.update_users
-    elsif page != "" and page.shared?
+    elsif page.present? and page.shared?
       page.update_users
     end
   end
 
   def guide
-    (tabable_type == "Guide" && Guide.exists?(tabable_id)) ? Guide.find(tabable_id) : ""
+    (tabable_type == 'Guide' && Guide.exists?(tabable_id)) ? Guide.find(tabable_id) : ''
   end
 
   def page
-    (tabable_type == "Page"  && Page.exists?(tabable_id))  ? Page.find(tabable_id)  : ""
+    (tabable_type == 'Page'  && Page.exists?(tabable_id))  ? Page.find(tabable_id)  : ''
   end
 
   def num_columns

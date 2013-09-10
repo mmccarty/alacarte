@@ -13,7 +13,7 @@
 class Comment < ActiveRecord::Base
   belongs_to :comment_resource
 
-  validates :body, presence: { message: 'is required' }
+  validates :body, presence: { message: _('is required') }
   validates :author_email, format: { with: /^(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?$/i }
   validate :is_clean?
 
@@ -26,7 +26,7 @@ class Comment < ActiveRecord::Base
       (body || '').split.each do |word|
         word.gsub! /[^\w]/, ''
         if word.downcase == line.strip.downcase
-          errors.add :body, 'Comment included an inappropriate word'
+          errors.add :body, _('Comment included an inappropriate word')
           return
         end
       end

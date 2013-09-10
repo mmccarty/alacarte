@@ -23,7 +23,7 @@ class Student < ActiveRecord::Base
     :presence => true,
     :uniqueness => {
       :scope => :tutorial_id,
-      :message => 'Our records indicate that you already have an account for this tutorial.  Please login.'
+      :message => _('Our records indicate that you already have an account for this tutorial.  Please login.')
     },
     :format => {
       :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,
@@ -35,7 +35,7 @@ class Student < ActiveRecord::Base
     :presence => true,
     :uniqueness => {
       :scope => :tutorial_id,
-      :message => 'Our records indicate that you already have an account for this tutorial.  Please login.'
+      :message => _('Our records indicate that you already have an account for this tutorial.  Please login.')
     }
 
   validates :firstname, :presence => true

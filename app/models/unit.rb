@@ -21,14 +21,14 @@ class Unit < ActiveRecord::Base
 
   validates_presence_of  :title
   validates_presence_of  :slug, :on => :update
-  validates_length_of :slug, :maximum=>15, :message=>"less than {{count}}", :on => :update
+  validates_length_of :slug, :maximum=>15, :message=> _('less than {{count}}'), :on => :update
   before_create :create_slug
 
   # Required by HasModules concern.
   def update_users
   end
 
-  def create_slug trunc = 15, truncate_string = "..."
+  def create_slug trunc = 15, truncate_string = _('...')
     text = self.title
     l = trunc - truncate_string.mb_chars.length
     chars = text.mb_chars

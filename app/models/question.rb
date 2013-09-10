@@ -25,15 +25,15 @@ class Question < ActiveRecord::Base
   def quiz_type
     case q_type
     when 'MC'
-      "Multiple Choice"
+      _ 'Multiple Choice'
     when 'TF'
-      "True/False"
+      _ 'True/False'
     when 'FW'
-      "Free Write"
+      _ 'Free Write'
     when 'FMC'
-      "Feedback Multiple Choice"
+      _ 'Feedback Multiple Choice'
     else
-      ""
+      ''
     end
   end
 
