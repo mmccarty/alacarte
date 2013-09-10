@@ -13,10 +13,10 @@ class LoginController < ApplicationController
           session[:original_uri] = nil
           redirect_to(uri || {:controller => "dashboard", :action => 'index' })
         else
-          flash.now[:notice]= "Your account is waiting for Administrator approval."
+          flash.now[:notice]= _ 'Your account is waiting for Administrator approval.'
         end
       else
-        flash.now[:notice]= "Invalid user/password combination. Check that CAPS LOCK is not on and that your email is entered correctly."
+        flash.now[:notice]= _ 'Invalid username/password combination. Check that CAPS LOCK is not on and that your email is entered correctly.'
       end
     end
   end
@@ -30,10 +30,10 @@ class LoginController < ApplicationController
     if request.post?
       user = User.find_by_email params[:user][:email]
       if user and user.set_new_password
-        flash[:notice] = "A new password has been sent by email."
+        flash[:notice] = _ 'A new password has been sent by email.'
         redirect_to login_path
       else
-        flash.now[:notice]  = "Couldn't send password"
+        flash.now[:notice]  = _ "Couldn't send password"
       end
     end
   end

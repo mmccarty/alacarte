@@ -5,6 +5,7 @@ gem 'acts-as-taggable-on'
 gem 'annotate'
 gem 'dynamic_form'
 gem 'exception_notification'
+gem 'gettext_i18n_rails'
 gem 'haml'
 gem 'in_place_editing'
 gem 'jquery-rails'
@@ -33,6 +34,11 @@ end
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'rspec-rails', '~> 2.0'
+end
+
+group :development do
+  gem 'gettext', '>= 1.9.3'
+  gem 'ruby_parser'
 end
 
 group :test do

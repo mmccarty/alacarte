@@ -2,14 +2,14 @@ class AdminController < ApplicationController
   before_filter :authorize_admin
 
   def index
-    @user_count      = User.count
-    @page_count      = Page.count
-    @guide_count     = Guide.count
-    @tutorial_count  = Tutorial.count
-    @ppage_count     = Page.where(published: true).count
-    @apage_count     = Page.where(archived: true).count
-    @pguide_count    = Guide.where(published: true).count
-    @ptutorial_count = Tutorial.where(published: true).count
+    @user_count     = User.count
+    @page_count     = Page.count
+    @guide_count    = Guide.count
+    @tutorial_count = Tutorial.count
+    @published_page_count     = Page.where(published: true).count
+    @archived_page_count      = Page.where(archived: true).count
+    @published_guide_count    = Guide.where(published: true).count
+    @published_tutorial_count = Tutorial.where(published: true).count
   end
 
   def auto_archive
@@ -56,7 +56,7 @@ class AdminController < ApplicationController
       else # just delete the association
         @user.send(name.pluralize).delete item
       end
-      flash[:notice] = "#{ name.titlecase } successfully deleted."
+      flash[:notice] = _('%{name} successfully deleted.') % { name: name.titlecase }
       redirect_to :back
     end
 
@@ -93,10 +93,10 @@ class AdminController < ApplicationController
             to_users << new_user
           end
         end
-        flash[:notice] = "User(s) successfully added and email notification sent."
+        flash[:notice] = n_('User', 'Users', params[:users].count) + ' ' + _('successfully added and email notification sent.')
         send "#{ name }_send_notices", to_users
       else
-        flash[:notice] = "Please select at least one user to share with."
+        flash[:notice] = _ 'Please select at least one user to share with.'
       end
       redirect_to :action => "assign_#{ name }", :id => item.id and return
     end
@@ -109,9 +109,9 @@ class AdminController < ApplicationController
           begin
           Notifications.send "share_#{ name }", new_user.email, @user.email, item.item_name
         rescue Exception => e
-          flash[:notice] = "User(s) successfully added. Could not send email"
+          flash[:notice] = n_('User', 'Users', users.count) + ' ' + _('successfully added. Could not send email')
         else
-          flash[:notice] = "User(s) successfully added and email notification sent."
+          flash[:notice] = n_('User', 'Users', users.count) + ' ' + _('successfully added and email notification sent.')
         end
       end
     end
@@ -130,7 +130,7 @@ class AdminController < ApplicationController
         else
           user.send "delete_#{ name }_tabs", item
         end
-        flash[:notice] = "User(s) successfully removed."
+        flash[:notice] = _ 'User successfully removed.'
         redirect_to :action => "assign_#{ name }", :id => item
       end
     end

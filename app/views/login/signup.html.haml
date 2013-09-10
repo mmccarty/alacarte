@@ -4,6 +4,6 @@
   = form_tag :action => 'signup' do
     = render :partial => 'form'
     %br
-    = submit_tag 'Request new account', :class => 'btn btn-primary'
+    = submit_tag _('Request new account'), :class => 'btn btn-primary'
     &nbsp;
-    = link_to 'Cancel', {}, :action => 'login', :class => 'btn'
+    = link_to _('Cancel'), {}, :action => 'login', :class => 'btn'

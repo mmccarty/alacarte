@@ -1,73 +1,73 @@
-%h1.page-header Customize Public Templates
+%h1.page-header= _('Customize Public Templates')
 
 = report_errors @local
 = form_tag :action => 'customize_layout', :id => @local do
 
   %fieldset
-    %legend Layout
+    %legend= _('Layout')
 
     .control-group
-      %label.control-label{ :for => 'local_banner_url' } Banner URL
+      %label.control-label{ :for => 'local_banner_url' }= _('Banner URL')
       .controls
         = text_field :local, 'banner_url', class: 'input-xlarge'
-        %p.muted The banner is an image slice for the top of the templates.
+        %p.muted= _('The banner is an image slice for the top of the templates.')
 
     .control-group
-      %label.control-label{ :for => 'local_logo_url' } Logo URL
+      %label.control-label{ :for => 'local_logo_url' }= _('Logo URL')
       .controls
         = text_field :local, 'logo_url', class: 'input-xlarge'
-        %p.muted The logo is an image that sits on top of the banner.
+        %p.muted= _('The logo is an image that sits on top of the banner.')
 
     .control-group
-      %label.control-label{ :for => 'local' } Logo Width and Height
+      %label.control-label{ :for => 'local' }= _('Logo Width and Height')
       .controls
         = text_field :local,'logo_width'
         = text_field :local,'logo_height'
-        %p.muted Enter the width and height of the logo image to set the header height and the image map hot spot.
+        %p.muted= _('Enter the width and height of the logo image to set the header height and the image map hot spot.')
 
     .control-group
-      %label.control-label{ :for => 'local' } Image Map URL
+      %label.control-label{ :for => 'local' }= _('Image Map URL')
       .controls
         = text_field :local,'image_map', class: 'input-xlarge'
-        %p.muted Enter the Url you want the logo to link to. This is often your universities' home page.
+        %p.muted= _("Enter the Url you want the logo to link to. This is often your universities' home page.")
 
     .control-group
-      %label.control-label{ :for => 'local' } Footer Text
+      %label.control-label{ :for => 'local' }= _('Footer Text')
       .controls
-        %p.muted Enter text for a custom footer. (HTML OK)
+        %p.muted= _('Enter text for a custom footer. (HTML OK)')
         = text_area :local, 'footer', :class => 'tinymce'
         = tinymce
 
     .control-group
-      %label.control-label{ :for => 'local' } Portal Right-Hand Box
+      %label.control-label{ :for => 'local' }= _('Portal Right-Hand Box')
       .controls
         %p.muted
-          Add information into the right-hand side box of the portal templates (HTML|embed|object|param tags OK).
-          = succeed 'This' do
+          = _('Add information into the right-hand side box of the portal templates (HTML|embed|object|param tags OK).')
+          = succeed _('This') do
             %br/
-          is displayed in the right side of the portals.
+          = _('is displayed in the right side of the portals.')
         = text_area :local, 'right_box', :class => 'tinymce'
         = tinymce
 
     .control-group
-      %label.control-label{ :for => 'local' } Portal Left-Hand Box
+      %label.control-label{ :for => 'local' }= _('Portal Left-Hand Box')
       .controls
         %p.muted
-          Add information into the left-hand side box of the portal templates (HTML|embed|object|param tags OK).
-          = succeed 'This' do
+          = _('Add information into the left-hand side box of the portal templates (HTML|embed|object|param tags OK).')
+          = succeed _('This') do
             %br/
-          is displayed on the left side of the portals.
+          = _('is displayed on the left side of the portals.')
         = text_area :local, 'left_box', :class => 'tinymce'
         = tinymce
 
     .control-group
-      %label.control-label{ :for => 'local' } Guide Left-Hand Box
+      %label.control-label{ :for => 'local' }= _('Guide Left-Hand Box')
       .controls
         %p.muted
-          Add information into the left-hand side box of the guide and page templates (HTML|embed|object|param tags OK).
-          = succeed 'This' do
+          = _('Add information into the left-hand side box of the guide and page templates (HTML|embed|object|param tags OK).')
+          = succeed _('This') do
             %br/
-          is displayed at the top of the left side of the guides.
+          = _('is displayed at the top of the left side of the guides.')
         = text_area :local, 'guide_box', :class => 'tinymce'
         = tinymce
 
@@ -75,48 +75,51 @@
     &nbsp;
 
   %fieldset
-    %legend Names &amp; Links
+    %legend= _('Names & Links')
 
     .control-group
-      %label.control-label{ :for => 'local_logo_url' } Portal Title : Course Guides
+      %label.control-label{ :for => 'local_logo_url' }= _('Portal Title : Course Guides')
       .controls
         %p.muted
-          The page title for the #{link_to "course guide's portal", :controller => 'ica', :action => 'published_pages' }
+          = _('The page title for the') + ' '
+          = link_to _("course guide's portal"), :controller => 'ica', :action => 'published_pages'
         = text_field :local, 'ica_page_title', class: 'input-xlarge'
 
     .control-group
-      %label.control-label{ :for => 'local_logo_url' } Portal Title : Subject Guides
+      %label.control-label{ :for => 'local_logo_url' }= _('Portal Title : Subject Guides')
       .controls
         %p.muted
-          The page title for the #{link_to "subject guide's portal", :controller => 'srg', :action => 'published_guides' }.
+          = _('The page title for the') + ' '
+          = link_to _("subject guide's portal"), :controller => 'srg', :action => 'published_guides'
         = text_field :local, 'guide_page_title', class: 'input-xlarge'
 
     .control-group
-      %label.control-label{ :for => 'local_logo_url' } Portal Title : Tutorials
+      %label.control-label{ :for => 'local_logo_url' }= _('Portal Title : Tutorials')
       .controls
         %p.muted
-          The page title for the #{link_to "tutorial's portal", :controller => 'ort', :action => 'published_tutorial' }.
+          = _('The page title for the') + ' '
+          = link_to _("tutorial's portal"), :controller => 'ort', :action => 'published_tutorial'
         = text_field :local, 'tutorial_page_title', class: 'input-xlarge'
 
     .control-group
-      %label.control-label{ :for => 'local_logo_url' } Library Name &amp; URL
+      %label.control-label{ :for => 'local_logo_url' }= _('Library Name &amp; URL')
       .controls
         %p.muted
-          Add your library name (i.e: OSU Libraries, Penn libraries) and home page URL.
-          = succeed 'This' do
+          = _('Add your library name (i.e: OSU Libraries, Penn libraries) and home page URL.')
+          = succeed _('This') do
             %br/
-          is displayed in the header as links and in the metadata tags.
+          = _('is displayed in the header as links and in the metadata tags.')
         = text_field :local, 'lib_name'
         = text_field :local, 'lib_url'
 
     .control-group
-      %label.control-label{ :for => 'local_logo_url' } University Name &amp; URL
+      %label.control-label{ :for => 'local_logo_url' }= _('University Name &amp; URL')
       .controls
         %p.muted
-          Add your organization's name (i.e: OSU, Penn State) and home page URL.
-          = succeed 'This' do
+          = _("Add your organization's name (i.e: OSU, Penn State) and home page URL.")
+          = succeed _('This') do
             %br/
-          is displayed in the header as links and in the metadata tags.
+          = _('is displayed in the header as links and in the metadata tags.')
         = text_field :local, 'univ_name'
         = text_field :local, 'univ_url'
 
@@ -124,46 +127,46 @@
       &nbsp;
 
   %fieldset
-    %legend Local Styles & Settings
+    %legend= _('Local Styles & Settings')
 
     .control-group
-      %label.control-label{ :for => 'user_email' } CSS Stylesheet URL
+      %label.control-label{ :for => 'user_email' }= _('CSS Stylesheet URL')
       .controls
-        %p.muted Enter the url to a custom CSS stylesheet.
+        %p.muted= _('Enter the url to a custom CSS stylesheet.')
         = text_field :local, 'styles', class: 'input-xlarge'
 
     .control-group
-      %label.control-label{ :for => 'user_email' } Custom Javascript URL
+      %label.control-label{ :for => 'user_email' }= _('Custom Javascript URL')
       .controls
-        %p.muted Enter the url to a custom javascript file. Note: prototype is included in the head of all the templates.
+        %p.muted= _('Enter the url to a custom javascript file. Note: prototype is included in the head of all the templates.')
         = text_field :local, 'js_link', class: 'input-xlarge'
 
     .control-group
-      %label.control-label{ :for => 'user_email' } Analytics Snippet
+      %label.control-label{ :for => 'user_email' }= _('Analytics Snippet')
       .controls
         %p.muted
-          Enter a javascript snippet to track page views.
-          = succeed 'Note:' do
+          = _('Enter a javascript snippet to track page views.')
+          = succeed _('Note:') do
             %br/
-          The snippet will be included at the bottom of all the public tempates.
+          = _('The snippet will be included at the bottom of all the public templates.')
         = text_area :local, 'tracking', class: 'span10', :size => '63x10'
 
     .control-group
-      %label.control-label{ :for => 'user_email' } Metadata
+      %label.control-label{ :for => 'user_email' }= _('Metadata')
       .controls
         %p.muted
-          Enter any custom HTML to the head tag of all public templates.
+          = _('Enter any custom HTML to the head tag of all public templates.')
           %br/
-          Note: This is only for advanced admins. Errors added here could bring down the whole system.
+          = _('Note: This is only for advanced admins. Errors added here could bring down the whole system.')
         = text_area :local, 'meta', class: 'span10', :size => '63x10'
 
     .control-group
-      %label.control-label{ :for => 'user_email' } Database Proxy
+      %label.control-label{ :for => 'user_email' }= _('Database Proxy')
       .controls
-        %p.muted Enter your proxy URL. Note: A proxy URL is required only if you have enabled the database module.
+        %p.muted= _('Enter your proxy URL. Note: A proxy URL is required only if you have enabled the database module.')
         = text_field :local, 'proxy', class: 'input-xlarge'
 
   .control-group
     .controls
-      = submit_tag 'Customize', :class => 'btn btn-primary'
-      = link_to 'Cancel', tools_path, class: 'btn btn-cancel'
+      = submit_tag _('Customize'), :class => 'btn btn-primary'
+      = link_to _('Cancel'), tools_path, class: 'btn btn-cancel'

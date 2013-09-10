@@ -1,65 +1,71 @@
 .row
   .container
-    %h1.page-header
-      Admin Tools
+    %h1.page-header= _('Admin Tools')
   .span8
-    %h2 Users
+    %h2= _('Users')
     %ul.unstyled
-      %li= link_to 'Add User', new_user_path
-      %li= link_to 'View User Accounts', users_path
-      %li= link_to 'View Pending User Accounts', pending_users_path
-      %li= link_to "View User Emails", email_list_users_path
-      %li= link_to "Auto Archive" , { :action => 'auto_archive' }, :confirm => 'Are you sure you want to auto archive ICAPs?', :method => :post
+      %li= link_to _('Add User'), new_user_path
+      %li= link_to _('View User Accounts'), users_path
+      %li= link_to _('View Pending User Accounts'), pending_users_path
+      %li= link_to _('View User Emails'), email_list_users_path
+      %li= link_to _('Auto Archive'), { :action => 'auto_archive' }, :confirm => _('Are you sure you want to auto archive ICAPs?'), :method => :post
 
     %h2 Customizations
     %ul.unstyled
       %li
-        = link_to "Templates" , :controller => 'admin', :action => 'customize_layout'
+        = link_to _('Templates'), :controller => 'admin', :action => 'customize_layout'
         %br/
-        \&nbsp; Add your library's banner and logo, names, useful links, custom color scheme and set the footer information.
+        \&nbsp;
+        = _("Add your library's banner and logo, names, useful links, custom color scheme and set the footer information.")
       %li
-        = link_to "Search Engines" , :controller => 'admin', :action => 'customize_search'
+        = link_to _('Search Engines'), :controller => 'admin', :action => 'customize_search'
         %br/
-        \&nbsp; Add code snippets for a google CSE, catalog and site search.
+        \&nbsp;
+        = _('Add code snippets for a google CSE, catalog and site search.')
       %li
-        = link_to "Configure Content Types" , :controller => 'admin', :action => 'customize_content_types'
+        = link_to _('Configure Content Types'), :controller => 'admin', :action => 'customize_content_types'
         %br/
-        \&nbsp; Configure the types of guides and modules users can create.
+        \&nbsp;
+        = _('Configure the types of guides and modules users can create.')
       %li
-        = link_to "Configure Admin Email Addresses" , :controller => 'admin', :action => 'customize_admin_email'
+        = link_to _('Configure Admin Email Addresses'), :controller => 'admin', :action => 'customize_admin_email'
         %br/
-        \&nbsp; Configure the email addresses that you want mail sent to/from.
+        \&nbsp;
+        = _('Configure the email addresses that you want mail sent to/from.')
 
-    %h2 Database Management
+    %h2= _('Database Management')
     %ul.unstyled
       %li
-        = link_to "Customize Subjects" , subjects_path
+        = link_to _('Customize Subjects'), subjects_path
         %br/
-        \&nbsp; Add, Edit, or Delete Course Subjects.
+        \&nbsp;
+        = _('Add, Edit, or Delete Course Subjects.')
       %li
-        = link_to "Customize Master Subjects" , masters_path
+        = link_to _('Customize Master Subjects'), masters_path
         %br/
-        \&nbsp; Add, Edit, or Delete Guide Master Subjects.
+        \&nbsp;
+        = _('Add, Edit, or Delete Guide Master Subjects.')
       %li
-        = link_to "Customize Database Subscriptions" , dods_path
+        = link_to _('Customize Database Subscriptions'), dods_path
         %br/
-        \&nbsp; Add, Edit, or Delete Database Subscriptions.
+        \&nbsp;
+        = _('Add, Edit, or Delete Database Subscriptions.')
 
   .span4
     .well.well-small
       %dl.dl-horizontal
-        %dt users
+        %dt= _('users')
         %dd #{@user_count}
-        %dt total guides
+        %dt= _('total guides')
         %dd #{@guide_count}
         %dt
-          = link_to 'published guides', :controller => :srg , :action => 'published_guides'
-        %dd #{@pguide_count}
-        %dt total pages
+          = link_to _('published guides'), :controller => :srg , :action => 'published_guides'
+        %dd #{@published_guide_count}
+        %dt= _('total pages')
         %dd #{@page_count}
         %dt
-          = link_to 'published pages', :controller => :ica , :action => 'published_pages'
-        %dd #{@ppage_count}
+          = link_to _('published pages'), :controller => :ica , :action => 'published_pages'
+        %dd #{@published_page_count}
         %dt
-          = link_to 'archived pages', :controller => :ica , :action => 'archived'
-        %dd #{@apage_count}
+          = link_to _('archived pages'), :controller => :ica , :action => 'archived'
+        %dd #{@archived_page_count}

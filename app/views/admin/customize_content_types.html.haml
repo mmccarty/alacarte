@@ -1,26 +1,24 @@
-%h1.page-header Customize Content Types
+%h1.page-header= _('Customize Content Types')
 
 = report_errors @local
 
 = form_tag :action => 'customize_layout', :id => @local do
   %fieldset
-    %legend Guide Types
+    %legend= _('Guide Types')
     .control-group
       .controls
-        = select_tag 'local[guides][]', options_for_select(@guide_types, @selected_guides), { :multiple => true }
-        %p.muted Select the types of guides authors can create. Admins will be able to create all types.
+        = select_tag 'local[guides][]', options_for_select(@guide_types, @selected_guides), { multiple: true }
+        %p.muted= _('Select the types of guides authors can create. Admins will be able to create all types.')
 
   %fieldset
-    %legend Modules Types
+    %legend= _('Modules Types')
     .control-group
       .controls
-        = select_tag 'local[types][]', options_for_select(@types, @selected), { :multiple => true }
+        = select_tag 'local[types][]', options_for_select(@types, @selected), { multiple: true }
         %p.muted
-          Select the module types authors can create. Admins will be able to create all module types.
+          = _('Select the module types authors can create. Admins will be able to create all module types.')
           %br/
-          Note: Some modules must be configured before they will be functional, see
-          = alacarte_documentation 'this documentation'
-          before enabling any new modules.
+          =  raw _('Note: Some modules must be configured before they will be functional, see %{documentation} before enabling any new modules.') % { documentation: alacarte_documentation(_ 'this documentation') }
 
-  = submit_tag 'Customize', class: 'btn btn-primary'
-  = link_to 'Cancel', tools_path, class: 'btn btn-cancel'
+  = submit_tag _('Customize'), class: 'btn btn-primary'
+  = link_to _('Cancel'), tools_path, class: 'btn btn-cancel'

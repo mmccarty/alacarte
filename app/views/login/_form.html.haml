@@ -1,18 +1,14 @@
 = error_messages_for 'user'
 / [form:user]
-%label{ :for => "user_login" }
-  Full Name
+%label{ :for => "user_login" }= _('Full Name')
 = text_field 'user','name'
 
-%label{ :for => "user_email" }
-  Email
+%label{ :for => "user_email" }= _('Email')
 = text_field 'user', 'email'
 
-%label{ :for => "user_password" }
-  Password
+%label{ :for => "user_password" }= _('Password')
 = password_field 'user', 'password'
 
-%label{ :for => "user_password_confirmation" }
-  Confirm Password
+%label{ :for => "user_password_confirmation" }= _('Confirm Password')
 = password_field 'user','password_confirmation'
 / [eoform:user]

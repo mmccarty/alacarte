@@ -1,6 +1,5 @@
 %fieldset
-  %h3
-    Assign #{h@tutorial.full_name}
+  %h3= _('Assign %{name}') % { name: h(@tutorial.full_name) }
   - if flash[:notice]
     #error_wrapper
       #notice= flash[:notice]
@@ -10,12 +9,12 @@
         = render 'shared/share_left'
         #share_right
           %label{:for => "copy"}
-            Share Tutorial or Share Copy?
+            = _('Share Tutorial or Share Copy?')
             %br/
           .tip
-            Select original to give people editing rights.
+            = _('Select original to give people editing rights.')
             %br/
-            Sharing a copy does not give people editing rights to the original.
+            = ('Sharing a copy does not give people editing rights to the original.')
           = radio_button_tag('copy', 2, true)
           Original
           %br/
@@ -24,11 +23,11 @@
         %br/
         .clearer
         %p
-          = submit_tag "Share Tutorial",:class => "submit"
+          = submit_tag _('Share Tutorial'), :class => "submit"
     %div
       %fieldset
-        %h5 Tutorial Colaborators
-        .tip Removing someone revokes their editing rights. The tutorial's creator can not be removed from the list.
+        %h5= _('Tutorial Colaborators')
+        .tip= _("Removing someone revokes their editing rights. The tutorial's creator can not be removed from the list.")
         #editor-list
           %table
             - for user in @owners
@@ -37,6 +36,6 @@
                   %span.list-title= h user.name
                 %td
                   - unless @owners.size == 1
-                    = link_to image_tag("icons/user_remove.png", :title => 'Remove this user from editor list', :alt => 'remove user', :border => 0), {:action => 'remove_user_from_tutorial', :id => @tutorial, :uid => user.id}, :confirm => 'Are you sure you want to remove this user from the editor list?', :method => :post
+                    = link_to image_tag('icons/user_remove.png', :title => _('Remove this user from editor list'), :alt => 'remove user', :border => 0), {:action => 'remove_user_from_tutorial', :id => @tutorial, :uid => user.id}, :confirm => _('Are you sure you want to remove this user from the editor list?'), :method => :post
     %p
-      %b= link_to 'Back to Users', :action => 'users'
+      %b= link_to _('Back to Users'), :action => 'users'

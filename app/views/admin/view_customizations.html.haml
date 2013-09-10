@@ -1,19 +1,19 @@
 .row
   .container
-    %h1.page-header Customizations
+    %h1.page-header= _('Customizations')
 
   .span6
     %h2 View
     %ul.unstyled
-      %li= link_to "Course Guide Template" , :controller => 'ica', :action => 'published_pages'
-      %li= link_to "Subject Guide Template" , :controller => 'srg', :action => 'published_guides'
-      %li= link_to "Tutorial Template" , :controller => 'ort', :action => 'published_tutorials'
+      %li= link_to _('Course Guide Template'), :controller => 'ica', :action => 'published_pages'
+      %li= link_to _('Subject Guide Template'), :controller => 'srg', :action => 'published_guides'
+      %li= link_to _('Tutorial Template'), :controller => 'ort', :action => 'published_tutorials'
 
     %h2 Edit
     %ul.unstyled
-      %li= link_to "Template" , :controller => 'admin', :action => 'customize_layout'
-      %li= link_to "Content Types" , :controller => 'admin', :action => 'customize_content_types'
-      %li= link_to "Admin Email Addresses" , :controller => 'admin', :action => 'customize_admin_email'
+      %li= link_to _('Template'), :controller => 'admin', :action => 'customize_layout'
+      %li= link_to _('Content Types'), :controller => 'admin', :action => 'customize_content_types'
+      %li= link_to _('Admin Email Addresses'), :controller => 'admin', :action => 'customize_admin_email'
 
   .span5.well.well-small
     %dl.dl-horizontal

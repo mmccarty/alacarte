@@ -1,46 +1,44 @@
-%h1.page-header Customize Search Engines
+%h1.page-header= _('Customize Search Engines')
 
 = report_errors @local
 = form_tag :action => 'customize_layout', :id => @local do
 
   %fieldset
-    %legend Local Search
+    %legend= _('Local Search')
     .control-group
-      %label.control-label{ :for => 'local_site_search' } Library Site Search
+      %label.control-label{ :for => 'local_site_search' }= _('Library Site Search')
       .controls
-        %p.muted Enter the label for your library site search.
+        %p.muted= _('Enter the label for your library site search.')
         = text_field 'local', 'site_search_label', class: 'input-xlarge'
-        %p.muted Enter the code snippet for your library site search.
+        %p.muted= _('Enter the code snippet for your library site search.')
         = text_area 'local','site_search', class: 'span10',  :size => '48x5'
     .control-group
-      %label.control-label{ :for => 'local_book_search' } Library Catalog Search
+      %label.control-label{ :for => 'local_book_search' }= _('Library Catalog Search')
       .controls
-        %p.muted Enter the label for your library catalog search.
+        %p.muted= _('Enter the label for your library catalog search.')
         = text_field 'local', 'book_search_label', class: 'input-xlarge'
-        %p.muted Enter the code snippet to search your library's catalog.
+        %p.muted= _("Enter the code snippet to search your library's catalog.")
         = text_area 'local','book_search', class: 'span10',  :size => '48x5'
 
   %p
     &nbsp;
 
   %fieldset
-    %legend Google Custom Search
+    %legend= _('Google Custom Search')
     %p.muted
-      Add a
-      %a{:href => 'http://www.google.com/coop/cse/', :target => '_blank' } google custom search engine
-      to search ala carte guides and tutorials. See admin documentation for instructions.
+      = raw _('Add a %{cse} google custom search engine to search alacarte guides and tutorials. See admin documentation for instructions.') %  { cse: '<a href="http://www.google.com/coop/cse" target="_blank">http://www.googel.com/coop/cse</a>' }
     .control-group
-      %label.control-label{ :for => 'local_g_search' } Search Box Code
+      %label.control-label{ :for => 'local_g_search' }= _('Search Box Code')
       .controls
         = text_area 'local','g_search', class: 'span10',  :size => '48x5'
-        %p.muted Paste in the search box code snippet from google.
+        %p.muted= _('Paste in the search box code snippet from google.')
     .control-group
-      %label.control-label{ :for => 'local_g_results' } Search Results Code
+      %label.control-label{ :for => 'local_g_results' }= _('Search Results Code')
       .controls
         = text_area 'local','g_results', class: 'span10',  :size => '48x5'
-        %p.muted Paste in the search results code snippet from google.
+        %p.muted= _('Paste in the search results code snippet from google.')
 
   .control-group
     .controls
-      = submit_tag 'Customize', class: 'btn btn-primary'
-      = link_to 'Cancel', tools_path, class: 'btn btn-cancel'
+      = submit_tag _('Customize'), class: 'btn btn-primary'
+      = link_to _('Cancel'), tools_path, class: 'btn btn-cancel'
