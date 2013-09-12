@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130912214854) do
+ActiveRecord::Schema.define(version: 20130912215223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,17 +125,6 @@ ActiveRecord::Schema.define(version: 20130912214854) do
     t.string   "slug"
     t.boolean  "published",       default: false
   end
-
-  create_table "links", force: true do |t|
-    t.string  "url"
-    t.text    "description"
-    t.string  "label"
-    t.integer "url_resource_id"
-    t.boolean "target",          default: false
-    t.integer "position"
-  end
-
-  add_index "links", ["url_resource_id"], name: "index_links_on_url_resource_id", using: :btree
 
   create_table "locals", force: true do |t|
     t.string  "banner_url"
@@ -283,19 +272,6 @@ ActiveRecord::Schema.define(version: 20130912214854) do
 
   create_table "tags", force: true do |t|
     t.string "name"
-  end
-
-  create_table "url_resources", force: true do |t|
-    t.string   "module_title",  default: "",          null: false
-    t.string   "label"
-    t.datetime "updated_at"
-    t.string   "content_type",  default: "Web Links"
-    t.boolean  "global",        default: false
-    t.string   "created_by"
-    t.integer  "created_by_id"
-    t.text     "information"
-    t.string   "slug"
-    t.boolean  "published",     default: false
   end
 
   create_table "users", force: true do |t|
