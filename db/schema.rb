@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130912215223) do
+ActiveRecord::Schema.define(version: 20130912215726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,40 +91,6 @@ ActiveRecord::Schema.define(version: 20130912215223) do
 
   add_index "guides_users", ["guide_id"], name: "index_guides_users_on_guide_id", using: :btree
   add_index "guides_users", ["user_id"], name: "index_guides_users_on_user_id", using: :btree
-
-  create_table "inst_resources", force: true do |t|
-    t.string   "module_title",    default: "",                   null: false
-    t.string   "label"
-    t.string   "instructor_name"
-    t.string   "email"
-    t.string   "office_location"
-    t.string   "office_hours"
-    t.string   "website"
-    t.datetime "updated_at"
-    t.string   "content_type",    default: "Instructor Profile"
-    t.boolean  "global",          default: false
-    t.string   "created_by"
-    t.string   "slug"
-    t.boolean  "published",       default: false
-  end
-
-  create_table "lib_resources", force: true do |t|
-    t.string   "module_title",    default: "",                  null: false
-    t.string   "label"
-    t.string   "librarian_name"
-    t.string   "email"
-    t.string   "chat_info"
-    t.string   "office_hours"
-    t.string   "office_location"
-    t.text     "chat_widget"
-    t.datetime "updated_at"
-    t.string   "content_type",    default: "Librarian Profile"
-    t.boolean  "global",          default: false
-    t.string   "created_by"
-    t.text     "image_info"
-    t.string   "slug"
-    t.boolean  "published",       default: false
-  end
 
   create_table "locals", force: true do |t|
     t.string  "banner_url"

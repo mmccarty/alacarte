@@ -416,7 +416,7 @@ describe PagesController do
 
     describe 'PUT #edit_contact' do
       before :each do
-        @mod = create :inst_resource
+        @mod = create :miscellaneous_resource
       end
 
       it 'updates the page' do

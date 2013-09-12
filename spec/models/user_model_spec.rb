@@ -137,14 +137,6 @@ describe User do
         user.add_resource res
         expect(user.contact_resources).to include res
       end
-
-      it 'allows an instructor profile as a contact resource' do
-        user = create :author
-        mod = create :inst_resource
-        res = Resource.create mod: mod
-        user.add_resource res
-        expect(user.contact_resources).to include res
-      end
     end
 
     describe 'has guides' do
