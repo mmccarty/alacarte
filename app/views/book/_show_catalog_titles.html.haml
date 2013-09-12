@@ -1,9 +1,0 @@
-- if results and !results.empty?
-  - results.each do |r|
-    .results
-      %span.item_title= r[:title]
-      %span.call_num
-        Author: #{r[:author]}
-      %span.call_num
-        Call #: #{r[:availability]}
-      = image_tag("icons/add.png", :title => 'Add this video', :alt => 'preview', :border => 0)

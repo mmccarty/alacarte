@@ -11,36 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130912213713) do
+ActiveRecord::Schema.define(version: 20130912214854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "book_resources", force: true do |t|
-    t.string   "module_title",  default: "",      null: false
-    t.string   "label"
-    t.datetime "updated_at"
-    t.string   "content_type",  default: "Books"
-    t.boolean  "global",        default: false
-    t.string   "created_by"
-    t.integer  "created_by_id"
-    t.text     "information"
-    t.string   "slug"
-    t.boolean  "published",     default: false
-  end
-
-  create_table "books", force: true do |t|
-    t.string  "url"
-    t.text    "description"
-    t.string  "label"
-    t.integer "book_resource_id"
-    t.string  "image_id"
-    t.text    "catalog_results"
-    t.boolean "location",         default: true
-    t.integer "position"
-  end
-
-  add_index "books", ["book_resource_id"], name: "index_books_on_book_resource_id", using: :btree
 
   create_table "database_dods", force: true do |t|
     t.integer "database_resource_id", null: false
