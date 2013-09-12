@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130912213013) do
+ActiveRecord::Schema.define(version: 20130912213713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,14 +81,6 @@ ActiveRecord::Schema.define(version: 20130912213013) do
   end
 
   add_index "dods", ["title"], name: "index_dods_on_title", using: :btree
-
-  create_table "feeds", force: true do |t|
-    t.string  "label",           default: "", null: false
-    t.string  "url",                          null: false
-    t.integer "rss_resource_id",              null: false
-  end
-
-  add_index "feeds", ["rss_resource_id"], name: "index_feeds_on_rss_resource_id", using: :btree
 
   create_table "guides", force: true do |t|
     t.string   "guide_name",                  null: false
@@ -268,21 +260,6 @@ ActiveRecord::Schema.define(version: 20130912213013) do
   end
 
   add_index "resources_users", ["resource_id", "user_id"], name: "index_resources_users_on_resource_id_and_user_id", using: :btree
-
-  create_table "rss_resources", force: true do |t|
-    t.string   "module_title", default: "",          null: false
-    t.string   "label"
-    t.datetime "updated_at"
-    t.string   "content_type", default: "RSS Feeds"
-    t.boolean  "global",       default: false
-    t.string   "created_by"
-    t.text     "information"
-    t.string   "topic",        default: ""
-    t.integer  "num_feeds",    default: 6
-    t.string   "style",        default: "mixed"
-    t.string   "slug"
-    t.boolean  "published",    default: false
-  end
 
   create_table "sessions", force: true do |t|
     t.string   "session_id"
