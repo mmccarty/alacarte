@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130912205910) do
+ActiveRecord::Schema.define(version: 20130912213013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,15 +126,6 @@ ActiveRecord::Schema.define(version: 20130912205910) do
   add_index "guides_users", ["guide_id"], name: "index_guides_users_on_guide_id", using: :btree
   add_index "guides_users", ["user_id"], name: "index_guides_users_on_user_id", using: :btree
 
-  create_table "image_managers", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "photo_file_name"
-    t.string   "photo_content_type"
-    t.integer  "photo_file_size"
-    t.datetime "photo_updated_at"
-  end
-
   create_table "inst_resources", force: true do |t|
     t.string   "module_title",    default: "",                   null: false
     t.string   "label"
@@ -194,9 +185,8 @@ ActiveRecord::Schema.define(version: 20130912205910) do
     t.text    "g_search"
     t.text    "g_results"
     t.text    "image_map"
-    t.string  "ica_page_title",      default: "Get Help with a Class"
-    t.string  "guide_page_title",    default: "Get Help with a Subject"
-    t.string  "tutorial_page_title", default: "Online Research Tutorials"
+    t.string  "ica_page_title",    default: "Get Help with a Class"
+    t.string  "guide_page_title",  default: "Get Help with a Subject"
     t.integer "logo_width"
     t.integer "logo_height"
     t.text    "types"
@@ -212,7 +202,7 @@ ActiveRecord::Schema.define(version: 20130912205910) do
     t.string  "book_search_label"
     t.text    "guide_box"
     t.text    "right_box"
-    t.boolean "enable_search",       default: true
+    t.boolean "enable_search",     default: true
   end
 
   create_table "masters", force: true do |t|
@@ -331,10 +321,10 @@ ActiveRecord::Schema.define(version: 20130912205910) do
     t.integer  "tag_id"
     t.integer  "taggable_id"
     t.string   "taggable_type"
+    t.datetime "created_at"
     t.integer  "tagger_id"
     t.string   "tagger_type"
-    t.string   "context",       limit: 128
-    t.datetime "created_at"
+    t.string   "context",       limit: 120
   end
 
   add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
@@ -342,30 +332,6 @@ ActiveRecord::Schema.define(version: 20130912205910) do
 
   create_table "tags", force: true do |t|
     t.string "name"
-  end
-
-  create_table "uploadables", force: true do |t|
-    t.string   "upload_file_name"
-    t.string   "upload_content_type"
-    t.integer  "upload_file_size"
-    t.datetime "upload_updated_at"
-    t.integer  "uploader_resource_id"
-    t.text     "upload_info"
-    t.string   "upload_link"
-  end
-
-  add_index "uploadables", ["id", "uploader_resource_id"], name: "index_uploadables_on_id_and_uploader_resource_id", using: :btree
-
-  create_table "uploader_resources", force: true do |t|
-    t.string   "module_title", default: "",            null: false
-    t.string   "label"
-    t.boolean  "global",       default: false
-    t.string   "created_by"
-    t.datetime "updated_at"
-    t.string   "content_type", default: "Attachments"
-    t.text     "info"
-    t.string   "slug"
-    t.boolean  "published",    default: false
   end
 
   create_table "url_resources", force: true do |t|

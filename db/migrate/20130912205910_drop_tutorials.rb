@@ -5,7 +5,5 @@ class DropTutorials < ActiveRecord::Migration
     drop_table :tutorials
     drop_table :unitizations
     drop_table :units
-
-    remove_column :locals, :tutorial_page_title if column_exists? :locals, :tutorial_page_title
   end
 end
