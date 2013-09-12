@@ -94,14 +94,6 @@
         = text_field :local, 'guide_page_title', class: 'input-xlarge'
 
     .control-group
-      %label.control-label{ :for => 'local_logo_url' }= _('Portal Title : Tutorials')
-      .controls
-        %p.muted
-          = _('The page title for the') + ' '
-          = link_to _("tutorial's portal"), :controller => 'ort', :action => 'published_tutorial'
-        = text_field :local, 'tutorial_page_title', class: 'input-xlarge'
-
-    .control-group
       %label.control-label{ :for => 'local_logo_url' }= _('Library Name &amp; URL')
       .controls
         %p.muted

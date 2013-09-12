@@ -6,7 +6,7 @@
     %h1.page-header
       Add to / Used on
     %p.muted
-      This page shows where the module is used. You can also add the module to multiple pages, guides, or tutorials at one time.
+      This page shows where the module is used. You can also add the module to multiple pages or guides at one time.
     - if @course_pages
       %h3
         Used on #{@course_pages.length} Pages
@@ -36,18 +36,3 @@
               = awesome_button edit_guide_path(guide), 'edit', 'Edit this guide'
               &nbsp;
               = awesome_button show_srg_path(guide), 'external-link', 'Preview this guide', '', { :target => '_blank' }
-    - if @tutorials
-      %hr
-      %h3
-        Used on #{@tutorials.length} Tutorials
-      %p
-        = awesome_button add_to_tutorial_module_path(@mod, type: @mod.class), 'plus', 'Add to Tutorials', 'btn'
-      %table.table.table-striped
-        - @tutorials.each do |tutorial|
-          %tr
-            %td
-              = raw tutorial.full_name
-            %td
-              = awesome_button edit_tutorial_path(tutorial), 'edit', 'Edit this tutorial'
-              &nbsp;
-              = awesome_button show_ort_path(tutorial), 'external-link', 'Preview this tutorial', '', { :target => '_blank' }

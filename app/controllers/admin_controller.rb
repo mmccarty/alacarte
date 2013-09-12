@@ -5,17 +5,14 @@ class AdminController < ApplicationController
     @user_count     = User.count
     @page_count     = Page.count
     @guide_count    = Guide.count
-    @tutorial_count = Tutorial.count
     @published_page_count     = Page.where(published: true).count
     @archived_page_count      = Page.where(archived: true).count
     @published_guide_count    = Guide.where(published: true).count
-    @published_tutorial_count = Tutorial.where(published: true).count
   end
 
   def auto_archive
     pages = Page.where(:published => true)
     guides = Guide.where(:published => true)
-    tutorials = Tutorial.where(:published => true)
     pages.each do |page|
       if page.updated_at < Time.now.months_ago(6)
         page.toggle!(:archived)
@@ -27,16 +24,10 @@ class AdminController < ApplicationController
         guide.toggle!(:published)
       end
     end
-    tutorials.each do |tutorial|
-      if tutorial.updated_at < Time.now.months_ago(12)
-        tutorial.toggle!(:archived)
-        tutorial.update_attribute(:published, false)
-      end
-    end
     redirect_to :back
   end
 
-  %w(guide page tutorial).each do |name|
+  %w(guide page).each do |name|
 
     define_method name.pluralize do
       @user = User.find params[:id]
@@ -125,11 +116,7 @@ class AdminController < ApplicationController
         instance_variable_set "@#{ name }", item
         user = item.users.find_by_id params[:uid]
         item.update_attribute(:created_by, item.users.at(1).name) if item.created_by.to_s == user.name.to_s
-        if name == 'tutorial'
-          item.remove_from_shared user
-        else
-          user.send "delete_#{ name }_tabs", item
-        end
+        user.send "delete_#{ name }_tabs", item
         flash[:notice] = _ 'User successfully removed.'
         redirect_to :action => "assign_#{ name }", :id => item
       end
@@ -147,7 +134,7 @@ class AdminController < ApplicationController
   end
 
   def customize_content_types
-    @guide_types = [['Course Guides', 'pages'], ['Subject Guides', 'guides'], ['Research Tutorials', 'tutorials']]
+    @guide_types = [['Course Guides', 'pages'], ['Subject Guides', 'guides']]
     @types = ::MODULES
     @selected = @local.types_list
     @selected_guides = @local.guides_list

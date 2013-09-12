@@ -10,7 +10,6 @@
 class Subject < ActiveRecord::Base
   has_and_belongs_to_many :guides, -> { order 'guide_name' }
   has_and_belongs_to_many :pages, -> { order 'course_num, course_name' }
-  has_many :tutorials, -> { order 'name' }
 
   validates :subject_code, presence: true, uniqueness: true
   validates :subject_name, presence: true, uniqueness: true
@@ -33,10 +32,6 @@ class Subject < ActiveRecord::Base
 
   def get_pages
     pages.select { |a| a.published? }.sort_by { |a| a.browse_title(subject_code) }
-  end
-
-  def get_tutorials
-    tutorials.select { |a| a.published? }.sort_by { |a| a.full_name }
   end
 
   def get_guides

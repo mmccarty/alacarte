@@ -247,37 +247,5 @@ describe User do
         expect(user.find_resource mod.id, mod.class).to eq res
       end
     end
-
-    describe 'has tutorials' do
-      it 'has by default no tutorials' do
-        expect(create(:author).tutorials).to be_empty
-      end
-
-      it 'can have tutorials' do
-        tutorial = create :tutorial
-        user = create :author
-        user.add_tutorial tutorial
-        expect(user.sort_tutorials nil).to eq [tutorial]
-      end
-
-      it 'adds the user to the list of tutorial authors' do
-        tutorial = create :tutorial
-        user = create :author
-        user.add_tutorial tutorial
-        expect(tutorial.users).to eq [user]
-      end
-    end
-
-    describe 'has units' do
-      it 'has by default no units' do
-        expect(create(:author).units).to be_empty
-      end
-
-      it 'can have units' do
-        user = create :author
-        unit = create :unit, created_by: user.id
-        expect(user.units).to eq [unit]
-      end
-    end
   end
 end

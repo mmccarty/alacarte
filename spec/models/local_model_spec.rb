@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Local do
   it 'should list all defined guide types' do
-    expect(Local.create.guides).to match_array %w(guides pages tutorials)
+    expect(Local.create.guides).to match_array %w(guides pages)
   end
 
   it 'should list all defined module types' do

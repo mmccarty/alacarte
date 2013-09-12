@@ -61,12 +61,10 @@ module ApplicationHelper
   def render_used_tooltip(mod)
     pages = mod.get_pages.collect{|p| h(p.header_title)}
     guides = mod.get_guides.collect{|p| h(p.guide_name)}
-    tutorials = mod.get_tutorials.collect{|p| h(p.full_name)}
     tip = ""
     tip += "<strong>" + h(mod.module_title).gsub(/'/, "\\\\'") + " is used on</strong> <br />"
     tip += "<strong>Pages: </strong>" + pages.to_sentence + "<br />" unless pages.length < 1 == true
     tip += "<strong>Guides: </strong>" + guides.to_sentence + "<br />" unless guides.length < 1 == true
-    tip += "<strong>Tutorials: </strong>" + tutorials.to_sentence + "<br />" unless tutorials.length < 1 == true
     tip += "<strong>A Default Contact Module</strong>" + "<br />" unless @user.get_profile.blank? or @user.get_profile.id != mod.id
     tip += "<strong>A Contact Module</strong>" + "<br />" if tip == ("<strong>" + h(mod.module_title).gsub(/'/, "\\\\'") + " is used on</strong> <br />")
     tip +  "Click to manage this module."

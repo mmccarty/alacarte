@@ -15,7 +15,7 @@
       - row_id = "row#{mod.id}#{mod.class}"
       %tr
         %td= awesome_button share_module_path(mod, type: mod.class), mod.shared? ? 'star' : 'star-empty', 'Share this module'
-        %td= awesome_button manage_module_path(mod, type: mod.class), mod.used? ? 'circle' : 'circle-blank', 'Add this module to a guide, page, or tutorial'
+        %td= awesome_button manage_module_path(mod, type: mod.class), mod.used? ? 'circle' : 'circle-blank', 'Add this module to a guide or page.'
         %td= truncate mod.label.html_safe, length: 55
         %td
           = awesome_button edit_module_path(mod, type: mod.class), 'edit', 'Edit this module'

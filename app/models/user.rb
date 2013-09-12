@@ -18,9 +18,6 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :guides
   has_and_belongs_to_many :pages
   has_and_belongs_to_many :resources
-  has_many :authorships,  :dependent => :destroy
-  has_many :tutorials, -> { order 'name' }, :through => :authorships
-  has_many :my_tutorials, -> { where('authorships.rights = 1').order 'name' }, :through => :authorships, :source => :tutorial
 
   attr_accessor :password_confirmation
 
@@ -129,10 +126,6 @@ class User < ActiveRecord::Base
     resources << resource
   end
 
-  def add_tutorial tutorial
-    tutorials << tutorial
-  end
-
   def num_modules
     resources.map(&:mod).compact.length
   end
@@ -149,21 +142,12 @@ class User < ActiveRecord::Base
     guides.select &:published
   end
 
-  def published_tutorials
-    tutorials.select &:published
-  end
-
-  def archived_tutorials
-    tutorials.select &:archived
-  end
-
   def recent_activity
     recent = lambda { |x| x.updated_at >= 7.days.ago }
     mods = resources.map(&:mod).compact.select &recent
     icaps = pages.select &recent
     srgs = guides.select &recent
-    orts = tutorials.select &recent
-    recents =  mods[0..5] + icaps[0..5] + srgs[0..5] + orts[0..5]
+    recents =  mods[0..5] + icaps[0..5] + srgs[0..5]
     recents.sort_by &:updated_at
   end
 
@@ -234,26 +218,6 @@ class User < ActiveRecord::Base
 
   def sorted_pages sort, reverse, list
     list.sort_by { |a| a.course_name.downcase }.uniq
-  end
-
-  def sort_search_tutorials sort_by, search_results
-    sort_tuts sort_by
-  end
-
-  def sort_tutorials sort_by
-    sorted_tuts my_tutorials
-  end
-
-  def sorted_tuts list
-    list.sort_by { |a| a.name.downcase }.uniq
-  end
-
-  def sort_units sort_by
-    units
-  end
-
-  def units
-    Unit.where created_by: id
   end
 
   def password

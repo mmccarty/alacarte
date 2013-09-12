@@ -4,8 +4,6 @@ class DashboardsController < ApplicationController
   def show
     @num_published_pages = @user.published_pages.length
     @num_archived_pages = @user.archived_pages.length
-    @num_published_tutorials = @user.published_tutorials.length
-    @num_archived_tutorials = @user.archived_tutorials.length
     @num_published_guides = @user.published_guides.length
     @num_modules = @user.num_modules
     @recent_activity = @user.recent_activity

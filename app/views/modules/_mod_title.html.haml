@@ -7,32 +7,14 @@
     &nbsp;
     %i.icon-question-sign{ :data => { :content => 'This is a unique descriptive label for the module. This is the name the module will be listed under in the tool.', :html => 'true', :trigger => 'hover' } }
 
-- if !@tutorial.blank?
-  .control-group
-    %label.control-label{ :for => "page_course_name" }
-      Module Title
-      %span.required *
-    .controls
-      = text_field :mod, :module_title, :class => 'input-xlarge'
-      &nbsp;
-      %i.icon-question-sign{ :data => { :content => 'This is the module\'s title that will appear to the public.<br/><br/>Shorter titles should be used in two column layouts.', :html => 'true', :trigger => 'hover' } }
-  .control-group
-    %label.control-label{:for => "page_course_name"}
-      Slug
-      %span.required *
-    .controls
-      = text_field :mod, :slug, :class => 'input-xlarge'
-      &nbsp;
-      %i.icon-question-sign{ :data => { :content => 'Enter a shorten name for the module. This name should not exceed 25 character. This name is what will appear in the navigation.', :trigger => 'hover' } }
-- else
-  .control-group
-    %label.control-label{ :for => "page_course_name" }
-      Module Title
-      %span.required *
-    .controls
-      = text_field :mod, :module_title, :class => 'input-xlarge'
-      &nbsp;
-      %i.icon-question-sign{ :data => { :content => 'This is the module\'s title that will appear to the public.<br/><br/> Shorter titles should be used in two column layouts.', :html => 'true', :trigger => 'hover' } }
+.control-group
+  %label.control-label{ :for => "page_course_name" }
+    Module Title
+    %span.required *
+  .controls
+    = text_field :mod, :module_title, :class => 'input-xlarge'
+    &nbsp;
+    %i.icon-question-sign{ :data => { :content => 'This is the module\'s title that will appear to the public.<br/><br/> Shorter titles should be used in two column layouts.', :html => 'true', :trigger => 'hover' } }
 
 .control-group
   %label.control-label{ :for => "tag_list" }

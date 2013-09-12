@@ -1,7 +1,0 @@
-= radio_button_tag question.id, answer.value, nil,       |
-      :onclick => "$('feedback#{answer.id}').toggle()" , |
-  :onblur => "$('feedback#{answer.id}').toggle()"        |
-%strong
-  = answer.value.blank? ? "" : answer.value.gsub("\n",'<br />')
-.feedback{:id => "feedback#{answer.id}", :style => "display: none;"}
-  = answer.feedback.blank? ? "" : answer.feedback.gsub("\n",'<br />')

@@ -36,20 +36,6 @@ class SrgController < ApplicationController
     @tags = Guide.where(:published => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
   end
 
-  def internal_guides
-    @from = 'internal'
-    @meta_keywords = "Internal, Tutorials, Library Guides"
-    @meta_description = @local.tutorial_page_title
-    @title = "Internal Guides & Tutorials"
-    @tutorials = Tutorial.get_internal_tutorials
-    @subjects = @tutorials.collect{|t| t.subject}.flatten.uniq.compact
-    @tutorials = @tutorials.select{|t| t.subject.blank?}
-    @tags = Tutorial.where(:published => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
-    master = Master.find_by_value("Internal")
-    @guides = master.published_guides if master
-    render "ort/published_tutorials"
-  end
-
   def tagged
     @tag = params[:id]
     @guides = Guide.tagged_with(@tag).where published: true

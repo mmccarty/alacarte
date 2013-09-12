@@ -46,8 +46,4 @@ describe MiscellaneousResource do
   it 'belongs by default to no pages' do
     expect(create(:miscellaneous_resource).get_pages).to be_empty
   end
-
-  it 'belongs by default to no tutorials' do
-    expect(create(:miscellaneous_resource).get_tutorials).to be_empty
-  end
 end

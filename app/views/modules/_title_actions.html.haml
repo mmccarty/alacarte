@@ -4,9 +4,6 @@
 - elsif @guide.present?
   = render 'guide/side_bar'
   = render 'guide/title_actions'
-- elsif @tutorial.present?
-  = render 'tutorial/side_bar'
-  = render 'tutorial/title_actions'
 - else
   = render 'side_bar'
   %span= @mod.module_title

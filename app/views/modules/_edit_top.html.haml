@@ -1,23 +1,16 @@
-- if !@page.blank?
+- if @page.present?
   = render :partial => 'page/side_bar'
   %h3.title
     = render :partial => '/page/title_actions'
   %h4
     = link_to "Edit Page", :controller => 'page' , :action =>'edit', :id => @page
     >> Edit #{@mod.module_title}
-- elsif !@guide.blank?
+- elsif @guide.present?
   = render :partial => 'guide/side_bar'
   %h3.title
     = render :partial => 'guide/title_actions'
   %h4
     = link_to "Edit Guide", :controller => 'guide', :action =>'edit', :id => @guide
-    >> Edit #{@mod.module_title}
-- elsif !@tutorial.blank?
-  = render :partial => 'tutorial/side_bar'
-  %h3.title
-    = render :partial => 'tutorial/title_actions'
-  %h4
-    = link_to "Units", :controller => 'unit', :action =>'units', :id => @tutorial
     >> Edit #{@mod.module_title}
 - else
   = render :partial => 'module/side_bar'

@@ -56,7 +56,7 @@ class Local < ActiveRecord::Base
   end
 
   def initialize_types
-    self.guides = %w(pages guides tutorials)
+    self.guides = %w(pages guides)
     self.types  = %w(miscellaneous database inst lib rss url).map { |s| "#{ s }_resource" }
   end
 end

@@ -91,7 +91,6 @@
       @mod = find_mod params[:id], params[:type]
       @course_pages = @mod.get_pages if @local.guides_list.include?('pages')
       @guides = @mod.get_guides if @local.guides_list.include?('guides')
-      @tutorials = nil #@mod.get_tutorials if @local.guides_list.include?('tutorials')
     rescue
       redirect_to :back
     end
@@ -100,12 +99,6 @@
   def add_item
     session[:tabs] ||= []
     session[:tabs] << params[:tid] unless session[:tabs].include? params[:tid]
-    render nothing: true
-  end
-
-  def add_tutorial
-    session[:units] ||= []
-    session[:units] << params[:tid] unless session[:units].include? params[:tid]
     render nothing: true
   end
 
@@ -141,30 +134,6 @@
 
   def add_to_page
     add_to_item "page"
-  end
-
-  def add_to_tutorial
-    session[:units] ||= []
-    begin
-      @mod = find_mod(params[:id],params[:type])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to  :action => 'index', :list=> 'mine' and return
-    else
-      @sort = params[:sort] ||= 'name'
-      @tutorials =  @user.sort_tutorials @sort
-      @tutorials = paginate_list @tutorials, (params[:page] ||= 1), @sort
-      if request.xhr?
-        render :partial => "add_tutorial_list", :layout => false
-      elsif request.post?
-        session[:units].each do |tid|
-          unit = Unit.find tid
-          unit.add_module params[:id], params[:type]
-        end
-        session[:units] = nil
-        flash[:message] = "#{@mod.module_title} successfully added these tutorials."
-        redirect_to manage_module_path(@mod, type: @mod.class)
-      end
-    end
   end
 
   def share_update

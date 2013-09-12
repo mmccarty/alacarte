@@ -2,7 +2,6 @@ class UploaderController < ApplicationController
   before_filter :module_types
   before_filter :current_page
   before_filter :current_guide
-  before_filter :current_tutorial
   layout 'admin'
 
   def show

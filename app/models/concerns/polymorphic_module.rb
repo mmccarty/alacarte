@@ -35,10 +35,6 @@ module PolymorphicModule
     get_resource_uses { |r| r.tabs.map &:page }
   end
 
-  def get_tutorials
-    get_resource_uses { |r| r.units.map &:tutorials }
-  end
-
   private
 
   def get_resource_uses(&block)

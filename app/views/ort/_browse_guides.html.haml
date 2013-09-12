@@ -1,7 +1,0 @@
-%h2 Browse Guides
-- if guides
-  %dl
-    - for guide in guides
-      = render :partial => 'shared/list_page', :locals => { :page => guide, :controller => 'srg' }
-  %p
-    Sorry, there are no guides available.

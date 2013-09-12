@@ -11,18 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130912204127) do
+ActiveRecord::Schema.define(version: 20130912205910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "authorships", force: true do |t|
-    t.integer "tutorial_id",             null: false
-    t.integer "user_id",                 null: false
-    t.integer "rights",      default: 1, null: false
-  end
-
-  add_index "authorships", ["tutorial_id", "user_id"], name: "index_authorships_on_tutorial_id_and_user_id", using: :btree
 
   create_table "book_resources", force: true do |t|
     t.string   "module_title",  default: "",      null: false
@@ -275,14 +267,6 @@ ActiveRecord::Schema.define(version: 20130912204127) do
   add_index "pages_users", ["page_id"], name: "index_pages_users_on_page_id", using: :btree
   add_index "pages_users", ["user_id"], name: "index_pages_users_on_user_id", using: :btree
 
-  create_table "resourceables", force: true do |t|
-    t.integer "resource_id", null: false
-    t.integer "unit_id",     null: false
-    t.integer "position"
-  end
-
-  add_index "resourceables", ["resource_id", "unit_id"], name: "index_resourceables_on_resource_id_and_unit_id", using: :btree
-
   create_table "resources", force: true do |t|
     t.integer "mod_id"
     t.string  "mod_type"
@@ -347,10 +331,10 @@ ActiveRecord::Schema.define(version: 20130912204127) do
     t.integer  "tag_id"
     t.integer  "taggable_id"
     t.string   "taggable_type"
-    t.datetime "created_at"
     t.integer  "tagger_id"
     t.string   "tagger_type"
-    t.string   "context",       limit: 120
+    t.string   "context",       limit: 128
+    t.datetime "created_at"
   end
 
   add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
@@ -358,44 +342,6 @@ ActiveRecord::Schema.define(version: 20130912204127) do
 
   create_table "tags", force: true do |t|
     t.string "name"
-  end
-
-  create_table "tutorials", force: true do |t|
-    t.integer  "subject_id"
-    t.string   "name",                                                     null: false
-    t.text     "description"
-    t.boolean  "graded",                              default: false
-    t.boolean  "published",                           default: false
-    t.boolean  "archived",                            default: false
-    t.integer  "created_by"
-    t.datetime "updated_at"
-    t.string   "course_num"
-    t.text     "section_num"
-    t.string   "pass",                                default: "p@ssword"
-    t.string   "attachment_file_name",    limit: 550
-    t.string   "attachment_content_type", limit: 250
-    t.integer  "attachment_file_size"
-    t.datetime "attachment_updated_at"
-    t.boolean  "internal"
-  end
-
-  add_index "tutorials", ["created_by"], name: "index_tutorials_on_created_by", using: :btree
-  add_index "tutorials", ["subject_id"], name: "index_tutorials_on_subject_id", using: :btree
-
-  create_table "unitizations", force: true do |t|
-    t.integer "unit_id",     null: false
-    t.integer "tutorial_id", null: false
-    t.integer "position"
-  end
-
-  add_index "unitizations", ["unit_id", "tutorial_id"], name: "index_unitizations_on_unit_id_and_tutorial_id", using: :btree
-
-  create_table "units", force: true do |t|
-    t.string   "title",                    null: false
-    t.text     "description"
-    t.integer  "created_by"
-    t.datetime "updated_at"
-    t.string   "slug",        default: ""
   end
 
   create_table "uploadables", force: true do |t|
