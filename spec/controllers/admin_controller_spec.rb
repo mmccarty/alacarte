@@ -61,7 +61,7 @@ describe AdminController do
 
     end
 
-    %w(guide page tutorial).each do |thing|
+    %w(guide page).each do |thing|
       it_behaves_like 'guest access', thing
     end
   end
@@ -136,7 +136,7 @@ describe AdminController do
       end
     end
 
-    shared_examples 'a guide, page, or tutorial' do |thing|
+    shared_examples 'a guide, page' do |thing|
       describe "GET ##{ thing }s" do
         before :each do
           @thing = create thing
@@ -285,8 +285,8 @@ describe AdminController do
       end
     end
 
-    %w(guide page tutorial).each do |thing|
-      it_behaves_like 'a guide, page, or tutorial', thing
+    %w(guide page).each do |thing|
+      it_behaves_like 'a guide, page', thing
     end
 
     context 'customizations' do

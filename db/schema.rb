@@ -11,20 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130912202533) do
+ActiveRecord::Schema.define(version: 20130912203459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "answers", force: true do |t|
-    t.integer "question_id"
-    t.text    "value"
-    t.boolean "correct",     default: false
-    t.integer "position"
-    t.text    "feedback"
-  end
-
-  add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
 
   create_table "authorships", force: true do |t|
     t.integer "tutorial_id",             null: false
@@ -298,30 +288,6 @@ ActiveRecord::Schema.define(version: 20130912202533) do
   add_index "pages_users", ["page_id"], name: "index_pages_users_on_page_id", using: :btree
   add_index "pages_users", ["user_id"], name: "index_pages_users_on_user_id", using: :btree
 
-  create_table "questions", force: true do |t|
-    t.integer  "quiz_resource_id",                null: false
-    t.text     "question",                        null: false
-    t.integer  "position"
-    t.integer  "points",           default: 0
-    t.string   "q_type",           default: "MC"
-    t.datetime "updated_at"
-  end
-
-  add_index "questions", ["quiz_resource_id"], name: "index_questions_on_quiz_resource_id", using: :btree
-
-  create_table "quiz_resources", force: true do |t|
-    t.string   "module_title",                  null: false
-    t.string   "label"
-    t.text     "description"
-    t.string   "created_by"
-    t.datetime "updated_at"
-    t.string   "content_type", default: "Quiz"
-    t.boolean  "global",       default: false
-    t.boolean  "graded",       default: false
-    t.string   "slug"
-    t.boolean  "published",    default: false
-  end
-
   create_table "reserve_resources", force: true do |t|
     t.string   "module_title",     default: "",                null: false
     t.string   "label"
@@ -356,18 +322,6 @@ ActiveRecord::Schema.define(version: 20130912202533) do
 
   add_index "resources_users", ["resource_id", "user_id"], name: "index_resources_users_on_resource_id_and_user_id", using: :btree
 
-  create_table "results", force: true do |t|
-    t.integer  "student_id"
-    t.integer  "score",       default: 0
-    t.datetime "updated_at"
-    t.integer  "question_id"
-    t.text     "guess"
-    t.integer  "position"
-  end
-
-  add_index "results", ["question_id"], name: "index_results_on_question_id", using: :btree
-  add_index "results", ["student_id"], name: "index_results_on_student_id", using: :btree
-
   create_table "rss_resources", force: true do |t|
     t.string   "module_title", default: "",          null: false
     t.string   "label"
@@ -390,16 +344,6 @@ ActiveRecord::Schema.define(version: 20130912202533) do
   end
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
-
-  create_table "students", force: true do |t|
-    t.string   "firstname",   default: ""
-    t.datetime "created_on"
-    t.string   "onid",        default: ""
-    t.string   "sect_num"
-    t.integer  "tutorial_id"
-    t.string   "email",       default: ""
-    t.string   "lastname",    default: ""
-  end
 
   create_table "subjects", force: true do |t|
     t.string "subject_code", default: ""
