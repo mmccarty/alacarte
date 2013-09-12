@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130912203459) do
+ActiveRecord::Schema.define(version: 20130912204127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,19 +49,6 @@ ActiveRecord::Schema.define(version: 20130912203459) do
   end
 
   add_index "books", ["book_resource_id"], name: "index_books_on_book_resource_id", using: :btree
-
-  create_table "course_widgets", force: true do |t|
-    t.string   "module_title", default: "",                   null: false
-    t.string   "label"
-    t.text     "widget"
-    t.text     "information"
-    t.datetime "updated_at"
-    t.string   "content_type", default: "Multi-Media Widget"
-    t.boolean  "global",       default: false
-    t.string   "created_by"
-    t.string   "slug"
-    t.boolean  "published",    default: false
-  end
 
   create_table "database_dods", force: true do |t|
     t.integer "database_resource_id", null: false
@@ -288,20 +275,6 @@ ActiveRecord::Schema.define(version: 20130912203459) do
   add_index "pages_users", ["page_id"], name: "index_pages_users_on_page_id", using: :btree
   add_index "pages_users", ["user_id"], name: "index_pages_users_on_user_id", using: :btree
 
-  create_table "reserve_resources", force: true do |t|
-    t.string   "module_title",     default: "",                null: false
-    t.string   "label"
-    t.text     "reserves"
-    t.text     "library_reserves"
-    t.string   "course_title"
-    t.datetime "updated_at"
-    t.string   "content_type",     default: "Course Reserves"
-    t.boolean  "global",           default: false
-    t.string   "created_by"
-    t.string   "slug"
-    t.boolean  "published",        default: false
-  end
-
   create_table "resourceables", force: true do |t|
     t.integer "resource_id", null: false
     t.integer "unit_id",     null: false
@@ -374,10 +347,10 @@ ActiveRecord::Schema.define(version: 20130912203459) do
     t.integer  "tag_id"
     t.integer  "taggable_id"
     t.string   "taggable_type"
+    t.datetime "created_at"
     t.integer  "tagger_id"
     t.string   "tagger_type"
-    t.string   "context",       limit: 128
-    t.datetime "created_at"
+    t.string   "context",       limit: 120
   end
 
   add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
