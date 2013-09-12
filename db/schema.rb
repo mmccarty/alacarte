@@ -11,31 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130912215726) do
+ActiveRecord::Schema.define(version: 20130912221041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "database_dods", force: true do |t|
-    t.integer "database_resource_id", null: false
-    t.integer "dod_id",               null: false
-    t.text    "description"
-    t.integer "location"
-  end
-
-  add_index "database_dods", ["database_resource_id", "dod_id"], name: "index_database_dods_on_database_resource_id_and_dod_id", using: :btree
-
-  create_table "database_resources", force: true do |t|
-    t.string   "created_by"
-    t.datetime "updated_at"
-    t.string   "module_title", default: "",          null: false
-    t.boolean  "global",       default: false
-    t.string   "content_type", default: "Databases"
-    t.string   "label"
-    t.text     "info"
-    t.string   "slug"
-    t.boolean  "published",    default: false
-  end
 
   create_table "dods", force: true do |t|
     t.boolean "visible",     default: true

@@ -20,9 +20,6 @@
 #
 
 class Dod < ActiveRecord::Base
-  has_many :database_dods, :dependent => :destroy
-  has_many :database_resources, :through => :database_dods
-
   validates :title,
     :presence => { :message => _('may not be blank!') },
     :uniqueness => {  :message => _('{{value}} is already being used!') }
