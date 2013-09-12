@@ -98,16 +98,6 @@ describe UnitsController do
           post :update, tutorial_id: @tutorial.id, id: @unit.id, unit: { tag_list: 'this, that, the other' }
           expect(@unit.tags.map(&:name).sort).to eq ['that', 'the other', 'this']
         end
-
-        it 'redirects to the list of units on save' do
-          post :update, tutorial_id: @tutorial.id, id: @unit.id, commit: 'Save'
-          expect(response).to redirect_to tutorial_units_path(@tutorial)
-        end
-
-        it 'redirects to the #add_modules page on request' do
-          post :update, tutorial_id: @tutorial.id, id: @unit.id, commit: 'Save & Add Modules'
-          expect(response).to redirect_to add_modules_tutorial_unit_path(@tutorial, @unit)
-        end
       end
     end
   end

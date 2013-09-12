@@ -19,7 +19,7 @@ class BookResource < ActiveRecord::Base
   include PolymorphicModule
 
   acts_as_taggable
-  has_many :books, order: :position, dependent: :destroy
+  has_many :books, dependent: :destroy
   has_many :resources, as: :mod, dependent: :destroy
 
   before_create :private_label

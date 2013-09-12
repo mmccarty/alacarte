@@ -19,14 +19,13 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :pages
   has_and_belongs_to_many :resources
   has_many :authorships,  :dependent => :destroy
-  has_many :tutorials, :through => :authorships, :order => 'name'
-  has_many :my_tutorials, :through => :authorships, :source => :tutorial, :conditions => 'authorships.rights = 1', :order => 'name'
+  has_many :tutorials, -> { order 'name' }, :through => :authorships
+  has_many :my_tutorials, -> { where('authorships.rights = 1').order 'name' }, :through => :authorships, :source => :tutorial
 
-  attr_protected :id, :salt
   attr_accessor :password_confirmation
 
   validates :name, length: { in: 2..54 }
-  validates :email, format: { with: /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i }, uniqueness: true
+  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, uniqueness: true
   validates :password, length: { in: 2..54 }, confirmation: true
   validates :password_confirmation, presence: true
   validates :role, inclusion: { in: %w(admin author pending) }

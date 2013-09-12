@@ -84,11 +84,6 @@ describe BookController do
         expect(assigns(:mod)).to_not be_nil
       end
 
-      it 'renders the :book template' do
-        get :save_book, id: @book_resource.id
-        expect(response).to render_template ['book/book', '_book']
-      end
-
       it 'creates a new book' do
         expect {
           get :save_book, id: @book_resource.id

@@ -17,7 +17,6 @@ class ImageManager < ActiveRecord::Base
   :url => "/photos/:attachment/:style/:basename.:extension",
   :path => ":rails_root/public/photos/:attachment/:style/:basename.:extension"
 
-  attr_protected :upload_file_name, :upload_content_type, :upload_size,:photo_file_name, :photo_content_type, :photo_size
   validates_presence_of :photo_file_name, :message => _('File name can not be blank')
   validates_uniqueness_of :photo_file_name, :message => _('That photo has already been uploaded')
   validates_attachment_size :photo, :less_than => 5.megabytes, :message => _('File size must be less than 5 MB')

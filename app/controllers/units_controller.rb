@@ -15,7 +15,7 @@ class UnitsController < ApplicationController
   def create
     @tutorial = @user.tutorials.find params[:tutorial_id]
     if request.post?
-      @unit = Unit.new params[:unit]
+      @unit = Unit.new unit_params
       @unit.created_by = @user.id
       if @unit.save
         @tutorial.units << @unit
@@ -43,7 +43,7 @@ class UnitsController < ApplicationController
     @unit = @tutorial.units.find params[:id]
     session[:unit] = @unit.id
     @mods = @unit.resourceables
-    @unit.update_attributes params[:unit]
+    @unit.update_attributes unit_params
     if @unit.save
       case params[:commit]
         when "Save"
@@ -161,5 +161,9 @@ class UnitsController < ApplicationController
     session[:tutorial_id] = @tutorial.id
     session[:guide_id] = nil
     session[:page_id] = nil
+  end
+
+  def unit_params
+    params.require(:unit).permit :description, :title, :tag_list
   end
 end

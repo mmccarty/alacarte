@@ -18,9 +18,9 @@ class Guide < ActiveRecord::Base
 
   acts_as_taggable
   has_and_belongs_to_many :users
-  has_many :tabs, as: 'tabable', order: 'position', dependent: :destroy
+  has_many :tabs, -> { order 'position' }, as: 'tabable', dependent: :destroy
   has_and_belongs_to_many :masters
-  has_and_belongs_to_many :subjects, order: 'subject_name'
+  has_and_belongs_to_many :subjects, -> { order 'subject_name' }
   belongs_to :resource
 
   validates :guide_name, presence: true, uniqueness: true

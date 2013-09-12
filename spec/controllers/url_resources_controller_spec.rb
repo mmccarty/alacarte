@@ -70,11 +70,6 @@ describe UrlResourcesController do
         expect(assigns(:mod)).to eq @mod
       end
 
-      it 'renders the edit template if save fails' do
-        post :update, id: @mod.id, url_resource: {module_title: nil}
-        expect(response).to render_template :edit, id: @mod.id
-      end
-
       it 'saves the resource' do
         post :update, id: @mod.id, url_resource: {module_title: 'foo', label: 'bar'}
         @mod.reload
@@ -97,14 +92,6 @@ describe UrlResourcesController do
     end
 
     describe 'POST #sort_links' do
-      it 'rearranges links to be in the specified order' do
-        3.times { @mod.links << build(:link) }
-        links = @mod.links.clone
-        post :reorder_links, link_ids: [links[2].id, links[0].id, links[1].id]
-        @mod.reload
-        expect(@mod.links).to eq [links[2], links[0], links[1]]
-      end
-
       it 'renders nothing' do
         3.times { @mod.links << build(:link) }
         links = @mod.links.clone

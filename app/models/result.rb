@@ -14,7 +14,6 @@
 class Result < ActiveRecord::Base
   belongs_to :student
   belongs_to :question
-  attr_protected :id
 
   def self.saved_answer(id, sid)
     where("question_id = ? AND student_id = ?", id, sid).first

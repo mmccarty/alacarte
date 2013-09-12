@@ -13,7 +13,7 @@ class PagesController < ApplicationController
   end
 
   def create
-    @page = Page.new params[:page]
+    @page = Page.new page_params
     if @page.save
       if session[:item_user_id]
         user = User.find session[:item_user_id]
@@ -44,7 +44,7 @@ class PagesController < ApplicationController
 
   def update
     @page = find_item
-    @page.update_attributes params[:page]
+    @page.update_attributes page_params
     @page.add_subjects params[:subjects] if params[:subjects].present?
     if @page.save
       redirect_to @page
@@ -61,7 +61,7 @@ class PagesController < ApplicationController
       redirect_to pages_path and return
     else
       if request.put?
-        @page.update_attributes params[:page]
+        @page.update_attributes page_params
         if @page.save
           flash[:notice] = "The Contact Module was successfully changed."
           redirect_to @page and return
@@ -89,7 +89,7 @@ class PagesController < ApplicationController
     @sucurrent = 'current'
     @page_url = url_for :controller => 'ica', :action => 'index', :id => @page
     @message =
-      "A new library course guide has been created for #{@page.header_title}. The link to the page is: #{@page_url}. Please inform your students of the page and include the link in your course material.
+      "A new library course page has been created for #{@page.header_title}. The link to the page is: #{@page_url}. Please inform your students of the page and include the link in your course material.
 Please contact me if you have any questions or suggestions.
 -#{@user.name} "
     if request.post?
@@ -149,5 +149,12 @@ Please contact me if you have any questions or suggestions.
 
   def item_name
     @page.item_name
+  end
+
+  private
+
+  def page_params
+    params.require(:page).permit :course_name, :course_num, :tag_list, :resource_id, :subject_ids, :sect_num, :term,
+                                 :year, :campus, :page_description
   end
 end

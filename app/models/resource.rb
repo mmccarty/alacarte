@@ -19,8 +19,6 @@ class Resource < ActiveRecord::Base
   has_many :guides
   has_many :pages
 
-  attr_protected :id
-
   def self.global_modules(s, rev)
     global_mods = all.collect { |a| a.mod if a.mod and a.mod.global? }.compact
     if s.in? %w(content_type created_by label)

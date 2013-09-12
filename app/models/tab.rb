@@ -15,7 +15,7 @@ class Tab < ActiveRecord::Base
   include HasModules
 
   belongs_to :tabable, polymorphic: true
-  has_many :tab_resources, order: :position, dependent: :destroy
+  has_many :tab_resources, -> { order 'position' }, dependent: :destroy
   has_many :resources, through: :tab_resources
   acts_as_list scope: 'tabable_id=#{tabable_id} AND tabable_type=\'#{tabable_type}\''
 

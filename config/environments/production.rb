@@ -48,4 +48,6 @@ Alacarte::Application.configure do
   config.active_support.deprecation = :notify
 
   config.assets.precompile += %w(font-awesome-ie7.min.css)
+
+  config.eager_load = true
 end

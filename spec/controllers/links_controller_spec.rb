@@ -49,7 +49,7 @@ describe LinksController do
     end
 
     describe 'PUT #new' do
-      it 'assigns the requested dod to @dod' do
+      it 'assigns the requested link to @link' do
         put :new, url_resource_id: @url_resource.id
         expect(assigns(:link)).to_not be_nil
       end
@@ -62,7 +62,7 @@ describe LinksController do
     end
 
     describe 'GET #edit' do
-      it 'assigns the requested dod to @dod' do
+      it 'assigns the requested link to @link' do
         get :edit, url_resource_id: @url_resource.id, id: @link.id
         expect(assigns(:link)).to_not be_nil
       end
@@ -74,10 +74,9 @@ describe LinksController do
     end
 
     describe 'PUT #create' do
-      it 'creates a new dod' do
+      it 'creates a new link' do
         expect {
-          put :create, url_resource_id: @url_resource.id, link: {description: 'test link',
-                                                                 url: 'http://foo.com'}
+          put :create, url_resource_id: @url_resource.id, link: {description: 'test link', url: 'http://foo.com'}
         }.to change(Link, :count).by(1)
       end
 

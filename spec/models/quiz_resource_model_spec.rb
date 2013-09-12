@@ -27,12 +27,12 @@ describe QuizResource do
 
     it 'clones contain the same questions as the original' do
       copied_mod = @mod.clone
-      expect(copied_mod.questions).to eq @questions
+      expect(copied_mod.questions).to match_array @questions
     end
 
     it 'can generate a list of stand alone copied questions' do
       questions = @mod.copy_questions
-      expect(questions).to eq @questions
+      expect(questions).to match_array @questions
     end
 
     it 'can save questions' do
@@ -51,5 +51,4 @@ describe QuizResource do
       expect(@mod.possible_points).to eq 3
     end
   end
-
 end

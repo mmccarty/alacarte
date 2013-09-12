@@ -25,8 +25,8 @@ class Page < ActiveRecord::Base
 
   acts_as_taggable
   has_and_belongs_to_many :users
-  has_many :tabs, :as => 'tabable',  :order => 'position', :dependent => :destroy
-  has_and_belongs_to_many :subjects, :order => 'subject_code'
+  has_many :tabs, -> { order 'position' }, :as => 'tabable', :dependent => :destroy
+  has_and_belongs_to_many :subjects, -> { order 'subject_code' }
   belongs_to :resource
 
   serialize :relateds
@@ -39,13 +39,11 @@ class Page < ActiveRecord::Base
     :message => _('is already in use. Change the Page Title to make a unique page.')
 
   validates_format_of :sect_num,
-    :with => /^\d*$/,
+    :with => /\A\d*\z/,
     :message => _('must be a number or blank')
   validates_format_of :course_num,
-    :with => /^\d+(\/\d+)?$/,
+    :with => /\A\d+(\/\d+)?\z/,
     :message => _('must be a number or numbers (e.g, 121 or 121/123).')
-
-  attr_protected :id
 
   searchable do
     text :course_name, :page_description

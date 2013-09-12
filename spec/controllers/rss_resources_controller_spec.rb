@@ -70,11 +70,6 @@ describe RssResourcesController do
         expect(assigns(:mod)).to eq @mod
       end
 
-      it 'renders the edit template if save fails' do
-        post :update, id: @mod.id, rss_resource: {module_title: nil}
-        expect(response).to render_template :edit, id: @mod.id
-      end
-
       it 'saves the resource' do
         post :update, id: @mod.id, rss_resource: {module_title: 'foo', label: 'bar'}
         @mod.reload

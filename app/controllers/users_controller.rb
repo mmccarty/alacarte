@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new params[:user]
+    @user = User.new user_params
     url = login_url
     if @user.save
       begin
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find params[:id]
-    @user.update_attributes params[:user]
+    @user.update_attributes user_params
     if @user.save
       flash[:notice] = 'User was successfully updated.'
       redirect_to users_path
@@ -93,5 +93,11 @@ class UsersController < ApplicationController
 
     flash[:notice] = "User successfully deleted."
     redirect_to action: :pending
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit :name, :email, :role, :password, :password_confirmation
   end
 end

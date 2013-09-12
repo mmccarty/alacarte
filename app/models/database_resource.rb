@@ -19,7 +19,7 @@ class DatabaseResource < ActiveRecord::Base
 
   acts_as_taggable
   has_many :resources, :as => :mod, :dependent => :destroy
-  has_many :database_dods, :dependent => :destroy, :order => :location
+  has_many :database_dods, :dependent => :destroy
   has_many :dods, :through => :database_dods
 
   before_create :private_label

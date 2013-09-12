@@ -11,7 +11,7 @@ class InstResourcesController < ApplicationController
 
   def update
     @mod = InstResource.find params[:id]
-    @mod.update_attributes params[:inst_resource]
+    @mod.update_attributes inst_resource_params
     if @mod.save
       redirect_to @mod
     else
@@ -26,5 +26,11 @@ class InstResourcesController < ApplicationController
       create_and_add_resource @user, @new_mod
       redirect_to edit_inst_resource_path(@new_mod)
     end
+  end
+
+  private
+
+  def inst_resource_params
+    params.require(:inst_resource).permit :module_title, :email
   end
 end

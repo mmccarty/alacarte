@@ -24,10 +24,10 @@
 class Tutorial < ActiveRecord::Base
   acts_as_taggable
   has_many :units, :through => :unitizations
-  has_many :unitizations, :order => :position, :dependent => :destroy
+  has_many :unitizations, :dependent => :destroy
   has_many :users, :through => :authorships
   has_many :authorships,  :dependent => :destroy
-  has_many :students, :order => :lastname, :dependent => :destroy
+  has_many :students, :dependent => :destroy
   belongs_to :subject
 
   serialize :section_num
@@ -45,13 +45,11 @@ class Tutorial < ActiveRecord::Base
     :message => _('is already in use. Change the Tutorial title to make it unique.')
 
   validates_format_of :section_num,
-    :with =>  /^\d+(,\d+)*$/,
+    :with =>  /\A\d+(,\d+)*\z/,
     :message => _('must be a comma seperated list of numbers or blank')
   validates_format_of :course_num,
-    :with => /^\d+(\/\d+)?$/,
+    :with => /\A\d+(\/\d+)?\z/,
     :message => _('must be a number or number/number.')
-
-  attr_protected :id
 
   def self.get_published_tutorials
     self.where("published = ? AND (internal = 't' OR internal IS NULL)", true).order 'name'

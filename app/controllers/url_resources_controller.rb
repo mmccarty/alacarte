@@ -13,7 +13,7 @@ class UrlResourcesController < ApplicationController
 
   def update
     @mod = UrlResource.find params[:id]
-    @mod.update_attributes params[:url_resource]
+    @mod.update_attributes url_resource_params
     if @mod.save
       redirect_to @mod
     else
@@ -39,5 +39,11 @@ class UrlResourcesController < ApplicationController
       end
     end
     render :nothing => true
+  end
+
+  private
+
+  def url_resource_params
+    params.require(:url_resource).permit :module_title, :label
   end
 end

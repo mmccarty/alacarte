@@ -31,7 +31,7 @@ describe User do
   end
 
   it 'requires the password and password confirmation to match' do
-    expect(build :user, password: 'asdf', password_confirmation: 'aoeu').to have(1).errors_on :password
+    expect(build :user, password: 'asdf', password_confirmation: 'aoeu').to have(1).errors_on :password_confirmation
   end
 
   it 'defaults to the role of "author"' do

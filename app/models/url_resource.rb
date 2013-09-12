@@ -20,7 +20,7 @@ class UrlResource < ActiveRecord::Base
 
   acts_as_taggable
   has_many :resources, :as => :mod,  :dependent => :destroy
-  has_many :links, :order => :position, :dependent => :destroy
+  has_many :links, :dependent => :destroy
   before_create :private_label
 
   validates :module_title, :presence => true

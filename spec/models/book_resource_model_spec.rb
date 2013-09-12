@@ -29,12 +29,4 @@ describe BookResource do
     mod.books << create(:book)
     expect(mod.books.length).to eq 1
   end
-
-  it 'has an ordered list of books' do
-    mod = create :book_resource
-    books = 1.upto(3).map { create :book }
-    books.each { |book| mod.books << book }
-    books[1].move_lower
-    expect(mod.books).to eq [books[1], books[0], books[2]]
-  end
 end

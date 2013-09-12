@@ -166,7 +166,7 @@ describe IcaController do
 
   describe 'GET #feed' do
     it 'assigns the page to @page' do
-      get :feed, id: @page.id
+      get :feed, id: @page.id, format: :xml
       expect(assigns(:page)).to_not be_nil
     end
   end

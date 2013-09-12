@@ -20,7 +20,7 @@ class QuizResource < ActiveRecord::Base
 
   acts_as_taggable
   has_many :resources, :as => :mod,  :dependent => :destroy
-  has_many :questions, :order => :position, :dependent => :destroy
+  has_many :questions, :dependent => :destroy
 
   before_create :private_label
   validates :module_title, :presence => true

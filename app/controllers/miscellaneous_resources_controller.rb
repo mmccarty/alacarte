@@ -11,7 +11,7 @@ class MiscellaneousResourcesController < ApplicationController
 
   def update
     @mod = MiscellaneousResource.find params[:id]
-    if @mod.update_attributes params[:mod]
+    if @mod.update_attributes mod_params
       redirect_to @mod
     else
       render :edit
@@ -25,5 +25,11 @@ class MiscellaneousResourcesController < ApplicationController
       create_and_add_resource @user, @new_mod
       redirect_to edit_miscellaneous_resource_path(@new_mod)
     end
+  end
+
+  private
+
+  def mod_params
+    params.require(:mod).permit :module_title, :tag_list
   end
 end

@@ -11,7 +11,7 @@ class SubjectsController < ApplicationController
   end
 
   def create
-    Subject.create params[:subject]
+    Subject.create subject_params
     redirect_to subjects_path
   end
 
@@ -21,7 +21,7 @@ class SubjectsController < ApplicationController
 
   def update
     subject = Subject.find params[:id]
-    subject.update_attributes params[:subject]
+    subject.update_attributes subject_params
     redirect_to subjects_path
   end
 
@@ -29,5 +29,11 @@ class SubjectsController < ApplicationController
     Subject.find(params[:id]).destroy
     flash[:notice] = "Subject successfully deleted."
     redirect_to subjects_path
+  end
+
+  private
+
+  def subject_params
+    params.require(:subject).permit :subject_code, :subject_name
   end
 end

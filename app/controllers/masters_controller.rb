@@ -11,7 +11,7 @@ class MastersController < ApplicationController
   end
 
   def create
-    Master.create params[:master]
+    Master.create master_params
     redirect_to masters_path
   end
 
@@ -21,7 +21,7 @@ class MastersController < ApplicationController
 
   def update
     master = Master.find params[:id]
-    master.update_attributes params[:master]
+    master.update_attributes master_params
     redirect_to masters_path
   end
 
@@ -29,5 +29,11 @@ class MastersController < ApplicationController
     Master.find(params[:id]).destroy
     flash[:notice] = "Master successfully deleted."
     redirect_to masters_path
+  end
+
+  private
+
+  def master_params
+    params.require(:master).permit :value
   end
 end

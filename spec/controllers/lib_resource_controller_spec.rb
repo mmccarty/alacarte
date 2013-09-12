@@ -59,13 +59,13 @@ describe LibResourcesController do
       before :each do
         @attrs = attributes_for :lib_resource
         @attrs[:librarian_name] = 'foo'
-        @attrs[:type] = 'InstResource'
 
         @module = LibResource.new
         @module.update_attributes @attrs
         @module.slug = @attrs[:module_title]
         @module.save
       end
+
       it 'updates the resource' do
         post :update, id: @module.id, lib_resource: @attrs
         expect(assigns(:mod).librarian_name).to eq @attrs[:librarian_name]

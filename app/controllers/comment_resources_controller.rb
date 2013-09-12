@@ -11,7 +11,7 @@ class CommentResourcesController < ApplicationController
 
   def update
     @mod = CommentResource.find params[:id]
-    @mod.update_attributes params[:mod]
+    @mod.update_attributes comment_params
     if @mod.save
       redirect_to @mod
     else
@@ -25,9 +25,8 @@ class CommentResourcesController < ApplicationController
     params[:comment][:author_name] =
       params[:comment][:author_name].empty? ? "Anonymous" : params[:comment][:author_name]
 
-    #if verify_recaptcha(:model => @mod)
     if verify_recaptcha
-      comment = Comment.new(params[:comment].merge(:comment_resource_id => @mod.id))
+      comment = Comment.new(comment_params.merge(:comment_resource_id => @mod.id))
       unless comment.save
         flash[:author_email_error] = comment.errors[:author_email]
         flash[:body_error] = comment.errors[:body]
@@ -53,5 +52,11 @@ class CommentResourcesController < ApplicationController
     @mod = find_mod(params[:resource_id],"CommentResource")
     @mod.comments.delete_all
     redirect_to :back
+  end
+
+  private
+
+  def comment_params
+    params.require(:comment).permit :author_name, :topic
   end
 end

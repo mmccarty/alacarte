@@ -7,7 +7,7 @@ class LinksController < ApplicationController
   end
 
   def create
-    @link = Link.create params[:link]
+    @link = Link.create link_params
     if @link.save
       @url_resource.links << @link
       redirect_to edit_url_resource_path @link.url_resource
@@ -23,7 +23,7 @@ class LinksController < ApplicationController
 
   def update
     @link = Link.find params[:id]
-    @link.update_attributes params[:link]
+    @link.update_attributes link_params
     if @link
       redirect_to edit_url_resource_path @link.url_resource
     else
@@ -40,5 +40,11 @@ class LinksController < ApplicationController
 
   def find_url_resource
     @url_resource = UrlResource.find params[:url_resource_id] if params[:url_resource_id]
+  end
+
+  private
+
+  def link_params
+    params.require(:link).permit :description, :url
   end
 end

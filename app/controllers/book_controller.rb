@@ -55,12 +55,18 @@ class BookController < ApplicationController
     params[:mod][:existing_book_attributes] ||= {}
     params[:mod][:new_book_attributes] ||= {}
     @mod = find_mod(params[:id], "BookResource")
-    @mod.update_attributes(params[:mod])
+    @mod.update_attributes(book_params())
     if @mod.save
       @mod.add_tags(params[:tags]) if params[:tags]
       redirect_to :controller => 'module', :action => "preview" , :id =>@mod.id, :type=> @mod.class
     else
       render :action => 'edit_book' , :mod => @mod
     end
+  end
+
+  private
+
+  def book_params
+    params.require(:mod).permit :module_title
   end
 end

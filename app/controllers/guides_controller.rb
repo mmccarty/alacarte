@@ -17,7 +17,7 @@ class GuidesController < ApplicationController
   end
 
   def create
-    @guide = Guide.new params[:guide]
+    @guide = Guide.new guide_params
     if @guide.save
       if session[:item_user_id]
         user = User.find session[:item_user_id]
@@ -45,7 +45,7 @@ class GuidesController < ApplicationController
 
   def update
     @guide = find_item
-    if @guide.update_attributes params[:guide]
+    if @guide.update_attributes guide_params
       redirect_to @guide
     else
       flash[:notice] = "Could not create the guide. There were problems with the following fields: #{@guide.errors.full_messages.join(", ")}"
@@ -65,7 +65,7 @@ class GuidesController < ApplicationController
       redirect_to guides_path and return
     else
       if request.put?
-        if @guide.update_attributes params[:guide]
+        if @guide.update_attributes guide_params
           flash[:notice] = "The Contact Module was successfully changed."
           redirect_to @guide and return
         end
@@ -122,5 +122,11 @@ class GuidesController < ApplicationController
 
   def item_name
     @guide.item_name
+  end
+
+  private
+
+  def guide_params
+    params.require(:guide).permit :guide_name, :published, :description, :tag_list, :resource_id
   end
 end

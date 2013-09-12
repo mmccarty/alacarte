@@ -426,7 +426,7 @@ describe PagesController do
       end
 
       it 'redirects to show page' do
-        put :edit_contact, id: @page.id, guide: {resource_id: @mod.id}
+        put :edit_contact, id: @page.id, page: {resource_id: @mod.id}
         expect(response).to redirect_to @page
       end
     end
@@ -568,6 +568,7 @@ describe PagesController do
         @page_attrs[:subject_ids] = [@subject.id]
         session[:item_user_id] = @user.id
       end
+
       it 'creates a new page' do
         expect {
           post :create, page: @page_attrs

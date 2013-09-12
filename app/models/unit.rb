@@ -17,7 +17,7 @@ class Unit < ActiveRecord::Base
   has_many :unitizations, :dependent => :destroy
   has_many :tutorials, :through => :unitizations
   has_many :resources, :through => :resourceables
-  has_many :resourceables, :order => :position, :dependent => :destroy
+  has_many :resourceables, :dependent => :destroy
 
   validates_presence_of  :title
   validates_presence_of  :slug, :on => :update

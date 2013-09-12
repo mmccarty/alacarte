@@ -12,7 +12,7 @@ class RssResourcesController < ApplicationController
 
   def update
     @mod = RssResource.find params[:id]
-    @mod.update_attributes params[:rss_resource]
+    @mod.update_attributes rss_resource_params
     if @mod.save
       redirect_to @mod
     else
@@ -27,5 +27,11 @@ class RssResourcesController < ApplicationController
       create_and_add_resource @user, @new_mod
       redirect_to edit_rss_resource_path @new_mod
     end
+  end
+
+  private
+
+  def rss_resource_params
+    params.require(:rss_resource).permit :module_title, :label
   end
 end

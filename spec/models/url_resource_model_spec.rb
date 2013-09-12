@@ -27,7 +27,7 @@ describe UrlResource do
 
     it 'will copy links when cloned' do
       copied_mod = @mod.clone
-      expect(copied_mod.links).to eq @links
+      expect(copied_mod.links).to match_array @links
     end
   end
 end

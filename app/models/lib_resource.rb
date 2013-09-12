@@ -28,7 +28,7 @@ class LibResource < ActiveRecord::Base
   before_create :private_label
 
   validates :module_title, :presence => true
-  validates :email, format: {with: /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, if: Proc.new {|c| not c.email.blank?}}
+  validates :email, format: {with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, if: Proc.new {|c| not c.email.blank?}}
   validates :label, :presence => { :on => :update }
 
   searchable do

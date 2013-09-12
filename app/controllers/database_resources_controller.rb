@@ -12,7 +12,7 @@ class DatabaseResourcesController < ApplicationController
 
   def update
     @mod = DatabaseResource.find params[:id]
-    @mod.update_attributes params[:database_resource]
+    @mod.update_attributes database_resource_params
     if @mod.save
       redirect_to @mod
     else
@@ -61,5 +61,11 @@ class DatabaseResourcesController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       redirect_to :back and return
     end
+  end
+
+  private
+
+  def database_resource_params
+    params.require(:database_resource).permit :module_title
   end
 end

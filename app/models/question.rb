@@ -13,9 +13,9 @@
 
 class Question < ActiveRecord::Base
   belongs_to :quiz_resource
-  has_many :answers, :order => :position
+  has_many :answers
   has_many :results,  :dependent => :destroy
-  has_many :students, :through => :results, :order => :sect_num
+  has_many :students, :through => :results
 
   after_update :save_answers
   acts_as_list :scope => :quiz_resource

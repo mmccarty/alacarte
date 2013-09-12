@@ -141,7 +141,7 @@ class AdminController < ApplicationController
 
   def customize_layout
     if request.post?
-      @local.update_attributes params[:local]
+      @local.update_attributes local_params
       redirect_to action: 'view_customizations' if @local.save
     end
   end
@@ -152,15 +152,21 @@ class AdminController < ApplicationController
     @selected = @local.types_list
     @selected_guides = @local.guides_list
     if request.post?
-      @local.update_attributes params[:local]
+      @local.update_attributes local_params
       redirect_to action: 'view_customizations' if @local.save
     end
   end
 
   def customize_admin_email
     if request.post?
-      @local.update_attributes params[:local]
+      @local.update_attributes local_params
       redirect_to action: 'view_customizations' if @local.save
     end
+  end
+
+  private
+
+  def local_params
+    params.require(:local).permit :admin_email_to, :ica_page_title, :types
   end
 end

@@ -26,8 +26,8 @@ class InstResource < ActiveRecord::Base
   before_create :private_label
 
   validates :module_title, :presence => true
-  validates :email, format: {with: /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, if: Proc.new {|c| not c.email.blank?}}
-  validates :website, format: {with: /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix, if: Proc.new {|c| not c.website.blank?}, message: 'URL must be valid and begin with http or https.'}
+  validates :email, format: {with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, if: Proc.new {|c| not c.email.blank?}}
+  validates :website, format: {with: /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix, if: Proc.new {|c| not c.website.blank?}, message: 'URL must be valid and begin with http or https.'}
   validates :label, :presence => { :on => :update }
 
   searchable do

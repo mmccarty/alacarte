@@ -8,9 +8,9 @@
 #
 
 class Subject < ActiveRecord::Base
-  has_and_belongs_to_many :guides, order: 'guide_name'
-  has_and_belongs_to_many :pages, order: 'course_num, course_name'
-  has_many :tutorials, order: 'name'
+  has_and_belongs_to_many :guides, -> { order 'guide_name' }
+  has_and_belongs_to_many :pages, -> { order 'course_num, course_name' }
+  has_many :tutorials, -> { order 'name' }
 
   validates :subject_code, presence: true, uniqueness: true
   validates :subject_name, presence: true, uniqueness: true

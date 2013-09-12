@@ -138,11 +138,6 @@ describe UsersController do
     end
 
     describe 'POST #update' do
-      it 'assigns the given user to @user' do
-        post :update, id: @author.id
-        expect(assigns(:user)).to be_a_kind_of User
-      end
-
       it 'updates the user' do
         post :update, id: @author.id, user: {name: 'foo', password: 'password', password_confirmation: 'password'}
         @author.reload

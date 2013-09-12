@@ -11,7 +11,7 @@ class DodsController < ApplicationController
   end
 
   def create
-    Dod.create params[:dod]
+    Dod.create dod_params
     redirect_to dods_path
   end
 
@@ -21,7 +21,7 @@ class DodsController < ApplicationController
 
   def update
     dod = Dod.find params[:id]
-    dod.update_attributes params[:dod]
+    dod.update_attributes dod_params
     redirect_to dods_path
   end
 
@@ -29,5 +29,11 @@ class DodsController < ApplicationController
     Dod.find(params[:id]).destroy
     flash[:notice] = "Dod successfully deleted."
     redirect_to dods_path
+  end
+
+  private
+
+  def dod_params
+    params.require(:dod).permit :title, :url, :provider, :descr
   end
 end

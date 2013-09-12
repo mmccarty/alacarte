@@ -66,13 +66,13 @@ describe InstResourcesController do
       before :each do
         @attrs = attributes_for :inst_resource
         @attrs[:instructor_name] = 'foo'
-        @attrs[:type] = 'InstResource'
 
         @module = InstResource.new
         @module.update_attributes @attrs
         @module.slug = @attrs[:module_title]
         @module.save
       end
+
       it 'updates the resource' do
         post :update, id: @module.id, inst_resource: @attrs
         expect(assigns(:mod).instructor_name).to eq @attrs[:instructor_name]

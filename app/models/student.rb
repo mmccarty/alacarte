@@ -15,7 +15,7 @@
 require 'CSV'
 
 class Student < ActiveRecord::Base
-  has_many :results, :order => 'position', :dependent => :destroy
+  has_many :results, :dependent => :destroy
   has_many :questions, :through => :results
   belongs_to :tutorial
 
@@ -26,7 +26,7 @@ class Student < ActiveRecord::Base
       :message => _('Our records indicate that you already have an account for this tutorial.  Please login.')
     },
     :format => {
-      :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,
+      :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i,
       :allow_blank => true,
       :message => 'Invalid email'
     }

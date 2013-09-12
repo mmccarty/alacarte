@@ -71,11 +71,6 @@ describe DatabaseResourcesController do
     end
 
     describe 'POST #update' do
-      it 'assigns the resource to @mod' do
-        post :update, id: @mod.id
-        expect(assigns(:mod)).to eq @mod
-      end
-
       it 'redirects to show on success' do
         post :update, id: @mod.id, database_resource: {module_title: 'my title'}
         expect(response).to redirect_to @mod

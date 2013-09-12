@@ -1,4 +1,4 @@
-  class ModulesController < ApplicationController
+ class ModulesController < ApplicationController
   include Paginating
   skip_before_filter :authorize, :only =>[:view]
   before_filter :module_types, :except => [:view]
@@ -29,7 +29,7 @@
   def create
     begin
       @mod = create_module_object params[:mod][:type]
-      @mod.update_attributes params[:mod]
+      @mod.update_attributes mod_params
       @mod.slug = create_slug params[:mod][:module_title]
       if @mod.save
         create_and_add_resource @user, @mod
@@ -42,6 +42,12 @@
       remove_instance_variable :@mod
       render :new
     end
+  end
+
+  def mod_params
+    p = params.require(:mod).permit!
+    p.delete :type
+    p
   end
 
   def destroy

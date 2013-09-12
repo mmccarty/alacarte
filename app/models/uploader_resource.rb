@@ -23,7 +23,6 @@ class UploaderResource < ActiveRecord::Base
   before_create :private_label
   after_update :save_uploadables
 
-  attr_protected :upload_file_name, :upload_content_type, :upload_size
   validates_presence_of :module_title
   validates_presence_of :label, :on => :update
 

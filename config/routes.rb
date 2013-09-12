@@ -162,5 +162,5 @@ Alacarte::Application.routes.draw do
   get 'tutorial/create-account/:id' => 'student#create_account'
 
   get   ':controller/service.wsdl' => '#wsdl'
-  match '/:controller(/:action(/:id))'
+  match '/:controller(/:action(/:id))', via: [:get]
 end

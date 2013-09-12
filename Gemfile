@@ -15,7 +15,7 @@ gem 'mobile-fu'
 gem 'nokogiri'
 gem 'paperclip'
 gem 'pg'
-gem 'rails', '~> 3.2.0'
+gem 'rails', '~> 4.0.0'
 gem 'rdoc'
 gem 'recaptcha'
 gem 'responds_to_parent'
@@ -26,15 +26,15 @@ gem 'twitter-bootstrap-rails'
 gem 'will_paginate'
 
 group :assets do
-  gem 'coffee-rails', '~> 3.2.0'
-  gem 'sass-rails', '~> 3.2.0'
+  gem 'coffee-rails', '~> 4.0.0'
+  gem 'sass-rails', '~> 4.0.0'
   gem 'uglifier'
   gem 'yui-compressor'
 end
 
 group :development, :test do
-  gem 'factory_girl_rails', '~> 4.0'
-  gem 'rspec-rails', '~> 2.0'
+  gem 'factory_girl_rails'
+  gem 'rspec-rails'
   gem 'sunspot_solr'
 end
 

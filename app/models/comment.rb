@@ -14,7 +14,7 @@ class Comment < ActiveRecord::Base
   belongs_to :comment_resource
 
   validates :body, presence: { message: _('is required') }
-  validates :author_email, format: { with: /^(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?$/i }
+  validates :author_email, format: { with: /\A(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?\z/i }
   validate :is_clean?
 
   scope :most_recent_first, lambda { order 'created_at DESC' }

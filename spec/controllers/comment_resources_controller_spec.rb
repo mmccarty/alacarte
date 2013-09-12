@@ -66,19 +66,14 @@ describe CommentResourcesController do
     end
 
     describe 'POST #update' do
-      it 'assigns the requested comment to @mod' do
-        post :update, id: @comment.id
-        expect(assigns(:mod)).to eq @comment
-      end
-
       it 'updates attributes of the requested comment' do
-        put :update, id: @comment.id, mod: { topic: 'timmeh!' }
+        put :update, id: @comment.id, comment: { topic: 'timmeh!' }
         @comment.reload
         expect(@comment.topic).to eq 'timmeh!'
       end
 
       it 'redirects to the :show view' do
-        put :update, id: @comment.id, mod: { topic: 'timmeh!' }
+        put :update, id: @comment.id, comment: { topic: 'timmeh!' }
         expect(response).to redirect_to @comment
       end
     end
