@@ -309,26 +309,6 @@ describe AdminController do
         end
       end
 
-      describe 'GET #customize_content_types' do
-        it 'sets @selected' do
-          get :customize_content_types
-          expect(assigns(:selected)).to_not be_nil
-        end
-
-        it 'renders :customize_content_types template' do
-          get :customize_content_types
-          expect(response).to render_template :customize_content_types
-        end
-      end
-
-      describe 'POST #customize_content_types' do
-        it 'updates the @local object' do
-          post :customize_content_types, local: {types: 'page'}
-          @local.reload
-          expect(@local.types).to eq 'page'
-        end
-      end
-
       describe 'GET #customize_admin_email' do
         it 'renders :customize_admin_email template' do
           get :customize_admin_email

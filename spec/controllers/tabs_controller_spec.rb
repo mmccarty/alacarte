@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe TabsController do
   describe 'guest access' do
-    describe 'GET #add_modules' do
+    describe 'GET #add_nodes' do
       it 'requires login' do
-        get :add_modules
+        get :add_nodes
         expect(response).to redirect_to login_path
       end
     end
@@ -31,58 +31,58 @@ describe TabsController do
     end
 
     describe 'POST #add_mod' do
-      it 'adds modules to the session' do
-        mod = create :miscellaneous_resource
+      it 'adds nodes to the session' do
+        mod = create :node
         post :add_mod, mid1: mod.id, mid2: mod.class.name
         expect(session[:add_mods]).to eq ["#{ mod.id }#{ mod.class }"]
       end
     end
 
-    describe 'GET #add_modules' do
-      it 'renders the :add_modules view' do
-        get :add_modules, guide_id: @guide.id, id: @tab.id
-        expect(response).to render_template :add_modules
+    describe 'GET #add_nodes' do
+      it 'renders the :add_nodes view' do
+        get :add_nodes, guide_id: @guide.id, id: @tab.id
+        expect(response).to render_template :add_nodes
       end
     end
 
-    describe 'POST #add_modules' do
-      it 'adds modules from the session to the tab' do
-        mod = create :miscellaneous_resource
-        @user.create_and_add_resource mod
-        session[:add_mods] = ["#{ mod.id }#{ mod.class }"]
-        post :add_modules, guide_id: @guide.id, id: @tab.id
-        expect(@tab.modules).to eq [mod]
+    describe 'POST #add_nodes' do
+      it 'adds nodes from the session to the tab' do
+        mod = create :node
+        @user.create_and_add_node mod
+        session[:add_mods] = [mod.id.to_s]
+        post :add_nodes, guide_id: @guide.id, id: @tab.id
+        expect(@tab.nodes).to eq [mod]
       end
     end
 
-    describe 'POST #remove_module' do
+    describe 'POST #remove_node' do
       before :each do
-        @mod = create :miscellaneous_resource
-        @user.create_and_add_resource @mod
-        session[:add_mods] = ["#{ @mod.id }#{ @mod.class }"]
-        post :add_modules, guide_id: @guide.id, id: @tab.id
+        @mod = create :node
+        @user.create_and_add_node @mod
+        session[:add_mods] = [@mod.id.to_s]
+        post :add_nodes, guide_id: @guide.id, id: @tab.id
 
         request.env['HTTP_REFERER'] = '/'
       end
 
-      it 'removes the module from the tab' do
-        post :remove_module, id: @tab.id, mod: @mod.id, type: @mod.class.to_s
+      it 'removes the node from the tab' do
+        post :remove_node, id: @tab.id, mod: @mod.id
         @tab.reload
-        expect(@tab.modules.include? @mod).to be_false
+        expect(@tab.nodes).to_not include @mod
       end
 
       it 'redirects :back' do
-        post :remove_module, id: @tab.id, mod: @mod.id, type: @mod.class.to_s
+        post :remove_node, id: @tab.id, mod: @mod.id
         expect(response).to redirect_to '/'
       end
 
-      it 'only removes one module when it has been added multiple times' do
-        session[:add_mods] = ["#{ @mod.id }#{ @mod.class }"]
-        post :add_modules, guide_id: @guide.id, id: @tab.id
+      it 'only removes one node when it has been added multiple times' do
+        session[:add_mods] = [@mod.id.to_s]
+        post :add_nodes, guide_id: @guide.id, id: @tab.id
 
-        post :remove_module, id: @tab.id, mod: @mod.id, type: @mod.class.to_s
+        post :remove_node, id: @tab.id, mod: @mod.id
         @tab.reload
-        expect(@tab.modules.include? @mod).to be_true
+        expect(@tab.nodes).to include @mod
       end
     end
 
@@ -121,29 +121,26 @@ describe TabsController do
       end
     end
 
-    describe 'POST #reorder_modules' do
-      it 'rearranges modules to be in the specified order' do
-        mods = 1.upto(4).map { create :miscellaneous_resource }
-        res = mods.map { |mod| Resource.create mod: mod }
-        res.each { |resource| @tab.add_resource resource }
-        post :reorder_modules, guide_id: @guide.id, id: @tab.id, resource_ids: [res[2].id, res[0].id, res[3].id, res[1].id]
-        expect(@tab.sorted_modules).to eq [mods[2], mods[0], mods[3], mods[1]]
+    describe 'POST #reorder_nodes' do
+      it 'rearranges nodes to be in the specified order' do
+        mods = 1.upto(4).map { create :node }
+        mods.each { |node| @tab.add_node node }
+        post :reorder_nodes, guide_id: @guide.id, id: @tab.id, resource_ids: [mods[2].id, mods[0].id, mods[3].id, mods[1].id]
+        expect(@tab.sorted_nodes).to eq [mods[2], mods[0], mods[3], mods[1]]
       end
 
       it 'renders nothing' do
-        mods = 1.upto(4).map { create :miscellaneous_resource }
-        res = mods.map { |mod| Resource.create mod: mod }
-        res.each { |resource| @tab.add_resource resource }
-        post :reorder_modules, guide_id: @guide.id, id: @tab.id, resource_ids: [res[2].id, res[0].id, res[3].id, res[1].id]
+        mods = 1.upto(4).map { create :node }
+        mods.each { |node| @tab.add_node node }
+        post :reorder_nodes, guide_id: @guide.id, id: @tab.id, resource_ids: [mods[2].id, mods[0].id, mods[3].id, mods[1].id]
         expect(response.body).to be_blank
       end
 
       it 'can specify left and right columns separately' do
-        mods = 1.upto(4).map { create :miscellaneous_resource }
-        res = mods.map { |mod| Resource.create mod: mod }
-        res.each { |resource| @tab.add_resource resource }
-        post :reorder_modules, guide_id: @guide.id, id: @tab.id, left_ids: [res[1].id, res[3].id], right_ids: [res[0].id, res[2].id]
-        expect(@tab.sorted_modules).to eq [mods[1], mods[0], mods[3], mods[2]]
+        mods = 1.upto(4).map { create :node }
+        mods.each { |node| @tab.add_node node }
+        post :reorder_nodes, guide_id: @guide.id, id: @tab.id, left_ids: [mods[1].id, mods[3].id], right_ids: [mods[0].id, mods[2].id]
+        expect(@tab.sorted_nodes).to eq [mods[1], mods[0], mods[3], mods[2]]
       end
     end
 

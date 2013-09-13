@@ -1,0 +1,11 @@
+%h1.page-header
+  Create new module
+
+= error_messages_for 'mod'
+
+= form_tag({ :action => :create }, { :class => 'form-horizontal' }) do
+  = render 'mod_title'
+  .control-group
+    .controls
+      = submit_tag 'Create Module', class: 'btn btn-primary'
+      = link_to 'Cancel', nodes_path, class: 'btn btn-cancel'

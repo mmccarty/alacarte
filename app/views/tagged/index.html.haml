@@ -2,10 +2,10 @@
 #second_tabs
   %ul#second_tabs
     %li{:class => @globcurrent}
-      = link_to "Global Modules" , :controller => 'module', :action => 'index', :sort => 'name', :list => 'global'
+      = link_to "Global Modules" , :controller => 'nodes', :action => 'index', :sort => 'name', :list => 'global'
     %li{:class => @tgcurrent}
       = link_to "Browse By Tags" , :controller => 'tagged', :action => 'index', :sort => 'name'
-    %li{:class => @mycurrent}= link_to "My Modules" , :controller => 'module', :action => 'index', :sort => 'name', :list => 'mine'
+    %li{:class => @mycurrent}= link_to "My Modules" , :controller => 'nodes', :action => 'index', :sort => 'name', :list => 'mine'
     - if @list == 'mine'
       %li{:class => @mycurrent}
         = form_tag :controller => 'search', :action => 'index' do
@@ -28,7 +28,7 @@
       - if @tags.empty?
         You have no tagged modules.
     - unless @mods.blank?
-      = render :partial => "/module/mods_table"
+      = render :partial => "nodes/mods_table"
       .pagination
         - if @mods.total_pages > 1
           %ul

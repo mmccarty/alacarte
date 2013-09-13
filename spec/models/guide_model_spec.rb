@@ -30,10 +30,10 @@ describe Guide do
       guide.add_tab tab
       user = create :author
 
-      mods = 1.upto(5).map { create :miscellaneous_resource }
-      mods.each { |mod| user.create_and_add_resource mod; tab.add_module mod.id, mod.class }
+      mods = 1.upto(5).map { create :node }
+      mods.each { |mod| user.create_and_add_node mod; tab.add_node mod.id }
 
-      expect(guide.modules).to eq mods
+      expect(guide.nodes).to eq mods
     end
   end
 
@@ -80,12 +80,12 @@ describe Guide do
       user1 = create :author
       user2 = create :author
 
-      mods = 1.upto(5).map { create :miscellaneous_resource }
-      mods.each { |mod| user1.create_and_add_resource mod; tab.add_module mod.id, mod.class }
+      mods = 1.upto(5).map { create :node }
+      mods.each { |mod| user1.create_and_add_node mod; tab.add_node mod.id }
 
       guide.share user2.id, false
       user2.reload
-      expect(user2.resources.length).to eq 5
+      expect(user2.nodes.length).to eq 5
     end
 
     it 'will share and copy all modules' do
@@ -95,12 +95,12 @@ describe Guide do
       user1 = create :author
       user2 = create :author
 
-      mods = 1.upto(5).map { create :miscellaneous_resource }
-      mods.each { |mod| user1.create_and_add_resource mod; tab.add_module mod.id, mod.class }
+      mods = 1.upto(5).map { create :node }
+      mods.each { |mod| user1.create_and_add_node mod; tab.add_node mod.id }
 
       expect {
         guide.share user2.id, '1'
-      }.to change(MiscellaneousResource, :count).by(5)
+      }.to change(Node, :count).by(5)
     end
 
     it 'ensures all users share newly added modules' do
@@ -112,12 +112,12 @@ describe Guide do
 
       guide.share user2.id, false
 
-      mods = 1.upto(5).map { create :miscellaneous_resource }
-      mods.each { |mod| user1.create_and_add_resource mod; tab.add_module mod.id, mod.class }
+      mods = 1.upto(5).map { create :node }
+      mods.each { |mod| user1.create_and_add_node mod; tab.add_node mod.id }
       guide.update_users
 
       user2.reload
-      expect(user2.resources.length).to eq 5
+      expect(user2.nodes.length).to eq 5
     end
 
 

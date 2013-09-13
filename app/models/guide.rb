@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  guide_name  :string(255)      not null
-#  resource_id :integer
+#  node_id     :integer
 #  updated_at  :datetime
 #  created_by  :string(255)      default("")
 #  published   :boolean          default(FALSE)
@@ -21,7 +21,7 @@ class Guide < ActiveRecord::Base
   has_many :tabs, -> { order 'position' }, as: 'tabable', dependent: :destroy
   has_and_belongs_to_many :masters
   has_and_belongs_to_many :subjects, -> { order 'subject_name' }
-  belongs_to :resource
+  belongs_to :node
 
   validates :guide_name, presence: true, uniqueness: true
 
@@ -66,7 +66,7 @@ class Guide < ActiveRecord::Base
   end
 
   def toggle_published
-    if self.resource || self.published?
+    if self.node || self.published?
       self.toggle!(:published)
       true
     else
@@ -79,7 +79,7 @@ class Guide < ActiveRecord::Base
     num_guides = Guide.where('guide_name like :prefix', prefix: "#{ guide_name}%").count
     new_guide.guide_name = "#{ guide_name }-#{ num_guides + 1}"
     if options == 'copy'
-      new_guide.copy_resources user.id, tabs
+      new_guide.copy_nodes user.id, tabs
     else
       new_guide.copy_tabs tabs
     end

@@ -104,26 +104,23 @@ describe User do
   describe 'author' do
     describe 'has a profile' do
       it 'has by default no profile' do
-        expect(create(:author).get_profile).to be_empty
+        expect(create(:author).get_profile).to be_blank
       end
 
       it 'can have a profile' do
         user = create :author
-        mod = create :miscellaneous_resource
-        res = Resource.create mod: mod
-        user.add_profile res.id
+        mod = create :node
+        user.add_profile mod.id
         expect(user.get_profile).to eq mod
       end
 
       it 'can only have one profile' do
         user = create :author
-        mod1 = create :miscellaneous_resource
-        res1 = Resource.create mod: mod1
-        user.add_profile res1.id
+        mod1 = create :node
+        user.add_profile mod1.id
 
-        mod2 = create :miscellaneous_resource
-        res2 = Resource.create mod: mod2
-        user.add_profile res2.id
+        mod2 = create :node
+        user.add_profile mod2.id
 
         expect(user.get_profile).to eq mod2
       end
@@ -132,10 +129,9 @@ describe User do
     describe 'has contact resources' do
       it 'allows custom content as a contact resource' do
         user = create :author
-        mod = create :miscellaneous_resource
-        res = Resource.create mod: mod
-        user.add_resource res
-        expect(user.contact_resources).to include res
+        mod = create :node
+        user.add_node mod
+        expect(user.contact_nodes).to include mod
       end
     end
 
@@ -163,30 +159,30 @@ describe User do
         user2 = create :author
         guide = create :guide
         tab = build :tab
-        mod = create :miscellaneous_resource
+        mod = create :node
 
-        user1.create_and_add_resource mod, tab
+        user1.create_and_add_node mod, tab
         guide.add_tab tab
 
         user2.add_guide_tabs guide
-        expect(user2.resources).to_not be_empty
+        expect(user2.nodes).to_not be_empty
       end
     end
 
     describe 'has modules' do
       it 'understands module tags' do
-        mod = create :miscellaneous_resource
+        mod = create :node
         mod.add_tags 'this, that'
         user = create :author
-        user.create_and_add_resource mod
-        expect(user.module_tags.sort).to eq %w(that this)
+        user.create_and_add_node mod
+        expect(user.node_tags).to match_array %w(that this)
       end
 
       it 'finds modules by tag' do
-        mod = create :miscellaneous_resource
+        mod = create :node
         mod.add_tags 'this, that'
         user = create :author
-        user.create_and_add_resource mod
+        user.create_and_add_node mod
         expect(user.find_mods_tagged_with 'this').to eq [mod]
       end
     end
@@ -214,29 +210,21 @@ describe User do
     describe 'has resources' do
       it 'creates resources to manage module associations' do
         user = create :author
-        user.create_and_add_resource(create :miscellaneous_resource)
-        expect(user.resources.length).to eq 1
+        user.create_and_add_node(create :node)
+        expect(user.nodes.length).to eq 1
       end
 
       it 'accesses modules by way of resources' do
         user = create :author
-        user.create_and_add_resource(create :miscellaneous_resource)
-        expect(user.num_modules).to eq 1
+        user.create_and_add_node(create :node)
+        expect(user.num_nodes).to eq 1
       end
 
       it 'sets the owner when creating resources' do
         user = create :author
-        mod = create :miscellaneous_resource
-        user.create_and_add_resource mod
+        mod = create :node
+        user.create_and_add_node mod
         expect(mod.created_by).to eq user.name
-      end
-
-      it 'finds resources by id and type' do
-        user = create :author
-        mod = create :miscellaneous_resource
-        res = Resource.create mod: mod
-        user.add_resource res
-        expect(user.find_resource mod.id, mod.class).to eq res
       end
     end
   end

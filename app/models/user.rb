@@ -8,7 +8,7 @@
 #  email         :string(255)      default(""), not null
 #  salt          :string(255)      default(""), not null
 #  role          :string(255)      default("author"), not null
-#  resource_id   :integer
+#  node_id       :integer
 #
 
 require 'digest/sha1'
@@ -17,7 +17,8 @@ require 'xmlrpc/client'
 class User < ActiveRecord::Base
   has_and_belongs_to_many :guides
   has_and_belongs_to_many :pages
-  has_and_belongs_to_many :resources
+  has_and_belongs_to_many :nodes
+  belongs_to :node
 
   attr_accessor :password_confirmation
 
@@ -63,71 +64,61 @@ class User < ActiveRecord::Base
     errors.add(_ 'Missing password') if hashed_psswrd.blank?
   end
 
-  # Associates a user with a list of modules, by way of resource objects.
-  def self.create_and_add_resource id, mod_list, item = nil
+  def self.create_and_add_node id, mod_list, item = nil
     user = find id
-    mod_list.each { |mod| user.create_and_add_resource mod, item }
+    mod_list.each { |mod| user.create_and_add_node mod, item }
   end
 
-  # Creates a "resource" to associate the current user with the given module.
-  def create_and_add_resource mod, item = nil
-    mod.update_attribute :created_by, name
-    resource = Resource.create mod: mod
-    add_resource resource
-    item.add_resource resource unless item.nil?
+  def create_and_add_node node, item = nil
+    node.update_attribute :created_by, name
+    nodes << node
+    item.add_node node unless item.nil?
   end
 
   def add_page page
     page.created_by = name
-    page.resource_id = resource_id
+    page.node_id = node_id
     page.save
     pages << page
   end
 
   def add_guide guide
     guide.created_by = name
-    guide.resource_id = resource_id
+    guide.node_id = node_id
     guide.save
     guides << guide
   end
 
+  def add_node node
+    nodes << node
+  end
+
   def add_guide_tabs guide
     guides << guide
-    tr = guide.tabs.map(&:tab_resources).flatten
-    resources << tr.map(&:resource).flatten
+    nodes << guide.tabs.flat_map(&:nodes)
   end
 
   def delete_guide_tabs guide
     guides.delete guide
-    tr =  guide.tabs.map { |t| t.tab_resources }.flatten
-    res = tr.map { |t| t.resource }.flatten.compact
-    res.each do |r|
-      resources.delete r
+    guide.tabs.flat_map(&:nodes).each do |node|
+      nodes.delete node
     end
   end
 
   def add_page_tabs page
     pages << page
-    tr = page.tabs.map { |t| t.tab_resources }.flatten
-    res = tr.map { |t| t.resource }.flatten.compact
-    resources << res
+    nodes << page.tabs.flat_map(&:nodes)
   end
 
   def delete_page_tabs page
     pages.delete page
-    tr =  page.tabs.map { |t| t.tab_resources }.flatten
-    res = tr.map { |t| t.resource }.flatten.compact
-    res.each do |r|
-      resources.delete r
+    page.tabs.flat_map(&:nodes).each do |node|
+      nodes.delete node
     end
   end
 
-  def add_resource resource
-    resources << resource
-  end
-
-  def num_modules
-    resources.map(&:mod).compact.length
+  def num_nodes
+    nodes.length
   end
 
   def published_pages
@@ -144,55 +135,43 @@ class User < ActiveRecord::Base
 
   def recent_activity
     recent = lambda { |x| x.updated_at >= 7.days.ago }
-    mods = resources.map(&:mod).compact.select &recent
+    mods = nodes.select &recent
     icaps = pages.select &recent
     srgs = guides.select &recent
     recents =  mods[0..5] + icaps[0..5] + srgs[0..5]
     recents.sort_by &:updated_at
   end
 
-  def module_tags
-    resources.map { |a| a.mod.tag_list if a.mod }.flatten.uniq
+  def node_tags
+    nodes.flat_map(&:tag_list).uniq
   end
 
   def find_mods_tagged_with tag
-    resources.map { |a| a.mod if a.mod and a.mod.tag_list.include? tag }.compact.uniq
+    nodes.select { |a| a.tag_list.include? tag }
   end
 
-  def find_resource id, type
-    resources.find_by_mod_id_and_mod_type id, type
+  def find_node id
+    Node.find id
   end
 
   def add_profile rid
-    update_attribute :resource_id, rid
+    update_attribute :node_id, rid
   end
 
   def get_profile
-    Resource.exists?(resource_id) ? Resource.find(resource_id).mod : ''
+    node
   end
 
-  def contact_resources
-    contacts = resources.select { |a| a.mod and a.mod.content_type == 'Custom Content' }
-    contacts.sort_by { |a| a.mod.label.downcase }
+  def contact_nodes
+    nodes.sort_by { |a| a.label.downcase }
   end
 
   def sort_search_mods sort_by, search_results
-    sort,reverse = mod_sort_by_values sort_by
-    modules sort, reverse, search_results
+    nodes
   end
 
   def sort_mods sort_by, list_by = nil
-    sort, reverse = 'label', 'false'
-    case list_by
-    when "global" then (mods =  Resource.global_modules(sort, reverse))
-    else  (mods = modules(sort, reverse))
-    end
-    mods
-  end
-
-  def modules s = nil, rev = nil, list = nil
-    mods = (list == nil ? resources.collect {|a| a.mod if a and a.mod}.compact : list)
-    mods.sort_by { |a| a.label.downcase }.uniq
+    nodes
   end
 
   def sort_search_guides sort_by, search_results

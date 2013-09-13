@@ -1,12 +1,11 @@
-%ul.unstyled{ 'id' => mods_id, 'data-reorder' => polymorphic_path([@parent, @tab], action: :reorder_modules) }
-  - mods.each do |pr|
-    - mod = pr.resource.mod
-    %li{ :id => "item_#{ pr.resource.id }" }
+%ul.unstyled{ 'id' => mods_id, 'data-reorder' => polymorphic_path([@parent, @tab], action: :reorder_nodes) }
+  - mods.each do |mod|
+    %li{ :id => "item_#{ mod.id }" }
       %i.icon-move
       = truncate mod.label, :length => 40
       &nbsp;
       &nbsp;
       %i.icon-question-sign{ :data => { :content => "#{ render_tooltip mod }", :html => 'true', :trigger => 'hover' } }
-      = link_to '', edit_module_path(mod, :type => mod.class), :class => 'icon-edit', :title => 'Edit this module'
-      = link_to '', module_path(mod, :type => mod.class), :target => '_blank', :class => 'icon-external-link', :title => 'View this module', :target => '_blank'
-      = link_to '', polymorphic_path([@parent, @tab], :action => 'remove_module', :mod => mod.id, :type => mod.class), :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post, :class => 'icon-remove', :title => 'Remove this module'
+      = link_to '', edit_node_path(mod), :class => 'icon-edit', :title => 'Edit this module'
+      = link_to '', node_path(mod), :target => '_blank', :class => 'icon-external-link', :title => 'View this module', :target => '_blank'
+      = link_to '', polymorphic_path([@parent, @tab], :action => 'remove_node', :mod => mod.id), :confirm => 'Are you sure you want to remove this module from the tab?', :method => :post, :class => 'icon-remove', :title => 'Remove this module'

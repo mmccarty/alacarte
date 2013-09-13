@@ -3,7 +3,7 @@
 #mod-list
   = new_button 'Create New Module'
   #new{:style => "display:none"}
-    = form_tag :controller => 'module', :action => 'create' do
+    = form_tag :controller => 'nodes', :action => 'create' do
       = error_messages_for 'mod'
       #vertical_inputs.index
         %h4
@@ -15,11 +15,6 @@
           Module Title
           %span.required.more_help *
         = text_field 'mod', 'module_title',"size" => 45 , :value => flash[:mod_title]
-        <span #{%(class="required") if flash[:mod_type_error]}>
-        %label{:for => "mod_type"}
-          Content Type
-          %span.required.more_help *
-        = select('mod','type', @types, {:selected => flash[:mod_type], :prompt => "Select"}, {:class => 'page'})
         %span
           %label &nbsp;
           = submit_tag 'Create Module'

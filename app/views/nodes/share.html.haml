@@ -11,7 +11,7 @@
 
     %h2
       Add editor(s)
-    = form_tag({ :action=> 'share_update', :id =>@mod.id, :type=> @mod.class }) do
+    = form_tag({ :action=> 'share_update', :id =>@mod.id }) do
       .control-group
         .controls
           %select#users{ :multiple => 'multiple', :name => 'users[]', :class => 'input-xlarge' }
@@ -21,7 +21,7 @@
       .control-group
         .controls
           = submit_tag 'Share', class: 'btn btn-primary'
-          = link_to 'Cancel', modules_path, class: 'btn btn-cancel'
+          = link_to 'Cancel', nodes_path, class: 'btn btn-cancel'
 
     %h2 Manage editors
     %p.muted
@@ -32,5 +32,5 @@
           %td= user.name
           %td
             - unless user.name == @mod.created_by
-              = link_to remove_user_from_mod_module_path(@mod, type: @mod.class, user: user), title: 'Remove this user from the editor list', confirm: 'Are you sure you want to remove this user form the editor list?', method: :post do
+              = link_to remove_user_from_mod_node_path(@mod, user: user), title: 'Remove this user from the editor list', confirm: 'Are you sure you want to remove this user form the editor list?', method: :post do
                 %i.icon-remove

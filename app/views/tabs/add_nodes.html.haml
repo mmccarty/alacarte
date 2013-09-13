@@ -12,12 +12,12 @@
           = @tab.tab_name
     %p
       = link_to 'Change Tab', @parent, :class => 'btn'
-      = render :partial => "shared/new_module"
+      = render :partial => "shared/new_node"
 
     - unless @mods.size < 1
-      = form_tag polymorphic_path([@parent, @tab], action: :add_modules) do
+      = form_tag polymorphic_path([@parent, @tab], action: :add_node) do
         .control-group
-          = render "shared/add_modules_list"
+          = render "shared/add_nodes_list"
         .control-group
           .controls
             = submit_tag 'Add to Tab', class: 'btn btn-primary'

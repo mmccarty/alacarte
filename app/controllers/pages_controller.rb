@@ -67,7 +67,7 @@ class PagesController < ApplicationController
           redirect_to @page and return
         end
       else
-        @resources = @user.contact_resources.map { |resource| [resource.mod.label, resource.id] }
+        @resources = @user.contact_nodes.map { |node| [node.label, node.id] }
       end
     end
   end
@@ -154,7 +154,7 @@ Please contact me if you have any questions or suggestions.
   private
 
   def page_params
-    params.require(:page).permit :course_name, :course_num, :tag_list, :resource_id, :subject_ids, :sect_num, :term,
+    params.require(:page).permit :course_name, :course_num, :tag_list, :node_id, :subject_ids, :sect_num, :term,
                                  :year, :campus, :page_description
   end
 end

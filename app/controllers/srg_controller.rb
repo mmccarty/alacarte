@@ -3,16 +3,16 @@ class SrgController < ApplicationController
   layout 'template'
 
   def show
-    @guide = Guide.includes(:users, {:masters => :guides}, :subjects, :resource, :tags).find(params[:id])
+    @guide = Guide.includes(:users, {:masters => :guides}, :subjects, :node, :tags).find(params[:id])
     @tabs = @guide.tabs
     @tab = params[:tab] ? @tabs.select{|t| t.id == params[:tab].to_i}.first : @tabs.first
     if @tab and @tab.template == 2
       @style ='width:290px; height:250px;'
-      @mods_left  = @tab.left_modules
-      @mods_right = @tab.right_modules
+      @mods_left  = @tab.left_nodes
+      @mods_right = @tab.right_nodes
     elsif @tab
       @style ='width:425px; height:350px;'
-      @mods = @tab.sorted_modules
+      @mods = @tab.sorted_nodes
       @mods_left, @mods_right = [], []
     else
       render_404
@@ -22,7 +22,7 @@ class SrgController < ApplicationController
     @meta_description = @guide.description
     @owner = @guide.users.select{|u| u.name == @guide.created_by}.first
     @updated = @guide.updated_at.to_formatted_s(:short)
-    @mod = @guide.resource.mod if @guide.resource
+    @mod = @guide.node
     @related_guides = @guide.related_guides
     @related_pages = @guide.related_pages
   end
@@ -43,7 +43,7 @@ class SrgController < ApplicationController
 
   def feed
     @guide = Guide.find(params[:id])
-    @mods = @guide.recent_modules
+    @mods = @guide.recent_nodes
     @guide_url = url_for :controller => 'srg', :action => 'index', :id => @guide
     @guide_title = @guide.guide_name
     @guide_description = @guide.description

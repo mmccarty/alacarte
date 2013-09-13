@@ -1,0 +1,5 @@
+.container
+  = awesome_button new_node_path, 'plus', 'Create new module', 'btn btn-primary'
+
+.container
+  = render "#{ @list == 'mine' ? 'mods' : 'global' }_list"

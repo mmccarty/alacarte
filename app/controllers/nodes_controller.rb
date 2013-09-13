@@ -1,7 +1,6 @@
- class ModulesController < ApplicationController
+class NodesController < ApplicationController
   include Paginating
   skip_before_filter :authorize, :only =>[:view]
-  before_filter :module_types, :except => [:view]
   layout 'admin'
 
   def index
@@ -12,15 +11,20 @@
   end
 
   def show
-    delegate_to :show
+    @mod = Node.find params[:id]
   end
 
   def edit
-    delegate_to :edit
+    @mod = Node.find params[:id]
   end
 
   def copy
-    delegate_to :copy
+    old_mod = Node.find params[:id]
+    @new_mod = old_mod.copy
+    if @new_mod.save
+      create_and_add_node @user, @new_mod
+      redirect_to edit_node_path(@new_mod)
+    end
   end
 
   def new
@@ -28,13 +32,12 @@
 
   def create
     begin
-      @mod = create_module_object params[:mod][:type]
-      @mod.update_attributes mod_params
+      @mod = Node.create mod_params
       @mod.slug = create_slug params[:mod][:module_title]
       if @mod.save
-        create_and_add_resource @user, @mod
+        create_and_add_node @user, @mod
         @mod.add_tags params[:mod][:tag_list]
-        redirect_to edit_module_path(@mod, type: @mod.class)
+        redirect_to edit_node_path(@mod)
       else
         render :new
       end
@@ -44,53 +47,54 @@
     end
   end
 
-  def mod_params
-    p = params.require(:mod).permit!
-    p.delete :type
-    p
+  def update
+    @mod = Node.find params[:id]
+    if @mod.update_attributes mod_params
+      redirect_to @mod
+    else
+      render :edit
+    end
   end
 
   def destroy
-    resource = @user.find_resource params[:id], params[:type]
-    @user.update_attribute(:resource_id, nil) if @user.resource_id == resource.id
-    if resource.users.length == 1
-      @user.resources.delete resource
-      resource.delete_mods
-      resource.destroy
+    node = @user.find_node params[:id]
+    @user.update_attribute(:node_id, nil) if @user.node_id == node.id
+    if node.users.length == 1
+      @user.nodes.delete node
+      node.destroy
     else
-      resource.mod.update_attribute(:created_by, resource.users.collect{|u| u.name}.at(1)) if resource.mod.created_by.to_s == @user.name.to_s
-      @user.resources.delete resource
+      node.mod.update_attribute(:created_by, node.users.collect{|u| u.name}.at(1)) if node.mod.created_by.to_s == @user.name.to_s
+      @user.nodes.delete node
     end
-    redirect_to modules_path
+    redirect_to nodes_path
   end
 
   def globalize
-    mod = find_mod params[:id], params[:type]
+    mod = find_mod params[:id]
     mod.toggle! :global
-    redirect_to modules_path
+    redirect_to nodes_path
   end
 
   def publish
-    mod = find_mod params[:id], params[:type]
+    mod = find_mod params[:id]
     mod.toggle! :published
-    redirect_to modules_path
+    redirect_to nodes_path
   end
 
   def share
-    resource = @user.find_resource params[:id], params[:type]
-    unless resource
-      redirect_to modules_path and return
+    @mod = @user.find_node params[:id]
+    unless @mod
+      redirect_to nodes_path and return
     end
-    @mod = resource.mod
     @user_list = User.order :name
-    @mod_owners = resource.users.uniq
+    @mod_owners = @mod.users.uniq
   end
 
   def manage
     begin
-      @mod = find_mod params[:id], params[:type]
-      @course_pages = @mod.get_pages if @local.guides_list.include?('pages')
-      @guides = @mod.get_guides if @local.guides_list.include?('guides')
+      @mod = find_mod params[:id]
+      @course_pages = @mod.get_pages
+      @guides = @mod.get_guides
     rescue
       redirect_to :back
     end
@@ -105,7 +109,7 @@
   def add_to_item item_type
     session[:tabs] ||= []
     begin
-      @mod = find_mod params[:id], params[:type]
+      @mod = find_mod params[:id]
       @sort = params[:sort] ||= 'name'
       @items = @user.send "sort_#{ item_type }s", @sort
       @items = send "paginate_#{ item_type }s", @items, (params[:page] ||= 1), @sort
@@ -117,14 +121,14 @@
     elsif request.post?
       session[:tabs].each do |tid|
         tab = Tab.find tid
-        tab.add_module params[:id], params[:type]
+        tab.add_node params[:id]
       end
       session[:tabs] = nil
       flash[:message] = "#{@mod.module_title} successfully added to these guides."
-      redirect_to manage_module_path(@mod, type: @mod.class)
+      redirect_to manage_node_path(@mod)
     else
       @item_type = item_type
-      render "modules/add_to_item"
+      render 'nodes/add_to_item'
     end
   end
 
@@ -137,22 +141,22 @@
   end
 
   def share_update
-    resource = @user.find_resource params[:id], params[:type]
+    resource = @user.find_node params[:id]
     to_users = []
     if params[:users] != nil
       params[:users].each do |p|
         new_user = User.find(p)
         if new_user and resource.users.include?(new_user) == false
-          new_user.add_resource(resource)
+          new_user.nodes << resource
           to_users << new_user
         end
       end
       flash[:notice] = "User(s) successfully added and email notification sent."
-      send_notices to_users, resource.mod.label
+      send_notices to_users, resource.label
     else
       flash[:notice] = "Please select at least one user to share with."
     end
-    redirect_to :action => 'share',:id => resource.mod.id, :type => resource.mod.class
+    redirect_to :action => 'share',:id => resource.id
   end
 
   def send_notices users, mod_title
@@ -167,7 +171,7 @@
     @class ='thumbnail'
     @style ='width:255px; height:220px;'
     begin
-      @mod = find_mod params[:id], params[:type]
+      @mod = find_mod params[:id]
     rescue Exception => e
       redirect_to :back
     end
@@ -179,34 +183,20 @@
 
   def remove_user_from_mod
     begin
-      resource = @user.find_resource params[:id], params[:type]
+      resource = @user.find_node params[:id]
     rescue Exception => e
       redirect_to :action => 'index', :list=> 'mine'
     else
       user = User.find params[:user]
-      user.resources.delete resource
+      user.nodes.delete resource
       flash[:notice] = "User(s) successfully removed from editor list."
-      redirect_to :action => 'share', :id => resource.mod.id, :type => resource.mod.class
+      redirect_to :action => 'share', :id => resource.id
     end
   end
 
   private
 
-  RESOURCE_CONTROLLER = {
-      'BookResource'          => :book,
-      'CommentResource'       => :comment_resources,
-      'DatabaseResource'      => :database_resources,
-      'InstResource'          => :inst_resources,
-      'LibResource'           => :lib_resources,
-      'MiscellaneousResource' => :miscellaneous_resources,
-      'QuizResource'          => :quiz_resources,
-      'ReserveResource'       => :reserve,
-      'RssResource'           => :rss_resources,
-      'UploaderResource'      => :uploader,
-      'UrlResource'           => :url_resources
-  }
-
-  def delegate_to action
-    redirect_to controller: RESOURCE_CONTROLLER[params[:type]], action: action, id: params[:id]
+  def mod_params
+    params.require(:mod).permit :module_title, :tag_list, :label, :content, :more_info, :global, :slug, :published
   end
 end

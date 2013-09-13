@@ -1,0 +1,39 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th Shared?
+      %th Used?
+      %th Label
+      %th
+      %th Last Update
+      %th Global?
+      %th Published?
+
+  %tbody
+    - @mods.each do |mod|
+      - row_id = "row#{mod.id}#{mod.class}"
+      %tr
+        %td= awesome_button share_node_path(mod), mod.shared? ? 'star' : 'star-empty', 'Share this module'
+        %td= awesome_button manage_node_path(mod), mod.used? ? 'circle' : 'circle-blank', 'Add this module to a guide or page.'
+        %td= truncate mod.label.html_safe, length: 55
+        %td
+          = awesome_button edit_node_path(mod), 'edit', 'Edit this module'
+          &nbsp;
+          = awesome_button node_path(mod), 'external-link', 'Preview this module', '', { :target => 'blank' }
+          &nbsp;
+          = awesome_button copy_node_path(mod), 'copy', 'Copy this module'
+          &nbsp;
+          = link_to '', node_path(mod), method: :delete, class: 'icon-trash', title: 'Delete this module', confirm: 'Are you sure?'
+        %td= mod.updated_at.to_date
+        %td
+          - if mod.global == 0 || mod.global == false
+            = awesome_button globalize_node_path(mod), 'group', 'Add this module to the global list'
+          - else
+            = awesome_button globalize_node_path(mod), 'globe', 'Remove this module from the global list'
+        %td
+          - if mod.published == 0 || mod.published == false
+            = awesome_button publish_node_path(mod), 'lock', 'Add this module to the published list'
+          - else
+            = awesome_button publish_node_path(mod), 'unlock', 'Remove this module from the published list'
+
+= will_paginate @mods

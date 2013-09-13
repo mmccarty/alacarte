@@ -6,7 +6,7 @@ module DashboardHelper
     when 'Guide'
       link_to truncate(h(object.guide_name),:length => 20), {:controller => 'guide', :action => 'edit',  :id => object.id}, :title => "edit guide"
     else
-      link_to truncate(h(object.label),:length => 20), {:controller => 'module', :action => 'edit_content',  :id => object.id, :type => object.class}, :title => "edit module"
+      link_to truncate(h(object.label),:length => 20), {:controller => 'nodes', :action => 'edit_content',  :id => object.id}, :title => "edit module"
     end
   end
 end

@@ -9,12 +9,12 @@
     %b
       On Tab: #{@tab.tab_name}
     | #{link_to 'Select a different tab', :controller => 'page', :action => 'edit', :id => @page}
-  = render :partial => "shared/new_module"
+  = render :partial => "shared/new_node"
   - unless @mods.size <1
     #product-list
-      = form_tag :controller => 'tab', :action => 'page_add_modules', :id => @tab.id do
+      = form_tag :controller => 'tab', :action => 'page_add_nodes', :id => @tab.id do
         #table
-          = render :partial => "shared/add_modules_list"
+          = render :partial => "shared/add_nodes_list"
         = submit_tag 'Add to Tab', :class=> "submit"
   - else
     %p

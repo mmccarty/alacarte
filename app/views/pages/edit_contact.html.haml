@@ -14,7 +14,7 @@
       %label
         Contact Module
         %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(CONTACT_MOD_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-      = f.select :resource_id, @resources
+      = f.select :node_id, @resources
       %br/
       = f.submit 'Update Contact', class: 'btn btn-primary'
       = link_to 'Cancel', @page, class: 'btn btn-cancel'

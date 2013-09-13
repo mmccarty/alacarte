@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130912221041) do
+ActiveRecord::Schema.define(version: 20130913135754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20130912221041) do
 
   create_table "guides", force: true do |t|
     t.string   "guide_name",                  null: false
-    t.integer  "resource_id"
+    t.integer  "node_id"
     t.datetime "updated_at"
     t.string   "created_by",  default: ""
     t.boolean  "published",   default: false
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20130912221041) do
     t.text     "relateds"
   end
 
-  add_index "guides", ["resource_id"], name: "index_guides_on_resource_id", using: :btree
+  add_index "guides", ["node_id"], name: "index_guides_on_resource_id", using: :btree
 
   create_table "guides_masters", id: false, force: true do |t|
     t.integer "guide_id"
@@ -80,17 +80,11 @@ ActiveRecord::Schema.define(version: 20130912221041) do
     t.string  "univ_name"
     t.string  "univ_url"
     t.text    "footer"
-    t.text    "book_search"
-    t.text    "site_search"
-    t.text    "g_search"
-    t.text    "g_results"
     t.text    "image_map"
-    t.string  "ica_page_title",    default: "Get Help with a Class"
-    t.string  "guide_page_title",  default: "Get Help with a Subject"
+    t.string  "ica_page_title",   default: "Get Help with a Class"
+    t.string  "guide_page_title", default: "Get Help with a Subject"
     t.integer "logo_width"
     t.integer "logo_height"
-    t.text    "types"
-    t.text    "guides"
     t.string  "proxy"
     t.string  "admin_email_to"
     t.string  "admin_email_from"
@@ -98,29 +92,32 @@ ActiveRecord::Schema.define(version: 20130912221041) do
     t.string  "js_link"
     t.text    "meta"
     t.text    "tracking"
-    t.string  "site_search_label"
-    t.string  "book_search_label"
     t.text    "guide_box"
     t.text    "right_box"
-    t.boolean "enable_search",     default: true
   end
 
   create_table "masters", force: true do |t|
     t.string "value", null: false
   end
 
-  create_table "miscellaneous_resources", force: true do |t|
-    t.string   "module_title", default: "",               null: false
+  create_table "nodes", force: true do |t|
+    t.string   "module_title", default: "",    null: false
     t.string   "label"
     t.text     "content"
     t.text     "more_info"
     t.string   "created_by"
     t.datetime "updated_at"
     t.boolean  "global",       default: false
-    t.string   "content_type", default: "Custom Content"
     t.string   "slug"
     t.boolean  "published",    default: false
   end
+
+  create_table "nodes_users", id: false, force: true do |t|
+    t.integer "node_id"
+    t.integer "user_id"
+  end
+
+  add_index "nodes_users", ["node_id", "user_id"], name: "index_resources_users_on_resource_id_and_user_id", using: :btree
 
   create_table "pages", force: true do |t|
     t.boolean  "published",        default: false
@@ -134,7 +131,7 @@ ActiveRecord::Schema.define(version: 20130912221041) do
     t.datetime "updated_at"
     t.date     "created_on"
     t.boolean  "archived",         default: false
-    t.integer  "resource_id"
+    t.integer  "node_id"
     t.string   "created_by"
     t.text     "relateds"
   end
@@ -157,18 +154,6 @@ ActiveRecord::Schema.define(version: 20130912221041) do
   add_index "pages_users", ["page_id"], name: "index_pages_users_on_page_id", using: :btree
   add_index "pages_users", ["user_id"], name: "index_pages_users_on_user_id", using: :btree
 
-  create_table "resources", force: true do |t|
-    t.integer "mod_id"
-    t.string  "mod_type"
-  end
-
-  create_table "resources_users", id: false, force: true do |t|
-    t.integer "resource_id"
-    t.integer "user_id"
-  end
-
-  add_index "resources_users", ["resource_id", "user_id"], name: "index_resources_users_on_resource_id_and_user_id", using: :btree
-
   create_table "sessions", force: true do |t|
     t.string   "session_id"
     t.text     "data"
@@ -182,14 +167,14 @@ ActiveRecord::Schema.define(version: 20130912221041) do
     t.string "subject_name", default: ""
   end
 
-  create_table "tab_resources", force: true do |t|
+  create_table "tab_nodes", force: true do |t|
     t.integer "tab_id"
-    t.integer "resource_id"
+    t.integer "node_id"
     t.integer "position"
   end
 
-  add_index "tab_resources", ["resource_id"], name: "index_tab_resources_on_resource_id", using: :btree
-  add_index "tab_resources", ["tab_id"], name: "index_tab_resources_on_tab_id", using: :btree
+  add_index "tab_nodes", ["node_id"], name: "index_tab_resources_on_resource_id", using: :btree
+  add_index "tab_nodes", ["tab_id"], name: "index_tab_resources_on_tab_id", using: :btree
 
   create_table "tabs", force: true do |t|
     t.string   "tab_name"
@@ -206,10 +191,10 @@ ActiveRecord::Schema.define(version: 20130912221041) do
     t.integer  "tag_id"
     t.integer  "taggable_id"
     t.string   "taggable_type"
-    t.datetime "created_at"
     t.integer  "tagger_id"
     t.string   "tagger_type"
-    t.string   "context",       limit: 120
+    t.string   "context",       limit: 128
+    t.datetime "created_at"
   end
 
   add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
@@ -225,7 +210,7 @@ ActiveRecord::Schema.define(version: 20130912221041) do
     t.string  "email",         default: "",       null: false
     t.string  "salt",          default: "",       null: false
     t.string  "role",          default: "author", null: false
-    t.integer "resource_id"
+    t.integer "node_id"
   end
 
 end

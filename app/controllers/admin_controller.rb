@@ -133,17 +133,6 @@ class AdminController < ApplicationController
     end
   end
 
-  def customize_content_types
-    @guide_types = [['Course Guides', 'pages'], ['Subject Guides', 'guides']]
-    @types = ::MODULES
-    @selected = @local.types_list
-    @selected_guides = @local.guides_list
-    if request.post?
-      @local.update_attributes local_params
-      redirect_to action: 'view_customizations' if @local.save
-    end
-  end
-
   def customize_admin_email
     if request.post?
       @local.update_attributes local_params

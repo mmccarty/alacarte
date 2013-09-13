@@ -82,9 +82,9 @@ describe Tab do
       tab = build :tab, template: 1
       guide = create :guide
       guide.add_tab tab
-      mods = 1.upto(6).map { create :miscellaneous_resource }
-      mods.each { |mod| tab.add_resource Resource.create(mod: mod) }
-      expect(tab.sorted_modules).to eq mods
+      mods = 1.upto(6).map { create :node }
+      mods.each { |mod| tab.add_node mod }
+      expect(tab.sorted_nodes).to eq mods
     end
   end
 
@@ -93,32 +93,30 @@ describe Tab do
       tab = build :tab, template: 2
       guide = create :guide
       guide.add_tab tab
-      mods = 1.upto(6).map { create :miscellaneous_resource }
-      mods.each { |mod| tab.add_resource Resource.create(mod: mod) }
-      expect(tab.left_modules).to eq [mods[0], mods[2], mods[4]]
-      expect(tab.right_modules).to eq [mods[1], mods[3], mods[5]]
+      mods = 1.upto(6).map { create :node }
+      mods.each { |mod| tab.add_node mod }
+      expect(tab.left_nodes).to eq [mods[0], mods[2], mods[4]]
+      expect(tab.right_nodes).to eq [mods[1], mods[3], mods[5]]
     end
   end
 
   describe 'acts as list' do
     it 'has modules' do
       tab = build :tab, template: 1
-      mod = create :miscellaneous_resource
-      res = Resource.create mod: mod
-      tab.add_resource res
-      expect(tab.modules).to eq [mod]
+      mod = create :node
+      tab.add_node mod
+      expect(tab.nodes).to eq [mod]
     end
 
     it 'can re-order modules' do
       tab = build :tab, template: 1
       guide = create :guide
       guide.add_tab tab
-      mods = 1.upto(3).map { create :miscellaneous_resource }
-      res = mods.map { |mod| Resource.create mod: mod }
-      res.each { |resource| tab.add_resource resource }
-      tab.reorder_modules [res[2].id, res[0].id, res[1].id]
+      mods = 1.upto(3).map { create :node }
+      mods.each { |node| tab.add_node node }
+      tab.reorder_nodes [mods[2].id, mods[0].id, mods[1].id]
       tab.reload
-      expect(tab.sorted_modules).to eq [mods[2], mods[0], mods[1]]
+      expect(tab.sorted_nodes).to eq [mods[2], mods[0], mods[1]]
     end
   end
 end

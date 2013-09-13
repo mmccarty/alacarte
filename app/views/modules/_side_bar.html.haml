@@ -1,9 +1,0 @@
-%ul.nav.nav-pills.nav-stacked
-  %li{ :class => current_page?(edit_module_path(@mod, type: @mod.class)) && "active" }
-    = link_to 'Edit Module', edit_module_path(@mod, type: @mod.class)
-  %li{ :class => current_page?(manage_module_path(@mod, type: @mod.class)) && "active" }
-    = link_to 'Add to / Used on', manage_module_path(@mod, type: @mod.class)
-  %li{ :class => current_page?(share_module_path(@mod, type: @mod.class)) && "active" }
-    = link_to 'Share Module', share_module_path(@mod, type: @mod.class)
-  %li{ :class => current_page?(new_module_path) && "active" }
-    = link_to 'Create new module', new_module_path

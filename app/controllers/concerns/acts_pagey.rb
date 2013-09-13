@@ -13,10 +13,10 @@ module ActsPagey
   def show
     @tab = find_tab
     if @tab.num_columns == 1
-      @mods = @tab.tab_resources
+      @mods = @tab.sorted_nodes
     else
-      @mods_left  = @tab.left_resources
-      @mods_right = @tab.right_resources
+      @mods_left  = @tab.left_nodes
+      @mods_right = @tab.right_nodes
     end
 
     @item = get_item

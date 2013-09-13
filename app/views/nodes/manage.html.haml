@@ -11,7 +11,7 @@
       %h3
         Used on #{@course_pages.length} Pages
       %p
-        = awesome_button add_to_page_module_path(@mod, type: @mod.class), 'plus', 'Add to Pages', 'btn'
+        = awesome_button add_to_page_node_path(@mod), 'plus', 'Add to Pages', 'btn'
       %table.table.table-striped
         - @course_pages.each do |page|
           %tr
@@ -26,7 +26,7 @@
       %h3
         Used on #{@guides.length} Guides
       %p
-        = awesome_button add_to_guide_module_path(@mod, type: @mod.class), 'plus', 'Add to Guides', 'btn'
+        = awesome_button add_to_guide_node_path(@mod), 'plus', 'Add to Guides', 'btn'
       %table.table.table-striped
         - @guides.each do |guide|
           %tr

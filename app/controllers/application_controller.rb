@@ -47,23 +47,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Constructs one of the derived resource object types, by name.
-  def create_module_object(type)
-    type.camelize.constantize.new
+  def create_node_object
+    Node.new
   end
 
-  # Finds a resource object given the id and type name.
-  def find_mod(id, type)
-    type.constantize.find id
+  def find_mod id
+    Node.find id
   end
 
-  # Creates a "resource" to associate a user with a module (derived resource).
-  def create_and_add_resource(user, mod, item = nil)
-    user.create_and_add_resource mod, item
+  def create_and_add_node user, mod, item = nil
+    user.create_and_add_node mod, item
   end
 
-  # Abbreviates a chunk of text.
-  def create_slug(text, trunc = 25, truncate_string = '...')
+  def create_slug text, trunc = 25, truncate_string = '...'
     if text
       l = trunc - truncate_string.mb_chars.length
       chars = text.mb_chars
@@ -71,12 +67,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Return a list of all the derived resource types in a format suitable for use in a select tag.
-  def module_types
-    @types = local_customization.mod_types
-  end
-
-  # Returns the database record containing the local customizations.
   def local_customization
     @local = Local.first
   end

@@ -14,7 +14,7 @@
 #  updated_at       :datetime
 #  created_on       :date
 #  archived         :boolean          default(FALSE)
-#  resource_id      :integer
+#  node_id          :integer
 #  created_by       :string(255)
 #  relateds         :text
 #
@@ -27,7 +27,7 @@ class Page < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :tabs, -> { order 'position' }, :as => 'tabable', :dependent => :destroy
   has_and_belongs_to_many :subjects, -> { order 'subject_code' }
-  belongs_to :resource
+  belongs_to :node
 
   serialize :relateds
 
@@ -87,11 +87,8 @@ class Page < ActiveRecord::Base
     subjects.flat_map(&:get_guides).map &:id
   end
 
-  def add_contact_module mid
-    resource_id = nil
-    if mid
-      resource_id = mid.to_i
-    end
+  def add_contact_node mid
+    self.node_id = if mid then mid.to_i else nil end
   end
 
   def self.get_branch_published_pages branch
@@ -130,7 +127,7 @@ class Page < ActiveRecord::Base
     num_pages = Page.where('course_name like :prefix', prefix: "#{ course_name}%").count
     new_page.course_name = "#{ course_name }-#{ num_pages + 1}"
     if options == 'copy'
-      new_page.copy_resources user.id, tabs
+      new_page.copy_nodes user.id, tabs
     else
       new_page.copy_tabs tabs
     end

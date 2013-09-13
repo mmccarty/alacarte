@@ -20,11 +20,11 @@
             %li{ class: current_page?(dashboard_path) && "active" }
               = link_to 'Dashboard', dashboard_path
             %li{ class: (controller.controller_name == 'module') && "active" }
-              = link_to 'Modules', modules_path
-            - if @user.is_admin || @local.guides_list.include?('guides')
+              = link_to 'Modules', nodes_path
+            - if @user.is_admin
               %li{ class: (controller.controller_name == 'guides') && "active" }
                 = link_to 'Guides', guides_path
-            - if @user.is_admin || @local.guides_list.include?('pages')
+            - if @user.is_admin
               %li{ class: (controller.controller_name == 'pages') && "active" }
                 = link_to 'Pages', pages_path
           = awesome_button logout_path, 'signout', 'Logout', '', :style => 'color: #777777; float: right; padding: 10px 15px 10px;'

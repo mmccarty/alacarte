@@ -1,5 +1,5 @@
 #contact_actions
-  = link_to 'Edit Contact Module', {:controller => 'module', :action => 'edit_content', :id => @mod, :type => @mod.class}
+  = link_to 'Edit Contact Module', {:controller => 'nodes', :action => 'edit_content', :id => @mod}
   |
   %a{:href => "#", :onclick => "$('hide').toggle();; return false;"} Select New Contact Module
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(NEW_CONTACT_MSSG, this, event, '125');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)

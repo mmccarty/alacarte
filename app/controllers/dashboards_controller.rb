@@ -5,21 +5,21 @@ class DashboardsController < ApplicationController
     @num_published_pages = @user.published_pages.length
     @num_archived_pages = @user.archived_pages.length
     @num_published_guides = @user.published_guides.length
-    @num_modules = @user.num_modules
+    @num_nodes = @user.num_nodes
     @recent_activity = @user.recent_activity
   end
 
   def my_profile
     begin
-      @mod = @user.resources.find(params[:rid]).mod
+      @mod = @user.nodes.find(params[:rid]).mod
     rescue
       redirect_to dashboard_path
     end
   end
 
   def edit_profile
-    @resources = @user.contact_resources
-    @selected = @user.resource_id || ""
+    @resources = @user.contact_nodes
+    @selected = @user.node_id || ""
     if request.post?
       if  params[:contact] != "Select"
         @user.add_profile params[:contact]

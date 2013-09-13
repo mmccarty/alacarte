@@ -5,13 +5,13 @@
   .span10
     - unless @items.size < 1
       %h1.page-header
-        = link_to "Add To/Used On", manage_module_path(@mod, :type => @mod.class)
+        = link_to "Add To/Used On", manage_node_path(@mod)
         %br
         %small
           Add to Course #{ @item_type.titlecase }
       %p.muted
         Check the box next to the tabs on the #{ @item_type }s to which you want to add the module. Then click the button at the bottom of the list.
-      = form_tag @item_type == 'page' ? add_to_page_module_path(@mod, :type => @mod.class) : add_to_guide_module_path(@mod, :type => @mod.class) do
+      = form_tag @item_type == 'page' ? add_to_page_node_path(@mod) : add_to_guide_node_path(@mod) do
         %table#acts_pagey.table.table-striped
           %thead
             %tr
@@ -30,7 +30,7 @@
                   = truncate item.guide_name.html_safe, length: 65
                 %label.checkbox
                   - item.tabs.each do |tab|
-                    = check_box_tag tab.tab_name, tab.id, tab.modules.include?(@mod), :onclick => "$.post('#{ add_item_module_path(@mod) }', { tid: #{ tab.id }, type: '#{ @mod.class }' });"
+                    = check_box_tag tab.tab_name, tab.id, tab.nodes.include?(@mod), :onclick => "$.post('#{ add_item_node_path(@mod) }', { tid: #{ tab.id }, type: '#{ @mod.class }' });"
                     = tab.tab_name
                     %br/
               %td

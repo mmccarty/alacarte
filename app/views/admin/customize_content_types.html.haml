@@ -10,15 +10,5 @@
         = select_tag 'local[guides][]', options_for_select(@guide_types, @selected_guides), { multiple: true }
         %p.muted= _('Select the types of guides authors can create. Admins will be able to create all types.')
 
-  %fieldset
-    %legend= _('Modules Types')
-    .control-group
-      .controls
-        = select_tag 'local[types][]', options_for_select(@types, @selected), { multiple: true }
-        %p.muted
-          = _('Select the module types authors can create. Admins will be able to create all module types.')
-          %br/
-          =  raw _('Note: Some modules must be configured before they will be functional, see %{documentation} before enabling any new modules.') % { documentation: alacarte_documentation(_ 'this documentation') }
-
   = submit_tag _('Customize'), class: 'btn btn-primary'
   = link_to _('Cancel'), tools_path, class: 'btn btn-cancel'

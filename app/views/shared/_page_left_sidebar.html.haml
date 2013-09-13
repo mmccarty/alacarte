@@ -9,12 +9,12 @@
     %ul.nav.nav-list.page-sidenav
       - @mods.each do |mod|
         %li
-          %a{:href => "#topic_#{ mod.resources.first.id }"}
+          %a{:href => "#topic_#{ mod.id }"}
             %i.icon-chevron-right
             = mod.module_title.html_safe
 
   #related-guides.accordion
-    - if @local.guides_list.include?('guides') and defined?(@related_guides) and @related_guides.length > 0
+    - if defined?(@related_guides) and @related_guides.length > 0
       .accordion-group
         .accordion-heading
           %a.accordion-toggle{:href => "#guide-list", :data => {:toggle => 'collapse', :parent => 'related-guides'}}
@@ -26,7 +26,7 @@
               - @related_guides.each do |guide|
                 - guide_url = url_for :controller => 'srg', :action => :show, :id => guide
                 %li= link_to raw(guide.guide_name), guide_url, :title => "#{ raw guide.description }"
-    - if @local.guides_list.include?('pages') and defined?(@related_pages) and @related_pages.length > 0
+    - if defined?(@related_pages) and @related_pages.length > 0
       .accordion-group
         .accordion-heading
           %a.accordion-toggle{:href => "#page-list", :data => {:toggle => 'collapse', :parent => 'related-pages'}}

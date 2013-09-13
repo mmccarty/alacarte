@@ -23,14 +23,14 @@ describe IcaController do
       tab.template = 1
       tab.save
       get :show, id: @page.id
-      expect(assigns(:mods)).to match_array tab.sorted_modules
+      expect(assigns(:mods)).to match_array tab.sorted_nodes
     end
 
     it 'constructs lists of modules for the left and right columns' do
       tab = @page.tabs.first
       get :show, id: @page.id
-      expect(assigns(:mods_left)).to match_array tab.left_modules
-      expect(assigns(:mods_right)).to match_array tab.right_modules
+      expect(assigns(:mods_left)).to match_array tab.left_nodes
+      expect(assigns(:mods_right)).to match_array tab.right_nodes
     end
 
     it 'does not assign @mods in two-column layouts' do

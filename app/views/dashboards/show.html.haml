@@ -5,14 +5,14 @@
     %h2 Modules
     %p
       %i.icon-large.icon-plus-sign{ :title => 'New module', :alt => 'add' }
-      = link_to 'Create a new content module', new_module_path
+      = link_to 'Create a new content module', new_node_path
     %p
       %i.icon-large.icon-folder-open{ :title => 'Browse my modules', :alt => 'browse' }
-      = link_to 'Browse content modules', modules_path
-    - if @user.resource_id.present?
+      = link_to 'Browse content modules', nodes_path
+    - if @user.node_id.present?
       %p
         %i.icon-large.icon-edit{ :title => 'My contact module', :alt => 'edit' }
-        = link_to 'Edit default contact module' , :controller => 'dashboards', :action => 'my_profile', :rid => @user.resource_id
+        = link_to 'Edit default contact module' , :controller => 'dashboards', :action => 'my_profile', :rid => @user.node_id
         %br/
     - else
       %p
@@ -20,36 +20,34 @@
         = link_to 'Set default contact module', edit_profile_dashboard_path
     %p
       %i.icon-large.icon-globe{ :title => 'Browse global modules', :alt => 'browse' }
-      = link_to 'Browse global modules', modules_path(list: 'global')
+      = link_to 'Browse global modules', nodes_path(list: 'global')
 
     %hr
 
     .row
-      - if @local.guides_list.include?('guides')
-        .span4
-          %h2 My Guides
-          %p
-            %i.icon-large.icon-plus-sign{ :title => 'New guide', :alt => 'add' }
-            = link_to 'Create a new subject guide', new_guide_path
-          %p
-            %i.icon-large.icon-folder-open{ :title => 'Browse my guides', :alt => 'browse' }
-            = link_to 'Browse subject guides', guides_path
-      - if @local.guides_list.include?('pages')
-        .span4
-          %h2 My Pages
-          %p
-            %i.icon-large.icon-plus-sign{ :title => 'New page', :alt => 'add' }
-            = link_to 'Create a new course page', new_page_path
-          %p
-            %i.icon-large.icon-folder-open{ :title => 'Browse my pages', :alt => 'browse' }
-            = link_to 'Browse course pages', pages_path
+      .span4
+        %h2 My Guides
+        %p
+          %i.icon-large.icon-plus-sign{ :title => 'New guide', :alt => 'add' }
+          = link_to 'Create a new subject guide', new_guide_path
+        %p
+          %i.icon-large.icon-folder-open{ :title => 'Browse my guides', :alt => 'browse' }
+          = link_to 'Browse subject guides', guides_path
+      .span4
+        %h2 My Pages
+        %p
+          %i.icon-large.icon-plus-sign{ :title => 'New page', :alt => 'add' }
+          = link_to 'Create a new course page', new_page_path
+        %p
+          %i.icon-large.icon-folder-open{ :title => 'Browse my pages', :alt => 'browse' }
+          = link_to 'Browse course pages', pages_path
 
   .span4
     .well.well-small
       %h3 Overview
       %dl.dl-horizontal
         %dt modules
-        %dd #{@num_modules}
+        %dd #{@num_nodes}
         %dt
           = link_to 'published guides', :controller => :srg , :action => 'published_guides'
         %dd #{@num_published_guides}

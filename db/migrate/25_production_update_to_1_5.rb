@@ -1,16 +1,16 @@
 class ProductionUpdateTo15 < ActiveRecord::Migration
 def self.up
     change_column :answers,:correct,:boolean,:default => false
-    remove_index :answers, :name => "quiz_question_id" 
+    remove_index :answers, :name => "quiz_question_id"
     add_index :answers, :question_id
-    remove_index :authorships, :name => "tutorial_id" 
-    add_index :authorships, ["tutorial_id", "user_id"] 
+    remove_index :authorships, :name => "tutorial_id"
+    add_index :authorships, ["tutorial_id", "user_id"]
     change_column :book_resources, :module_title, :string,:null => false
     change_column :book_resources,:global,:boolean,:default => false
     change_column :book_resources,:published, :boolean, :default => false
     change_column :book_resources,:slug, :string
     change_column :books, :image_id, :string
-    remove_index :books, :name => "book_resource_id" 
+    remove_index :books, :name => "book_resource_id"
     add_index :books, :book_resource_id
     change_column :comment_resources,:module_title,:string,:null => false
     change_column :comment_resources,:num_displayed,:integer,:default => 3, :null => true
@@ -19,11 +19,11 @@ def self.up
     remove_index :comments, :name => "author_email"
     add_index :comments, ["author_email", "created_at"]
     change_column :course_widgets,:module_title,:string,:null => false
-    change_column :course_widgets, :global, :boolean,:default => false  
+    change_column :course_widgets, :global, :boolean,:default => false
     change_column :course_widgets, :published, :boolean,:default => false
     change_column :database_dods,:database_resource_id,:integer,:null => false
     change_column :database_dods,:dod_id,:integer,:null => false
-    remove_index :database_dods, :name => "database_resource_id" 
+    remove_index :database_dods, :name => "database_resource_id"
     add_index :database_dods, ["database_resource_id", "dod_id"]
     change_column :database_resources,:module_title,:string,:null => false
     change_column :database_resources,:global,:boolean,  :default => false
@@ -42,45 +42,45 @@ def self.up
     change_column :dods,:fssub,:string
     change_column :dods,:brief,:string
     change_column :dods,:visible,:boolean,:default => true
-    remove_index :dods, :name => "title" 
+    remove_index :dods, :name => "title"
     add_index :dods, :title
-    remove_index :feeds, :name => "rss_resource_id" 
+    remove_index :feeds, :name => "rss_resource_id"
     add_index :feeds, :rss_resource_id
     change_column :guides,:created_by,:string, :null => true
     change_column :guides,:published,:boolean,:default => false, :null => true
-    remove_index :guides, :name => "resource_id" 
+    remove_index :guides, :name => "resource_id"
     add_index :guides, :resource_id
     change_column :image_resources,:global,:boolean,:default => false
     change_column :image_resources,:content_type,:string,:default => "Images", :null => true
     change_column :image_resources,:size,:string,  :default => "F"
     change_column :image_resources,:orientation,:string,:default => "V"
     change_column :image_resources,:published,:boolean,:default => false
-    remove_index :images, :name => "image_resource_id" 
+    remove_index :images, :name => "image_resource_id"
     add_index :images, :image_resource_id
     change_column :inst_resources,:module_title,:string,:null => false
     change_column :inst_resources,:global,:boolean,:default => false
-    change_column :inst_resources,:published,:boolean,:default => false 
+    change_column :inst_resources,:published,:boolean,:default => false
     change_column :lib_resources,:module_title,:string,:null => false
     change_column :lib_resources,:global,:boolean,:default => false
-    change_column :lib_resources,:published,:boolean,:default => false 
-    change_column :libfind_resources,:published,:boolean,:default => false 
+    change_column :lib_resources,:published,:boolean,:default => false
+    change_column :libfind_resources,:published,:boolean,:default => false
     change_column :libfind_resources,:global,:boolean,:default => false
     change_column :links,:url,:string
-    change_column :links,:target,:boolean,:default => false 
-    remove_index :links, :name => "url_resource_id" 
+    change_column :links,:target,:boolean,:default => false
+    remove_index :links, :name => "url_resource_id"
     add_index :links, :url_resource_id
     change_column :lf_targets,:value,:string
     change_column :locals,:banner_url,:string
     change_column :locals,:logo_url,:string
     change_column :locals,:styles,:string
     change_column :locals,:lib_url,:string
-    change_column :locals,:univ_url,:string  
-    change_column :locals,:js_link,:string 
+    change_column :locals,:univ_url,:string
+    change_column :locals,:js_link,:string
     change_column :locals,:proxy,:string
     add_column :locals,:enable_search,:boolean,:default => true
-    change_column :miscellaneous_resources,:module_title,:string, :null => false
-    change_column :miscellaneous_resources,:global,:boolean,:default => false
-    change_column :miscellaneous_resources,:published,:boolean,:default => false 
+    change_column :nodes,:module_title,:string, :null => false
+    change_column :nodes,:global,:boolean,:default => false
+    change_column :nodes,:published,:boolean,:default => false
     change_column :pages,:published,:boolean,:default => false,:null => true
     change_column :pages,:course_num,:string
     change_column :pages,:campus,:string,:null => true
@@ -89,23 +89,23 @@ def self.up
     change_column :questions,:q_type,:string,:default => "MC", :null => true
     change_column :questions,:points,:integer,:default => 0, :null =>  true
     change_column :questions,:updated_at,:datetime, :null => true
-    remove_index :questions, :name => "quiz_resource_id" 
+    remove_index :questions, :name => "quiz_resource_id"
     add_index :questions, :quiz_resource_id
     QuizResource.update_all({:created_by => ''},{:created_by => nil})
     change_column :quiz_resources,:created_by,:string
     change_column :quiz_resources,:content_type,:string,:default => "Quiz", :null => true
     change_column :quiz_resources,:global,:boolean,:default => false,:null => true
     change_column :quiz_resources,:graded,:boolean,:default => false
-    change_column :quiz_resources,:published,:boolean,:default => false 
-    remove_index :resourceables, :name => "resource_id" 
+    change_column :quiz_resources,:published,:boolean,:default => false
+    remove_index :resourceables, :name => "resource_id"
     add_index :resourceables, ["resource_id", "unit_id"]
     change_column :reserve_resources,:module_title,:string,:null => false
     change_column :reserve_resources,:global,:boolean,:default => false
     change_column :reserve_resources,:published,:boolean,:default => false
     change_column :results,:score,:integer,:default => 0, :null => true
-    remove_index :results, :name => "quiz_resource_id" 
+    remove_index :results, :name => "quiz_resource_id"
     add_index :results, :question_id
-    remove_index :results, :name => "student_id" 
+    remove_index :results, :name => "student_id"
     add_index :results, :student_id
     remove_index :resources_users, :name => "resource_id"
     add_index :resources_users, ["resource_id", "user_id"]
@@ -115,7 +115,7 @@ def self.up
     change_column :rss_resources,:num_feeds,:integer,:default => 6, :null => true
     change_column :rss_resources,:style,:string,:default => "mixed", :null => true
     change_column :rss_resources,:published,:boolean,:default => false
-    remove_index :sessions, :name => "sessions_session_id_index" 
+    remove_index :sessions, :name => "sessions_session_id_index"
     add_index :sessions, :session_id
     change_column :students,:firstname,:string, :null => true
     change_column :students,:lastname,:string, :null => true
@@ -126,9 +126,9 @@ def self.up
     change_column :subjects,:subject_name,:string,:null => true
     change_column :tabs,:tabable_type,:string
     change_column :tabs,:tab_name,:string
-    remove_index :taggings, :name => "tag_id" 
+    remove_index :taggings, :name => "tag_id"
     add_index :taggings, ["tag_id"]
-    remove_index :taggings, :name => "taggable_id" 
+    remove_index :taggings, :name => "taggable_id"
     add_index :taggings, ["taggable_id", "taggable_type"]
     change_column :tutorials,:graded,:boolean,:default => false
     change_column :tutorials,:published,:boolean,:default => false,:null => true
@@ -137,7 +137,7 @@ def self.up
     change_column :tutorials,:pass,:string,:default => "p@ssword",:null => true
     remove_index :tutorials, :name => "subject_id"
     add_index :tutorials, ["subject_id"]
-    remove_index :unitizations, :name => "unit_id" 
+    remove_index :unitizations, :name => "unit_id"
     add_index :unitizations, ["unit_id", "tutorial_id"]
     change_column :units,:slug,:string,:null => true
     change_column :uploader_resources,:module_title,:string, :default => "", :null => false
@@ -154,8 +154,8 @@ def self.up
     change_column :video_resources,:global,:boolean,:default => false
     change_column :video_resources,:published,:boolean,:default => false
     change_column :video_resources,:size,:string,:default => "F"
-    change_column :video_resources,:orientation,:string,:default => "V" 
-    remove_index :videos, :name => "video_resource_id" 
+    change_column :video_resources,:orientation,:string,:default => "V"
+    remove_index :videos, :name => "video_resource_id"
     add_index :videos, ["video_resource_id"]
   end
 
@@ -231,9 +231,9 @@ def self.up
     change_column :pages,:campus,:string,:null => false
     change_column :pages,:term,:string,:null => true
     change_column :pages,:year,:string,:null => true
-    change_column :miscellaneous_resources, :published, :integer, :default => 0
-    change_column :miscellaneous_resources, :global, :integer, :limit => 1, :default => 0
-    change_column :miscellaneous_resources, :module_title, :string, :default => "", :null => true
+    change_column :nodes, :published, :integer, :default => 0
+    change_column :nodes, :global, :integer, :limit => 1, :default => 0
+    change_column :nodes, :module_title, :string, :default => "", :null => true
     remove_column :locals, :enable_search
     change_column :locals, :proxy, :string, :limit => 500
     change_column :locals, :js_link, :string, :limit => 555
@@ -243,7 +243,7 @@ def self.up
     change_column :locals, :logo_url, :string, :limit => 555
     change_column :locals, :banner_url, :string, :limit => 555
     change_column :libfind_resources,:published,:integer,:limit => 1 ,:default => 0
-    change_column :libfind_resources,:global,:integer,:limit => 1 ,:default => 0 
+    change_column :libfind_resources,:global,:integer,:limit => 1 ,:default => 0
     change_column :lf_targets,:value,:string,:limit => 55
     remove_index :links, :name => "index_links_on_url_resource_id"
     add_index :links, ["url_resource_id"], :name => "url_resource_id"

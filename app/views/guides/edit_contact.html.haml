@@ -12,7 +12,7 @@
           %label.control-label
             Contact Module
           .controls
-            = f.select :resource_id, @resources
+            = f.select :node_id, @resources
             %i.icon-question-sign{ :data => { :content => 'The contact module should contain contact information for the person or cluster available to answer questions about the guide\'s content and subject area.', :html => 'true', :trigger => 'hover' } }
         .control-group
           = f.submit 'Save', class: 'btn btn-primary'

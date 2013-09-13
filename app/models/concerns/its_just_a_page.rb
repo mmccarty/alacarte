@@ -14,12 +14,12 @@ module ItsJustAPage
     tabs.length > 6
   end
 
-  def modules
-    tabs.flat_map &:modules
+  def nodes
+    tabs.flat_map &:nodes
   end
 
-  def recent_modules
-    tabs.flat_map &:recent_modules
+  def recent_nodes
+    tabs.flat_map &:recent_nodes
   end
 
   def shared?
@@ -31,9 +31,9 @@ module ItsJustAPage
   end
 
   def update_users
-    tabs.flat_map(&:resources).each do |resource|
+    tabs.map(&:nodes).each do |node|
       users.each do |user|
-        user.add_resource(resource) unless(user.id == @user || user.resources.include?(resource) == true)
+        user.nodes << node unless(user.id == @user || user.nodes.include?(node) == true)
       end
     end
   end
@@ -45,11 +45,11 @@ module ItsJustAPage
       new_item.users << user
     else
       users << user
-      tabs.flat_map(&:resources).each { |resource| user.add_resource resource }
+      tabs.flat_map(&:nodes).each { |node| user.nodes << node }
     end
   end
 
-  def copy_resources uid, tbs
+  def copy_nodes uid, tbs
     # Need an id to add tabs
     save
     tabs.destroy_all
@@ -58,14 +58,13 @@ module ItsJustAPage
     klass = self.class.to_s.downcase
     klass_name = klass == 'page' ? 'route_title' : 'guide_name'
     tbs.each do |tab|
-      mod_copies = tab.tab_resources.flat_map { |r| r.resource.copy_mod(tab.send(klass).send klass_name) }
+      mod_copies = tab.tab_nodes.flat_map { |r| r.node.copy }
       tab_copy = tab.dup
       if tab_copy.save
         mod_copies.each do |mod|
           mod.update_attribute :created_by, user.name
-          resource = Resource.create mod: mod
-          user.add_resource resource
-          tab_copy.add_resource resource
+          user.nodes << mod
+          tab_copy.add_node mod
         end
         add_tab tab_copy
       end
@@ -80,8 +79,8 @@ module ItsJustAPage
     tbs.each do |tab|
       tab_copy = tab.dup
       if tab_copy.save
-        tab.tab_resources.each do |res|
-          tab_copy.add_resource res.resource
+        tab.tab_nodes.each do |res|
+          tab_copy.add_node res
         end
         add_tab tab_copy
       end

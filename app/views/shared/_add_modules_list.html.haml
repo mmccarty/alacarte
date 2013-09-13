@@ -5,7 +5,6 @@
       %th Label
       %th
       %th Last Update
-      %th Content Type
   %tbody
     - @mods.each do |mod|
       %tr
@@ -15,9 +14,8 @@
         %td= truncate(mod.label, :length => 45)
         %td
           %i.icon-question-sign{ :data => { :content => "#{render_tooltip(mod)}", :html => 'true', :trigger => 'hover' } }
-          = awesome_button module_path(mod, type: mod.class), 'external-link', 'Preview this module', '', { :target => 'blank' }
+          = awesome_button node_path(mod), 'external-link', 'Preview this module', '', { :target => 'blank' }
         %td= mod.updated_at.to_date
-        %td= mod.content_type
 
 = will_paginate @mods
 

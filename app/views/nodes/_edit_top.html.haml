@@ -13,12 +13,12 @@
     = link_to "Edit Guide", :controller => 'guide', :action =>'edit', :id => @guide
     >> Edit #{@mod.module_title}
 - else
-  = render :partial => 'module/side_bar'
+  = render :partial => 'nodes/side_bar'
   %h3.title
     %span
       = @mod.module_title.html_safe
   .actions
-    = link_to image_tag("icons/document_preview.png", :title => 'Preview this module', :alt => 'preview', :border => 0),{ :controller => "module", :action => 'view', :id => @mod, :type => @mod.class}, :target => '_blank'
-    = link_to 'Preview', {:controller => 'module', :action => 'view',  :id => @mod, :type => @mod.class }, :target => '_blank'
+    = link_to image_tag("icons/document_preview.png", :title => 'Preview this module', :alt => 'preview', :border => 0),{ :controller => "nodes", :action => 'view', :id => @mod}, :target => '_blank'
+    = link_to 'Preview', {:controller => 'nodes', :action => 'view',  :id => @mod}, :target => '_blank'
   %h4
     Edit Module

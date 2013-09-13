@@ -43,10 +43,10 @@ Alacarte::Application.routes.draw do
     resources :tabs do
       member do
         post  'add_mod'
-        match 'add_modules', via: [:get, :post]
+        match 'add_nodes', via: [:get, :post]
         post  'delete'
-        post  'remove_module'
-        post  'reorder_modules'
+        post  'remove_node'
+        post  'reorder_nodes'
         post  'toggle_columns'
         post  'save_tab_name'
       end
@@ -67,33 +67,17 @@ Alacarte::Application.routes.draw do
     resources :tabs do
       member do
         post  'add_mod'
-        match 'add_modules', via: [:get, :post]
+        match 'add_nodes', via: [:get, :post]
         post  'delete'
-        post  'remove_module'
-        post  'reorder_modules'
+        post  'remove_node'
+        post  'reorder_nodes'
         post  'toggle_columns'
         post  'save_tab_name'
       end
     end
   end
 
-  resources :tutorials do
-    member do
-      get 'add_units'
-      get 'archive'
-      get 'copy'
-      get 'publish'
-      get 'share'
-    end
-
-    resources :units do
-      member do
-        get 'add_modules'
-      end
-    end
-  end
-
-  resources :modules do
+  resources :nodes do
     member do
       post  'add_item'
       match 'add_to_guide',    via: [:get, :post]
@@ -109,30 +93,6 @@ Alacarte::Application.routes.draw do
     end
   end
 
-  resources :comment_resources
-  resources :database_resources do
-    member do
-      match 'add_databases', via: [:get, :post]
-      post 'remove_database'
-    end
-  end
-  resources :inst_resources
-  resources :lib_resources
-  resources :miscellaneous_resources
-  resources :quiz_resources
-  resources :rss_resources
-  resources :url_resources do
-    member do
-      post 'reorder_links'
-    end
-
-    resources :links do
-      member do
-        post 'delete' => :destroy
-      end
-    end
-  end
-
   scope path: '/course-guide', controller: :ica do
     get ''           => :published_pages, as: 'course_guides'
     get 'archived'   => :archived
@@ -145,21 +105,6 @@ Alacarte::Application.routes.draw do
     get 'tagged/:id' => :tagged
     get ':id'        => :show, as: 'show_srg'
   end
-
-  get 'internal-guides/' => 'srg#internal_guides'
-
-  scope path: '/tutorial', controller: :ort do
-    get ''            => :published_tutorials
-    get 'archived'    => :archived_tutorials
-    get ':id'         => :index, as: 'show_ort'
-    get 'unit/:id'    => :unit
-    get 'tagged/:id'  => :tagged
-    get 'subject/:id' => :subject_list
-  end
-
-  get 'tutorial/my-quizzes/:id'     => 'student#quizzes'
-  get 'tutorial/login/:id'          => 'student#login'
-  get 'tutorial/create-account/:id' => 'student#create_account'
 
   get   ':controller/service.wsdl' => '#wsdl'
   match '/:controller(/:action(/:id))', via: [:get]

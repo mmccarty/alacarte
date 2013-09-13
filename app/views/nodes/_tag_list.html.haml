@@ -1,0 +1,36 @@
+%table
+  %thead
+    %tr
+      %th
+      %th{:class => sort_th_class_helper("name")}
+        = sort_link_helper "Label", "name"
+      %th= image_tag "spinner.gif", :id => "spinner_sort", :class => 'image', :alt => "Spinner", :style => 'display:none;'
+      %th{:class => sort_th_class_helper("date")}
+        = sort_link_helper "Last Update", "date"
+      %th Global?
+  - for mod in @mods
+    %tr{:class => cycle('list-line-odd', 'list-line-even')}
+      %td.center{:width => "5%"}
+        %span.right_space
+          - if mod.shared?
+            = link_to image_tag("icons/user_add.png", :title => 'Click to Share this Module', :alt => 'Share', :border => 0), :action => 'share',  :id => mod
+          - else
+            = link_to image_tag("icons/users.png", :title => 'This module has been shared. Click to Share with others.', :alt => 'Share', :border => 0),  :action => 'share',  :id => mod
+        - if mod.used?
+          = image_tag("icons/star.png", :title => 'This module is on at least one page or guide', :alt => '', :border => 0)
+        - else
+          = image_tag("icons/no-star.png", :title => 'This module is not on any pages or guides', :alt => '', :border => 0)
+      %td{:class => sort_th_class_helper("name"), :width => "45%"}
+        = truncate(h(mod.label),:length => 55)
+      %td.center{:width => "15%"}
+        = link_to image_tag("icons/edit.png", :title => 'Edit this Module', :alt => 'edit', :border => 0),{ :action => 'edit_title', :id => mod}, :class =>'space'
+        | #{link_to image_tag("icons/document_preview.png", :title => 'Preview this Module in New Window', :alt => 'preview', :border => 0),{ :action => 'view', :id => mod}, :class =>'space', :target => '_blank'}
+        |  #{link_to image_tag("icons/application_add.png", :title => 'Copy this Module', :alt => 'copy', :border => 0), {:action => 'copy',  :id => mod},:class =>'space'}
+        | #{link_to image_tag("icons/remove.png", :title => 'Delete this Module', :alt => 'delete', :border => 0), { :action => 'remove_from_user', :id => mod, :page => @page, :sort => @sort,  :all => @all },:class =>'space', :confirm => 'Are you sure you want to delete this module from your list?', :method => :post}
+      %td{:class => sort_th_class_helper("date"), :width => "10%"}
+        = mod.updated_at.to_date
+      %td.center{:width => "5%"}
+        - if mod.global == false
+          = link_to image_tag("icons/Minus.png", :title => 'Add this Module to the global list', :alt => 'add to global list', :border => 0),{ :action => 'globalize', :id => mod, :page => @page, :sort => @sort , :all => @all}, :confirm => 'Are you show you want to add this module to the global list?', :method => :post
+        - else
+          = link_to image_tag("icons/global.png", :title => 'Remove this Module from the global list', :alt => 'remove from global list', :border => 0), {:action => 'globalize', :id => mod, :page => @page, :sort => @sort,  :all => @all }, :confirm => 'Are you show you want to remove this module from the global list?', :method => :post

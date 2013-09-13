@@ -12,11 +12,9 @@
 #
 
 class Tab < ActiveRecord::Base
-  include HasModules
-
   belongs_to :tabable, polymorphic: true
-  has_many :tab_resources, -> { order 'position' }, dependent: :destroy
-  has_many :resources, through: :tab_resources
+  has_many :tab_nodes, -> { order 'position' }, dependent: :destroy
+  has_many :nodes, through: :tab_nodes
   acts_as_list scope: 'tabable_id=#{tabable_id} AND tabable_type=\'#{tabable_type}\''
 
   validates :tab_name, presence: true
@@ -46,30 +44,49 @@ class Tab < ActiveRecord::Base
     update_attribute :template, (template != 2) ? 2 : 1
   end
 
-  def sorted_modules
-    tab_resources.map { |t| t.resource.mod if t and t.resource }.compact
+  def sorted_nodes
+    tab_nodes.map &:node
   end
 
-  def reorder_modules resource_ids
+  def reorder_nodes resource_ids
     resource_ids.each_with_index do |id, index|
-      tr = tab_resources.select { |tr| tr.resource.id == id }.first
-      tr.set_list_position index+1 if tr
+      tn = tab_nodes.select { |tn| tn.node.id == id }.first
+      tn.set_list_position index+1 if tn
     end
   end
 
-  def left_modules
-    left_resources.map { |r| r.resource.mod }
+  def left_nodes
+    tab_nodes.select { |t| t.position.odd? }.map &:node
   end
 
-  def right_modules
-    right_resources.map { |r| r.resource.mod }
+  def right_nodes
+    tab_nodes.select{ |t| t.position.even? }.map &:node
   end
 
-  def left_resources
-    tab_resources.select { |t| t.position.odd? and t.resource and t.resource.mod }.flatten.compact
+  def add_tags tags
+    self.tag_list = tags
+    self.save
   end
 
-  def right_resources
-    tab_resources.select{ |t| t.position.even? and t.resource and t.resource.mod }.flatten.compact
+  def recent_nodes
+    nodes.sort_by &:updated_at
+  end
+
+  def find_node id
+    Node.find id
+  end
+
+  def add_node id
+    nodes << Node.find(id)
+    update_users
+  end
+
+  def update_nodes resrs
+    resrs.each do |value|
+      id = value.gsub /[^0-9]/, ''
+      node = Node.find id
+      node.create_slug if node.slug.blank?
+      nodes << node
+    end
   end
 end

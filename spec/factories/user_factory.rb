@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id            :integer          not null, primary key
+#  name          :string(255)      default(""), not null
+#  hashed_psswrd :string(255)      default(""), not null
+#  email         :string(255)      default(""), not null
+#  salt          :string(255)      default(""), not null
+#  role          :string(255)      default("author"), not null
+#  node_id       :integer
+#
+
 require 'faker'
 
 FactoryGirl.define do

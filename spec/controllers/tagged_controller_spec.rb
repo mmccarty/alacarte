@@ -17,6 +17,7 @@ describe TaggedController do
 
       Local.create
     end
+
     describe 'GET #index' do
       it 'assigns mods' do
         get :index

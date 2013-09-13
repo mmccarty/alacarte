@@ -1,6 +1,69 @@
 require 'spec_helper'
 
-describe ModulesController do
+describe NodesController do
+  describe 'guest access' do
+    describe 'POST #copy' do
+      it 'requires login' do
+        post :copy
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'GET #edit' do
+      it 'requires login' do
+        get :edit
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'GET #show' do
+      it 'requires login' do
+        get :show
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    describe 'PUT #update' do
+      it 'requires login' do
+        put :update
+        expect(response).to redirect_to login_path
+      end
+    end
+  end
+
+  describe 'author access' do
+    before :each do
+      @user = create :author
+      session[:user_id] = @user.id
+      @mis = create :node
+    end
+
+    describe 'POST #copy' do
+      it 'creates a new resource' do
+        expect {
+          post :copy, id: @mis.id
+        }.to change(Node, :count).by(1)
+      end
+
+      it 'redirects to the edit page for the new resource' do
+        post :copy, id: @mis.id
+        expect(response).to redirect_to edit_node_path(assigns(:new_mod))
+      end
+    end
+
+    describe 'PUT #update' do
+      it 'updates attributes of the requested guide' do
+        put :update, id: @mis.id, mod: { tag_list: 'this, that, the other' }
+        @mis.reload
+        expect(@mis.tags.map(&:name).sort).to match_array ['that', 'the other', 'this']
+      end
+
+      it 'redirects to the :show view' do
+        put :update, id: @mis.id, mod: { module_title: 'timmeh!' }
+        expect(response).to redirect_to @mis
+      end
+    end
+  end
   describe 'for guests' do
     describe 'GET #index' do
       it 'requires login' do
@@ -69,20 +132,13 @@ describe ModulesController do
 
     describe 'POST #create MiscellaneousResource' do
       before :each do
-        @attrs = attributes_for :miscellaneous_resource
-        @attrs[:type] = 'MiscellaneousResource'
-      end
-
-      it 'requires the user to specify the module type' do
-        @attrs[:type] = ''
-        post :create, mod: @attrs
-        expect(response).to render_template :new
+        @attrs = attributes_for :node
       end
 
       it 'creates a new module' do
         expect {
           post :create, mod: @attrs
-        }.to change(MiscellaneousResource, :count).by(1)
+        }.to change(Node, :count).by(1)
       end
 
       it 'assigns the new module to :mod' do
@@ -100,8 +156,8 @@ describe ModulesController do
     describe 'GET #manage' do
       it 'renders the module management page' do
         request.env['HTTP_REFERER'] = '/'
-        mod = create :miscellaneous_resource
-        get :manage, id: mod.id, type: mod.class.name
+        mod = create :node
+        get :manage, id: mod.id
         expect(response).to render_template :manage
       end
     end
@@ -132,16 +188,16 @@ describe ModulesController do
 
     describe 'GET #add_to_guide' do
       it 'renders the :add_to_item view' do
-        mod = create :miscellaneous_resource
-        get :add_to_guide, id: mod.id, type: mod.class.name
+        mod = create :node
+        get :add_to_guide, id: mod.id
         expect(response).to render_template :add_to_item
       end
     end
 
     describe 'POST #add_to_guide' do
       before :each do
-        @mod = create :miscellaneous_resource
-        @user.create_and_add_resource @mod
+        @mod = create :node
+        @user.create_and_add_node @mod
 
         @tab = build :tab
         guide = create :guide
@@ -151,28 +207,28 @@ describe ModulesController do
       end
 
       it 'adds the module to guides from the session' do
-        post :add_to_guide, id: @mod.id, type: @mod.class.name
-        expect(@tab.modules).to eq [@mod]
+        post :add_to_guide, id: @mod.id
+        expect(@tab.nodes).to eq [@mod]
       end
 
       it 'redirects to the module management page' do
-        post :add_to_guide, id: @mod.id, type: @mod.class.name
-        expect(response).to redirect_to manage_module_path(@mod, type: @mod.class)
+        post :add_to_guide, id: @mod.id
+        expect(response).to redirect_to manage_node_path(@mod)
       end
     end
 
     describe 'GET #add_to_page' do
       it 'renders the :add_to_page view' do
-        mod = create :miscellaneous_resource
-        get :add_to_page, id: mod.id, type: mod.class.name
+        mod = create :node
+        get :add_to_page, id: mod.id
         expect(response).to render_template :add_to_item
       end
     end
 
     describe 'POST #add_to_page' do
       before :each do
-        @mod = create :miscellaneous_resource
-        @user.create_and_add_resource @mod
+        @mod = create :node
+        @user.create_and_add_node @mod
 
         @tab = build :tab
         page = create :page
@@ -182,13 +238,13 @@ describe ModulesController do
       end
 
       it 'adds pages from the session to the module' do
-        post :add_to_page, id: @mod.id, type: @mod.class.name
-        expect(@tab.modules).to eq [@mod]
+        post :add_to_page, id: @mod.id
+        expect(@tab.nodes).to eq [@mod]
       end
 
       it 'redirects to the module management page' do
-        post :add_to_page, id: @mod.id, type: @mod.class.name
-        expect(response).to redirect_to manage_module_path(@mod, type: @mod.class)
+        post :add_to_page, id: @mod.id
+        expect(response).to redirect_to manage_node_path(@mod)
       end
     end
   end

@@ -254,14 +254,14 @@ describe PagesController do
         tab.template = 1
         tab.save
         get :show, id: @page.id
-        expect(assigns(:mods)).to match_array tab.sorted_modules
+        expect(assigns(:mods)).to match_array tab.sorted_nodes
       end
 
       it 'constructs lists of modules for the left and right columns' do
         tab = @page.tabs.first
         get :show, id: @page.id
-        expect(assigns(:mods_left)).to match_array tab.left_modules
-        expect(assigns(:mods_right)).to match_array tab.right_modules
+        expect(assigns(:mods_left)).to match_array tab.left_nodes
+        expect(assigns(:mods_right)).to match_array tab.right_nodes
       end
 
       it 'does not assign @mods in two-column layouts' do
@@ -416,17 +416,17 @@ describe PagesController do
 
     describe 'PUT #edit_contact' do
       before :each do
-        @mod = create :miscellaneous_resource
+        @mod = create :node
       end
 
       it 'updates the page' do
-        put :edit_contact, id: @page.id, page: {resource_id: @mod.id}
+        put :edit_contact, id: @page.id, page: {node_id: @mod.id}
         @page.reload
-        expect(@page.resource_id).to eq @mod.id
+        expect(@page.node_id).to eq @mod.id
       end
 
       it 'redirects to show page' do
-        put :edit_contact, id: @page.id, page: {resource_id: @mod.id}
+        put :edit_contact, id: @page.id, page: {node_id: @mod.id}
         expect(response).to redirect_to @page
       end
     end

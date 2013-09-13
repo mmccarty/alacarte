@@ -9,10 +9,10 @@ class GuidesController < ApplicationController
     @subjects = Subject.get_subject_values
     if params[:user_id]
       user = User.find params[:user_id]
-      @resources = user.contact_resources
+      @resources = user.contact_nodes
       session[:item_user_id] = params[:user_id]
     else
-      @resources = @user.contact_resources
+      @resources = @user.contact_nodes
     end
   end
 
@@ -40,7 +40,7 @@ class GuidesController < ApplicationController
     @guide = find_item
     @masters = Master.get_guide_types
     @subjects = Subject.get_subject_values
-    @resources = @user.contact_resources
+    @resources = @user.contact_nodes
   end
 
   def update
@@ -70,7 +70,7 @@ class GuidesController < ApplicationController
           redirect_to @guide and return
         end
       else
-        @resources = @user.contact_resources.map { |resource| [resource.mod.label, resource.id] }
+        @resources = @user.contact_nodes.map { |node| [node.label, node.id] }
       end
     end
   end
@@ -127,6 +127,6 @@ class GuidesController < ApplicationController
   private
 
   def guide_params
-    params.require(:guide).permit :guide_name, :published, :description, :tag_list, :resource_id
+    params.require(:guide).permit :guide_name, :published, :description, :tag_list, :node_id
   end
 end

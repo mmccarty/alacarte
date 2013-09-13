@@ -1,6 +1,6 @@
 .row
   .span2
-    = render 'modules/side_bar'
+    = render 'nodes/side_bar'
 
   .span10
     %h1.page-header Edit Module
@@ -8,7 +8,7 @@
     = report_errors @mod
 
     = form_for @mod do |f|
-      = render 'modules/mod_title'
+      = render 'nodes/mod_title'
       .control-group
         .controls
           = text_area :mod, :content, class: 'tinymce'
@@ -16,4 +16,4 @@
       .control-group
         .controls
           = f.submit 'Save', class: 'btn btn-primary'
-          = link_to 'Cancel', modules_path, class: 'btn btn-cancel'
+          = link_to 'Cancel', nodes_path, class: 'btn btn-cancel'
