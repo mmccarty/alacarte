@@ -1,7 +1,11 @@
 //= require jquery
-//= require jquery.jeditable
 //= require jquery_ujs
+//= require jquery.jeditable
 //= require jquery.ui.sortable
+//= require ckeditor-jquery
 //= require twitter/bootstrap
-//= require tinymce-jquery
 //= require_tree .
+
+$(function() {
+  $('.ckeditor').ckeditor();
+});

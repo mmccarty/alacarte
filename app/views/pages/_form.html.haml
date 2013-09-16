@@ -55,8 +55,7 @@
       Description
       %i.icon-question-sign{ :data => { :content => 'The page description is a short teaser that describes the guide.<br/><br/>Tips: Write complete sentences. Include slightly different word orders and keywords than what you use in the name and highlight special content on the guide', :html => 'true', :trigger => 'hover' } }
       .controls
-        = f.text_area :page_description, 'class' => 'tinymce'
-        = tinymce
+        = f.text_area :page_description, 'class' => 'ckeditor'
 
   .control-group
     .controls

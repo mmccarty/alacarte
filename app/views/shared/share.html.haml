@@ -27,8 +27,7 @@
           %legend Email Message
           .control-group
             .controls
-              = text_area_tag "body", @message, :class => "tinymce"
-              = tinymce
+              = text_area_tag "body", @message, :class => "ckeditor"
         .control-group
           = submit_tag "Share", :class => 'submit btn btn-primary'
           = link_to 'Cancel', { :action => 'index' }, :class => 'btn'

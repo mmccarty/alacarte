@@ -1,0 +1,2 @@
+CKEDITOR.editorConfig = (config) ->
+  true

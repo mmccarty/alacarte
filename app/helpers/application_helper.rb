@@ -14,10 +14,6 @@ module ApplicationHelper
     end
   end
 
-  def tinymce *args
-    super *args, width: 700, height: 200
-  end
-
   def icon_tag(name, title = '')
     html = "<i class='icon-#{ name }' title='#{ title }'></i>"
     html.html_safe

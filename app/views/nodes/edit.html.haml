@@ -11,8 +11,7 @@
       = render 'nodes/mod_title'
       .control-group
         .controls
-          = text_area :mod, :content, class: 'tinymce'
-          = tinymce
+          = text_area :mod, :content, class: 'ckeditor'
       .control-group
         .controls
           = f.submit 'Save', class: 'btn btn-primary'

@@ -2,9 +2,8 @@
   Widget Code
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(WIDGET_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
 %br/
-= text_area 'mod', 'widget', "class" => 'tinymce', :size => '40x5'
+= text_area 'mod', 'widget', "class" => 'ckeditor', :size => '40x5'
 %label{:for => "description"}
   Widget Information
   %span.more_help{:onmouseout => "delayhidetip();", :onmouseover => "fixedtooltip(WIDGET_INFO_MSSG, this, event, '');"}= image_tag("icons/small_help.png", :alt => 'Tip', :border => 0)
-= text_area 'mod', 'information', :class => 'tinymce'
-= tinymce
+= text_area 'mod', 'information', :class => 'ckeditor'

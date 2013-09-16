@@ -42,8 +42,7 @@
       %p.muted
         Enter a short description about the guide.
       .controls
-        = f.text_area :description, :class => 'tinymce'
-        = tinymce
+        = f.text_area :description, :class => 'ckeditor'
 
   .control-group
     = f.submit 'Save', class: 'btn btn-primary'

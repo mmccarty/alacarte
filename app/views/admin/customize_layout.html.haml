@@ -35,8 +35,7 @@
       %label.control-label{ :for => 'local' }= _('Footer Text')
       .controls
         %p.muted= _('Enter text for a custom footer. (HTML OK)')
-        = text_area :local, 'footer', :class => 'tinymce'
-        = tinymce
+        = text_area :local, 'footer', :class => 'ckeditor'
 
     .control-group
       %label.control-label{ :for => 'local' }= _('Portal Right-Hand Box')
@@ -46,8 +45,7 @@
           = succeed _('This') do
             %br/
           = _('is displayed in the right side of the portals.')
-        = text_area :local, 'right_box', :class => 'tinymce'
-        = tinymce
+        = text_area :local, 'right_box', :class => 'ckeditor'
 
     .control-group
       %label.control-label{ :for => 'local' }= _('Portal Left-Hand Box')
@@ -57,8 +55,7 @@
           = succeed _('This') do
             %br/
           = _('is displayed on the left side of the portals.')
-        = text_area :local, 'left_box', :class => 'tinymce'
-        = tinymce
+        = text_area :local, 'left_box', :class => 'ckeditor'
 
     .control-group
       %label.control-label{ :for => 'local' }= _('Guide Left-Hand Box')
@@ -68,8 +65,7 @@
           = succeed _('This') do
             %br/
           = _('is displayed at the top of the left side of the guides.')
-        = text_area :local, 'guide_box', :class => 'tinymce'
-        = tinymce
+        = text_area :local, 'guide_box', :class => 'ckeditor'
 
   %p
     &nbsp;
