@@ -93,11 +93,11 @@ Alacarte::Application.routes.draw do
     end
   end
 
-  scope path: '/course-guide', controller: :ica do
-    get ''           => :published_pages, as: 'course_guides'
-    get 'archived'   => :archived
-    get 'tagged/:id' => :tagged
-    get ':id'        => :show, as: 'show_ica'
+  resources :course_pages do
+    collection do
+      get 'archived'
+      get 'tagged'
+    end
   end
 
   scope path: '/subject-guide', controller: :srg do

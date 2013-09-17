@@ -54,8 +54,8 @@
         %dt= _('total pages')
         %dd #{@page_count}
         %dt
-          = link_to _('published pages'), :controller => :ica , :action => 'published_pages'
+          = link_to _('published pages'), course_pages_path
         %dd #{@published_page_count}
         %dt
-          = link_to _('archived pages'), :controller => :ica , :action => 'archived'
+          = link_to _('archived pages'), archived_course_pages_path
         %dd #{@archived_page_count}

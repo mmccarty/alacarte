@@ -53,7 +53,7 @@
           Related course guides
           %ul
             - @related_pages.each do |guide|
-              - guide_url = url_for :controller => 'ica', :action => 'index', :id => guide
+              - guide_url = course_page_url guide
               %li
                 = link_to raw(guide.header_title), guide_url, :title => "#{ raw(guide.page_description) }"
       %li

@@ -1,6 +1,6 @@
 %dt
   - case controller.controller_name
-    - when 'ica'
+    - when 'course_pages'
       - if defined?(subject_code) and defined?(campus_hash)
         = link_to page.browse_title(subject_code, campus_hash), page_url, :title => '#{raw page.page_description}'
       - else
@@ -10,7 +10,7 @@
     - when'ort'
       = link_to page.full_name.html_safe, :controller => controller, :action => 'index', :title => '#{raw page.description}', :id => page
 %dd
-  = controller.controller_name == 'ica' ? raw(page.page_description) : raw(page.description)
+  = controller.controller_name == 'course_pages' ? raw(page.page_description) : raw(page.description)
   %br
   %small
     - if page.tag_list.length > 0

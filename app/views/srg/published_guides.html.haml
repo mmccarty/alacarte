@@ -4,7 +4,7 @@
 - content_for :additional_resources do
   %p
     Need help with your course assignment? Try the
-    = link_to 'Course', :controller => 'ica', :action => 'published_pages'
+    = link_to 'Course', course_pages_path
     guides.
 
 = render :partial => 'shared/published_pages', :locals => { :controller => 'srg', :header_title => @local.guide_page_title, :pages => @guides, :subjects => @masters, :type => 'Subject' }

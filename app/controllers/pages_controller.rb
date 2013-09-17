@@ -87,7 +87,7 @@ class PagesController < ApplicationController
 
   def send_url
     @sucurrent = 'current'
-    @page_url = url_for :controller => 'ica', :action => 'index', :id => @page
+    @page_url = course_page_url @page
     @message =
       "A new library course page has been created for #{@page.header_title}. The link to the page is: #{@page_url}. Please inform your students of the page and include the link in your course material.
 Please contact me if you have any questions or suggestions.

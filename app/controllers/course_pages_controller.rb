@@ -1,33 +1,9 @@
-class IcaController < ApplicationController
+class CoursePagesController < ApplicationController
   skip_before_filter :authorize
-  before_filter :custom_page_data, :only => [:published_pages]
+  before_filter :custom_page_data, :only => [:index]
   layout 'template'
 
-  def show
-    @page = Page.includes(:users, :node, :tags, {:tabs => :tab_nodes}).find(params[:id])
-    @tabs = @page.tabs
-    @tab = params[:tab] ? @tabs.select{|t| t.id == params[:tab].to_i}.first : @tabs.first
-    if @tab and @tab.template == 2
-      @style ='width:270px; height:250px;'
-      @mods_left  = @tab.left_nodes
-      @mods_right = @tab.right_nodes
-    elsif @tab
-      @style ='width:505px; height:450px;'
-      @mods = @tab.sorted_nodes
-      @mods_left, @mods_right = [], []
-    else
-      render_404
-    end
-    @title= @page.header_title + " | " + @local.ica_page_title
-    @meta_keywords = @page.tag_list
-    @meta_description = @page.page_description
-    @related_guides = @page.related_guides
-    @mod = @page.node
-    @owner = @page.users.select{|u| u.name == @page.created_by}.first
-    @updated = @page.updated_at.to_formatted_s(:long)
-  end
-
-  def published_pages
+  def index
     @from = 'published'
     @meta_keywords = @local.ica_page_title + ", Course Guides, Research Topics, Library Help Guides"
     @meta_description = @local.ica_page_title + ". Library Help Guides for Course Assignments. "
@@ -66,10 +42,34 @@ class IcaController < ApplicationController
     @pages = Page.tagged_with @tag
   end
 
+  def show
+    @page = Page.includes(:users, :node, :tags, {:tabs => :tab_nodes}).find(params[:id])
+    @tabs = @page.tabs
+    @tab = params[:tab] ? @tabs.select{|t| t.id == params[:tab].to_i}.first : @tabs.first
+    if @tab and @tab.template == 2
+      @style ='width:270px; height:250px;'
+      @mods_left  = @tab.left_nodes
+      @mods_right = @tab.right_nodes
+    elsif @tab
+      @style ='width:505px; height:450px;'
+      @mods = @tab.sorted_nodes
+      @mods_left, @mods_right = [], []
+    else
+      render_404
+    end
+    @title= @page.header_title + " | " + @local.ica_page_title
+    @meta_keywords = @page.tag_list
+    @meta_description = @page.page_description
+    @related_guides = @page.related_guides
+    @mod = @page.node
+    @owner = @page.users.select{|u| u.name == @page.created_by}.first
+    @updated = @page.updated_at.to_formatted_s(:long)
+  end
+
   def feed
     @page = Page.find(params[:id])
     @mods = @page.recent_nodes
-    @page_url = url_for :controller => 'ica', :action => 'index', :id => @page
+    @page_url = course_page_url @page
     @page_title = @page.header_title
     @page_description = @page.page_description
     author = @page.users.select{|u| u.name == @page.created_by}.first

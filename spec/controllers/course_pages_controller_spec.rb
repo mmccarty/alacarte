@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe IcaController do
+describe CoursePagesController do
   before :each do
     @page = create :page, tag_list: 'test'
     Local.create
@@ -49,30 +49,30 @@ describe IcaController do
     end
   end
 
-  describe 'GET #published_pages' do
+  describe 'GET #index' do
     before :each do
       @page.published = true
       @page.save
     end
 
     it 'responds successfully with an HTTP 200 status code' do
-      get :published_pages
+      get :index
       expect(response).to be_success
       expect(response.status).to eq 200
     end
 
     it 'renders the :published_pages template' do
-      get :published_pages
-      expect(response).to render_template :published_pages
+      get :index
+      expect(response).to render_template :index
     end
 
     it 'assigns a list of published pages to @pages' do
-      get :published_pages
+      get :index
       expect(assigns(:pages).empty?).to be_false
     end
 
     it 'assigns tags to @tags' do
-      get :published_pages
+      get :index
       expect(assigns(:tags)).to_not be_nil
       expect(assigns(:tags).empty?).to be_false
     end

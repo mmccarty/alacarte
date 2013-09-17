@@ -28,7 +28,7 @@
             = awesome_button item, 'edit', "Edit this #{ @item_type }"
             &nbsp;
             - if @item_type == 'page'
-              = awesome_button show_ica_path(item), 'external-link', "Preview this #{ @item_type }", '', { :target => '_blank' }
+              = awesome_button course_page_path(item), 'external-link', "Preview this #{ @item_type }", '', { :target => '_blank' }
             - else
               = awesome_button show_srg_path(item), 'external-link', "Preview this #{ @item_type }", '', { :target => '_blank' }
             &nbsp;

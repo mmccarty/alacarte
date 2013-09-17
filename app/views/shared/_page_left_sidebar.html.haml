@@ -36,7 +36,7 @@
         .accordion-inner
           %ul
             - @related_pages.each do |page|
-              - page_url = url_for :controller => 'ica', :action => :show, :id => page
+              - page_url = course_page_url page
               %li= link_to raw(page.header_title), page_url, title: "#{ raw page.page_description }"
     .accordion-group
       .accordion-heading
@@ -44,7 +44,7 @@
           = @local.guide_page_title.html_safe
     .accordion-group
       .accordion-heading
-        %a.accordion-toggle{:href => course_guides_path}
+        %a.accordion-toggle{:href => course_pages_path}
           = @local.ica_page_title.html_safe
 
   = render 'shared/social'

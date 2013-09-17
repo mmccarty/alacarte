@@ -52,10 +52,10 @@
           = link_to 'published guides', :controller => :srg , :action => 'published_guides'
         %dd #{@num_published_guides}
         %dt
-          = link_to 'published pages', :controller => :ica , :action => 'published_pages'
+          = link_to 'published pages', course_pages_path
         %dd #{@num_published_pages}
         %dt
-          = link_to 'archived pages', :controller => :ica , :action => 'archived'
+          = link_to 'archived pages', archived_course_pages_path
         %dd #{@num_archived_pages}
       %ul.unstyled
         %li

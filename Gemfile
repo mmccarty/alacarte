@@ -43,5 +43,4 @@ group :test do
   gem 'faker'
   gem 'guard-rspec'
   gem 'launchy'
-  gem 'simplecov'
 end

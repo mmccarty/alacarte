@@ -2,6 +2,6 @@
   = link_to 'Go to screenreader version' , { :action => 'mobile_tagged' } , :id => 'alt-version'
 
 - content_for :search_results do
-  = render :partial => 'shared/browse_by_tag', :locals => { :controller => 'ica', :type => 'Course Guides', :tag => @tag, :pages => @pages }
+  = render :partial => 'shared/browse_by_tag', :locals => { :controller => 'course_pages', :type => 'Course Pages', :tag => @tag, :pages => @pages }
 
 = render :partial => 'shared/published_page_results', :locals => { :header_title => @local.ica_page_title }

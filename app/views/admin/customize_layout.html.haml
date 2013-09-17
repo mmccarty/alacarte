@@ -78,7 +78,7 @@
       .controls
         %p.muted
           = _('The page title for the') + ' '
-          = link_to _("course guide's portal"), :controller => 'ica', :action => 'published_pages'
+          = link_to _("course guide's portal"), course_pages_path
         = text_field :local, 'ica_page_title', class: 'input-xlarge'
 
     .control-group
