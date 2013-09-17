@@ -5,7 +5,7 @@
         = link_to page.browse_title(subject_code, campus_hash), page_url, :title => '#{raw page.page_description}'
       - else
         = link_to page.search_title, { action: :show, id: page }, :title => '#{raw page.page_description}'
-    - when 'srg'
+    - when 'subject_guides'
       = link_to page.guide_name, { action: :show, id: page }, :title => '#{raw page.description}'
     - when'ort'
       = link_to page.full_name.html_safe, :controller => controller, :action => 'index', :title => '#{raw page.description}', :id => page

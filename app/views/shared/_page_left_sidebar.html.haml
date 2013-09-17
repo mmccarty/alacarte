@@ -24,7 +24,7 @@
           .accordion-inner
             %ul
               - @related_guides.each do |guide|
-                - guide_url = url_for :controller => 'srg', :action => :show, :id => guide
+                - guide_url = subject_guide_url guide
                 %li= link_to raw(guide.guide_name), guide_url, :title => "#{ raw guide.description }"
     - if defined?(@related_pages) and @related_pages.length > 0
       .accordion-group

@@ -100,10 +100,10 @@ Alacarte::Application.routes.draw do
     end
   end
 
-  scope path: '/subject-guide', controller: :srg do
-    get ''           => :published_guides, as: 'subject_guides'
-    get 'tagged/:id' => :tagged
-    get ':id'        => :show, as: 'show_srg'
+  resources :subject_guides do
+    collection do
+      get 'tagged'
+    end
   end
 
   get   ':controller/service.wsdl' => '#wsdl'

@@ -49,7 +49,7 @@
         %dt modules
         %dd #{@num_nodes}
         %dt
-          = link_to 'published guides', :controller => :srg , :action => 'published_guides'
+          = link_to 'published guides', :controller => :subject_guides , :action => 'published_guides'
         %dd #{@num_published_guides}
         %dt
           = link_to 'published pages', course_pages_path

@@ -86,7 +86,7 @@
       .controls
         %p.muted
           = _('The page title for the') + ' '
-          = link_to _("subject guide's portal"), :controller => 'srg', :action => 'published_guides'
+          = link_to _("subject guide's portal"), subject_guides_path
         = text_field :local, 'guide_page_title', class: 'input-xlarge'
 
     .control-group

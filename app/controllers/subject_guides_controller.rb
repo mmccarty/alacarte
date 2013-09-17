@@ -1,6 +1,20 @@
-class SrgController < ApplicationController
+class SubjectGuidesController < ApplicationController
   skip_before_filter :authorize
   layout 'template'
+
+  def index
+    @meta_keywords = @local.guide_page_title + ", Research Guides, Research Topics, Library Help Guides"
+    @meta_description = @local.guide_page_title + ". Library Help Guides for Subject Research. "
+    @title = @local.guide_page_title
+    @guides = Guide.published_guides
+    @masters = Master.where("value <> ? AND value <> ?", "Tutorial", "Internal").order("value").includes(:guides)
+    @tags = Guide.where(:published => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
+  end
+
+  def tagged
+    @tag = params[:id]
+    @guides = Guide.tagged_with(@tag).where published: true
+  end
 
   def show
     @guide = Guide.includes(:users, {:masters => :guides}, :subjects, :node, :tags).find(params[:id])
@@ -27,24 +41,10 @@ class SrgController < ApplicationController
     @related_pages = @guide.related_pages
   end
 
-  def published_guides
-    @meta_keywords = @local.guide_page_title + ", Research Guides, Research Topics, Library Help Guides"
-    @meta_description = @local.guide_page_title + ". Library Help Guides for Subject Research. "
-    @title = @local.guide_page_title
-    @guides = Guide.published_guides
-    @masters = Master.where("value <> ? AND value <> ?", "Tutorial", "Internal").order("value").includes(:guides)
-    @tags = Guide.where(:published => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
-  end
-
-  def tagged
-    @tag = params[:id]
-    @guides = Guide.tagged_with(@tag).where published: true
-  end
-
   def feed
     @guide = Guide.find(params[:id])
     @mods = @guide.recent_nodes
-    @guide_url = url_for :controller => 'srg', :action => 'index', :id => @guide
+    @guide_url = subject_guide_url @guide
     @guide_title = @guide.guide_name
     @guide_description = @guide.description
     author = @guide.users.select{|u| u.name == @guide.created_by}.first

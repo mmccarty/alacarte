@@ -29,11 +29,11 @@
 
   %p
     Looking for a more recent course guide? Try the
-    = link_to 'Current Course Guides', :action => 'published_pages'
+    = link_to 'Current Course Pages', course_pages_path
     list.
   %p
     Need help with your discipline, topic or format? Try the
-    = link_to "Subject Research Guides", :controller => 'srg', :action => 'published_guides'
+    = link_to "Subject Research Guides", subject_guides_path
 
 - content_for :footer do
   = link_to 'Screenreader, print, & mobile version' , { :action => 'mobile_archived' } , :id => 'alt-version'

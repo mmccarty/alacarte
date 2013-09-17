@@ -13,7 +13,7 @@
           - else
             %ul.undeco.no_indent
               - @relateds.each do |guide|
-                - guide_url = url_for :controller => 'srg', :action => 'index', :id => guide
+                - guide_url = subject_guide_url guide
                 %li
                   = link_to guide.guide_name, guide_url, :title => guide.description, :target => '_blank'
                   = link_to image_tag('icons/remove.png', :title => 'Remove from related guides list', :alt => 'remove', :border => 0), { :action => 'remove_related', :gid => guide.id, :confirm => 'Are you sure you want to remove this guide from the related guides list?', :method => :post }

@@ -134,11 +134,11 @@ class User < ActiveRecord::Base
   end
 
   def recent_activity
-    recent = lambda { |x| x.updated_at >= 7.days.ago }
-    mods = nodes.select &recent
-    icaps = pages.select &recent
-    srgs = guides.select &recent
-    recents =  mods[0..5] + icaps[0..5] + srgs[0..5]
+    recent = -> x { x.updated_at >= 7.days.ago }
+    modules = nodes.select &recent
+    course_pages = pages.select &recent
+    subject_guides = guides.select &recent
+    recents = modules[0..5] + course_pages[0..5] + subject_guides[0..5]
     recents.sort_by &:updated_at
   end
 

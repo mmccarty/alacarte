@@ -7,4 +7,4 @@
     = link_to 'Course', course_pages_path
     guides.
 
-= render :partial => 'shared/published_pages', :locals => { :controller => 'srg', :header_title => @local.guide_page_title, :pages => @guides, :subjects => @masters, :type => 'Subject' }
+= render :partial => 'shared/published_pages', :locals => { :controller => 'subject_guides', :header_title => @local.guide_page_title, :pages => @guides, :subjects => @masters, :type => 'Subject' }

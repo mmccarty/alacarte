@@ -49,7 +49,7 @@
         %dt= _('total guides')
         %dd #{@guide_count}
         %dt
-          = link_to _('published guides'), :controller => :srg , :action => 'published_guides'
+          = link_to _('published guides'), subject_guides_path
         %dd #{@published_guide_count}
         %dt= _('total pages')
         %dd #{@page_count}

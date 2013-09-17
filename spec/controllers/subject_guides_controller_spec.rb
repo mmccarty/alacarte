@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SrgController do
+describe SubjectGuidesController do
   before :each do
     @guide = create :guide, tag_list: 'test'
     Local.create
@@ -49,30 +49,30 @@ describe SrgController do
     end
   end
 
-  describe 'GET #published_guides' do
+  describe 'GET #index' do
     before :each do
       @guide.published = true
       @guide.save
     end
 
     it 'responds successfully with an HTTP 200 status code' do
-      get :published_guides
+      get :index
       expect(response).to be_success
       expect(response.status).to eq 200
     end
 
     it 'renders the :published_pages template' do
-      get :published_guides
-      expect(response).to render_template :published_guides
+      get :index
+      expect(response).to render_template :index
     end
 
     it 'assigns published guides to @guide' do
-      get :published_guides
+      get :index
       expect(assigns(:guides)).to eq [@guide]
     end
 
     it 'assigns tags and counts to @tags' do
-      get :published_guides
+      get :index
       expect(assigns(:tags)).to_not be_nil
       expect(assigns(:tags).empty?).to be_false
     end

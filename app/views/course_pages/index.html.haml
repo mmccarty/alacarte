@@ -12,6 +12,6 @@
 
   %p
     Need help with your discipline, topic or format? Try the
-    = link_to 'Subject Research Guides', :controller => 'srg', :action => 'published_guides'
+    = link_to 'Subject Research Guides', subject_guides_path
 
 = render :partial => 'shared/published_pages', :locals => { :controller => 'course_pages', :header_title => @local.ica_page_title, :pages => @pages, :subjects => @subjects, :type => 'Course' }

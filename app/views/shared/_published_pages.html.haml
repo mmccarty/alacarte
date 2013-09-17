@@ -22,7 +22,7 @@
             .accordion-inner
               - if controller == 'course_pages' and m.get_pages
                 = render :partial => 'shared/az_published_pages', :locals => { :pages => m.get_pages, :subject_code => m.subject_code, :campus_hash => @campushash }
-              - if controller == 'srg' and m.published_guides
+              - if controller == 'subject_guides' and m.published_guides
                 = render :partial => 'shared/az_published_pages', :locals => { :pages => m.published_guides }
 
     = yield :additional_resources

@@ -98,7 +98,7 @@ module ActsPagey
     if request.get?
       session[:current_tab] = @item.tabs.first.id
       @user_list = User.order("name")
-      url = url_for :controller => 'srg', :action => 'index', :id => @item
+      url = subject_guide_url @item
       @message =
           "I've shared #{@item_name} with you. The link to this is here: #{url} .  -#{@user.name} "
       render 'shared/share'

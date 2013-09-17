@@ -38,7 +38,7 @@
                 - if @item_type == 'page'
                   = awesome_button course_page_path(item), 'external-link', "Preview this #{ @item_type }", '', { :target => '_blank' }
                 - else
-                  = awesome_button show_srg_path(item), 'external-link', "Preview this #{ @item_type }", '', { :target => '_blank' }
+                  = awesome_button subject_guide_path(item), 'external-link', "Preview this #{ @item_type }", '', { :target => '_blank' }
                 &nbsp;
               %td
                 = item.updated_at.to_date

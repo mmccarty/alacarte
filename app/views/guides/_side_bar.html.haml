@@ -6,7 +6,7 @@
   %li{ :class => current_page?(guide_path @guide) && "active" }
     = link_to 'Edit Guide', guide_path(@guide)
   %li
-    = link_to 'Preview Guide', show_srg_path(@guide, :tab => session[:current_tab]), :target => '_blank'
+    = link_to 'Preview Guide', subject_guide_path(@guide, :tab => session[:current_tab]), :target => '_blank'
   %li
     - if @guide.published?
       = link_to 'Unpublish Guide', publish_guide_path(@guide), :confirm => 'Are you sure you want to unpublish this guide?', :method => :post
