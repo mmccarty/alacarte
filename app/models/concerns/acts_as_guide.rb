@@ -1,9 +1,54 @@
-module ItsJustAPage
+module ActsAsGuide
   extend ActiveSupport::Concern
+
+  def self.included base
+    base.class_eval do
+      after_create :create_home_tab, :create_relateds
+
+      acts_as_taggable
+      has_and_belongs_to_many :users
+      has_many :tabs, -> { order 'position' }, as: 'tabable', dependent: :destroy
+      has_and_belongs_to_many :subjects, -> { order 'subject_code' }
+      belongs_to :node
+
+      serialize :relateds
+
+      searchable do
+        text :guide_name, :description
+      end
+    end
+  end
+
+  def to_param
+    "#{ id }-#{ guide_name.parameterize }"
+  end
+
+  def item_name
+    guide_name
+  end
+
+  def add_contact_node mid
+    self.node_id = if mid then mid.to_i else nil end
+  end
+
+  def toggle_published
+    if self.node || self.published?
+      self.toggle!(:published)
+      true
+    else
+      false
+    end
+  end
 
   def add_tags tags
     self.tag_list = tags
     self.save
+  end
+
+  def create_home_tab
+    if tabs.blank?
+      add_tab Tab.new(tab_name: _('Start'))
+    end
   end
 
   def add_tab tab
@@ -55,8 +100,6 @@ module ItsJustAPage
     tabs.destroy_all
     reload
     user = User.find uid
-    klass = self.class.to_s.downcase
-    klass_name = klass == 'page' ? 'route_title' : 'guide_name'
     tbs.each do |tab|
       mod_copies = tab.tab_nodes.flat_map { |r| r.node.copy }
       tab_copy = tab.dup

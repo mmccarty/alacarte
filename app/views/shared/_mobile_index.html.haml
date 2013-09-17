@@ -20,7 +20,7 @@
         %a{ :href => '#related-guides' }
           Related Guides
 
-  - unless @page.page_description.blank?
+  - unless @page.description.blank?
     %section#about-this-guide
       %h2
         About this Guide
@@ -55,7 +55,7 @@
             - @related_pages.each do |guide|
               - guide_url = course_page_url guide
               %li
-                = link_to raw(guide.header_title), guide_url, :title => "#{ raw(guide.page_description) }"
+                = link_to raw(guide.header_title), guide_url, :title => "#{ raw(guide.description) }"
       %li
         %a{ :href=> '/subject-guides/'}
           = @local.guide_page_title

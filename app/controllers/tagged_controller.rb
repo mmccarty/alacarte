@@ -1,5 +1,4 @@
 class TaggedController < ApplicationController
-  include Paginating
   layout 'admin'
 
   def index
@@ -7,7 +6,7 @@ class TaggedController < ApplicationController
     @tgcurrent = 'current'
     @tags = @user.node_tags
     @mods = @tag == "" ?  @user.sort_mods(@sort) : @user.find_mods_tagged_with(@tag)
-    @mods = paginate_nodes(@mods,(params[:page] ||= 1),@sort)
+    @mods = @mods.paginate page: params[:page]
     if request.xhr?
       render :partial => "tag_list", :layout => false
     end

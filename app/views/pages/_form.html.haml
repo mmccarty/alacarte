@@ -51,11 +51,11 @@
         %i.icon-question-sign{ :data => { :content => 'Tags are keywords that highlight content on the guide.<br/><br/>Tips: Seperate individual tags with a comma. Only add 3-5 tags. Use the same tag on similar guides to help discovery.', :html => 'true', :trigger => 'hover' } }
 
     .control-group
-    %label.control-label{ :for => 'page_page_description'}
+    %label.control-label{ :for => 'description'}
       Description
       %i.icon-question-sign{ :data => { :content => 'The page description is a short teaser that describes the guide.<br/><br/>Tips: Write complete sentences. Include slightly different word orders and keywords than what you use in the name and highlight special content on the guide', :html => 'true', :trigger => 'hover' } }
       .controls
-        = f.text_area :page_description, 'class' => 'ckeditor'
+        = f.text_area :description, 'class' => 'ckeditor'
 
   .control-group
     .controls

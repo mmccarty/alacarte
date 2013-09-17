@@ -2,8 +2,8 @@ source "https://rubygems.org"
 
 gem 'acts_as_list'
 gem 'acts-as-taggable-on'
-gem 'annotate'
 gem 'ckeditor_rails'
+gem 'devise'
 gem 'dynamic_form'
 gem 'exception_notification'
 gem 'gettext_i18n_rails'
@@ -34,6 +34,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'annotate'
   gem 'gettext'
   gem 'ruby_parser'
 end

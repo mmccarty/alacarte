@@ -2,34 +2,25 @@
 #
 # Table name: pages
 #
-#  id               :integer          not null, primary key
-#  published        :boolean          default(FALSE)
-#  sect_num         :string(255)
-#  course_name      :string(255)      not null
-#  term             :string(255)      default("")
-#  year             :string(255)      default("")
-#  campus           :string(255)      default("")
-#  course_num       :string(255)
-#  page_description :text
-#  updated_at       :datetime
-#  created_on       :date
-#  archived         :boolean          default(FALSE)
-#  node_id          :integer
-#  created_by       :string(255)
-#  relateds         :text
+#  id          :integer          not null, primary key
+#  published   :boolean          default(FALSE)
+#  sect_num    :string(255)
+#  course_name :string(255)      not null
+#  term        :string(255)      default("")
+#  year        :string(255)      default("")
+#  campus      :string(255)      default("")
+#  course_num  :string(255)
+#  description :text
+#  updated_at  :datetime
+#  created_on  :date
+#  archived    :boolean          default(FALSE)
+#  node_id     :integer
+#  created_by  :string(255)
+#  relateds    :text
 #
 
 class Page < ActiveRecord::Base
-  include ItsJustAPage
-  after_create :create_home_tab, :create_relateds
-
-  acts_as_taggable
-  has_and_belongs_to_many :users
-  has_many :tabs, -> { order 'position' }, :as => 'tabable', :dependent => :destroy
-  has_and_belongs_to_many :subjects, -> { order 'subject_code' }
-  belongs_to :node
-
-  serialize :relateds
+  include ActsAsGuide
 
   validates :course_name, presence: true
   validates :course_num, presence: true
@@ -45,16 +36,12 @@ class Page < ActiveRecord::Base
     :with => /\A\d+(\/\d+)?\z/,
     :message => _('must be a number or numbers (e.g, 121 or 121/123).')
 
-  searchable do
-    text :course_name, :page_description
-  end
-
   def validate
     errors.add _('You must specify at least one subject.') if subjects.blank?
   end
 
-  def to_param
-    "#{ id }-#{ route_title.gsub /[^a-z0-9]+/i, '-' }"
+  def guide_name
+    "#{ subject_codes.join('/') }#{ course_num }"
   end
 
   def header_title
@@ -79,28 +66,20 @@ class Page < ActiveRecord::Base
     "#{ header_title }    #{ term == 'A' ? '' : term }#{ year == 'A' ? '' : year } #{ sect_num.blank? ? '' : ' #' + sect_num }"
   end
 
-  def route_title
-    subject_codes.join('/') + course_num
-  end
-
   def get_related_guides
     subjects.flat_map(&:get_guides).map &:id
   end
 
-  def add_contact_node mid
-    self.node_id = if mid then mid.to_i else nil end
-  end
-
   def self.get_branch_published_pages branch
-    self.where(:published => true, :campus => branch).order("subject, course_num").select('id, subject, course_num, course_name, term, year, sect_num, page_description')
+    self.where(:published => true, :campus => branch).order("subject, course_num").select('id, subject, course_num, course_name, term, year, sect_num, description')
   end
 
-  def self.get_published_pages
-    self.where(:published => true).includes("subjects").order("subjects.subject_code, course_num").select('id, course_num, course_name, term, year, sect_num, page_description')
+  def self.published_guides
+    self.where(:published => true).includes("subjects").order("subjects.subject_code, course_num").select('id, course_num, course_name, term, year, sect_num, description')
   end
 
   def self.get_archived_pages subj = nil
-    pages = self.where(:archived => true).includes("subjects").order("subjects.subject_code, course_num").select('id, course_num, course_name, term, year, sect_num, page_description')
+    pages = self.where(:archived => true).includes("subjects").order("subjects.subject_code, course_num").select('id, course_num, course_name, term, year, sect_num, description')
     unless subj.blank?
       pages = pages.select{|p| p.subjects.include?(subj)}
     end
@@ -113,12 +92,6 @@ class Page < ActiveRecord::Base
       subject_ids.each do |id|
         subjects << Subject.find_by_id(id)
       end
-    end
-  end
-
-  def create_home_tab
-    if tabs.blank?
-      add_tab Tab.new(tab_name: _('Start'))
     end
   end
 
@@ -135,9 +108,5 @@ class Page < ActiveRecord::Base
     new_page.add_tags tag_list
     new_page.add_subjects subjects.map(&:id)
     new_page
-  end
-
-  def item_name
-    header_title
   end
 end

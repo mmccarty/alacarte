@@ -1,8 +1,6 @@
-class PagesController < ApplicationController
-  include ActsPagey
-  include Paginating
-  layout 'admin'
+require 'will_paginate/array'
 
+class PagesController < GuidesController
   def new
     @page = Page.new
     @subj_list = Subject.get_subjects
@@ -72,7 +70,7 @@ class PagesController < ApplicationController
     end
   end
 
-  def remove_user_from_page
+  def remove_user_from_guide
     begin
       user = @page.users.find_by_id(params[:id])
     rescue Exception => e
@@ -85,11 +83,27 @@ class PagesController < ApplicationController
     end
   end
 
+  def destroy
+    page = find_item
+    if page.users.length == 1
+      @user.pages.delete(page)
+      page.destroy
+    else
+      page.update_attribute(:created_by, page.users.at(1).name) if page.created_by.to_s == @user.name.to_s
+      @user.pages.delete(page)
+    end
+    if request.xhr?
+      render :text => ""
+    else
+      redirect_to :back, :page => params[:page], :sort => params[:sort]
+    end
+  end
+
   def send_url
     @sucurrent = 'current'
     @page_url = course_page_url @page
     @message =
-      "A new library course page has been created for #{@page.header_title}. The link to the page is: #{@page_url}. Please inform your students of the page and include the link in your course material.
+        "A new library course page has been created for #{@page.header_title}. The link to the page is: #{@page_url}. Please inform your students of the page and include the link in your course material.
 Please contact me if you have any questions or suggestions.
 -#{@user.name} "
     if request.post?
@@ -107,22 +121,6 @@ Please contact me if you have any questions or suggestions.
           redirect_to :action => "send_url"
         end
       end
-    end
-  end
-
-  def destroy
-    page = find_item
-    if page.users.length == 1
-      @user.pages.delete(page)
-      page.destroy
-    else
-      page.update_attribute(:created_by, page.users.at(1).name) if page.created_by.to_s == @user.name.to_s
-      @user.pages.delete(page)
-    end
-    if request.xhr?
-      render :text => ""
-    else
-      redirect_to :back, :page => params[:page], :sort => params[:sort]
     end
   end
 
@@ -151,10 +149,8 @@ Please contact me if you have any questions or suggestions.
     @page.item_name
   end
 
-  private
-
   def page_params
     params.require(:page).permit :course_name, :course_num, :tag_list, :node_id, :subject_ids, :sect_num, :term,
-                                 :year, :campus, :page_description
+                                 :year, :campus, :description
   end
 end

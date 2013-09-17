@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130913135754) do
+ActiveRecord::Schema.define(version: 20130917194130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,17 +120,17 @@ ActiveRecord::Schema.define(version: 20130913135754) do
   add_index "nodes_users", ["node_id", "user_id"], name: "index_resources_users_on_resource_id_and_user_id", using: :btree
 
   create_table "pages", force: true do |t|
-    t.boolean  "published",        default: false
+    t.boolean  "published",   default: false
     t.string   "sect_num"
-    t.string   "course_name",                      null: false
-    t.string   "term",             default: ""
-    t.string   "year",             default: ""
-    t.string   "campus",           default: ""
+    t.string   "course_name",                 null: false
+    t.string   "term",        default: ""
+    t.string   "year",        default: ""
+    t.string   "campus",      default: ""
     t.string   "course_num"
-    t.text     "page_description"
+    t.text     "description"
     t.datetime "updated_at"
     t.date     "created_on"
-    t.boolean  "archived",         default: false
+    t.boolean  "archived",    default: false
     t.integer  "node_id"
     t.string   "created_by"
     t.text     "relateds"

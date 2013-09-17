@@ -1,5 +1,6 @@
+require 'will_paginate/array'
+
 class NodesController < ApplicationController
-  include Paginating
   skip_before_filter :authorize, :only =>[:view]
   layout 'admin'
 
@@ -112,7 +113,7 @@ class NodesController < ApplicationController
       @mod = find_mod params[:id]
       @sort = params[:sort] ||= 'name'
       @items = @user.send "sort_#{ item_type }s", @sort
-      @items = send "paginate_#{ item_type }s", @items, (params[:page] ||= 1), @sort
+      @items = @items.paginate page: params[:page]
     rescue ActiveRecord::RecordNotFound
       redirect_to  :action => 'index', :list=> 'mine' and return
     end

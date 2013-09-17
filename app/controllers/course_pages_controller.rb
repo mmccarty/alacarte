@@ -1,36 +1,17 @@
-class CoursePagesController < ApplicationController
-  skip_before_filter :authorize
+class CoursePagesController < SubjectGuidesController
   before_filter :custom_page_data, :only => [:index]
-  layout 'template'
 
   def index
     @from = 'published'
     @meta_keywords = @local.ica_page_title + ", Course Guides, Research Topics, Library Help Guides"
     @meta_description = @local.ica_page_title + ". Library Help Guides for Course Assignments. "
     @title = @local.ica_page_title
-    @pages = Page.get_published_pages
+    @pages = Page.published_guides
     @subjects = Subject.get_page_subjects @pages
 
     @campushash = Hash[*@campus.map{|a| a[0], a[1] = a[1], a[0]}.flatten]
     @campus.map{|a| a[0], a[1] = a[1], a[0]}
     @tags = Page.where(:published => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
-  end
-
-  def archived
-    @meta_keywords = @local.ica_page_title + ", Course Guides, Research Topics, Library Help Guides, Archived"
-    @meta_description = @local.ica_page_title + ". Archived Library Help Guides for Course Assignments."
-    @title = @local.ica_page_title + " | Archived  "
-
-    @subjects = Subject.get_subjects
-    @pages = Page.get_archived_pages nil
-    @tags = Page.where(:archived => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
-    if request.post?
-      if params[:subject]
-        @subj = params[:subject]
-        @subject = Subject.find @subj
-        @pages = Page.get_archived_pages @subject
-      end
-    end
   end
 
   def tagged
@@ -59,24 +40,33 @@ class CoursePagesController < ApplicationController
     end
     @title= @page.header_title + " | " + @local.ica_page_title
     @meta_keywords = @page.tag_list
-    @meta_description = @page.page_description
+    @meta_description = @page.description
     @related_guides = @page.related_guides
     @mod = @page.node
     @owner = @page.users.select{|u| u.name == @page.created_by}.first
     @updated = @page.updated_at.to_formatted_s(:long)
   end
 
-  def feed
-    @page = Page.find(params[:id])
-    @mods = @page.recent_nodes
-    @page_url = course_page_url @page
-    @page_title = @page.header_title
-    @page_description = @page.page_description
-    author = @page.users.select{|u| u.name == @page.created_by}.first
-    @author_email = author.email + " ("+author.name+")" if author
-    response.headers['Content-Type'] = 'application/rss+xml'
-    respond_to do |format|
-      format.xml {render  :layout => false}
+  def archived
+    @meta_keywords = @local.ica_page_title + ", Course Guides, Research Topics, Library Help Guides, Archived"
+    @meta_description = @local.ica_page_title + ". Archived Library Help Guides for Course Assignments."
+    @title = @local.ica_page_title + " | Archived  "
+
+    @subjects = Subject.get_subjects
+    @pages = Page.get_archived_pages nil
+    @tags = Page.where(:archived => true).tag_counts_on(:tags, :start_at => Time.now.prev_year, :order => 'taggings.created_at desc').limit 100
+    if request.post?
+      if params[:subject]
+        @subj = params[:subject]
+        @subject = Subject.find @subj
+        @pages = Page.get_archived_pages @subject
+      end
     end
+  end
+
+  private
+
+  def guide_class
+    Page
   end
 end

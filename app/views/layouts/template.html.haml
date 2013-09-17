@@ -36,10 +36,6 @@
         /**/
         				   #logo { height: #{@local.logo_height}px;}
         			/**/
-    - if @guide
-      = auto_discovery_link_tag(:rss, :action => 'feed', :id =>@guide)
-    - elsif @page
-      = auto_discovery_link_tag(:rss, :action => 'feed', :id =>@page)
   <body
   - if @guides || @pages
     id="browse"

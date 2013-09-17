@@ -100,11 +100,4 @@ describe SubjectGuidesController do
       expect(assigns(:guides).empty?).to be_false
     end
   end
-
-  describe 'GET #feed' do
-    it 'assigns the guide to @guide' do
-      get :feed, id: @guide.id, format: :xml
-      expect(assigns(:guide)).to_not be_nil
-    end
-  end
 end

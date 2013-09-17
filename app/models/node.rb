@@ -41,10 +41,6 @@ class Node < ActiveRecord::Base
     self
   end
 
-  def rss_content
-    self.content.blank? ? '' : self.content
-  end
-
   def add_tags tags
     self.tag_list = tags
     self.save

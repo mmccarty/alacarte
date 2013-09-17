@@ -41,17 +41,9 @@ class SubjectGuidesController < ApplicationController
     @related_pages = @guide.related_pages
   end
 
-  def feed
-    @guide = Guide.find(params[:id])
-    @mods = @guide.recent_nodes
-    @guide_url = subject_guide_url @guide
-    @guide_title = @guide.guide_name
-    @guide_description = @guide.description
-    author = @guide.users.select{|u| u.name == @guide.created_by}.first
-    @author_email = author.email + " ("+author.name+")" if author
-    response.headers['Content-Type'] = 'application/rss+xml'
-    respond_to do |format|
-      format.xml {render  :layout => false}
-    end
+  private
+
+  def guide_class
+    Guide
   end
 end

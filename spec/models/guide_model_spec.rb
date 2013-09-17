@@ -11,7 +11,7 @@ describe Guide do
 
   it 'generates predictable url parameters' do
     guide = create(:guide, guide_name: 'My First Guide')
-    expect(guide.to_param).to eq "#{ guide.id }-My-First-Guide"
+    expect(guide.to_param).to eq "#{ guide.id }-my-first-guide"
   end
 
   it 'is by default not published (1)' do

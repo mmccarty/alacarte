@@ -37,7 +37,7 @@
           %ul
             - @related_pages.each do |page|
               - page_url = course_page_url page
-              %li= link_to raw(page.header_title), page_url, title: "#{ raw page.page_description }"
+              %li= link_to raw(page.header_title), page_url, title: "#{ raw page.description }"
     .accordion-group
       .accordion-heading
         %a.accordion-toggle{:href => subject_guides_path}

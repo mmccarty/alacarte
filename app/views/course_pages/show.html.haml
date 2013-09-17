@@ -1,4 +1,4 @@
 - content_for :ada_navigation do
   = link_to 'Go to screenreader version' , { :action => 'mobile_index', :id => @page } , :id => 'alt-version'
 
-= render :partial => "shared/page_index", :locals => { :header_title => @page.header_title, :index => @page, :index_controller => 'course_pages', :index_description => @page.page_description }
+= render :partial => "shared/page_index", :locals => { :header_title => @page.header_title, :index => @page, :index_controller => 'course_pages', :index_description => @page.description }

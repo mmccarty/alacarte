@@ -13,30 +13,14 @@
 #
 
 class Guide < ActiveRecord::Base
-  include ItsJustAPage
-  after_create :create_home_tab, :create_relateds
+  include ActsAsGuide
 
-  acts_as_taggable
-  has_and_belongs_to_many :users
-  has_many :tabs, -> { order 'position' }, as: 'tabable', dependent: :destroy
   has_and_belongs_to_many :masters
-  has_and_belongs_to_many :subjects, -> { order 'subject_name' }
-  belongs_to :node
 
   validates :guide_name, presence: true, uniqueness: true
 
-  serialize :relateds
-
-  searchable do
-    text :guide_name, :description
-  end
-
   def self.published_guides
     self.where(published: true).order(:guide_name).select 'id, guide_name, description'
-  end
-
-  def to_param
-    "#{ id }-#{ guide_name.gsub /[^a-z0-9]+/i, '-' }"
   end
 
   # Suggest a list of related guides sharing at least one master subject.
@@ -55,23 +39,8 @@ class Guide < ActiveRecord::Base
     subjs.each { |id| subjects << Subject.find(id) } if subjs
   end
 
-  def create_home_tab
-    if tabs.blank?
-      add_tab Tab.new(tab_name: _('Quick Links'))
-    end
-  end
-
   def related_pages
     subjects.flat_map(&:get_pages).uniq
-  end
-
-  def toggle_published
-    if self.node || self.published?
-      self.toggle!(:published)
-      true
-    else
-      false
-    end
   end
 
   def replicate user, options
@@ -88,9 +57,5 @@ class Guide < ActiveRecord::Base
     new_guide.add_master_type masters.map(&:id)
     new_guide.add_related_subjects subjects.map(&:id)
     new_guide
-  end
-
-  def item_name
-    guide_name
   end
 end

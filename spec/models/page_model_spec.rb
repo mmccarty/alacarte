@@ -72,7 +72,7 @@ describe Page do
     end
 
     it 'generates predictable URL parameters' do
-      expect(@page.to_param).to eq "#{ @page.id }-ENGR101"
+      expect(@page.to_param).to eq "#{ @page.id }-engr101"
     end
 
     it 'constructs a header title' do
@@ -82,7 +82,7 @@ describe Page do
     it 'constructs a route title' do
       subject2 = Subject.create subject_code: 'COMP', subject_name: 'Computer Science'
       @page.subjects << subject2
-      expect(@page.route_title).to eq 'ENGR/COMP101'
+      expect(@page.guide_name).to eq 'ENGR/COMP101'
     end
   end
 

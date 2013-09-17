@@ -2,15 +2,15 @@
   - case controller.controller_name
     - when 'course_pages'
       - if defined?(subject_code) and defined?(campus_hash)
-        = link_to page.browse_title(subject_code, campus_hash), page_url, :title => '#{raw page.page_description}'
+        = link_to page.browse_title(subject_code, campus_hash), page_url, :title => '#{raw page.description}'
       - else
-        = link_to page.search_title, { action: :show, id: page }, :title => '#{raw page.page_description}'
+        = link_to page.search_title, { action: :show, id: page }, :title => '#{raw page.description}'
     - when 'subject_guides'
       = link_to page.guide_name, { action: :show, id: page }, :title => '#{raw page.description}'
     - when'ort'
       = link_to page.full_name.html_safe, :controller => controller, :action => 'index', :title => '#{raw page.description}', :id => page
 %dd
-  = controller.controller_name == 'course_pages' ? raw(page.page_description) : raw(page.description)
+  = raw(page.description)
   %br
   %small
     - if page.tag_list.length > 0

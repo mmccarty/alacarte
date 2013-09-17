@@ -1,5 +1,4 @@
 class TabsController < ApplicationController
-  include Paginating
   before_filter :find_parent
   layout 'admin'
 
@@ -87,7 +86,7 @@ class TabsController < ApplicationController
     @sort = params[:sort] || 'label'
     session[:add_mods] ||= []
     @mods = @user.sort_mods(@sort)
-    @mods = paginate_nodes(@mods, params[:page] ||= 1, @sort)
+    @mods = @mods.paginate page: params[:page]
     if request.post? and !session[:add_mods].nil?
       @tab.update_nodes(session[:add_mods])
       @parent.update_users if @parent and @parent.shared?
