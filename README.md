@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/terrellt/alacarte.png?branch=master)](https://travis-ci.org/terrellt/alacarte)
+
 A Brief History
 ---------------
 
@@ -263,7 +265,7 @@ Step 8. OPTIONAL: Move to production and deploy
 	 ~/.bashrc export RAILS_ENV="production"
 
 	Option 2: Set the Environment in Your Web Server Config File
-	If you canÕt set the Rails environment variable in your shell, you must look for another way to do it.
+	If you canï¿½t set the Rails environment variable in your shell, you must look for another way to do it.
 	The next best place is in your web server configuration.
 
 	Option 3: Edit environment.rb
@@ -315,21 +317,21 @@ Troubleshooting
 
 Look at the Web Server Error Logs
 
-	One of the best places to start troubleshooting are the web serverÕs error logs, especially when you are initially debugging your configuration.
+	One of the best places to start troubleshooting are the web serverï¿½s error logs, especially when you are initially debugging your configuration.
 
 	/log/development.log or /log/production.log
 
-	Rails canÕt start writing to .log files until it has launched, so Rails logging canÕt help you if your initial setup has critical problems.
-	File permission problems and other errors will show up in the web serverÕs access_log and may give you clues about what is going wrong.
+	Rails canï¿½t start writing to .log files until it has launched, so Rails logging canï¿½t help you if your initial setup has critical problems.
+	File permission problems and other errors will show up in the web serverï¿½s access_log and may give you clues about what is going wrong.
 
 Do Files Have the Correct Permissions?
 
 	Here are a few important files and the permissions they must have:
-	¥ The log directory and files must be writable by the user running the FastCGI or Mongrel process.
-	¥ The public directory must be writable by the user running the FastCGI or Mongrel process if you are using page caching. Rails will run if the public directory is not writable but will not use caching.
-	¥ dispatch.fcgi must be executable, but not writable by others.
-	¥ index must be writable by the application
-	¥ public/photo and public/photos and uploads must be RW (if using)
+	ï¿½ The log directory and files must be writable by the user running the FastCGI or Mongrel process.
+	ï¿½ The public directory must be writable by the user running the FastCGI or Mongrel process if you are using page caching. Rails will run if the public directory is not writable but will not use caching.
+	ï¿½ dispatch.fcgi must be executable, but not writable by others.
+	ï¿½ index must be writable by the application
+	ï¿½ public/photo and public/photos and uploads must be RW (if using)
 
 Are Current Versions of Necessary Files and Requirements Present?
 
