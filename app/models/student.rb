@@ -12,7 +12,7 @@
 #  lastname    :string(255)      default("")
 #
 
-require 'CSV'
+require 'csv'
 
 class Student < ActiveRecord::Base
   has_many :results, :order => 'position', :dependent => :destroy
