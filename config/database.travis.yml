@@ -1,0 +1,14 @@
+postgresql: &postgresql
+  adapter: postgresql
+  username: postgres
+  password:
+  database: alacarte_test
+
+defaults: &defaults
+  pool: 5
+  timeout: 5000
+  host: localhost
+  <<: *<%= ENV['DB'] || "postgresql" %>
+
+test:
+  <<: *defaults

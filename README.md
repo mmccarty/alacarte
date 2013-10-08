@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/terrellt/alacarte.png?branch=3.x-bugfix)](https://travis-ci.org/terrellt/alacarte)
+
 A Brief History
 ---------------
 
