@@ -39,7 +39,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'gettext'
+  gem 'gettext', '= 3.0.0'
   gem 'ruby_parser'
 end
 
