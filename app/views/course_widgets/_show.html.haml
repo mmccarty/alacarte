@@ -1,0 +1,6 @@
+%section{ :id => "topic_#{ mod.resources.first.id }" }
+  %h1.page-header
+    = raw mod.module_title
+  %div
+    - unless mod.widget.blank?
+      = raw mod.widget
