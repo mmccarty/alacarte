@@ -46,4 +46,4 @@
             - else
               = awesome_button polymorphic_path([item], action: :archive), 'check', _('Unarchive this %{item}') % { item: @item_type }, '', method: :post, remote: true
             |
-          = link_to '', {:controller => "admin", :action => 'destroy_guide', :id => item}, class: 'icon-trash', confirm: _('Are you sure you want to delete this %{item}?' % { item: @item_type }, method: :delete
+          = link_to '', {:controller => "admin", :action => 'destroy_guide', :id => item}, class: 'icon-trash', confirm: _('Are you sure you want to delete this %{item}?') % { item: @item_type }, method: :delete
