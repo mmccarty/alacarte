@@ -103,13 +103,13 @@ class ApplicationController < ActionController::Base
 
   def render_404(exception=nil)
     unless exception == nil
-      log_error(exception)
+      logger.error(exception)
     end
     render :template => "errors/404", :status => :not_found
   end
 
   def render_500(exception)
-    log_error(exception)
+    logger.error(exception)
     notify_about_exception(exception)
     render :template => "errors/500", :status => :internal_server_error
   end
