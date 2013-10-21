@@ -5,10 +5,13 @@
   .span2= polymorphic_partial @parent, 'side_bar'
   .span10
     %h1.page-header
-      Add Modules
-      %br
-      %small
-        .edit{ :id => "tab_#{ @tab.id }", 'post-url' => polymorphic_path([@parent, @tab], :action => :save_tab_name) }<
+      Add Modules to Tab
+    %div.row-fluid
+      %i.icon-edit.icon-2
+      Edit Tab Title:
+    %div.row-fluid
+      %div.span5.lead
+        .edit.well.well-small{ :id => "tab_#{ @tab.id }", 'post-url' => polymorphic_path([@parent, @tab], :action => :save_tab_name) }<
           = @tab.tab_name
     %p
       = link_to 'Change Tab', @parent, :class => 'btn'
