@@ -1,0 +1,27 @@
+{
+  "globals": {
+    "define": false
+  },
+  "bitwise": true,
+  "browser": true,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "forin": true,
+  "immed": true,
+  "indent": 2,
+  "latedef": true,
+  "maxcomplexity": 3,
+  "maxdepth": 2,
+  "maxlen": 120,
+  "maxparams": 3,
+  "newcap": true,
+  "noarg": true,
+  "noempty": true,
+  "nonew": true,
+  "quotmark": "single",
+  "strict": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true
+}

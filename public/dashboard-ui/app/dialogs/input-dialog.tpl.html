@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <h3>{{ title }}</h3>
+</div>
+
+<div class="modal-body">
+  <form name="inputForm">
+    <label class="muted">
+      {{ directions }}
+    </label>
+    <input name="input"
+           class="input-xxlarge"
+           ng-model="userInput"
+           ng-pattern="userInputPattern"
+           ng-required="userInputRequired"/>
+    <span class="text-error"
+          ng-show="inputForm.input.$error.pattern">
+      <br/>
+      {{ userInputPatternError }}
+    </span>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button ng-click="close(userInput)"
+          ng-disabled="inputForm.input.$error.pattern || inputForm.input.$error.required"
+          class="btn btn-primary">
+    Save
+  </button>
+  <button ng-click="close(null)" class="btn">
+    Cancel
+  </button>
+</div>

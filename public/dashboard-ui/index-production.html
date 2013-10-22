@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8">        <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9">               <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js">                  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>LibraryH3lp Dashboard</title>
+
+    <style>
+      [ng-cloak] {
+        display: none;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="app/vendor/bootstrap/docs/assets/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="app/vendor/font-awesome/css/font-awesome.min.css"/>
+    <!--[if lt IE 8]>
+      <link rel="stylesheet" type="text/css" href="app/vendor/font-awesome/css/font-awesome-ie7.min.css"/>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="app/vendor/intro.js/minified/introjs.min.css"/>
+    <link rel="stylesheet" type="text/css" href="app/vendor/codemirror/lib/codemirror.css"/>
+    <link rel="stylesheet" type="text/css" href="app/app.css"/>
+
+    <script src="app/vendor/modernizr/modernizr.js"></script>
+    <script src="app/vendor/intro.js/minified/intro.min.js"></script>
+  </head>
+  <body ng-cloak>
+    <!--[if lt IE 7]>
+      <p class="chromeframe">
+        You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.
+      </p>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="app/vendor/es5-shim/es5-shim.min.js"></script>
+      <script src="app/vendor/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <div class="container">
+      <div ng-view></div>
+
+      <!--
+      <div ng-controller="LoginCtrl" modal="login.required" options="login.options">
+        <div class="modal-header">
+          <h4>Login Required</h4>
+        </div>
+        <div class="modal-body">
+          <form novalidate class="simple-form text-center">
+            <input placeholder="Username" type="text" required ng-model="login.username"/><br/>
+            <input placeholder="Password" type="password" required ng-model="login.password"/><br/>
+            <input type="checkbox" ng-model="login.remember">&nbsp; Remember me
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" ng-click="tryLogin()">Login</button>
+        </div>
+      </div>
+      -->
+    </div>
+
+    <!--[if lt IE 9]>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <!--<![endif]-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="dashboard.js"></script>
+  </body>
+</html>

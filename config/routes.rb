@@ -1,8 +1,8 @@
 Alacarte::Application.routes.draw do
   root to: 'login#login'
 
-  get 'login/login'  => 'login#login',  as: 'login'
-  get 'login/logout' => 'login#logout', as: 'logout'
+  match 'login/login'  => 'login#login',  as: 'login', via: [:get, :post]
+  get   'login/logout' => 'login#logout', as: 'logout'
 
   scope path: '/admin', controller: :admin do
     get 'tools' => :index, as: 'tools'

@@ -1,0 +1,27 @@
+{
+  "name": "dashboard-ui",
+  "version": "0.1.0-SNAPSHOT",
+  "description": "LibraryH3lp dashboard interface.  Replaces legacy admin-ui.",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com:nubgames/dashboard-ui.git"
+  },
+  "author": "Eric Sessoms <eric@nubgames.com>",
+  "license": "MIT",
+  "gitHead": "01d3fac30498a3ad0221e0276b2e71827a7a3838",
+  "bugs": {
+    "url": "https://github.com/nubgames/dashboard-ui/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-compress": "~0.5.2",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-karma": "~0.4.5"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "tinymce-release",
+  "homepage": "https://github.com/spekkionu/tinymce",
+  "version": "3.5.8",
+  "_release": "3.5.8",
+  "_resolution": {
+    "type": "version",
+    "tag": "3.5.8",
+    "commit": "515894c1a30623fa6550c2a6aed882d2da48f94e"
+  },
+  "_source": "git://github.com/spekkionu/tinymce.git",
+  "_target": "3.5.8",
+  "_originalSource": "tinymce-release"
+}

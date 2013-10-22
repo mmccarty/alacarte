@@ -1,0 +1,55 @@
+<div class="modal-header">
+  <h3>{{ title }}</h3>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <div class="span3">
+
+      <select multiple="multiple"
+              ng-model="allItemsModel"
+              ng-change="selectFromAll()">
+        <option ng-repeat="item in allItems | orderBy:'+name'">{{ item.name }}</option>
+      </select>
+
+    </div>
+
+    <div class="pull-left" style="margin-left: 20px;">
+      <div class="btn-group btn-group-vertical">
+
+        <button class="btn icon-arrow-left"
+                ng-disabled="! selectedItemSelected"
+                ng-click="removeFromSelectedItems()">
+        </button>
+
+        <button class="btn icon-arrow-right"
+                ng-disabled="! allItemSelected"
+                ng-click="moveToSelectedItems()">
+        </button>
+
+      </div>
+    </div>
+
+    <div class="span3">
+
+      <select multiple="multiple"
+              ng-model="selectedItemsModel"
+              ng-change="selectFromSelected()">
+        <option ng-repeat="item in selectedItems | orderBy:'+name'">{{ item.name }}</option>
+      </select>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button ng-click="addNewItem()" class="btn">
+    Add new
+  </button>
+  <button ng-click="close(selectedItems)" class="btn btn-primary">
+    Save
+  </button>
+  <button ng-click="close(null)" class="btn">
+    Cancel
+  </button>
+</div>

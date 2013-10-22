@@ -1,0 +1,182 @@
+a[class^="icon-"] {
+  color: #333;
+}
+
+a[class^="icon-"]:hover {
+  color: #08C;
+  text-decoration: none;
+}
+
+#add-service {
+  margin-bottom: 10px;
+}
+
+.CodeMirror {
+  height: 600px;
+  margin-bottom: 20px;
+}
+
+.code-snippet {
+  height: 300px;
+}
+
+.hidden-true {
+  visibility: hidden;
+}
+
+.btn-group[disabled="disabled"].open,
+.btn-group[disabled="disabled"].open > .dropdown-toggle {
+  box-shadow: none;
+}
+
+.btn-group.btn {   border: 0;   padding: 0; }
+.btn-group.btn > .btn { border-radius: 0 }
+.btn-group.btn > .dropdown-menu {  text-align: left; }
+.btn-group.btn:first-child > .btn {
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.btn-group.btn:last-child > .btn {
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.btn-group > .btn:hover,
+.btn-group > a:hover {
+  z-index: auto;
+}
+
+.input-append .active, .input-prepend .active {
+  border-color: #B3B3B3;
+}
+
+.level-btns > .btn-group > .btn:first-child {
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top-right-radius: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-topright: 0;
+}
+.level-btns > .btn-group-vertical > .btn:last-child {
+  border-radius: 0 0 0 4px;
+}
+
+.level-editor {
+  background-color: #F5F5F5;
+  margin-bottom: 0;
+  margin-left: 0;
+  padding: 20px;
+}
+
+.level-editor, .service-unavailable-editor {
+  border: 1px solid #CCC;
+}
+
+.level-label {
+  width: 130px;
+}
+
+.nav-pills.nav-stacked > li a {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#service-list {
+  margin-left: 5px;
+  width: 280px;
+}
+
+#service-list td {
+  padding-right: 0;
+}
+
+#service-list .arrow,
+#service-list .arrow:after {
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  float: right;
+  margin-right: -10px;
+}
+
+#service-list .arrow {
+  border-width: 11px;
+  top: 50%;
+  border-right-color: #F5F5F5;
+  border-right-color: rgba(0, 0, 0, 0.25);
+  border-left-width: 0;
+}
+
+.arrow:after {
+  border-width: 10px;
+  content: "";
+  bottom: -10px;
+  left: 1px;
+  border-right-color: #ffffff;
+  border-left-width: 0;
+}
+
+.service-snippet {
+  overflow-y: auto;
+  font-size: 0.7em;
+}
+
+#service-summary, .CodeMirror {
+  background-clip: padding-box;
+  background-color: #FFFFFF;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+     -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+}
+
+#service-summary {
+  margin-left: 10px;
+  padding: 10px;
+  width: 620px;
+}
+
+#service-summary ul.thumbnails > li {
+  height: 190px;
+  width: 190px;
+}
+
+.service-unavailable-editor {
+  margin-left: 40px;
+  padding: 10px 10px 0 10px;
+  width: 800px;
+}
+
+.selected-true {
+  background-color: #F5F5F5;
+}
+
+.small-snippet {
+  height: 220px;
+  width: 100%;
+}
+
+.tabbable li.active [tab-heading] {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.tabbable li > a {
+  color: #333;
+}
+
+.table {
+  border-collapse: separate;
+}

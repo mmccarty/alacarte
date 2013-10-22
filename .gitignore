@@ -8,8 +8,9 @@ console/
 db/*.sqlite3
 lib/import_wiki.rb
 log
-public
 public/css/
+public/dashboard-ui/dashboard.js*
+public/dashboard-ui/node_modules
 public/files/
 public/images/
 public/photos/
