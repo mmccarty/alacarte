@@ -10,6 +10,7 @@ lib/import_wiki.rb
 log
 public/css/
 public/dashboard-ui/dashboard.js*
+public/dashboard-ui/index.html
 public/dashboard-ui/node_modules
 public/files/
 public/images/

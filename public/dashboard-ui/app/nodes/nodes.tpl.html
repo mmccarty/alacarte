@@ -1,0 +1,22 @@
+<table class='table table-striped'>
+  <thead>
+    <th> Shared? </th>
+    <th> Used? </th>
+    <th> Label </th>
+    <th></th>
+    <th> Last Update </th>
+    <th> Global? </th>
+    <th> Published? </th>
+  </thead>
+  <tbody ng-repeat="node in nodes">
+    <tr>
+      <td>{{ node.shared }}</td>
+      <td>{{ node.used }}</td>
+      <td>{{ node.label }}</td>
+      <td></td>
+      <td>{{ node.updated_at }}</td>
+      <td>{{ node.global }}</td>
+      <td>{{ node.published }}</td>
+    </tr>
+  </tbody>
+</table>
