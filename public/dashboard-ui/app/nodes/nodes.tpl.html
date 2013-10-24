@@ -10,13 +10,26 @@
   </thead>
   <tbody ng-repeat="node in nodes">
     <tr>
-      <td>{{ node.shared }}</td>
-      <td>{{ node.used }}</td>
+      <td>
+        <a ng-class="{'icon-star':node.shared, 'icon-star-empty':!node.shared}" title="Share this module" href='/nodes/{{ node.id }}/share'></a>
+      </td>
+      <td>
+        <a ng-class="{'icon-circle':node.used, 'icon-circle-empty':!node.used}" title="Add this module to a guide or page." href='/nodes/{{ node.id }}/manage'></a>
+      </td>
       <td>{{ node.label }}</td>
-      <td></td>
+      <td>
+        <a class="icon-edit " title="Edit this module" href="/nodes/{{ node.id }}/edit"></a>
+        <a class="icon-external-link " title="Preview this module" target="blank" href="/nodes/{{ node.id }}"></a>
+        <a class="icon-copy " title="Copy this module" href="/nodes/{{ node.id }}/copy"></a>
+        <a class="icon-trash" title="Delete this module" rel="nofollow" href="/nodes/{{ node.id }}" data-method="delete" data-confirm="Are you sure?"></a>
+      </td>
       <td>{{ node.updated_at }}</td>
-      <td>{{ node.global }}</td>
-      <td>{{ node.published }}</td>
+      <td>
+        <a ng-class="{'icon-globe':node.global, 'icon-group':!node.global}" title="{{ {'Remove this module from the global list':node.global, 'Add this module to the global list':!node.global} }}" href='/nodes/{{ node.id }}/globalize'></a>
+      </td>
+      <td>
+        <a ng-class="{'icon-unlock':node.publish, 'icon-lock':!node.publish}" title="{{ {'Remove this module from the published list':node.publish, 'Add this module to the published list':!node.publish} }}" href='/nodes/{{ node.id }}/publish'></a>
+      </td>
     </tr>
   </tbody>
 </table>
