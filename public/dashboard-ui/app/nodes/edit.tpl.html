@@ -1,0 +1,55 @@
+<div class="modal-header">
+  <h3>Edit Module</h3>
+</div>
+<div class="modal-body full-screen-body">
+
+  <form accept-charset="UTF-8" action="/nodes/{{ id }}" class="edit_node" id="edit_node_{{ id }}" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /><input name="authenticity_token" type="hidden" value="2MGXN0ll6eY/zj175zgr7xp4FDkbcSI6qFoY1rPZ+yU=" /></div>    <div class='control-group'>
+    <label class='control-label' for='mod_module_title'>
+      Private Label
+      <span class='required'>*</span>
+    </label>
+    <div class='controls'>
+      <input class="input-xlarge" id="mod_label" name="mod[label]" type="text" value="Chat status &amp; chat routing" />
+      &nbsp;
+      <i class='icon-question-sign' popover='This is a unique descriptive label for the module. This is the name the module will be listed under in the tool.' data-html='true' popover-placement='right' popover-trigger='mouseenter'></i>
+    </div>
+  </div>
+    <div class='control-group'>
+      <label class='control-label' for='page_course_name'>
+        Module Title
+        <span class='required'>*</span>
+      </label>
+      <div class='controls'>
+        <input class="input-xlarge" id="mod_module_title" name="mod[module_title]" type="text" value="Chat status &amp; chat routing" />
+        &nbsp;
+        <i class='icon-question-sign' popover="This is the module's title that will appear to the public. Shorter titles should be used in two column layouts." data-html='true' popover-placement='right' popover-trigger='mouseenter'></i>
+      </div>
+    </div>
+    <div class='control-group'>
+      <label class='control-label' for='tag_list'>
+        Tags
+      </label>
+      <div class='controls'>
+        <input class="input-xlarge" id="mod_tag_list" name="mod[tag_list]" type="text" value="" />
+        &nbsp;
+        <i class='icon-question-sign' popover='Tags are keywords that highlight content on the module or organize the modules into a category. Tips: Seperate individual tags with a comma. Only add 3-5 tags.' popover-placement='right' popover-trigger='mouseenter'></i>
+        <div class='small muted'>
+          examples: WR101, Databases, Writing
+        </div>
+      </div>
+    </div>
+    <div class='control-group'>
+      <div class='controls'>
+        <textarea name="content-editor" id="mod_content" name="mod[content]">
+          &lt;h2&gt;Chat client status and routing of chats&lt;/h2&gt;&#x000A;&lt;h3&gt;Available, Away, and Do Not Disturb (Busy) statuses&lt;/h3&gt;&#x000A;&lt;p&gt;Chat clients allow users to set various presence statuses, which are used in the routing of chats to librarians. &lt;strong&gt;Available&lt;/strong&gt; or &lt;strong&gt;Chatty (Free for Chat)&lt;/strong&gt; status is required for a librarian to receive a new chat from a queue.&lt;/p&gt;&#x000A;&lt;p&gt;&lt;strong&gt;Away&lt;/strong&gt; and &lt;strong&gt;Do Not Disturb (Busy)&lt;/strong&gt; statuses can be very helpful if a librarian already has all the chats they can handle, or if they are trying to wrap up a shift without taking on any new chats.&lt;/p&gt;&#x000A;&lt;p&gt;&lt;strong&gt;Do Not Disturb (Busy)&amp;nbsp;&lt;/strong&gt;allows a librarian to continue with active chats but&amp;nbsp;&lt;strong style=&quot;font-size: 0.9em; line-height: 1.125em;&quot;&gt;not&amp;nbsp;&lt;/strong&gt;receive new chats.&lt;/p&gt;&#x000A;&lt;p&gt;&lt;strong&gt;Away&amp;nbsp;&lt;/strong&gt;status re-routes active chats to other librarians with Available status on the queue.&lt;/p&gt;&#x000A;&lt;p&gt;Think of it this way: use Away if you are going away from your desk to go to lunch, take a break, etc... Use Do Not Disturb/Busy if you are busy with your current chats and don&#39;t want to receive any new ones.&lt;/p&gt;&#x000A;&lt;p&gt;Status detail notes that are entered manually by the librarian do not impact the routing of chats from queues and only display to librarian&#39;s contacts on their buddy list. For example, a note that says &quot;out to lunch&quot; will not stop incoming chats from queues unless the status is also changed to &lt;strong&gt;Away&lt;/strong&gt;.&lt;/p&gt;&#x000A;&lt;h3&gt;Whatever client you choose...&lt;/h3&gt;&#x000A;&lt;p&gt;Client setup is &lt;em&gt; one of the most important&lt;/em&gt; parts of bringing up a service. If one or more users assigned to a queue have &lt;em&gt;Available&lt;/em&gt; status, the queue is online. Users with &lt;em&gt;Away&lt;/em&gt; or &lt;em&gt;Do Not Disturb/Busy&lt;/em&gt; status will not bring a queue online.&lt;/p&gt;&#x000A;&lt;p&gt;Examples: a queue with five &lt;em&gt; away&lt;/em&gt; users and one &lt;em&gt; available&lt;/em&gt; user is online. A queue with five &lt;em&gt; away&lt;/em&gt; users and zero &lt;em&gt; available&lt;/em&gt; users is offline.&lt;/p&gt;&#x000A;&lt;p&gt;Thus, it is very important to investigate client settings such as inactivity or idle times creating &lt;em&gt; away&lt;/em&gt; status. Also check and be sure your librarians are familiar with signing in and out of their account, especially steps that involve Exiting the client. Many Jabber clients will hide in the system tray if the user closes the main application window, and this could result in your service falsely appearing available to your patrons.&lt;/p&gt;&#x000A;&lt;h3&gt;Continuing conversations from returning patrons&lt;/h3&gt;&#x000A;&lt;p&gt;&lt;strong&gt;Advanced topic:&lt;/strong&gt; What happens when the librarian closes their chat window and then the patron sends a new message later? Don&#39;t worry, the patron will always get connected with someone, but the specifics depend on the chat client software. &lt;a href=&quot;../../subject-guide/13-Chat-Clients#topic_85&quot;&gt;Read all about it!&lt;/a&gt;&lt;/p&gt;</textarea>
+      </div>
+      <script>
+        CKEDITOR.replace('content-editor');
+      </script>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">Save</button>
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

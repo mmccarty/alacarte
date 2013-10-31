@@ -11,8 +11,8 @@ requirejs.config({
     'lodash': 'vendor/lodash/dist/lodash.compat.min',
     'restangular': 'vendor/restangular/dist/restangular.min',
     'tinymce': 'vendor/tinymce-release/tiny_mce',
+    'ui.bootstrap.bindHtml': 'vendor/angular-ui-bootstrap/src/bindHtml/bindHtml',
     'ui.bootstrap.buttons': 'vendor/angular-ui-bootstrap/src/buttons/buttons',
-    'ui.bootstrap.dialog': 'vendor/angular-ui-bootstrap/src/dialog/dialog',
     'ui.bootstrap.dropdownToggle': 'vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle',
     'ui.bootstrap.modal': 'vendor/angular-ui-bootstrap/src/modal/modal',
     'ui.bootstrap.position': 'vendor/angular-ui-bootstrap/src/position/position',
@@ -44,17 +44,16 @@ requirejs.config({
     'restangular': {
       deps: ['angular', 'lodash']
     },
-    'ui.bootstrap.buttons': {
+    'ui.bootstrap.bindHtml': {
       deps: ['angular']
     },
-    'ui.bootstrap.dialog': {
-      deps: ['ui.bootstrap.transition']
+    'ui.bootstrap.buttons': {
+      deps: ['angular']
     },
     'ui.bootstrap.dropdownToggle': {
       deps: ['angular']
     },
     'ui.bootstrap.modal': {
-      deps: ['ui.bootstrap.dialog']
     },
     'ui.bootstrap.popover': {
       deps: ['ui.bootstrap.tooltip']
