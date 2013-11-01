@@ -1,5 +1,7 @@
 define([
   'angular',
+  'filters',
+  'restangular',
   'ui.bootstrap.bindHtml',
   'ui.bootstrap.modal',
   'ui.bootstrap.popover'
@@ -7,30 +9,12 @@ define([
   'use strict';
 
   var module = angular.module('dashboard-ui.nodes', [
-    'filters',
+    'dashboard-ui.filters',
+    'restangular',
     'ui.bootstrap.bindHtml',
     'ui.bootstrap.modal',
     'ui.bootstrap.popover'
   ]);
-
-  angular.module('filters', []).
-      filter('truncate', function () {
-        return function (text, length, end) {
-          if (isNaN(length))
-            length = 10;
-
-          if (end === undefined)
-            end = "...";
-
-          if (text.length <= length || text.length - end.length <= length) {
-            return text;
-          }
-          else {
-            return String(text).substring(0, length-end.length) + end;
-          }
-
-        };
-      });
 
   module.config(['$routeProvider',
     function($routeProvider) {
@@ -50,29 +34,28 @@ define([
     '$modal',
     '$log',
     'nodes',
-    function($scope, $modal, $log, nodes) {
+    'Restangular',
+    function($scope, $modal, $log, nodes, Restangular) {
       $scope.nodes = nodes;
 
-      $scope.items = ['item1', 'item2', 'item3'];
-
       $scope.editNode = function (id) {
-        console.log(id);
-        $scope.id = id;
-        var modalInstance = $modal.open({
-          templateUrl: 'app/nodes/edit.tpl.html',
-          controller: 'ModalInstanceCtrl',
-          resolve: {
-            items: function () {
-              return $scope.items;
-            }
-          },
-          windowClass: 'full-screen'
-        });
+        Restangular.one('nodes', id).get({ format: 'json' }).
+            then(function(node){
+              var modalInstance = $modal.open({
+                templateUrl: 'app/nodes/edit.tpl.html',
+                controller: 'ModalInstanceCtrl',
+                resolve: {
+                  node: function () {
+                    return node;
+                  }
+                },
+                windowClass: 'full-screen'
+              });
 
-        modalInstance.result.then(function (selectedItem) {
-          $scope.selected = selectedItem;
-        }, function () {
-          $log.info('Modal dismissed at: ' + new Date());
+              modalInstance.result.then(function () {
+              }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+              });
         });
       };
     }
@@ -81,16 +64,14 @@ define([
   module.controller('ModalInstanceCtrl', [
     '$scope',
     '$modalInstance',
-    'items',
-    function($scope, $modalInstance, items) {
+    'node',
+    function($scope, $modalInstance, node) {
 
-      $scope.items = items;
-      $scope.selected = {
-        item: $scope.items[0]
-      };
+      $scope.node = node;
 
       $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
+        console.log($scope.node.content);
+        $modalInstance.close($scope.node);
       };
 
       $scope.cancel = function () {
