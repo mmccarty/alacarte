@@ -2,6 +2,7 @@
 requirejs.config({
   baseUrl: 'app',
   paths: {
+    'ckeditor': 'vendor/ckeditor/ckeditor',
     'codemirror': 'vendor/codemirror/lib/codemirror',
     'codemirror-css': 'vendor/codemirror/mode/css/css',
     'codemirror-htmlmixed': 'vendor/codemirror/mode/htmlmixed/htmlmixed',

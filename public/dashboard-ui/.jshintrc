@@ -1,5 +1,6 @@
 {
   "globals": {
+    "CKEDITOR": true,
     "define": false
   },
   "bitwise": true,

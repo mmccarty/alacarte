@@ -2,6 +2,7 @@ define([
   'angular',
   'filters',
   'restangular',
+  'ckeditor/ck-editor',
   'ui.bootstrap.bindHtml',
   'ui.bootstrap.modal',
   'ui.bootstrap.popover'
@@ -9,6 +10,7 @@ define([
   'use strict';
 
   var module = angular.module('dashboard-ui.nodes', [
+    'dashboard-ui.ckeditor',
     'dashboard-ui.filters',
     'restangular',
     'ui.bootstrap.bindHtml',
