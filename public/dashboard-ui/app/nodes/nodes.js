@@ -2,7 +2,8 @@ define([
   'angular',
   'filters',
   'restangular',
-  'ckeditor/ck-editor',
+  'ck-editor/ck-editor',
+  'ui.bootstrap.bindHtml',
   'ui.bootstrap.modal',
   'ui.bootstrap.popover'
 ], function(angular) {
