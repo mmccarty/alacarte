@@ -3,7 +3,6 @@ define([
   'filters',
   'restangular',
   'ckeditor/ck-editor',
-  'ui.bootstrap.bindHtml',
   'ui.bootstrap.modal',
   'ui.bootstrap.popover'
 ], function(angular) {
@@ -13,7 +12,6 @@ define([
     'dashboard-ui.ckeditor',
     'dashboard-ui.filters',
     'restangular',
-    'ui.bootstrap.bindHtml',
     'ui.bootstrap.modal',
     'ui.bootstrap.popover'
   ]);

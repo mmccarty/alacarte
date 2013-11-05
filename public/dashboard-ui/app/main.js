@@ -55,6 +55,7 @@ requirejs.config({
       deps: ['angular']
     },
     'ui.bootstrap.modal': {
+      deps: ['ui.bootstrap.bindHtml']
     },
     'ui.bootstrap.popover': {
       deps: ['ui.bootstrap.tooltip']
