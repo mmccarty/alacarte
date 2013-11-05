@@ -36,6 +36,7 @@ define([
     '$modal',
     'nodes',
     'Restangular',
+    /*jshint maxparams:false */
     function($scope, $modal, nodes, Restangular) {
       $scope.nodes = nodes;
 
@@ -55,7 +56,7 @@ define([
 
               modalInstance.result.then(function () {
               });
-        });
+            });
       };
     }
   ]);
@@ -69,7 +70,7 @@ define([
       $scope.node = node;
 
       $scope.save = function () {
-        node.put().then(function(node){
+        node.put().then(function(){
           $scope.message = 'Saved';
           $scope.error = false;
           $modalInstance.close($scope.node);
