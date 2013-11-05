@@ -17,14 +17,27 @@
     <link rel="stylesheet" type="text/css" href="app/vendor/bootstrap/docs/assets/css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="app/vendor/font-awesome/css/font-awesome.min.css"/>
     <!--[if lt IE 8]>
-      <link rel="stylesheet" type="text/css" href="app/vendor/font-awesome/css/font-awesome-ie7.min.css"/>
+    <link rel="stylesheet" type="text/css" href="app/vendor/font-awesome/css/font-awesome-ie7.min.css"/>
     <![endif]-->
     <link rel="stylesheet" type="text/css" href="app/vendor/intro.js/minified/introjs.min.css"/>
     <link rel="stylesheet" type="text/css" href="app/vendor/codemirror/lib/codemirror.css"/>
     <link rel="stylesheet" type="text/css" href="app/app.css"/>
+    <link href="/assets/application.css?body=1" media="screen" rel="stylesheet" />
+    <link href="/assets/twitter-bootstrap-static/bootstrap.css?body=1" media="screen" rel="stylesheet" />
+    <link href="/assets/twitter-bootstrap-static/fontawesome.css?body=1" media="screen" rel="stylesheet" />
+    <link href="/assets/bootstrap_and_overrides.css?body=1" media="screen" rel="stylesheet" />
+    <link href="/assets/template.css?body=1" media="screen" rel="stylesheet" />
+    <link href="/assets/template_ie.css?body=1" media="screen" rel="stylesheet" />
 
+    <script src="/assets/jquery.js?body=1"></script>
+    <script src="/assets/ckeditor/basepath.js?body=1"></script>
+    <script src="/assets/ckeditor/ckeditor.js?body=1"></script>
+    <script src="/assets/ckeditor/jquery.js?body=1"></script>
+    <script src="/assets/ckeditor-jquery.js?body=1"></script>
+    <script src="/assets/ckeditor/config.js?body=1"></script>
     <script src="app/vendor/modernizr/modernizr.js"></script>
     <script src="app/vendor/intro.js/minified/intro.min.js"></script>
+
   </head>
   <body ng-cloak>
     <!--[if lt IE 7]>
@@ -39,6 +52,31 @@
     <![endif]-->
 
     <div class="container">
+
+      <div class="navbar">
+        <div class="navbar-inner">
+          <span class="brand">Library à la Carte</span>
+          <ul class="nav">
+            <li>
+              <a href="/admin/tools">Admin Tools</a>
+            </li>
+            <li>
+              <a href="/dashboard">Dashboard</a>
+            </li>
+            <li>
+              <a href="/nodes">Modules</a>
+            </li>
+            <li>
+              <a href="/guides">Guides</a>
+            </li>
+            <li>
+              <a href="/pages">Pages</a>
+            </li>
+          </ul>
+          <a title="Logout" style="color: #777777; float: right; padding: 10px 15px 10px;" href="/login/logout" class="icon-signout "></a>
+        </div>
+      </div>
+
       <div ng-view></div>
 
       <!--
