@@ -53,14 +53,14 @@ describe NodesController do
 
     describe 'PUT #update' do
       it 'updates attributes of the requested guide' do
-        put :update, id: @mis.id, mod: { tag_list: 'this, that, the other' }
+        put :update, id: @mis.id, tag_list: 'this, that, the other'
         @mis.reload
         expect(@mis.tags.map(&:name).sort).to match_array ['that', 'the other', 'this']
       end
 
-      it 'redirects to the :show view' do
-        put :update, id: @mis.id, mod: { module_title: 'timmeh!' }
-        expect(response).to redirect_to @mis
+      it 'renders nothing' do
+        put :update, id: @mis.id, module_title: 'timmeh!'
+        expect(response).to render_template nil
       end
     end
   end
@@ -137,18 +137,18 @@ describe NodesController do
 
       it 'creates a new module' do
         expect {
-          post :create, mod: @attrs
+          post :create, @attrs
         }.to change(Node, :count).by(1)
       end
 
       it 'assigns the new module to :mod' do
-        post :create, mod: @attrs
+        post :create, @attrs
         expect(assigns :mod).to_not be_blank
       end
 
       it 'assigns tags to the new module' do
         @attrs[:tag_list] = 'tags'
-        post :create, mod: @attrs
+        post :create, @attrs
         expect(assigns(:mod).tag_list).to eq ['tags']
       end
     end

@@ -32,10 +32,9 @@ define([
   module.controller('NodesCtrl', [
     '$scope',
     '$modal',
-    '$log',
     'nodes',
     'Restangular',
-    function($scope, $modal, $log, nodes, Restangular) {
+    function($scope, $modal, nodes, Restangular) {
       $scope.nodes = nodes;
 
       $scope.editNode = function (id) {
@@ -53,8 +52,6 @@ define([
               });
 
               modalInstance.result.then(function () {
-              }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
               });
         });
       };
@@ -69,9 +66,16 @@ define([
 
       $scope.node = node;
 
-      $scope.ok = function () {
-        console.log($scope.node.content);
-        $modalInstance.close($scope.node);
+      $scope.save = function () {
+        node.put().then(function(node){
+          $scope.message = 'Saved';
+          $scope.error = false;
+          $modalInstance.close($scope.node);
+        }, function () {
+          $scope.message = 'There was an error saving.';
+          $scope.error = true;
+          $('#flash').show();
+        });
       };
 
       $scope.cancel = function () {

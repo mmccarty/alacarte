@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   before_filter :local_customization
   before_filter :set_cache_buster
   before_filter :set_gettext_locale
+  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
+
 
   def set_cache_buster
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"

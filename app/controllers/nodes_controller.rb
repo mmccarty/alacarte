@@ -34,10 +34,10 @@ class NodesController < ApplicationController
   def create
     begin
       @mod = Node.create mod_params
-      @mod.slug = create_slug params[:mod][:module_title]
+      @mod.slug = create_slug params[:module_title]
       if @mod.save
         create_and_add_node @user, @mod
-        @mod.add_tags params[:mod][:tag_list]
+        @mod.add_tags params[:tag_list]
         redirect_to edit_node_path(@mod)
       else
         render :new
@@ -50,11 +50,8 @@ class NodesController < ApplicationController
 
   def update
     @mod = Node.find params[:id]
-    if @mod.update_attributes mod_params
-      redirect_to @mod
-    else
-      render :edit
-    end
+    @mod.update_attributes mod_params
+    render nothing: true
   end
 
   def destroy
@@ -198,6 +195,6 @@ class NodesController < ApplicationController
   private
 
   def mod_params
-    params.require(:mod).permit :module_title, :tag_list, :label, :content, :more_info, :global, :slug, :published
+    params.permit :module_title, :tag_list, :label, :content, :more_info, :global, :slug, :published
   end
 end
