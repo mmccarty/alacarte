@@ -5,10 +5,10 @@
   <div id="flash"
        ng-show="message"
        ng-class="{ 'alert alert-error': error, 'alert alert-info': !error }">
-    <icon class='icon-warning-sign'/>
+    <icon class="icon-warning-sign"/>
     {{ message }}
   </div>
-  <form name='editNode'>
+  <form name="editNode">
     <div style="margin:0;padding:0;display:inline">
       <input name="utf8" type="hidden" value="&#x2713;" />
       <input name="_method" type="hidden" value="patch" />
@@ -16,43 +16,63 @@
              type="hidden"
              value="2MGXN0ll6eY/zj175zgr7xp4FDkbcSI6qFoY1rPZ+yU=" />
     </div>
-    <div class='control-group'>
-    <label class='control-label' for='mod_module_title'>
-      Private Label
-      <span class='required'>*</span>
-    </label>
-    <div class='controls'>
-      <input class="input-xlarge" id="mod_label" name="mod[label]" type="text" ng-model="node.label" />
-      &nbsp;
-      <i class='icon-question-sign' popover='This is a unique descriptive label for the module. This is the name the module will be listed under in the tool.' data-html='true' popover-placement='right' popover-trigger='mouseenter'></i>
-    </div>
-  </div>
-    <div class='control-group'>
-      <label class='control-label' for='page_course_name'>
-        Module Title
-        <span class='required'>*</span>
+    <div class="control-group">
+      <label class="control-label" for="mod_module_title">
+        Private Label
+        <span class="required">*</span>
       </label>
-      <div class='controls'>
-        <input class="input-xlarge" id="mod_module_title" name="mod[module_title]" type="text" ng-model="node.module_title" />
+      <div class="controls">
+        <input class="input-xlarge" id="mod_label" name="mod[label]" type="text" ng-model="node.label" />
         &nbsp;
-        <i class='icon-question-sign' popover="This is the module's title that will appear to the public. Shorter titles should be used in two column layouts." data-html='true' popover-placement='right' popover-trigger='mouseenter'></i>
+        <i class="icon-question-sign"
+           popover="This is a unique descriptive label for the module. This is the name the module will be listed under in the tool."
+           popover-placement="right"
+           popover-trigger="mouseenter">
+        </i>
       </div>
     </div>
-    <div class='control-group'>
-      <label class='control-label' for='tag_list'>
+    <div class="control-group">
+      <label class="control-label" for="page_course_name">
+        Module Title
+        <span class="required">*</span>
+      </label>
+      <div class="controls">
+        <input id="mod_module_title"
+               class="input-xlarge"
+               name="mod[module_title]"
+               type="text"
+               ng-model="node.module_title" />
+        &nbsp;
+        <i class="icon-question-sign"
+           popover="This is the module's title that will appear to the public. Shorter titles should be used in two column layouts."
+           popover-placement="right"
+           popover-trigger="mouseenter">
+        </i>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="tag_list">
         Tags
       </label>
-      <div class='controls'>
-        <input class="input-xlarge" id="mod_tag_list" name="mod[tag_list]" type="text" value="{{ node.tag_list.join(', ') }}" />
+      <div class="controls">
+        <input id="mod_tag_list"
+               class="input-xlarge"
+               name="mod[tag_list]"
+               type="text"
+               value="{{ node.tag_list.join(', ') }}" />
         &nbsp;
-        <i class='icon-question-sign' popover='Tags are keywords that highlight content on the module or organize the modules into a category. Tips: Seperate individual tags with a comma. Only add 3-5 tags.' popover-placement='right' popover-trigger='mouseenter'></i>
-        <div class='small muted'>
+        <i class="icon-question-sign"
+           popover="Tags are keywords that highlight content on the module or organize the modules into a category. Tips: Seperate individual tags with a comma. Only add 3-5 tags."
+           popover-placement="right"
+           popover-trigger="mouseenter">
+        </i>
+        <div class="small muted">
           examples: WR101, Databases, Writing
         </div>
       </div>
     </div>
-    <div class='control-group'>
-      <div class='controls'>
+    <div class="control-group">
+      <div class="controls">
         <textarea ck-editor id="mod_content" name="mod[content]" ng-model="node.content">
         </textarea>
       </div>

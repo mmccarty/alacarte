@@ -1,4 +1,4 @@
-<table class='table table-striped'>
+<table class="table table-striped">
   <thead>
     <th> Shared? </th>
     <th> Used? </th>
@@ -11,24 +11,49 @@
   <tbody ng-repeat="node in nodes">
     <tr>
       <td>
-        <a ng-class="{'icon-star':node.shared, 'icon-star-empty':!node.shared}" title="Share this module" href='/nodes/{{ node.id }}/share'></a>
+        <a ng-class="{'icon-star':node.shared, 'icon-star-empty':!node.shared}"
+           title="Share this module"
+           ng-href="/nodes/{{ node.id }}/share"></a>
       </td>
       <td>
-        <a ng-class="{'icon-circle':node.used, 'icon-circle-empty':!node.used}" title="Add this module to a guide or page." href='/nodes/{{ node.id }}/manage'></a>
+        <a ng-class="{'icon-circle':node.used, 'icon-circle-empty':!node.used}"
+           title="Add this module to a guide or page."
+           ng-href="/nodes/{{ node.id }}/manage"></a>
       </td>
       <td>{{ node.label|truncate:25 }}</td>
       <td>
-        <button class="btn icon-edit " title="Edit this module" ng-click="editNode(node.id)"></button>
-        <button class="btn icon-external-link " title="Preview this module" target="blank" href="/nodes/{{ node.id }}"></button>
-        <button class="btn icon-copy " title="Copy this module" ng-click="copyNode(node.id)" ></button>
-        <button class="btn icon-trash" title="Delete this module" rel="nofollow" href="/nodes/{{ node.id }}" data-method="delete" data-confirm="Are you sure?"></button>
+        <button class="btn icon-edit"
+                title="Edit this module"
+                ng-click="editNode(node.id)">
+        </button>
+        <button class="btn icon-external-link"
+                title="Preview this module"
+                target="_blank"
+                ng-href="/nodes/{{ node.id }}">
+        </button>
+        <button class="btn icon-copy"
+                title="Copy this module"
+                ng-click="copyNode(node.id)" >
+        </button>
+        <button class="btn icon-trash"
+                title="Delete this module"
+                rel="nofollow"
+                ng-href="/nodes/{{ node.id }}"
+                data-method="delete"
+                data-confirm="Are you sure?">
+        </button>
       </td>
       <td>{{ node.updated_at }}</td>
       <td>
-        <a ng-class="{'icon-globe':node.global, 'icon-group':!node.global}" title="{{ {'Remove this module from the global list':node.global, 'Add this module to the global list':!node.global} }}" href='/nodes/{{ node.id }}/globalize'></a>
+        <a ng-class="{'icon-globe': node.global, 'icon-group': !node.global}"
+           title="{{ {'Remove this module from the global list': node.global, 'Add this module to the global list': !node.global} }}"
+           ng-href="/nodes/{{ node.id }}/globalize"></a>
       </td>
       <td>
-        <a ng-class="{'icon-unlock':node.publish, 'icon-lock':!node.publish}" title="{{ {'Remove this module from the published list':node.publish, 'Add this module to the published list':!node.publish} }}" href='/nodes/{{ node.id }}/publish'></a>
+        <a ng-class="{'icon-unlock':node.publish,
+                     'icon-lock':!node.publish}"
+           title="{{ {'Remove this module from the published list': node.publish, 'Add this module to the published list':!node.publish } }}"
+           ng-href="/nodes/{{ node.id }}/publish"></a>
       </td>
     </tr>
   </tbody>
