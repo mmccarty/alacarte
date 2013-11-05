@@ -64,22 +64,22 @@ define([
     '$modalInstance',
     'node',
     function($scope, $modalInstance, node) {
+      $scope.error   = false;
+      $scope.message = null;
+      $scope.node    = node;
 
-      $scope.node = node;
-
-      $scope.save = function () {
-        node.put().then(function(){
+      $scope.save = function() {
+        node.put().then(function() {
           $scope.message = 'Saved';
           $scope.error = false;
           $modalInstance.close($scope.node);
-        }, function () {
+        }, function() {
           $scope.message = 'There was an error saving.';
           $scope.error = true;
-          $('#flash').show();
         });
       };
 
-      $scope.cancel = function () {
+      $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
       };
     }
