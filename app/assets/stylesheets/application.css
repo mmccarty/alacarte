@@ -31,3 +31,7 @@ a[class^="icon-"]:hover {
 .modal-body.full-screen-body {
     max-height: 82%;
 }
+
+.btn[class*=" icon-"] {
+    display: inline-block;
+}

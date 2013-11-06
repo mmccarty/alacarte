@@ -24,23 +24,20 @@
       <td>
         <button class="btn icon-edit"
                 title="Edit this module"
-                ng-click="editNode(node.id)">
+                ng-click="editNode(node)">
         </button>
-        <button class="btn icon-external-link"
+        <a class="btn icon-external-link"
                 title="Preview this module"
                 target="_blank"
                 ng-href="/nodes/{{ node.id }}">
-        </button>
+        </a>
         <button class="btn icon-copy"
                 title="Copy this module"
                 ng-click="copyNode(node.id)" >
         </button>
         <button class="btn icon-trash"
                 title="Delete this module"
-                rel="nofollow"
-                ng-href="/nodes/{{ node.id }}"
-                data-method="delete"
-                data-confirm="Are you sure?">
+                ng-click="deleteNode(node)" >
         </button>
       </td>
       <td>{{ node.updated_at }}</td>

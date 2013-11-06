@@ -64,7 +64,7 @@ class NodesController < ApplicationController
       node.mod.update_attribute(:created_by, node.users.collect{|u| u.name}.at(1)) if node.mod.created_by.to_s == @user.name.to_s
       @user.nodes.delete node
     end
-    redirect_to nodes_path
+    render nothing: true
   end
 
   def globalize

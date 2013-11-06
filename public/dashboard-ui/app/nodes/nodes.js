@@ -3,7 +3,6 @@ define([
   'filters',
   'restangular',
   'ck-editor/ck-editor',
-  'ui.bootstrap.bindHtml',
   'ui.bootstrap.modal',
   'ui.bootstrap.popover'
 ], function(angular) {
@@ -39,24 +38,28 @@ define([
     function($scope, $modal, nodes, Restangular) {
       $scope.nodes = nodes;
 
-      $scope.editNode = function (id) {
-        Restangular.one('nodes', id).get({ format: 'json' }).
-            then(function(node){
-              var modalInstance = $modal.open({
-                templateUrl: 'app/nodes/edit.tpl.html',
-                controller: 'ModalInstanceCtrl',
-                resolve: {
-                  node: function () {
-                    return node;
-                  }
-                },
-                windowClass: 'full-screen'
-              });
+      $scope.editNode = function (node) {
+        var modalInstance = $modal.open({
+          templateUrl: 'app/nodes/edit.tpl.html',
+          controller: 'ModalInstanceCtrl',
+          resolve: {
+            node: function () {
+              return node;
+            }
+          },
+          windowClass: 'full-screen'
+        });
 
-              modalInstance.result.then(function () {
-              });
-            });
+        modalInstance.result.then(function () {
+        });
       };
+
+      $scope.deleteNode = function (node) {
+        node.remove().then(function() {
+          $scope.nodes.splice(nodes.indexOf(node), 1);
+        });
+      };
+
     }
   ]);
 
