@@ -1,6 +1,5 @@
 define([
   'angular',
-  'filters',
   'restangular',
   'ck-editor/ck-editor',
   'ui.bootstrap.modal',
@@ -10,7 +9,6 @@ define([
 
   var module = angular.module('dashboard-ui.nodes', [
     'dashboard-ui.ckeditor',
-    'dashboard-ui.filters',
     'restangular',
     'ui.bootstrap.modal',
     'ui.bootstrap.popover'
@@ -33,9 +31,8 @@ define([
     '$scope',
     '$modal',
     'nodes',
-    'Restangular',
     /*jshint maxparams:false */
-    function($scope, $modal, nodes, Restangular) {
+    function($scope, $modal, nodes) {
       $scope.nodes = nodes;
 
       $scope.editNode = function (node) {
