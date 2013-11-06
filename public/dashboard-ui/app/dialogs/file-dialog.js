@@ -1,15 +1,15 @@
-define(['angular', 'ui.bootstrap.dialog'], function(angular) {
+define(['angular', 'ui.bootstrap.modal'], function(angular) {
   'use strict';
 
   var module = angular.module('dashboard-ui.fileDialog', [
-    'ui.bootstrap.dialog'
+    'ui.bootstrap.modal'
   ]);
 
   module.controller('FileDialog', [
     '$scope',
-    'dialog',
+    '$modalInstance',
     'model',
-    function FileDialog($scope, dialog, model) {
+    function FileDialog($scope, $modalInstance, model) {
       function getDefault(param, defaultValue) {
         return model && model[param] ? model[param] : defaultValue;
       }
@@ -22,27 +22,27 @@ define(['angular', 'ui.bootstrap.dialog'], function(angular) {
       };
 
       $scope.close = function(result) {
-        dialog.close(result && $scope.file);
+        $modalInstance.close(result && $scope.file);
       };
     }
   ]);
 
-  module.service('fileDialog', ['$dialog', function($dialog) {
-    function dialog(title) {
-      return $dialog.dialog({
+  module.service('fileDialog', ['$modal', function($modal) {
+    function open(title) {
+      return $modal.open({
         controller:  'FileDialog',
         templateUrl: 'app/dialogs/file-dialog.tpl.html',
         resolve:     {
           model: function() {
             return {
-              title:        title
+              title: title
             };
           }
         }
       });
     }
 
-    return { dialog: dialog };
+    return { open: open };
   }]);
 
   module.service('fileUpload', ['$http', function($http) {

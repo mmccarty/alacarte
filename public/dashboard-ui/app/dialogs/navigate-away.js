@@ -1,32 +1,32 @@
 define([
   'lodash',
   'angular',
-  'ui.bootstrap.dialog'
+  'dialogs/message-box'
 ], function(_, angular) {
   'use strict';
 
-  var module = angular.module('dashboard-ui.navigateAway', ['ui.bootstrap.dialog']);
+  var module = angular.module('dashboard-ui.navigateAway', ['dashboard-ui.messageBox']);
 
   module.service('navigateAway', [
-    '$dialog',
     '$location',
-    function($dialog, $location) {
+    'messageBox',
+    function($location, messageBox) {
 
-      function dialog() {
-        return $dialog.messageBox(
+      function open() {
+        return messageBox.open(
           'Unsaved Changes',
           'You have unsaved changes.  Are you sure you want to navigate away?',
           [
-            { label: 'Save',    result: 'save',    cssClass: 'btn btn-primary' },
-            { label: 'Discard', result: 'discard', cssClass: 'btn btn-danger'  },
-            { label: 'Cancel',  result: 'cancel',  cssClass: 'btn'  }
+            { label: 'Save',    result: 'save',    cssClass: 'btn-primary' },
+            { label: 'Discard', result: 'discard', cssClass: 'btn-danger'  },
+            { label: 'Cancel',  result: 'cancel' }
           ]);
       }
 
       function protect(event, setDirty, save) {
         var url = $location.url();
         event.preventDefault();
-        dialog().open().then(function(result) {
+        open().result.then(function(result) {
           if (result === 'save') {
             save();
             $location.url(url);
@@ -38,7 +38,7 @@ define([
       }
 
       return {
-        dialog:  dialog,
+        open:    open,
         protect: protect
       };
     }

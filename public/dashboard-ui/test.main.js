@@ -18,9 +18,9 @@ requirejs.config({
     'lodash': 'vendor/lodash/lodash',
     'restangular': 'vendor/restangular/src/restangular',
     'tinymce': 'vendor/tinymce-release/tiny_mce',
+    'ui.bootstrap.bindHtml': 'vendor/angular-ui-bootstrap/src/bindHtml/bindHtml',
     'ui.bootstrap.buttons': 'vendor/angular-ui-bootstrap/src/buttons/buttons',
     'ui.bootstrap.datepicker': 'vendor/angular-ui-bootstrap/src/datepicker/datepicker',
-    'ui.bootstrap.dialog': 'vendor/angular-ui-bootstrap/src/dialog/dialog',
     'ui.bootstrap.dropdownToggle': 'vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle',
     'ui.bootstrap.modal': 'vendor/angular-ui-bootstrap/src/modal/modal',
     'ui.bootstrap.position': 'vendor/angular-ui-bootstrap/src/position/position',
@@ -67,14 +67,11 @@ requirejs.config({
     'ui.bootstrap.datepicker': {
       deps: ['angular']
     },
-    'ui.bootstrap.dialog': {
-      deps: ['ui.bootstrap.transition']
-    },
     'ui.bootstrap.dropdownToggle': {
       deps: ['angular']
     },
     'ui.bootstrap.modal': {
-      deps: ['ui.bootstrap.dialog']
+      deps: ['ui.bootstrap.bindHtml']
     },
     'ui.bootstrap.popover': {
       deps: ['ui.bootstrap.tooltip']

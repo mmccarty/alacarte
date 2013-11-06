@@ -1,22 +1,22 @@
 define ['lodash', 'angular-mocks', 'dialogs/select-items-dialog'], (_) ->
 
   describe 'select items controller', ->
-    $rootScope = null
-    ctrl       = null
-    dialog     = null
-    model      = null
-    scope      = null
+    $rootScope    = null
+    ctrl          = null
+    modalInstance = null
+    model         = null
+    scope         = null
 
     beforeEach module('dashboard-ui.selectItemsDialog')
 
     beforeEach inject((_$rootScope_, $controller) ->
       $rootScope = _$rootScope_
-      scope      = $rootScope.$new()
-      model      = {
+      scope = $rootScope.$new()
+      model = {
         selectedItems: ['stuff'],
         allItems:      ['stuff', 'things', 'whatnot']
       }
-      ctrl       = $controller('SelectItemsDialog', { $scope: scope, dialog: dialog, model: model })
+      ctrl = $controller('SelectItemsDialog', { $scope: scope, $modalInstance: modalInstance, model: model })
     )
 
     describe 'initial select conditions', ->

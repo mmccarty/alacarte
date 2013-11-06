@@ -1,15 +1,15 @@
-define(['angular', 'ui.bootstrap.dialog'], function(angular) {
+define(['angular', 'ui.bootstrap.modal'], function(angular) {
   'use strict';
 
   var module = angular.module('dashboard-ui.inputDialog', [
-    'ui.bootstrap.dialog'
+    'ui.bootstrap.modal'
   ]);
 
   module.controller('InputDialog', [
     '$scope',
-    'dialog',
+    '$modalInstance',
     'model',
-    function InputDialog($scope, dialog, model) {
+    function InputDialog($scope, $modalInstance, model) {
       function getDefault(param, defaultValue) {
         return model && model[param] ? model[param] : defaultValue;
       }
@@ -24,15 +24,15 @@ define(['angular', 'ui.bootstrap.dialog'], function(angular) {
       $scope.userInputRequired     = getDefault('required', true);
 
       $scope.close = function(result) {
-        dialog.close(result);
+        $modalInstance.close(result);
       };
     }
   ]);
 
-  module.service('inputDialog', ['$dialog', function($dialog) {
+  module.service('inputDialog', ['$modal', function($modal) {
     /*jshint maxparams:false */
-    function dialog(title, directions, pattern, patternError, value, required) {
-      return $dialog.dialog({
+    function open(title, directions, pattern, patternError, value, required) {
+      return $modal.open({
         controller:  'InputDialog',
         templateUrl: 'app/dialogs/input-dialog.tpl.html',
         resolve:     {
@@ -50,7 +50,7 @@ define(['angular', 'ui.bootstrap.dialog'], function(angular) {
       });
     }
 
-    return { dialog: dialog };
+    return { open: open };
   }]);
 
   return module;

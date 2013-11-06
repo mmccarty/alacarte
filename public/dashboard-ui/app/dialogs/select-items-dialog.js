@@ -2,31 +2,32 @@ define([
   'lodash',
   'angular',
   'dialogs/input-dialog',
-  'ui.bootstrap.dialog'
+  'ui.bootstrap.modal'
 ], function(_, angular) {
   'use strict';
 
   var module = angular.module('dashboard-ui.selectItemsDialog', [
     'dashboard-ui.inputDialog',
-    'ui.bootstrap.dialog'
+    'ui.bootstrap.modal'
   ]);
 
   /*jshint maxparams: false */
   module.controller('SelectItemsDialog', [
-    '$dialog',
     '$scope',
-    'dialog',
+    '$modalInstance',
+    'inputDialog',
     'model',
-    function SelectItemsDialog($dialog, $scope, dialog, model) {
-      function getModelValue(model, value, defaultValue) {
-        return model && model[value] ? model[value] : defaultValue;
+    function SelectItemsDialog($scope, $modalInstance, inputDialog, model) {
+      function getDefault(param, defaultValue) {
+        return model && model[param] ? model[param] : defaultValue;
       }
-      $scope.title = getModelValue(model, 'title', 'Select');
+
+      $scope.title = getDefault('title', 'Select');
 
       $scope.selectedItemSelected = false;
       $scope.selectedItemsModel   = [];
 
-      var selectedItems = getModelValue(model, 'selectedItems', []);
+      var selectedItems = getDefault('selectedItems', []);
       $scope.selectedItems = _.map(selectedItems, function(item) {
         return { name: item };
       });
@@ -34,34 +35,24 @@ define([
       $scope.allItemSelected = false;
       $scope.allItemsModel   = [];
 
-      var allItems = getModelValue(model, 'allItems', []);
+      var allItems = getDefault('allItems', []);
       $scope.allItems = _.map(_.difference(allItems, selectedItems), function(item) {
         return { name: item };
       });
 
       $scope.addNewItem = function() {
-        var dialog = $dialog.dialog({
-          controller:  'InputDialog',
-          templateUrl: 'app/dialogs/input-dialog.tpl.html',
-          resolve: {
-            model: function() {
-              return {
-                title:      'Add new topic',
-                directions: 'Please enter a new topic:'
-              };
-            }
-          }
-        });
-
-        dialog.open().then(function(topic) {
+        inputDialog.open('Add new topic', 'Please enter a new topic')
+          .result
+          .then(function(topic) {
           if (topic) {
             $scope.selectedItems.push({ name: topic });
           }
         });
       };
+
       $scope.close = function(result) {
         result = result && _.pluck(result, 'name');
-        dialog.close(result);
+        $modalInstance.close(result);
       };
 
       $scope.selectFromAll = function() {
@@ -94,9 +85,9 @@ define([
     }
   ]);
 
-  module.service('selectItemsDialog', ['$dialog', function($dialog) {
-    function dialog(title, allItems, selectedItems) {
-      return $dialog.dialog({
+  module.service('selectItemsDialog', ['$modal', function($modal) {
+    function open(title, allItems, selectedItems) {
+      return $modal.open({
         controller: 'SelectItemsDialog',
         templateUrl: 'app/dialogs/select-items-dialog.tpl.html',
         resolve: {
@@ -111,7 +102,7 @@ define([
       });
     }
 
-    return { dialog: dialog };
+    return { open: open };
   }]);
 
   return module;

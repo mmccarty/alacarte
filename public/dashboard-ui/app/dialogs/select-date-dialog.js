@@ -1,33 +1,33 @@
 define([
   'angular',
   'ui.bootstrap.datepicker',
-  'ui.bootstrap.dialog'
+  'ui.bootstrap.modal'
 ], function(angular) {
   'use strict';
 
   var module = angular.module('dashboard-ui.selectDateDialog', [
     'ui.bootstrap.datepicker',
-    'ui.bootstrap.dialog'
+    'ui.bootstrap.modal'
   ]);
 
   module.controller('SelectDateDialog', [
-    '$scope', 'dialog',
-    function SelectDateDialog($scope, dialog) {
+    '$scope', '$modalInstance',
+    function SelectDateDialog($scope, $modalInstance) {
       $scope.close = function(result) {
-        dialog.close(result);
+        $modalInstance.close(result);
       };
     }
   ]);
 
-  module.service('selectDateDialog', ['$dialog', function($dialog) {
-    function dialog() {
-      return $dialog.dialog({
+  module.service('selectDateDialog', ['$modal', function($modal) {
+    function open() {
+      return $modal.open({
         controller: 'SelectDateDialog',
         templateUrl: 'app/dialogs/select-date-dialog.tpl.html'
       });
     }
 
-    return { dialog: dialog };
+    return { open: open };
   }]);
 
   return module;

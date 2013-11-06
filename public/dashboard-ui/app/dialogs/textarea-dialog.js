@@ -1,15 +1,15 @@
-define(['angular', 'ui.bootstrap.dialog'], function(angular) {
+define(['angular', 'ui.bootstrap.modal'], function(angular) {
   'use strict';
 
   var module = angular.module('dashboard-ui.textareaDialog', [
-    'ui.bootstrap.dialog'
+    'ui.bootstrap.modal'
   ]);
 
   module.controller('TextareaDialog', [
     '$scope',
-    'dialog',
+    '$modalInstance',
     'model',
-    function TextareaDialog($scope, dialog, model) {
+    function TextareaDialog($scope, $modalInstance, model) {
       function getDefault(param, defaultValue) {
         return model && model[param] ? model[param] : defaultValue;
       }
@@ -17,15 +17,14 @@ define(['angular', 'ui.bootstrap.dialog'], function(angular) {
       $scope.directions = getDefault('directions', 'Please provide a value:');
       $scope.title = getDefault('title', 'Input');
       $scope.close = function(result) {
-        dialog.close(result);
+        $modalInstance.close(result);
       };
     }
   ]);
 
-  module.service('textareaDialog', ['$dialog', function($dialog) {
-    /*jshint maxparams:false */
-    function dialog(title, directions) {
-      return $dialog.dialog({
+  module.service('textareaDialog', ['$modal', function($modal) {
+    function open(title, directions) {
+      return $modal.open({
         controller:  'TextareaDialog',
         templateUrl: 'app/dialogs/textarea-dialog.tpl.html',
         resolve:     {
@@ -39,7 +38,7 @@ define(['angular', 'ui.bootstrap.dialog'], function(angular) {
       });
     }
 
-    return { dialog: dialog };
+    return { open: open };
   }]);
 
   return module;

@@ -8,8 +8,8 @@
 
       <select multiple="multiple"
               ng-model="allItemsModel"
-              ng-change="selectFromAll()">
-        <option ng-repeat="item in allItems | orderBy:'+name'">{{ item.name }}</option>
+              ng-change="selectFromAll()"
+              ng-options="item.name for item in allItems | orderBy: '+name'">
       </select>
 
     </div>
@@ -34,8 +34,8 @@
 
       <select multiple="multiple"
               ng-model="selectedItemsModel"
-              ng-change="selectFromSelected()">
-        <option ng-repeat="item in selectedItems | orderBy:'+name'">{{ item.name }}</option>
+              ng-change="selectFromSelected()"
+              ng-options="item.name for item in selectedItems | orderBy:'+name'">
       </select>
 
     </div>
@@ -47,7 +47,7 @@
     Add new
   </button>
   <button ng-click="close(selectedItems)" class="btn btn-primary">
-    Save
+    OK
   </button>
   <button ng-click="close(null)" class="btn">
     Cancel

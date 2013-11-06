@@ -1,15 +1,15 @@
 define([
   'lodash',
   'angular',
-  'ui.bootstrap.dialog'
+  'dialogs/message-box'
 ], function(_, angular) {
   'use strict';
 
-  var module = angular.module('dashboard-ui.yesNoDialog', ['ui.bootstrap.dialog']);
+  var module = angular.module('dashboard-ui.yesNoDialog', ['dashboard-ui.messageBox']);
 
-  module.service('yesNoDialog', ['$dialog', function($dialog) {
-    function dialog(title, header) {
-      return $dialog.messageBox(
+  module.service('yesNoDialog', ['messageBox', function(messageBox) {
+    function open(title, header) {
+      return messageBox.open(
         title,
         header,
         [
@@ -19,7 +19,7 @@ define([
     }
 
     return {
-      dialog: dialog
+      open: open
     };
   }]);
 
