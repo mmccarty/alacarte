@@ -12,6 +12,7 @@ public/css/
 public/dashboard-ui/dashboard.js*
 public/dashboard-ui/index.html
 public/dashboard-ui/node_modules
+public/dashboard-ui/app/vendor/angular-bootstrap
 public/files/
 public/images/
 public/photos/

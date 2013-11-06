@@ -2,16 +2,14 @@ define([
   'angular',
   'restangular',
   'ck-editor/ck-editor',
-  'ui.bootstrap.modal',
-  'ui.bootstrap.popover'
+  'ui.bootstrap',
 ], function(angular) {
   'use strict';
 
   var module = angular.module('dashboard-ui.nodes', [
     'dashboard-ui.ckeditor',
     'restangular',
-    'ui.bootstrap.modal',
-    'ui.bootstrap.popover'
+    'ui.bootstrap',
   ]);
 
   module.config(['$routeProvider',

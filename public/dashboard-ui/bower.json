@@ -2,8 +2,10 @@
   "name": "dashboard-ui",
   "version": "0.1.0-SNAPSHOT",
   "dependencies": {
+    "angular": "~1.0.8",
     "angular-mocks": "~1.0.7",
     "angular-scenario": "~1.0.7",
+    "angular-ui-bootstrap": "~0.6.0",
     "angular-ui-codemirror": "~0.0.4",
     "angular-ui-tinymce": "0.0.3",
     "bootstrap": "~2.3.2",

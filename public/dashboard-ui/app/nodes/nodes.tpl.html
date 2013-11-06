@@ -20,7 +20,7 @@
            title="Add this module to a guide or page."
            ng-href="/nodes/{{ node.id }}/manage"></a>
       </td>
-      <td>{{ node.label|truncate:25 }}</td>
+      <td>{{ node.label|limitTo:25 }}</td>
       <td>
         <button class="btn icon-edit"
                 title="Edit this module"

@@ -12,16 +12,7 @@ requirejs.config({
     'lodash': 'vendor/lodash/dist/lodash.compat.min',
     'restangular': 'vendor/restangular/dist/restangular.min',
     'tinymce': 'vendor/tinymce-release/tiny_mce',
-    'ui.bootstrap.bindHtml': 'vendor/angular-ui-bootstrap/src/bindHtml/bindHtml',
-    'ui.bootstrap.buttons': 'vendor/angular-ui-bootstrap/src/buttons/buttons',
-    'ui.bootstrap.dropdownToggle': 'vendor/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle',
-    'ui.bootstrap.modal': 'vendor/angular-ui-bootstrap/src/modal/modal',
-    'ui.bootstrap.position': 'vendor/angular-ui-bootstrap/src/position/position',
-    'ui.bootstrap.popover': 'vendor/herp/derp',
-    'ui.bootstrap.tabs': 'vendor/angular-ui-bootstrap/src/tabs/tabs',
-    'ui.bootstrap.datepicker': 'vendor/angular-ui-bootstrap/src/datepicker/datepicker',
-    'ui.bootstrap.tooltip': 'vendor/angular-ui-bootstrap/src/tooltip/tooltip',
-    'ui.bootstrap.transition': 'vendor/angular-ui-bootstrap/src/transition/transition',
+    'ui.bootstrap': 'vendor/angular-bootstrap/ui-bootstrap-tpls.min',
     'ui.codemirror': 'vendor/angular-ui-codemirror/ui-codemirror',
     'ui.tinymce': 'vendor/angular-ui-tinymce/src/tinymce'
   },
@@ -45,34 +36,7 @@ requirejs.config({
     'restangular': {
       deps: ['angular', 'lodash']
     },
-    'ui.bootstrap.bindHtml': {
-      deps: ['angular']
-    },
-    'ui.bootstrap.buttons': {
-      deps: ['angular']
-    },
-    'ui.bootstrap.dropdownToggle': {
-      deps: ['angular']
-    },
-    'ui.bootstrap.modal': {
-      deps: ['ui.bootstrap.bindHtml']
-    },
-    'ui.bootstrap.popover': {
-      deps: ['ui.bootstrap.tooltip']
-    },
-    'ui.bootstrap.position': {
-      deps: ['angular']
-    },
-    'ui.bootstrap.tabs': {
-      deps: ['angular']
-    },
-    'ui.bootstrap.datepicker': {
-      deps: ['angular']
-    },
-    'ui.bootstrap.tooltip': {
-      deps: ['ui.bootstrap.position']
-    },
-    'ui.bootstrap.transition': {
+    'ui.bootstrap': {
       deps: ['angular']
     },
     'ui.codemirror': {

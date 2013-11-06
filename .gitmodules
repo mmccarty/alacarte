@@ -1,3 +1,6 @@
 [submodule "public/dashboard-ui/app/vendor/ckeditor"]
 	path = public/dashboard-ui/app/vendor/ckeditor
 	url = https://github.com/ckeditor/ckeditor-releases.git
+[submodule "public/dashboard-ui/app/vendor/angular-ui-bootstrap"]
+	path = public/dashboard-ui/app/vendor/angular-ui-bootstrap
+	url = https://github.com/angular-ui/bootstrap.git
