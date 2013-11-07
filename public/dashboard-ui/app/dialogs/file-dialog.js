@@ -1,4 +1,4 @@
-define(['angular', 'ui.bootstrap.modal'], function(angular) {
+define(['angular', 'ui.bootstrap'], function(angular) {
   'use strict';
 
   var module = angular.module('dashboard-ui.fileDialog', [

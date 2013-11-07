@@ -1,7 +1,6 @@
 define([
   'angular',
-  'ui.bootstrap.datepicker',
-  'ui.bootstrap.modal'
+  'ui.bootstrap'
 ], function(angular) {
   'use strict';
 

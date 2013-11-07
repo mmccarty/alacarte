@@ -2,7 +2,7 @@ define([
   'lodash',
   'angular',
   'dialogs/input-dialog',
-  'ui.bootstrap.modal'
+  'ui.bootstrap'
 ], function(_, angular) {
   'use strict';
 
