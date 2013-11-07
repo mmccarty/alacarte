@@ -2,12 +2,14 @@ define([
   'angular',
   'restangular',
   'ck-editor/ck-editor',
+  'dialogs/yes-no-dialog',
   'ui.bootstrap',
 ], function(angular) {
   'use strict';
 
   var module = angular.module('dashboard-ui.nodes', [
     'dashboard-ui.ckeditor',
+    'dashboard-ui.yesNoDialog',
     'restangular',
     'ui.bootstrap',
   ]);
@@ -29,8 +31,9 @@ define([
     '$scope',
     '$modal',
     'nodes',
+    'yesNoDialog',
     /*jshint maxparams:false */
-    function($scope, $modal, nodes) {
+    function($scope, $modal, nodes, yesNoDialog) {
       $scope.nodes = nodes;
 
       $scope.editNode = function (node) {
@@ -50,11 +53,18 @@ define([
       };
 
       $scope.deleteNode = function (node) {
-        node.remove().then(function() {
-          $scope.nodes.splice(nodes.indexOf(node), 1);
-        });
+        yesNoDialog
+            .open(
+                'Delete Node?',
+                'This will remove ' + node.label + '. Are you sure?')
+            .result.then(function(result) {
+              if (result === 'yes') {
+                node.remove().then(function() {
+                  $scope.nodes.splice(nodes.indexOf(node), 1);
+                });
+              }
+            });
       };
-
     }
   ]);
 
