@@ -29,12 +29,11 @@ define([
 
   module.controller('NodesCtrl', [
     '$scope',
-    '$http',
     '$modal',
     'nodes',
     'yesNoDialog',
     /*jshint maxparams:false */
-    function($scope, $http, $modal, nodes, yesNoDialog) {
+    function($scope, $modal, nodes, yesNoDialog) {
       $scope.nodes = nodes;
 
       $scope.editNode = function (node) {
@@ -68,7 +67,7 @@ define([
       };
 
       $scope.copyNode = function (node) {
-         $http.post('/nodes/' + node.id + '/copy')
+        node.post('copy')
              .then(function(result) {
                nodes.unshift(result);
          });
