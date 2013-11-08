@@ -84,7 +84,7 @@ Alacarte::Application.routes.draw do
       match 'add_to_page',     via: [:get, :post]
       match 'add_to_tutorial', via: [:get, :post]
       post  'add_tutorial'
-      get   'copy'
+      post  'copy'
       get   'globalize'
       get   'manage'
       get   'publish'

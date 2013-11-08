@@ -21,10 +21,10 @@ class NodesController < ApplicationController
 
   def copy
     old_mod = Node.find params[:id]
-    @new_mod = old_mod.copy
-    if @new_mod.save
-      create_and_add_node @user, @new_mod
-      redirect_to edit_node_path(@new_mod)
+    @mod = old_mod.copy
+    if @mod.save
+      create_and_add_node @user, @mod
+      render 'show.json.jbuilder'
     end
   end
 

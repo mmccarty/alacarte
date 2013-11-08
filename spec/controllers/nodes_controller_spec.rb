@@ -45,9 +45,9 @@ describe NodesController do
         }.to change(Node, :count).by(1)
       end
 
-      it 'redirects to the edit page for the new resource' do
+      it 'renders json for the new resource' do
         post :copy, id: @mis.id
-        expect(response).to redirect_to edit_node_path(assigns(:new_mod))
+        expect(response).to render_template "nodes/show.json.jbuilder"
       end
     end
 

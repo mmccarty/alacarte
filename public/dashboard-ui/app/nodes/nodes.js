@@ -29,11 +29,12 @@ define([
 
   module.controller('NodesCtrl', [
     '$scope',
+    '$http',
     '$modal',
     'nodes',
     'yesNoDialog',
     /*jshint maxparams:false */
-    function($scope, $modal, nodes, yesNoDialog) {
+    function($scope, $http, $modal, nodes, yesNoDialog) {
       $scope.nodes = nodes;
 
       $scope.editNode = function (node) {
@@ -55,8 +56,8 @@ define([
       $scope.deleteNode = function (node) {
         yesNoDialog
             .open(
-                'Delete Node?',
-                'This will remove ' + node.label + '. Are you sure?')
+                'Delete node?',
+                'This will remove "' + node.label + '". Are you sure?')
             .result.then(function(result) {
               if (result === 'yes') {
                 node.remove().then(function() {
@@ -64,6 +65,13 @@ define([
                 });
               }
             });
+      };
+
+      $scope.copyNode = function (node) {
+         $http.post('/nodes/' + node.id + '/copy')
+             .then(function(result) {
+               nodes.unshift(result);
+         });
       };
     }
   ]);
