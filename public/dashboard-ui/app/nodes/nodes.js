@@ -1,5 +1,6 @@
 define([
   'angular',
+  'angular-dragdrop',
   'restangular',
   'ck-editor/ck-editor',
   'dialogs/yes-no-dialog',
@@ -8,6 +9,7 @@ define([
   'use strict';
 
   var module = angular.module('dashboard-ui.nodes', [
+    'ngDragDrop',
     'dashboard-ui.ckeditor',
     'dashboard-ui.yesNoDialog',
     'restangular',
@@ -36,46 +38,70 @@ define([
     function($scope, $modal, nodes, yesNoDialog) {
       $scope.nodes = nodes;
 
-      $scope.editNode = function (node) {
+      $scope.editNode = function(node) {
         var modalInstance = $modal.open({
           templateUrl: 'app/nodes/edit.tpl.html',
-          controller: 'ModalInstanceCtrl',
+          controller: 'EditCtrl',
           resolve: {
-            node: function () {
+            node: function() {
               return node;
             }
           },
           windowClass: 'full-screen'
         });
 
-        modalInstance.result.then(function () {
+        modalInstance.result.then(function() {
         });
       };
 
-      $scope.deleteNode = function (node) {
+      $scope.deleteNode = function(node) {
         yesNoDialog
             .open(
                 'Delete node?',
                 'This will remove "' + node.label + '". Are you sure?')
             .result.then(function(result) {
               if (result === 'yes') {
-                node.remove().then(function() {
+                node.remove().then(function () {
                   $scope.nodes.splice(nodes.indexOf(node), 1);
                 });
               }
             });
       };
 
-      $scope.copyNode = function (node) {
+      $scope.copyNode = function(node) {
         node.post('copy')
              .then(function(result) {
-               nodes.unshift(result);
-         });
+                nodes.unshift(result);
+              });
+      };
+
+      $scope.shareNode = function(node) {
+        $modal.open({
+          templateUrl: 'app/nodes/share.tpl.html',
+          controller: 'ShareCtrl',
+          resolve: {
+            node: function() {
+              return node;
+            }
+          },
+          windowClass: 'full-screen'
+        });
       };
     }
   ]);
 
-  module.controller('ModalInstanceCtrl', [
+  module.controller('ShareCtrl', [
+    '$scope',
+    '$modalInstance',
+    'node',
+    function($scope, $modalInstance, node) {
+      $scope.node = node;
+      $scope.shared = [];
+      $scope.users = ['Eric', 'Pam', 'Amy', 'Mike'];
+    }
+  ]);
+
+  module.controller('EditCtrl', [
     '$scope',
     '$modalInstance',
     'node',

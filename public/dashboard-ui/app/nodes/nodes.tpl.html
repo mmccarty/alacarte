@@ -11,9 +11,11 @@
   <tbody ng-repeat="node in nodes">
     <tr>
       <td>
-        <a ng-class="{'icon-star':node.shared, 'icon-star-empty':!node.shared}"
-           title="Share this module"
-           ng-href="/nodes/{{ node.id }}/share"></a>
+        <button class="btn"
+                ng-class="{'icon-star':node.shared, 'icon-star-empty':!node.shared}"
+                title="Share this module"
+                ng-click="shareNode(node)">
+        </button>
       </td>
       <td>
         <a ng-class="{'icon-circle':node.used, 'icon-circle-empty':!node.used}"

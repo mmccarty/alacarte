@@ -2,6 +2,7 @@
 requirejs.config({
   baseUrl: 'app',
   paths: {
+    'angular-dragdrop': 'vendor/angular-dragdrop/src/angular-dragdrop.min',
     'ckeditor': 'vendor/ckeditor/ckeditor',
     'codemirror': 'vendor/codemirror/lib/codemirror',
     'codemirror-css': 'vendor/codemirror/mode/css/css',
@@ -9,6 +10,7 @@ requirejs.config({
     'codemirror-javascript': 'vendor/codemirror/mode/javascript/javascript',
     'codemirror-xml': 'vendor/codemirror/mode/xml/xml',
     'jquery.cookie': 'vendor/jquery.cookie/jquery.cookie',
+    'jquery.ui': 'vendor/jquery-ui/ui/jquery-ui',
     'lodash': 'vendor/lodash/dist/lodash.compat.min',
     'restangular': 'vendor/restangular/dist/restangular.min',
     'tinymce': 'vendor/tinymce-release/tiny_mce',
@@ -17,6 +19,9 @@ requirejs.config({
     'ui.tinymce': 'vendor/angular-ui-tinymce/src/tinymce'
   },
   shim: {
+    'angular-dragdrop': {
+      deps: ['jquery.ui']
+    },
     'codemirror-css': {
       deps: ['codemirror']
     },

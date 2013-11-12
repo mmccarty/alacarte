@@ -13,7 +13,9 @@ public/dashboard-ui/dashboard.js*
 public/dashboard-ui/index.html
 public/dashboard-ui/node_modules
 public/dashboard-ui/app/vendor/angular-bootstrap
+public/dashboard-ui/app/vendor/angular-dragdrop
 public/dashboard-ui/app/vendor/angular-ui-bootstrap
+public/dashboard-ui/app/vendor/jquery-ui
 public/files/
 public/images/
 public/photos/

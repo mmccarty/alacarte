@@ -3,6 +3,7 @@
   "version": "0.1.0-SNAPSHOT",
   "dependencies": {
     "angular": "~1.0.8",
+    "angular-dragdrop": "",
     "angular-mocks": "~1.0.7",
     "angular-scenario": "~1.0.7",
     "angular-ui-bootstrap": "~0.6.0",
